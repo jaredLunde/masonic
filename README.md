@@ -101,14 +101,14 @@ const CoolMasonryComponent = props => (
     Its length is used for determining the estimated height of the 
     container.
 - `itemHeightEstimate`
-  - `<number>` **required**
+  - `<number>`
   - **default** `300`
   - This value is used for estimating the initial height of the 
     Masonry container element. Though unimportant at face value, it is
     vital to the UX of the scrolling behavior and in determining how
     many `items` to initially render.  
 - `itemAs`
-  - `<React.Component|string|function>` **required**
+  - `<React.Component|string|function>`
   - **default** `div`
   - This determines the element type created by React when creating
     the position wrappers for the rendered items. A common use case
@@ -127,7 +127,7 @@ const CoolMasonryComponent = props => (
 
 #### Customizing the container element
 - `as`
-  - `<React.Component|function|string>` **required**
+  - `<React.Component|function|string>`
   - **default** `div`
   - This is useful if for example you'd like the container element to be
     of the node type `ul`
@@ -151,12 +151,12 @@ const CoolMasonryComponent = props => (
 
 #### Window properties
 - `initialWidth`
-  - `<number>` **required**
+  - `<number>`
   - **default** `1280`
   - An initial width to provide to the window scroller when the 
     `window` is not defined, i.e. in SSR.
 - `initialHeight`
-  - `<number>` **required**
+  - `<number>`
   - **default** `720`
   - An initial height to provide to the window scroller when the 
     `window` is not defined, i.e. in SSR. 
@@ -175,41 +175,41 @@ const CoolMasonryComponent = props => (
   - `<object>`
   - An object which defines option for the underlying window scroll position
     and size tracker. Its properties are:
-    - `scroll`
-      - `<object>`
-      - `fps`
-        - `<number>`
-        - **default** `8`
-        - The frames per second to throttle the window scroll position
-          updates to. The default of `8` effectively means the scroll
-          position will only update `8` times in 1 second, or once every
-          `125ms`.
-    - `size`
-      - `<object>`
-      - `wait`
-        - `<number>`
-        - **default** `120`
-        - Window resize events are debounced to avoid doing wayyyy too
-          much reflow work when the window size changes. This value
-          specifies the amount of time to wait until those resize events
-          stop firing before the event is actually allowed to trigger,
-          and the size is measured. `120` is a sane default, as it feels
-          instantaneous when you stop resizing and it doesn't do too 
-          much work in the interim.
+  - `scroll`
+    - `<object>`
+    - `fps`
+      - `<number>`
+      - **default** `8`
+      - The frames per second to throttle the window scroll position
+        updates to. The default of `8` effectively means the scroll
+        position will only update `8` times in 1 second, or once every
+        `125ms`.
+  - `size`
+    - `<object>`
+    - `wait`
+      - `<number>`
+      - **default** `120`
+      - Window resize events are debounced to avoid doing wayyyy too
+        much reflow work when the window size changes. This value
+        specifies the amount of time to wait until those resize events
+        stop firing before the event is actually allowed to trigger,
+        and the size is measured. `120` is a sane default, as it feels
+        instantaneous when you stop resizing and it doesn't do too 
+        much work in the interim.
 
 #### Callbacks
 - `onRender(startIndex: number, stopIndex: number, items: array)`
   - `<function>`
   - This callback fires any time the items rendered in the visible
-    window change. Its argument signature is:
-    - `startIndex`
-      - `<number>`
-      - The index of the first item most recently rendered.
-    - `stopIndex`
-      - `<number>`
-      - The index of the last item most recently rendered.
-    - `items`
-      - The array of items provided in the `items` prop
+    window change.
+  - `startIndex`
+    - `<number>`
+    - The index of the first item most recently rendered.
+  - `stopIndex`
+    - `<number>`
+    - The index of the last item most recently rendered.
+  - `items`
+    - The array of items provided in the `items` prop
  
 #### Methods
 When a `ref` is provided to this component, you'll have access to its
