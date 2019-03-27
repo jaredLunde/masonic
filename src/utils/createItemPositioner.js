@@ -56,7 +56,7 @@ export default (columnCount, columnWidth, columnGutter = 0) => {
 
       const
         itemsInColumn = columnItems[i],
-        // the index order is known with certainty so binary search is a great solution
+        // the index order is sorted with certainty so binary search is a great solution
         // here as opposed to Array.indexOf()
         startIndex = binarySearch.eq(itemsInColumn, columns[i]),
         index = columnItems[i][startIndex],

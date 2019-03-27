@@ -6,14 +6,14 @@ import useWindowScroll from '@react-hook/window-scroll'
 import useWindowSize from '@react-hook/window-size'
 
 
-const defaultSizeOpt = {wait: 120, leading: false}
+const defaultSizeOpt = {wait: 120}
 const defaultScrollFps = 8
 
-export default (opt = emptyObj) => {
+export default (initialWidth, initialHeight, opt = emptyObj) => {
   const scrollY = useWindowScroll(opt.scroll?.fps || defaultScrollFps)
   const [windowWidth, windowHeight] = useWindowSize(
-    opt?.size?.initialWidth || 360,
-    opt?.size?.initialHeight || 720,
+    initialWidth,
+    initialHeight,
     opt.size || defaultSizeOpt
   )
   const [isScrolling, setIsScrolling] = useState(false)

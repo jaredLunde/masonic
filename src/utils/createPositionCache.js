@@ -10,7 +10,7 @@ const createPositionCache = () => {
     intervalTree = new IntervalTree(),
     // Tracks the intervals that were inserted into the interval tree so they can be
     // removed when positions are updated
-    cachedIntervals = new Map(),
+    cachedIntervals = new WeakMap(),
     // Maps cell index to x coordinates for quick lookup.
     leftMap = new Map(),
     // Tracks the height of each column

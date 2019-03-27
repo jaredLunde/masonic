@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo, useEffect, useRef} from 'react'
+import PropTypes from 'prop-types'
 import ResizeObserver from 'resize-observer-polyfill'
-import {strictShallowEqual} from '@render-props/utils'
 import trieMemoize from 'trie-memoize'
 import emptyArr from 'empty/array'
 import {memoizeOne, OneKeyMap, createItemPositioner, createPositionCache} from './utils'
@@ -70,20 +70,6 @@ const SizeObserver = props => {
 }
 
 class Masonry extends React.Component {
-  // TODO: initialWidth, initialHeight
-  static propTypes = {}
-  static defaultProps = {
-    as: 'div',
-    itemAs: 'div',
-    tabIndex: 0,
-    role: 'grid',
-    columnWidth: 200,  // minimum column width
-    columnGutter: 0, // gutter size in px
-    getItemKey: defaultGetItemKey,
-    estimatedItemHeight: 300,
-    overscanBy: 2
-  }
-
   constructor (props) {
     super(props)
     this.itemElements = new WeakMap()
@@ -115,18 +101,6 @@ class Masonry extends React.Component {
 
   componentWillUnmount () {
     this.resizeObserver.disconnect()
-  }
-
-  shouldComponentUpdate (nextProps) {
-    // this allows for a faster decision when scrolling or coming out of a scroll
-    if (
-      this.props.scrollTop !== nextProps.scrollTop
-      || this.props.isScrolling !== nextProps.isScrolling
-    ) {
-      return true
-    }
-
-    return strictShallowEqual(this.props, nextProps) === false
   }
 
   componentDidUpdate (prevProps) {
@@ -192,7 +166,7 @@ class Masonry extends React.Component {
   }
 
   clearPositions = () => {
-    this._positionCache = createPositionCache()
+    this.positionCache = createPositionCache()
     this.forceUpdate()
   }
 
@@ -228,8 +202,8 @@ class Masonry extends React.Component {
       items,
       itemAs,
       itemStyle,
-      estimatedItemHeight,
-      getItemKey,
+      itemHeightEstimate,
+      itemKey,
       overscanBy,
 
       scrollTop,
@@ -263,7 +237,7 @@ class Masonry extends React.Component {
 
         const
           data = items[index],
-          key = getItemKey(data, index),
+          key = itemKey(data, index),
           observerStyle = getCachedItemStyle(this.columnWidth, left, top)
 
         children.push(
@@ -303,7 +277,7 @@ class Masonry extends React.Component {
         itemCount - measuredCount,
         Math.ceil(
           (scrollTop + windowHeight + overscanBy - shortestColumnSize)
-          / estimatedItemHeight
+          / itemHeightEstimate
           * this.columnCount,
         ),
       )
@@ -313,7 +287,7 @@ class Masonry extends React.Component {
       for (; index < measuredCount + batchSize; index++) {
         const
           data =  items[index],
-          key = getItemKey(data, index),
+          key = itemKey(data, index),
           columnNum = (index % this.columnCount) + 1
         const observerStyle = getCachedSize(this.columnWidth)
 
@@ -347,7 +321,7 @@ class Masonry extends React.Component {
     // the page is being scrolled
     const containerStyle = getContainerStyle(
       isScrolling,
-      this.positionCache.estimateTotalHeight(itemCount, this.columnCount, estimatedItemHeight)
+      this.positionCache.estimateTotalHeight(itemCount, this.columnCount, itemHeightEstimate)
     )
 
     return React.createElement(
@@ -367,10 +341,14 @@ class Masonry extends React.Component {
   }
 }
 
-export default React.memo(
+const MasonryWindow = React.memo(
   React.forwardRef(
     (props, ref) => {
-      const {windowWidth, windowHeight, scrollY, isScrolling} = useWindowScroller()
+      const {windowWidth, windowHeight, scrollY, isScrolling} = useWindowScroller(
+        props.initialWidth,
+        props.initialHeight,
+        props.windowScroller
+      )
       const [containerRef, containerWidth, top] = useContainerRect(windowWidth, windowHeight)
 
       return React.createElement(
@@ -390,3 +368,61 @@ export default React.memo(
     }
   )
 )
+
+MasonryWindow.defaultProps = {
+  as: 'div',
+  itemAs: 'div',
+  tabIndex: 0,
+  role: 'grid',
+  columnWidth: 200,
+  columnGutter: 0,
+  initialWidth: 1280,
+  initialHeight: 720,
+  itemHeightEstimate: 300,
+  itemKey: defaultGetItemKey,
+  overscanBy: 2
+}
+
+if (__DEV__) {
+  Masonry.propTypes = {
+    scrollTop: PropTypes.number.isRequired,
+    isScrolling: PropTypes.bool.isRequired,
+    windowHeight: PropTypes.number.isRequired,
+    containerWidth: PropTypes.number.isRequired,
+    containerRef: PropTypes.shape({current: PropTypes.any}).isRequired,
+  }
+
+  MasonryWindow.propTypes = {
+    as: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired, // container node type
+    id: PropTypes.string,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    role: PropTypes.string,
+    tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    columnCount: PropTypes.number,
+    columnWidth: PropTypes.number.isRequired,
+    columnGutter: PropTypes.number.isRequired,
+
+    initialWidth: PropTypes.number.isRequired,
+    initialHeight: PropTypes.number.isRequired,
+
+    items: PropTypes.array.isRequired,
+    itemAs: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
+    itemStyle: PropTypes.object,
+    itemHeightEstimate: PropTypes.number.isRequired,
+    itemKey: PropTypes.func,
+    overscanBy: PropTypes.number,
+
+    windowScroller: PropTypes.shape({
+      scroll: PropTypes.shape({fps: PropTypes.number}),
+      size: PropTypes.shape({wait: PropTypes.number}),
+    }),
+
+    onRender: PropTypes.func,
+    render: PropTypes.func.isRequired,
+    children: PropTypes.func
+  }
+}
+
+export default MasonryWindow
