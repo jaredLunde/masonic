@@ -1,0 +1,54 @@
+{
+  "name": "masonic",
+  "version": "1.0.0",
+  "description": "A React virtualized masonry component for the window based on the original by Brian Vaughn",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "repository": "https://github.com/jaredLunde/masonic",
+  "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
+  "license": "MIT",
+  "dependencies": {
+    "@react-hook/window-scroll": "^0.1.2",
+    "@react-hook/window-size": "^0.1.0",
+    "@render-props/utils": "^0.2.13",
+    "empty": "^0.10.1",
+    "resize-observer-polyfill": "^1.5.1",
+    "trie-memoize": "^1.0.4"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.6.0",
+    "react": "^16.8.0"
+  },
+  "devDependencies": {
+    "@stellar-apps/babel-preset-es": "^1.0.4",
+    "@stellar-apps/babel-preset-react": "^1.0.1",
+    "prettier": "^1.16.4",
+    "rimraf": "^2.6.3"
+  },
+  "scripts": {
+    "build": "yarn build:es && yarn build:cjs && yarn prettier:es && yarn prettier:cjs",
+    "build:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src --out-dir dist/es",
+    "build:cjs": "rimraf dist/cjs && cross-env NODE_ENV=production BABEL_ENV=cjs babel src --out-dir dist/cjs",
+    "prettier:es": "yarn prettier \"dist/es/**/*.js\"",
+    "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\"",
+    "prettier": "prettier --single-quote --no-bracket-spacing --trailing-comma es5 --write",
+    "watch:es": "yarn build:es --watch",
+    "watch:cjs": "yarn build:cjs --watch",
+    "prepublishOnly": "yarn build"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "react component",
+    "virtual",
+    "list",
+    "masonry",
+    "masonry component",
+    "infinite",
+    "infinite list",
+    "infinite masonry",
+    "infinite scrolling",
+    "scrolling",
+    "virtualized"
+  ]
+}
