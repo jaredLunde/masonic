@@ -281,7 +281,6 @@ class Masonry extends React.Component {
             React.createElement(
               render,
               {
-                key,
                 index,
                 data,
                 width: this.columnWidth
@@ -333,7 +332,6 @@ class Masonry extends React.Component {
             React.createElement(
               render,
               {
-                key,
                 index,
                 data,
                 width: this.columnWidth,

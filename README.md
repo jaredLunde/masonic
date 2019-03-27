@@ -1,8 +1,7 @@
 # Masonic
-A React virtualized masonry component for the window based on 
+A React virtualized masonry component for the window based upon Brian Vaughn's
 [react-virtualized](https://github.com/bvaughn/react-virtualized) 
-and further inspired by [react-window](https://github.com/bvaughn/react-window)
-by Brian Vaughn.
+and further inspired by [react-window](https://github.com/bvaughn/react-window).
 
 ## Installation
 ### [Find Masonic on NPM](https://www.npmjs.com/package/masonic)
@@ -21,8 +20,39 @@ awesome API.
 
 ## API Documentation
 ### `Masonry`
-A virtualized masonry component which only renders items currently
-visible in the window.
+An autosizing virtualized masonry component which only renders items 
+currently visible in the window.
+```jsx harmony
+const items = []
+for (let i = 0; i < 1000; i++) {
+  items.push({id: i})
+}
+
+const MyMasonryComponent = props => (
+  <Masonry
+    items={items}
+    columnWidth={240}
+    columnGutter={16}
+    estimatedItemHeight={160}
+    getItemKey={data => data.id}
+    render={
+      ({index, data, width}) => (
+        <div>
+          <div>
+            Index: {index}
+          </div>
+          <pre>
+            {JSON.stringify(data)}
+          </pre>
+          <div>
+            Column width: {width}
+          </div>
+        </div>
+      )
+    }
+  />
+)
+```
 
 #### Prop types
 
@@ -33,7 +63,9 @@ visible in the window. This is just a single column `Masonry` component.
 #### Prop types
 
 ### `useInfiniteScroller`
-An infinite sc
+A React hook for easily creating an infinite scrolling `Masonry` or `List` 
+component.
+
 #### Options
 
 ### `memoizeOne`
