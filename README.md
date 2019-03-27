@@ -38,30 +38,29 @@ const CoolMasonryComponent = props => (
     columnWidth={240}
     columnGutter={16}
     itemHeightEstimate={160}
-    getItemKey={data => data.id}
-    render={
-      ({index, data, width}) => (
+    itemKey={data => data.id}
+  >
+    {({index, data, width}) => (
+      <div>
         <div>
-          <div>
-            Index: {index}
-          </div>
-          <pre>
-            {JSON.stringify(data)}
-          </pre>
-          <div>
-            Column width: {width}
-          </div>
+          Index: {index}
         </div>
-      )
-    }
-  />
+        <pre>
+          {JSON.stringify(data)}
+        </pre>
+        <div>
+          Column width: {width}
+        </div>
+      </div>
+    )}
+  </Masonry>
 )
 ```
 
 ### Prop types
 #### Column rendering
 - `columnWidth`
-  - `<number>` `<required>`
+  - `<number>` **required**
   - **default** `240`
   - This is the minimum column width. `Masonic` will automatically 
     size your columns to fill its container based on your provided 
@@ -81,7 +80,7 @@ const CoolMasonryComponent = props => (
 
 #### Item rendering
 - `render`
-  - `<React.Component|function>` `<required>`
+  - `<React.Component|function>` **required**
   - **alias** `children`
   - This is the component which is rendered for each item in `items`
     below. It receives 3 properties from `Masonic`:
@@ -95,21 +94,21 @@ const CoolMasonryComponent = props => (
       - The width of the column containing this component. This is highly
         useful for better estimating the sizes of things like images.
 - `items`
-  - `<array>` `<required>`
+  - `<array>` **required**
   - An array of items to render. The data contained here is used for 
     creating the `data` property passed to your `render` component. It
     is also used for the `onRender` callback and the `itemKey` generator.
     Its length is used for determining the estimated height of the 
     container.
 - `itemHeightEstimate`
-  - `<number>` `<required>`
+  - `<number>` **required**
   - **default** `300`
   - This value is used for estimating the initial height of the 
     Masonry container element. Though unimportant at face value, it is
     vital to the UX of the scrolling behavior and in determining how
     many `items` to initially render.  
 - `itemAs`
-  - `<React.Component|string|function>` `<required>`
+  - `<React.Component|string|function>` **required**
   - **default** `div`
   - This determines the element type created by React when creating
     the position wrappers for the rendered items. A common use case
@@ -126,9 +125,9 @@ const CoolMasonryComponent = props => (
     - Your `render` component is not stateful and does not extend `PureComponent`
   - e.g. `itemKey={data => data.id}`
 
-### Customizing the container element
+#### Customizing the container element
 - `as`
-  - `<React.Component|function|string>` `<required>`
+  - `<React.Component|function|string>` **required**
   - **default** `div`
   - This is useful if for example you'd like the container element to be
     of the node type `ul`
@@ -150,14 +149,14 @@ const CoolMasonryComponent = props => (
   - **default** `0`
   - A `tabindex` value to apply to the container. Used for accessibility.
 
-### Window properties
+#### Window properties
 - `initialWidth`
-  - `<number>` `<required>`
+  - `<number>` **required**
   - **default** `1280`
   - An initial width to provide to the window scroller when the 
     `window` is not defined, i.e. in SSR.
 - `initialHeight`
-  - `<number>` `<required>`
+  - `<number>` **required**
   - **default** `720`
   - An initial height to provide to the window scroller when the 
     `window` is not defined, i.e. in SSR. 
@@ -198,7 +197,7 @@ const CoolMasonryComponent = props => (
           instantaneous when you stop resizing and it doesn't do too 
           much work in the interim.
 
-### Callbacks
+#### Callbacks
 - `onRender(startIndex: number, stopIndex: number, items: array)`
   - `<function>`
   - This callback fires any time the items rendered in the visible
@@ -212,7 +211,7 @@ const CoolMasonryComponent = props => (
     - `items`
       - The array of items provided in the `items` prop
  
-### Methods
+#### Methods
 When a `ref` is provided to this component, you'll have access to its
 following methods:
 
@@ -224,11 +223,11 @@ following methods:
     
 ------
 
-### `<List>`
+## `<List>`
 An autosizing virtualized list component which only renders items currently
 visible in the window. This is just a single-column `Masonry` component.
 
-#### Prop types
+### Prop types
 This component inherits all of the props listed in `<Masonry>` with exception
 to `columnWidth`, `columnCount`, and `columnGutter` which are discarded. 
 - `rowGutter`
@@ -238,7 +237,7 @@ to `columnWidth`, `columnCount`, and `columnGutter` which are discarded.
 
 ------
 
-## `useInfiniteLoader(loadMoreItemsCallback: function, opt: object): onRenderCallback`
+### `useInfiniteLoader(loadMoreItems: function, opt: object): onRenderCallback`
 A React hook for seamlessly creating an infinite scrolling `Masonry` or `List` 
 component.
 ```jsx harmony
@@ -247,6 +246,10 @@ import {Masonry, useInfiniteLoader} from 'masonic'
 const fetchMoreItems = memoize(
   (startIndex, stopIndex) => fetch(
     `/api/get-more?after=${startIndex}&limit=${startIndex + stopIndex}`
+  ).then(
+    items => {
+      // do something to add the new items to your state
+    }
   )
 )
 
@@ -256,9 +259,9 @@ const InfiniteMasonry = props => {
 }
 ```
 
-### Arguments
-- `loadMoreItemsCallback`
-  - `<function>` `<required>`
+#### Arguments
+- `loadMoreItems`
+  - `<function>` **required**
   - This callback will be invoked when more items must be loaded.
   - It should implement the following signature: 
     - `(startIndex: number, stopIndex: number, items: array): Promise`
