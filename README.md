@@ -304,19 +304,23 @@ the originals, despite the overall design being highly inspired by them.
 
 1. The original component requires a `<CellMeasurer>`,
 `cellPositioner`, and `cellMeasurerCache`. In `Masonic` this 
-functionality=is built in and uses [`resize-observer-polyfill`](https://github.com/que-etc/resize-observer-polyfill) 
+functionality is built in and uses [`resize-observer-polyfill`](https://github.com/que-etc/resize-observer-polyfill) 
 for tracking cell size changes.
 
-2. The implementation for updating cell positions and sizes is also much more
+2. This component will auto-calculate the number of columns to render based
+upon the defined `columnWidth` property. The column count will update
+any time it changes.
+
+3. The implementation for updating cell positions and sizes is also much more
 efficient in this component because only specific cells and columns are 
 updated when cell sizes change, whereas in the original a complete reflow
 is triggered.
 
-3. This component only renders relative to its parent container's width 
+4. This component only renders relative to its parent container's width 
 and the browser window's height. The original component is tuned for 
 rendering inside a parent container and not the window.
 
-4. The API is a complete rewrite and because of much of what is mentioned
+5. The API is a complete rewrite and because of much of what is mentioned
 above, is much easier to use in my opinion.
 
 ## Credits
