@@ -384,8 +384,8 @@ MasonryWindow.defaultProps = {
 
 if (__DEV__) {
   Masonry.propTypes = {
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,  // width of the container
+    height: PropTypes.number.isRequired, // height of the window
     scrollTop: PropTypes.number.isRequired,
     isScrolling: PropTypes.bool.isRequired,
     containerRef: PropTypes.shape({current: PropTypes.any}).isRequired,
