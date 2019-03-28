@@ -7,6 +7,9 @@ and further inspired by [react-window](https://github.com/bvaughn/react-window).
 ### [Find Masonic on NPM](https://www.npmjs.com/package/masonic)
 `yarn add masonic` or `npm i masonic`
 
+## Example
+### [Check out the demo on CodeSandbox](https://codesandbox.io/s/0oyxozv75v)
+
 ## Requirements
 `React >16.8` is a minimum requirement because
 this package relies on and provides React hooks. 

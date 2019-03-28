@@ -22,8 +22,7 @@ const getContainerStyle = memoizeOne(
     height: estimateTotalHeight,
     maxHeight: estimateTotalHeight,
     willChange: 'contents',
-    pointerEvents: isScrolling ? 'none' : '',
-    contain: 'strict'
+    pointerEvents: isScrolling ? 'none' : ''
   }),
 )
 
