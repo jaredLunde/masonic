@@ -353,8 +353,8 @@ const MasonryWindow = React.memo(
       return React.createElement(
         Masonry,
         Object.assign(
-          {ref},
           {
+            ref,
             scrollTop: Math.max(0, scrollY - top),
             isScrolling,
             containerWidth,
