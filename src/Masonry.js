@@ -8,9 +8,9 @@ import useWindowScroller from './useWindowScroller'
 import useContainerRect from './useContainerRect'
 
 
-export const getColumns = (containerWidth = 0, minimumWidth = 0, gutter = 8, columnCount) => {
-  columnCount = columnCount || Math.floor(containerWidth / (minimumWidth + gutter)) || 1
-  const columnWidth = Math.floor((containerWidth - (gutter * (columnCount - 1))) / columnCount)
+export const getColumns = (width = 0, minimumWidth = 0, gutter = 8, columnCount) => {
+  columnCount = columnCount || Math.floor(width / (minimumWidth + gutter)) || 1
+  const columnWidth = Math.floor((width - (gutter * (columnCount - 1))) / columnCount)
   return [columnWidth, columnCount]
 }
 
@@ -68,7 +68,7 @@ const SizeObserver = props => {
   return React.createElement(props.as, elementProps, props.children)
 }
 
-class Masonry extends React.Component {
+export class Masonry extends React.Component {
   constructor (props) {
     super(props)
     this.itemElements = new WeakMap()
@@ -105,7 +105,7 @@ class Masonry extends React.Component {
   componentDidUpdate (prevProps) {
     // updates the item positions any time a value potentially affecting their size changes
     if (
-      prevProps.containerWidth !== this.props.containerWidth
+      prevProps.width !== this.props.width
       || prevProps.columnCount !== this.props.columnCount
       || prevProps.columnWidth !== this.props.columnWidth
       || prevProps.columnGutter !== this.props.columnGutter
@@ -128,7 +128,7 @@ class Masonry extends React.Component {
 
   initPositioner (p = this.props) {
     let [columnWidth, columnCount] = getColumns(
-      p.containerWidth,
+      p.width,
       p.columnWidth,
       p.columnGutter,
       p.columnCount
@@ -207,7 +207,7 @@ class Masonry extends React.Component {
 
       scrollTop,
       isScrolling,
-      windowHeight,
+      height,
 
       render,
       children: renderChildren
@@ -219,11 +219,11 @@ class Masonry extends React.Component {
       shortestColumnSize = this.positionCache.getShortestColumnSize()
     let nextStartIndex = 0, nextStopIndex
     render = renderChildren || render
-    overscanBy = windowHeight * overscanBy
+    overscanBy = height * overscanBy
 
     this.positionCache.range(
       Math.max(0, scrollTop - overscanBy),
-      windowHeight + windowHeight + overscanBy,
+      height + height + overscanBy,
       (index, left, top) => {
         if (nextStopIndex === void 0) {
           nextStartIndex = index
@@ -269,13 +269,13 @@ class Masonry extends React.Component {
     this.stopIndex = nextStopIndex
 
     if (
-      shortestColumnSize < (scrollTop + windowHeight + overscanBy)
+      shortestColumnSize < (scrollTop + height + overscanBy)
       && measuredCount < itemCount
     ) {
       const batchSize = Math.min(
         itemCount - measuredCount,
         Math.ceil(
-          (scrollTop + windowHeight + overscanBy - shortestColumnSize)
+          (scrollTop + height + overscanBy - shortestColumnSize)
           / itemHeightEstimate
           * this.columnCount,
         ),
@@ -343,23 +343,23 @@ class Masonry extends React.Component {
 const MasonryWindow = React.memo(
   React.forwardRef(
     (props, ref) => {
-      const {windowWidth, windowHeight, scrollY, isScrolling} = useWindowScroller(
+      const {width, height, scrollY, isScrolling} = useWindowScroller(
         props.initialWidth,
         props.initialHeight,
         props.windowScroller
       )
-      const [containerRef, containerWidth, top] = useContainerRect(windowWidth, windowHeight)
+      const [containerRef, rect] = useContainerRect(width, height)
 
       return React.createElement(
         Masonry,
         Object.assign(
           {
-            ref,
-            scrollTop: Math.max(0, scrollY - top),
+            width: rect.width,
+            height,
+            scrollTop: Math.max(0, scrollY - rect.top),
             isScrolling,
-            containerWidth,
-            windowHeight,
-            containerRef
+            containerRef,
+            ref,
           },
           props
         )
@@ -384,10 +384,10 @@ MasonryWindow.defaultProps = {
 
 if (__DEV__) {
   Masonry.propTypes = {
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
     scrollTop: PropTypes.number.isRequired,
     isScrolling: PropTypes.bool.isRequired,
-    windowHeight: PropTypes.number.isRequired,
-    containerWidth: PropTypes.number.isRequired,
     containerRef: PropTypes.shape({current: PropTypes.any}).isRequired,
   }
 

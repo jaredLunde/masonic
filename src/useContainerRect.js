@@ -4,21 +4,29 @@ import {memoizeOne} from './utils'
 
 const defaultRect = {top: 0, width: 0}
 const get = memoizeOne(
-  (element, width, top) => ([element, width, top]),
+  (element, width, top) => ([element, {width, top}]),
   (args, pargs) => args[1] === pargs[1] && args[2] === pargs[2] && args[0] === pargs[0]
 )
 
 export default (windowWidth, windowHeight) => {
-  const element = useRef(null)
+  const
+    element = useRef(null),
+    queryInterval = useRef(null)
   const [containerRect, setContainerRect] = useState(defaultRect)
 
   useEffect(
     () => {
       if (element.current !== null) {
-        setContainerRect({
+        const setRect = () => setContainerRect({
           top: element.current.offsetTop,
           width: element.current.offsetWidth,
         })
+        setRect()
+        // Got a better way to track changes to `top`?
+        // Resize/MutationObserver() won't cover it I don't think (top)
+        // Submit a PR/issue
+        queryInterval.current = setInterval(setRect, 360)
+        return () => clearInterval(queryInterval.current)
       }
     },
     [windowWidth, windowHeight, element.current]

@@ -10,8 +10,9 @@ const defaultSizeOpt = {wait: 120}
 const defaultScrollFps = 8
 
 export default (initialWidth, initialHeight, opt = emptyObj) => {
-  const scrollY = useWindowScroll(opt.scroll?.fps || defaultScrollFps)
-  const [windowWidth, windowHeight] = useWindowSize(
+  const fps = opt.scroll?.fps || defaultScrollFps
+  const scrollY = useWindowScroll(fps)
+  const [width, height] = useWindowSize(
     initialWidth,
     initialHeight,
     opt.size || defaultSizeOpt
@@ -44,5 +45,5 @@ export default (initialWidth, initialHeight, opt = emptyObj) => {
     [scrollY]
   )
 
-  return {windowWidth, windowHeight, scrollY, isScrolling}
+  return {width, height, scrollY, isScrolling}
 }
