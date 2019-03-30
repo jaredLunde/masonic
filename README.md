@@ -35,14 +35,8 @@ for (let i = 0; i < 1000; i++) {
   items.push({id: i})
 }
 
-const CoolMasonryComponent = props => (
-  <Masonry
-    items={items}
-    columnWidth={240}
-    columnGutter={16}
-    itemHeightEstimate={160}
-    itemKey={data => data.id}
-  >
+const EasyMasonryComponent = props => (
+  <Masonry items={items}>
     {({index, data, width}) => (
       <div>
         <div>
