@@ -20,10 +20,7 @@ export default (windowWidth, windowHeight) => {
         const setRect = () => {
           const rect = element.current.getBoundingClientRect()
           if (rect.top !== containerRect.top || rect.width !== containerRect.width) {
-            setContainerRect({
-              top: rect.top,
-              width: rect.width,
-            })
+            setContainerRect({top: rect.top, width: rect.width})
           }
         }
         setRect()
