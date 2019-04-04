@@ -128,7 +128,7 @@ const useInfiniteLoader = (
       for (let i = 0; i < unloadedRanges.length - 1; ++i)
         loadMoreItems(unloadedRanges[i], unloadedRanges[++i], items)
     },
-    [totalItems]
+    [totalItems, minimumBatchSize, threshold, isItemLoaded]
   )
 }
 
