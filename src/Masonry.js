@@ -226,7 +226,7 @@ export class Masonry extends React.Component {
 
     this.positionCache.range(
       Math.max(0, scrollTop - overscanBy),
-      height + height + overscanBy,
+      scrollTop + overscanBy,
       (index, left, top) => {
         if (nextStopIndex === void 0) {
           nextStartIndex = index
@@ -359,7 +359,7 @@ const MasonryWindow = React.memo(
           {
             width: rect.width,
             height,
-            scrollTop: Math.max(0, scrollY - rect.top),
+            scrollTop: Math.max(0, scrollY - (rect.top + scrollY)),
             isScrolling,
             containerRef,
             ref,

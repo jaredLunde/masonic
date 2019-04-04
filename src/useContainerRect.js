@@ -17,10 +17,15 @@ export default (windowWidth, windowHeight) => {
   useEffect(
     () => {
       if (element.current !== null) {
-        const setRect = () => setContainerRect({
-          top: element.current.offsetTop,
-          width: element.current.offsetWidth,
-        })
+        const setRect = () => {
+          const rect = element.current.getBoundingClientRect()
+          if (rect.top !== containerRect.top || rect.width !== containerRect.width) {
+            setContainerRect({
+              top: rect.top,
+              width: rect.width,
+            })
+          }
+        }
         setRect()
         // Got a better way to track changes to `top`?
         // Resize/MutationObserver() won't cover it I don't think (top)
@@ -29,7 +34,7 @@ export default (windowWidth, windowHeight) => {
         return () => clearInterval(queryInterval.current)
       }
     },
-    [windowWidth, windowHeight, element.current]
+    [windowWidth, windowHeight, containerRect, element.current]
   )
 
   return get(element, containerRect.width || windowWidth, containerRect.top)
