@@ -37,7 +37,7 @@ export const scanForUnloadedRanges = (
       Math.max(rangeStopIndex, rangeStartIndex + minimumBatchSize - 1),
       totalItems - 1,
     )
-    console.log('ll', potentialStopIndex)
+
     for (let index = rangeStopIndex + 1; index <= potentialStopIndex; index++) {
       if (isItemLoaded(index, items) === false) {
         rangeStopIndex = index

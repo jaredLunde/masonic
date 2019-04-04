@@ -1,6 +1,6 @@
 {
   "name": "masonic",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A React virtualized masonry component for the window based on the original by Brian Vaughn",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
