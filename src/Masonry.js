@@ -145,9 +145,12 @@ export class Masonry extends React.Component {
     const nextPositionCache = createPositionCache()
 
     for (let index = 0; index < this.positionCache.getSize(); index++) {
-      const height = prevPositioner.get(index).height
-      const item = this.itemPositioner.set(index, height)
-      nextPositionCache.setPosition(index, item.left, item.top, height)
+      const pos = prevPositioner.get(index)
+
+      if (pos !== void 0) {
+        const item = this.itemPositioner.set(index, pos.height)
+        nextPositionCache.setPosition(index, item.left, item.top, pos.height)
+      }
     }
 
     this.positionCache = nextPositionCache
