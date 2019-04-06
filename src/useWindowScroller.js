@@ -1,7 +1,7 @@
 import {useState, useEffect, useCallback, useRef} from 'react'
 import emptyArr from 'empty/array'
 import emptyObj from 'empty/object'
-import {requestTimeout, clearRequestTimeout} from '@render-props/utils'
+import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 import useWindowScroll from '@react-hook/window-scroll'
 import useWindowSize from '@react-hook/window-size'
 

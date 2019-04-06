@@ -1,7 +1,6 @@
 import React, {useCallback} from 'react'
 import emptyObj from 'empty/object'
 
-
 /**
  * Returns all of the ranges within a larger range that contain unloaded rows.
  */

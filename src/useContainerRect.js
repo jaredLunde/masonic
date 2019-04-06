@@ -1,5 +1,5 @@
 import {useEffect, useState, useRef} from 'react'
-import {memoizeOne} from './utils'
+import memoizeOne from '@essentials/memoize-one'
 
 
 const defaultRect = {top: 0, width: 0}

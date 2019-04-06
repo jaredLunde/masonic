@@ -1,6 +1,6 @@
 {
   "name": "masonic",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "description": "A React virtualized masonry component for the window based on the original by Brian Vaughn",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
@@ -8,12 +8,14 @@
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
   "dependencies": {
+    "@essentials/memoize-one": "^1.0.0",
+    "@essentials/one-key-map": "^1.0.0",
+    "@essentials/request-timeout": "^1.0.0",
     "@react-hook/window-scroll": "^0.1.3",
     "@react-hook/window-size": "^0.1.1",
-    "@render-props/utils": "^0.2.13",
     "empty": "^0.10.1",
     "resize-observer-polyfill": "^1.5.1",
-    "trie-memoize": "^1.0.4"
+    "trie-memoize": "^1.0.5"
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",

@@ -1,10 +1,7 @@
 import bounds from './binarySearchBounds'
 
 
-let NOT_FOUND = 0
-let SUCCESS = 1
-let EMPTY = 2
-
+const NOT_FOUND = 0, SUCCESS = 1, EMPTY = 2
 
 class IntervalTreeNode {
   constructor (mid, left, right, leftPoints, rightPoints) {
