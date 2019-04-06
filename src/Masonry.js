@@ -268,7 +268,6 @@ export class Masonry extends React.Component {
     )
 
     this.startIndex = nextStartIndex
-    // this may change below if there are more cells to render
     this.stopIndex = nextStopIndex
 
     if (
