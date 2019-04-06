@@ -316,8 +316,6 @@ export class Masonry extends React.Component {
           ),
         )
       }
-
-      this.stopIndex = index
     }
     // gets the container style object based upon the estimated height and whether or not
     // the page is being scrolled
