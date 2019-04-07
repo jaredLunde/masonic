@@ -29,18 +29,16 @@ export default (initialWidth, initialHeight, opt = emptyObj) => {
 
   useEffect(
     () => {
-      if (isScrolling === false && scrollY > 0) {
-        setIsScrolling(true)
-      }
-
       if (isScrollingTimeout.current !== null) {
         clearRequestTimeout(isScrollingTimeout.current)
         isScrollingTimeout.current = null
       }
 
-      isScrollingTimeout.current = requestTimeout(unsetIsScrolling, 160)
-      return () =>
-        isScrollingTimeout.current !== null && clearRequestTimeout(isScrollingTimeout.current)
+      if (isScrolling === false) {
+        setIsScrolling(true)
+      }
+
+      isScrollingTimeout.current = requestTimeout(unsetIsScrolling, 200)
     },
     [scrollY]
   )
