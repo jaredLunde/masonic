@@ -19,13 +19,6 @@ export default (initialWidth, initialHeight, opt = emptyObj) => {
   )
   const [isScrolling, setIsScrolling] = useState(false)
   const isScrollingTimeout = useRef(null)
-  const unsetIsScrolling  = useCallback(
-    () => {
-      setIsScrolling(false)
-      isScrollingTimeout.current = null
-    },
-    emptyArr
-  )
 
   useEffect(
     () => {
@@ -38,7 +31,19 @@ export default (initialWidth, initialHeight, opt = emptyObj) => {
         setIsScrolling(true)
       }
 
-      isScrollingTimeout.current = requestTimeout(unsetIsScrolling, 200)
+      const unsetIsScrolling = () => {
+        // This is here to prevent premature bail outs while maintaining high resolution
+        // unsets. Without it there will always bee a lot of unnecessary DOM writes to style.
+        const currentScrollY = window.scrollY !== void 0 ? window.scrollY : window.pageYOffset
+
+        if (currentScrollY === scrollY) {
+          setIsScrolling(false)
+        }
+
+        isScrollingTimeout.current = null
+      }
+
+      isScrollingTimeout.current = requestTimeout(unsetIsScrolling, 1000 / 60)
     },
     [scrollY]
   )
