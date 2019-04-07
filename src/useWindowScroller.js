@@ -42,6 +42,12 @@ export default (initialWidth, initialHeight, opt = emptyObj) => {
     },
     [scrollY]
   )
+  // cleans up isScrollingTimeout on unmount
+  useEffect(
+    () => () =>
+      isScrollingTimeout.current !== null && clearRequestTimeout(isScrollingTimeout.current),
+    emptyArr
+  )
 
   return {width, height, scrollY, isScrolling}
 }
