@@ -859,28 +859,28 @@
   dependencies:
     "@essentials/request-timeout" "^1.0.0"
 
-"@react-hook/throttle@^0.1.4":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-0.1.5.tgz#c0b8bf7aa1b00ce251fdb76c18f47c6e6f4b03aa"
-  integrity sha512-U9E6Mv/4Wi93/n56XjRflGG7cWHA6kGcJVIotPPFOiqOOW0FBkNp5Aw+Mes/GVAHU2jKNn+V62bRYV6KNAuZ8w==
+"@react-hook/throttle@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.0.tgz#4f923279357ed0977b4ef004b62a4a01b16327c5"
+  integrity sha512-xmDDBg4BkRe74hkKSPWval0negM81ulmCr0SbnMb/Xgkuro9t8JejX4Up3RLMNXcAJ4Jvd5+BLsKjHn4YjSKuQ==
   dependencies:
     "@essentials/request-timeout" "^1.0.0"
 
-"@react-hook/window-scroll@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@react-hook/window-scroll/-/window-scroll-0.1.4.tgz#d8555171a56bbef139f75148730461328cec6320"
-  integrity sha512-jUm+vljFkuARfFC0XzTmC2znV+4+xZ/VuYCXLv7FRpDQY5InxmOinesk09RAkwgb9/1AA9L04MwThnKwgDbVxQ==
+"@react-hook/window-scroll@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@react-hook/window-scroll/-/window-scroll-1.0.0.tgz#b2b91edc1b045c0725e631c7b1e805f2f82b4792"
+  integrity sha512-0MGj66Eo8dm6AsypDcLt/Wws0nw9JE8RkTYmQBwPmYInOVxrWlhsc40gtksyQ4K/JUyyklJ4Y/+6cC/+9PXfhg==
   dependencies:
-    "@react-hook/throttle" "^0.1.4"
+    "@react-hook/throttle" "^1.0.0"
     empty "^0.10.1"
 
-"@react-hook/window-size@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@react-hook/window-size/-/window-size-0.1.1.tgz#7ff346e0d9a2d0f9adc41bf44c59885e6087d9e5"
-  integrity sha512-u19PAo2ZShwu9WS8fLkRo7oCxWLi25m4tD+Ap0im7R7z31ZoYV3sjKbYNb9W8/jv147gTXVFat9SDdw5oqhwuw==
+"@react-hook/window-size@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@react-hook/window-size/-/window-size-1.0.0.tgz#9496516897483fa4c0b47637907754150363f5b5"
+  integrity sha512-Xq3GsZ9zBCbpcFw+HO7fVJ2LFvLBU31J0InpesGxYqGb87xRI0mvFugNRUL/rSi/Zo8TxiVR8BgM7Zp/wt1FBQ==
   dependencies:
     "@react-hook/debounce" "^0.1.4"
-    "@react-hook/throttle" "^0.1.4"
+    "@react-hook/throttle" "^1.0.0"
     empty "^0.10.1"
 
 "@stellar-apps/babel-preset-es@^1.0.4":
