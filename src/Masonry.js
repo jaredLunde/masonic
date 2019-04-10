@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import ResizeObserver from 'resize-observer-polyfill'
 import trieMemoize from 'trie-memoize'
 import OneKeyMap from '@essentials/one-key-map'
-import {areEqualArrays} from '@essentials/are-equal'
 import emptyArr from 'empty/array'
 import memoizeOne from '@essentials/memoize-one'
 import {createItemPositioner, createPositionCache} from './utils'
@@ -226,8 +225,6 @@ export class Masonry extends React.Component {
       shortestColumnSize = this.positionCache.getShortestColumnSize()
     let
       children = [],
-      nextStartIndex = 0,
-      nextStopIndex,
       range = [],
       rangeWasEqual = true
     render = renderChildren || render
@@ -238,10 +235,12 @@ export class Masonry extends React.Component {
       scrollTop + overscanBy,
       (i, l, t) => {
         range.push(i, l, t)
+        let prev = this.prevRange
+
         if (
-          this.prevRange[range.length - 3] !== range[range.length - 3]
-          || this.prevRange[range.length - 2] !== range[range.length - 2]
-          || this.prevRange[range.length - 1] !== range[range.length - 1]
+          prev[range.length - 1] !== range[range.length - 1]
+          || prev[range.length - 2] !== range[range.length - 2]
+          || prev[range.length - 3] !== range[range.length - 3]
         ) {
           rangeWasEqual = false
         }
@@ -253,19 +252,21 @@ export class Masonry extends React.Component {
         children = this.prevChildren
       }
       else {
+        this.stopIndex = void 0
+
         for (let i = 0; i < range.length; i++) {
           const
             index = range[i],
             left = range[++i],
             top = range[++i]
 
-          if (nextStopIndex === void 0) {
-            nextStartIndex = index
-            nextStopIndex = index
+          if (this.stopIndex === void 0) {
+            this.startIndex = index
+            this.stopIndex = index
           }
           else {
-            nextStartIndex = Math.min(nextStartIndex, index)
-            nextStopIndex = Math.max(nextStopIndex, index)
+            this.startIndex = Math.min(this.startIndex, index)
+            this.stopIndex = Math.max(this.stopIndex, index)
           }
 
           const
@@ -281,9 +282,10 @@ export class Masonry extends React.Component {
                 as: itemAs,
                 resizeObserver: this.resizeObserver,
                 observerRef: this.setItemRef(index),
-                style: typeof itemStyle === 'object' && itemStyle !== null
-                  ? assignUserItemStyle(observerStyle, itemStyle)
-                  : observerStyle,
+                style:
+                  typeof itemStyle === 'object' && itemStyle !== null
+                    ? assignUserItemStyle(observerStyle, itemStyle)
+                    : observerStyle,
               },
               React.createElement(render, {index, data, width: this.columnWidth})
             )
@@ -294,9 +296,6 @@ export class Masonry extends React.Component {
         this.prevChildren = children
       }
     }
-
-    this.startIndex = nextStartIndex
-    this.stopIndex = nextStopIndex
 
     if (shortestColumnSize < (scrollTop + height + overscanBy) && measuredCount < itemCount) {
       const batchSize = Math.min(
@@ -314,8 +313,8 @@ export class Masonry extends React.Component {
       for (; index < measuredCount + batchSize; index++) {
         const
           data =  items[index],
-          key = itemKey(data, index)
-        const observerStyle = getCachedSize(this.columnWidth)
+          key = itemKey(data, index),
+          observerStyle = getCachedSize(this.columnWidth)
 
         children.push(
           React.createElement(

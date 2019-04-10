@@ -2256,6 +2256,11 @@ raf@^3.4.1:
   dependencies:
     performance-now "^2.1.0"
 
+rb-interval-tree@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/rb-interval-tree/-/rb-interval-tree-2.0.2.tgz#7a1012340039c5b009e61d2d23425ebf8379a8c6"
+  integrity sha512-vdXn7I9BFq4KEOBqN8tPtVuB5WMs+stwcfgTJNye+ifsB5TjLtLRSXQj5Om68gWEzUErwCXmeHMGgvCMAvIQ6g==
+
 rc@^1.2.7:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed"

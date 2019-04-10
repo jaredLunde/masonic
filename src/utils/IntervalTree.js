@@ -70,11 +70,11 @@ class IntervalTreeNode {
     let weight = this.count - this.leftPoints
 
     if (interval[1] < this.mid) {
-      if (!this.left) {
+      if (this.left === null) {
         return NOT_FOUND
       }
 
-      let rw = this.right ? this.right.count : 0
+      let rw = this.right === null ? 0 : this.right.count
 
       if (4 * rw > 3 * (weight - 1)) {
         return rebuildWithoutInterval(this, interval)
@@ -94,11 +94,11 @@ class IntervalTreeNode {
       return r
     }
     else if (interval[0] > this.mid) {
-      if (!this.right) {
+      if (this.right === null) {
         return NOT_FOUND
       }
 
-      let lw = this.left ? this.left.count : 0
+      let lw = this.left === null ? 0 : this.left.count
 
       if (4 * lw > 3 * (weight - 1)) {
         return rebuildWithoutInterval(this, interval)
@@ -147,9 +147,9 @@ class IntervalTreeNode {
           copy(this, n)
 
           this.count = (
-            this.left ? this.left.count : 0
+            this.left === null ? 0 : this.left.count
           ) + (
-            this.right ? this.right.count : 0
+            this.right === null ? 0 : this.right.count
           ) + this.leftPoints.length
         }
         else if (this.left !== null) {
@@ -366,7 +366,7 @@ const createIntervalTree = (intervals) => {
 //User friendly wrapper that makes it possible to support empty trees
 class IntervalTree {
   constructor (intervals) {
-    if (intervals !== null && intervals !== void 0 && intervals.length > 0) {
+    if (intervals !== void 0 && intervals.length > 0) {
       this.root = createIntervalTree(intervals)
     }
     else {

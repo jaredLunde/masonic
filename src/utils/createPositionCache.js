@@ -10,7 +10,7 @@ const createPositionCache = () => {
     intervalTree = new IntervalTree(),
     // Tracks the intervals that were inserted into the interval tree so they can be
     // removed when positions are updated
-    cachedIntervals = new Map(),
+    intervalValueMap = new Map(),
     // Maps cell index to x coordinates for quick lookup.
     leftMap = new Map(),
     // Tracks the height of each column
@@ -23,10 +23,10 @@ const createPositionCache = () => {
   )
 
   // Render all cells visible within the viewport range defined.
-  const range = (scrollTop, clientHeight, renderCallback) => {
+  const range = (lo, hi, renderCallback) => {
     intervalTree.queryInterval(
-      scrollTop,
-      scrollTop + clientHeight,
+      lo,
+      hi,
       r => renderCallback(r[2]/*index*/, leftMap.get(r[2]/*index*/), r[0]/*top*/),
     )
   }
@@ -34,7 +34,7 @@ const createPositionCache = () => {
   const setPosition = (index, left, top, height) => {
     const interval = [top, top + height, index]
     intervalTree.insert(interval)
-    cachedIntervals.set(index, interval)
+    intervalValueMap.set(index, interval)
     leftMap.set(index, left)
     const columnHeight = columnSizeMap[left]
 
@@ -53,14 +53,14 @@ const createPositionCache = () => {
   // updates the position of an item in the interval tree
   const updatePosition = (index, left, top, height) => {
     const
-      prevInterval = cachedIntervals.get(index),
+      prevInterval = intervalValueMap.get(index),
       prev = prevInterval[1],
       next = top + height
 
     intervalTree.remove(prevInterval)
     const interval = [top, next, index]
     intervalTree.insert(interval)
-    cachedIntervals.set(index, interval)
+    intervalValueMap.set(index, interval)
 
     const columnHeight = columnSizeMap[left]
 
