@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ResizeObserver from 'resize-observer-polyfill'
 import trieMemoize from 'trie-memoize'
 import OneKeyMap from '@essentials/one-key-map'
+import {areEqualArrays} from '@essentials/are-equal'
 import emptyArr from 'empty/array'
 import memoizeOne from '@essentials/memoize-one'
 import {createItemPositioner, createPositionCache} from './utils'
@@ -23,8 +24,8 @@ const getContainerStyle = memoizeOne(
     maxWidth: '100%',
     height: estimateTotalHeight,
     maxHeight: estimateTotalHeight,
-    willChange: 'contents, height',
-    pointerEvents: isScrolling ? 'none' : ''
+    willChange: isScrolling ? 'contents, height' : void 0,
+    pointerEvents: isScrolling ? 'none' : void 0
   }),
 )
 
