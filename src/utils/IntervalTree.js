@@ -333,7 +333,7 @@ const createIntervalTree = intervals => {
     leftIntervals = [],
     rightIntervals = [],
     centerIntervals = []
-  
+
   for (i = 0; i < intervals.length; ++i) {
     let s = intervals[i]
 
