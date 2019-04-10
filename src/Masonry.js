@@ -23,7 +23,7 @@ const getContainerStyle = memoizeOne(
     maxWidth: '100%',
     height: estimateTotalHeight,
     maxHeight: estimateTotalHeight,
-    willChange: 'contents',
+    willChange: 'contents, height',
     pointerEvents: isScrolling ? 'none' : ''
   }),
 )
@@ -95,6 +95,8 @@ export class Masonry extends React.Component {
         this.updatePositions(updates)
       }
     })
+    this.prevRange = []
+    this.prevChildren = []
     this.prevStartIndex = 0
     this.initPositioner()
     this.positionCache = createPositionCache()
@@ -218,64 +220,84 @@ export class Masonry extends React.Component {
       children: renderChildren
     } = this.props
     const
-      children = [],
       itemCount = items.length,
       measuredCount = this.positionCache.getSize(),
       shortestColumnSize = this.positionCache.getShortestColumnSize()
-    let nextStartIndex = 0, nextStopIndex
+    let
+      children = [],
+      nextStartIndex = 0,
+      nextStopIndex,
+      range = [],
+      rangeWasEqual = true
     render = renderChildren || render
     overscanBy = height * overscanBy
 
     this.positionCache.range(
       Math.max(0, scrollTop - overscanBy),
       scrollTop + overscanBy,
-      (index, left, top) => {
-        if (nextStopIndex === void 0) {
-          nextStartIndex = index
-          nextStopIndex = index
+      (i, l, t) => {
+        range.push(i, l, t)
+        if (
+          this.prevRange[range.length - 3] !== range[range.length - 3]
+          || this.prevRange[range.length - 2] !== range[range.length - 2]
+          || this.prevRange[range.length - 1] !== range[range.length - 1]
+        ) {
+          rangeWasEqual = false
         }
-        else {
-          nextStartIndex = Math.min(nextStartIndex, index)
-          nextStopIndex = Math.max(nextStopIndex, index)
-        }
+      }
+    )
 
-        const
-          data = items[index],
-          key = itemKey(data, index),
-          observerStyle = getCachedItemStyle(this.columnWidth, left, top)
+    if (range.length > 0) {
+      if (rangeWasEqual === true && isScrolling === true && this.prevChildren.length > 0) {
+        children = this.prevChildren
+      }
+      else {
+        for (let i = 0; i < range.length; i++) {
+          const
+            index = range[i],
+            left = range[++i],
+            top = range[++i]
 
-        children.push(
-          React.createElement(
-            SizeObserver,
-            {
-              key,
-              as: itemAs,
-              resizeObserver: this.resizeObserver,
-              observerRef: this.setItemRef(index),
-              style: typeof itemStyle === 'object' && itemStyle !== null
-                ? assignUserItemStyle(observerStyle, itemStyle)
-                : observerStyle,
-            },
+          if (nextStopIndex === void 0) {
+            nextStartIndex = index
+            nextStopIndex = index
+          }
+          else {
+            nextStartIndex = Math.min(nextStartIndex, index)
+            nextStopIndex = Math.max(nextStopIndex, index)
+          }
+
+          const
+            data = items[index],
+            key = itemKey(data, index),
+            observerStyle = getCachedItemStyle(this.columnWidth, left, top)
+
+          children.push(
             React.createElement(
-              render,
+              SizeObserver,
               {
-                index,
-                data,
-                width: this.columnWidth
-              }
+                key,
+                as: itemAs,
+                resizeObserver: this.resizeObserver,
+                observerRef: this.setItemRef(index),
+                style: typeof itemStyle === 'object' && itemStyle !== null
+                  ? assignUserItemStyle(observerStyle, itemStyle)
+                  : observerStyle,
+              },
+              React.createElement(render, {index, data, width: this.columnWidth})
             )
           )
-        )
-      },
-    )
+        }
+
+        this.prevRange = range
+        this.prevChildren = children
+      }
+    }
 
     this.startIndex = nextStartIndex
     this.stopIndex = nextStopIndex
 
-    if (
-      shortestColumnSize < (scrollTop + height + overscanBy)
-      && measuredCount < itemCount
-    ) {
+    if (shortestColumnSize < (scrollTop + height + overscanBy) && measuredCount < itemCount) {
       const batchSize = Math.min(
         itemCount - measuredCount,
         Math.ceil(
@@ -286,6 +308,7 @@ export class Masonry extends React.Component {
       )
 
       let index = measuredCount
+      children = children === this.prevChildren ? children.slice(0) : children
 
       for (; index < measuredCount + batchSize; index++) {
         const
@@ -306,14 +329,7 @@ export class Masonry extends React.Component {
                 ? assignUserItemStyle(observerStyle, itemStyle)
                 : observerStyle
             },
-            React.createElement(
-              render,
-              {
-                index,
-                data,
-                width: this.columnWidth,
-              }
-            )
+            React.createElement(render, {index, data, width: this.columnWidth})
           ),
         )
       }
@@ -333,9 +349,10 @@ export class Masonry extends React.Component {
         role,
         className,
         tabIndex,
-        style: typeof style === 'object' && style !== null
-          ? assignUserStyle(containerStyle, style)
-          : containerStyle,
+        style:
+          typeof style === 'object' && style !== null
+            ? assignUserStyle(containerStyle, style)
+            : containerStyle,
         children
       }
     )
