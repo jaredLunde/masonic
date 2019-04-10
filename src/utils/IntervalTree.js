@@ -15,12 +15,15 @@ class IntervalTreeNode {
 
   intervals (result) {
     result.push.apply(result, this.leftPoints)
+
     if (this.left !== null) {
       this.left.intervals(result)
     }
+
     if (this.right !== null) {
       this.right.intervals(result)
     }
+
     return result
   }
 
@@ -194,46 +197,14 @@ class IntervalTreeNode {
     }
   }
 
-  queryPoint (x, cb) {
-    if (x < this.mid) {
-      if (this.left !== null) {
-        let r = this.left.queryPoint(x, cb)
-
-        if (r !== void 0) {
-          return r
-        }
-      }
-      return reportLeftRange(this.leftPoints, x, cb)
-    }
-    else if (x > this.mid) {
-      if (this.right !== null) {
-        let r = this.right.queryPoint(x, cb)
-        if (r !== void 0) {
-          return r
-        }
-      }
-
-      return reportRightRange(this.rightPoints, x, cb)
-    }
-    else {
-      return reportRange(this.leftPoints, cb)
-    }
-  }
-
   queryInterval (lo, hi, cb) {
     if (lo < this.mid && this.left !== null) {
       let r = this.left.queryInterval(lo, hi, cb)
-
-      if (r !== void 0) {
-        return r
-      }
+      if (r !== void 0) return r
     }
     if (hi > this.mid && this.right !== null) {
       let r = this.right.queryInterval(lo, hi, cb)
-
-      if (r !== void 0) {
-        return r
-      }
+      if (r !== void 0) return r
     }
 
     if (hi < this.mid) {
@@ -305,36 +276,65 @@ const reportRange = (arr, cb) => {
   }
 }
 
-const compareNumbers = (a, b) => a - b
-
 const compareBegin = (a, b) => {
   let d = a[0] - b[0]
-  return d ? d : a[1] - b[1]
+  return d !== 0 ? d : a[1] - b[1]
 }
 
 const compareEnd = (a, b) => {
   let d = a[1] - b[1]
-  return d ? d : a[0] - b[0]
+  return d !== 0 ? d : a[0] - b[0]
 }
 
-const createIntervalTree = (intervals) => {
+const bInsert = (array, value, startVal, endVal) => {
+  const
+    length = array.length,
+    start = startVal !== void 0 ? startVal : 0,
+    end = endVal !== void 0 ? endVal : length - 1,
+    m = start + Math.floor((end - start)/2)
+
+  if (length === 0){
+    array.push(value)
+  }
+  else if (value > array[end]) {
+    array.splice(end + 1, 0, value)
+  }
+  else if (value < array[start]) {
+    array.splice(start, 0, value)
+  }
+  else if (value === array[m]) {
+    array.splice(m, 0, value)
+  }
+  else if (start >= end) {
+    return
+  }
+  else if (value < array[m]) {
+    bInsert(array, value, start, m - 1)
+  }
+  else if (value > array[m]) {
+    bInsert(array, value,  m + 1, end)
+  }
+}
+
+const createIntervalTree = intervals => {
   if (intervals.length === 0) {
     return null
   }
 
-  let pts = []
+  let i = 0, pts = []
 
-  for (let i = 0; i < intervals.length; ++i)
-    pts.push(intervals[i][0], intervals[i][1])
+  for (; i < intervals.length; ++i) {
+    bInsert(pts, intervals[i][0])
+    bInsert(pts, intervals[i][1])
+  }
 
-  pts.sort(compareNumbers)
-
-  let mid = pts[pts.length >> 1],
-      leftIntervals = [],
-      rightIntervals = [],
-      centerIntervals = []
-
-  for (let i = 0; i < intervals.length; ++i) {
+  let
+    mid = pts[pts.length >> 1],
+    leftIntervals = [],
+    rightIntervals = [],
+    centerIntervals = []
+  
+  for (i = 0; i < intervals.length; ++i) {
     let s = intervals[i]
 
     if (s[1] < mid) {
@@ -349,8 +349,9 @@ const createIntervalTree = (intervals) => {
   }
 
   //Split center intervals
-  let leftPoints = centerIntervals
-  let rightPoints = centerIntervals.slice(0)
+  let
+    leftPoints = centerIntervals,
+    rightPoints = centerIntervals.slice(0)
   leftPoints.sort(compareBegin)
   rightPoints.sort(compareEnd)
 
@@ -395,12 +396,6 @@ class IntervalTree {
     }
 
     return false
-  }
-
-  queryPoint (p, cb) {
-    if (this.root !== null) {
-      return this.root.queryPoint(p, cb)
-    }
   }
 
   queryInterval (lo, hi, cb) {
