@@ -83,9 +83,9 @@ export class Masonry extends React.Component {
         if (entry.contentRect.height > 0) {
           const
             index = this.itemElements.get(entry.target),
-            height = entry.target.offsetHeight
-
-          if (height !== this.itemPositioner.get(index).height) {
+            height = entry.target.offsetHeight,
+            position = this.itemPositioner.get(index)
+          if (position !== void 0 && index !== void 0 && height !== position.height) {
             updates.push(index, height)
           }
         }
