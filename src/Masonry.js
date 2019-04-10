@@ -314,8 +314,7 @@ export class Masonry extends React.Component {
       for (; index < measuredCount + batchSize; index++) {
         const
           data =  items[index],
-          key = itemKey(data, index),
-          columnNum = (index % this.columnCount) + 1
+          key = itemKey(data, index)
         const observerStyle = getCachedSize(this.columnWidth)
 
         children.push(
@@ -326,9 +325,10 @@ export class Masonry extends React.Component {
               as: itemAs,
               resizeObserver: this.resizeObserver,
               observerRef: this.setItemRef(index),
-              style: typeof itemStyle === 'object' && itemStyle !== null
-                ? assignUserItemStyle(observerStyle, itemStyle)
-                : observerStyle
+              style:
+                typeof itemStyle === 'object' && itemStyle !== null
+                  ? assignUserItemStyle(observerStyle, itemStyle)
+                  : observerStyle
             },
             React.createElement(render, {index, data, width: this.columnWidth})
           ),
