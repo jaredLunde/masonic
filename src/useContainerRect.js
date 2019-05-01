@@ -1,4 +1,4 @@
-import {useEffect, useState, useRef} from 'react'
+import {useLayoutEffect, useState, useRef} from 'react'
 import memoizeOne from '@essentials/memoize-one'
 
 
@@ -14,7 +14,7 @@ export default (windowWidth, windowHeight) => {
     queryInterval = useRef(null)
   const [containerRect, setContainerRect] = useState(defaultRect)
 
-  useEffect(
+  useLayoutEffect(
     () => {
       if (element.current !== null) {
         const setRect = () => {
