@@ -1,4 +1,4 @@
-import {useState, useEffect, useCallback, useRef} from 'react'
+import {useState, useEffect, useRef} from 'react'
 import emptyArr from 'empty/array'
 import emptyObj from 'empty/object'
 import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
@@ -27,9 +27,8 @@ export default (initialWidth, initialHeight, opt = emptyObj) => {
         isScrollingTimeout.current = null
       }
 
-      if (isScrolling === false) {
+      if (isScrolling === false)
         setIsScrolling(true)
-      }
 
       const unsetIsScrolling = () => {
         // This is here to prevent premature bail outs while maintaining high resolution

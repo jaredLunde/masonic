@@ -238,9 +238,11 @@ export class Masonry extends React.Component {
         let prev = this.prevRange
 
         if (
-          prev[range.length - 1] !== range[range.length - 1]
-          || prev[range.length - 2] !== range[range.length - 2]
-          || prev[range.length - 3] !== range[range.length - 3]
+          rangeWasEqual === true && (
+            prev[range.length - 1] !== range[range.length - 1]
+            || prev[range.length - 2] !== range[range.length - 2]
+            || prev[range.length - 3] !== range[range.length - 3]
+          )
         ) {
           rangeWasEqual = false
         }
@@ -297,11 +299,11 @@ export class Masonry extends React.Component {
       }
     }
 
-    if (shortestColumnSize < (scrollTop + height + overscanBy) && measuredCount < itemCount) {
+    if (shortestColumnSize < (scrollTop + overscanBy) && measuredCount < itemCount) {
       const batchSize = Math.min(
         itemCount - measuredCount,
         Math.ceil(
-          (scrollTop + height + overscanBy - shortestColumnSize)
+          (scrollTop + overscanBy - shortestColumnSize)
           / itemHeightEstimate
           * this.columnCount,
         ),
