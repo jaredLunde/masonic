@@ -289,7 +289,7 @@ export class Masonry extends React.Component {
                     ? assignUserItemStyle(observerStyle, itemStyle)
                     : observerStyle,
               },
-              React.createElement(render, {index, data, width: this.columnWidth})
+              React.createElement(render, {key, index, data, width: this.columnWidth})
             )
           )
         }
@@ -331,7 +331,7 @@ export class Masonry extends React.Component {
                   ? assignUserItemStyle(observerStyle, itemStyle)
                   : observerStyle
             },
-            React.createElement(render, {index, data, width: this.columnWidth})
+            React.createElement(render, {key, index, data, width: this.columnWidth})
           ),
         )
       }
@@ -364,12 +364,13 @@ export class Masonry extends React.Component {
 const MasonryWindow = React.memo(
   React.forwardRef(
     (props, ref) => {
-      const {width, height, scrollY, isScrolling} = useWindowScroller(
-        props.initialWidth,
-        props.initialHeight,
-        props.windowScroller
-      )
-      const [containerRef, rect] = useContainerRect(width, height)
+      const
+        {width, height, scrollY, isScrolling} = useWindowScroller(
+          props.initialWidth,
+          props.initialHeight,
+          props.windowScroller
+        ),
+        [containerRef, rect] = useContainerRect(width, height)
 
       return React.createElement(
         Masonry,
