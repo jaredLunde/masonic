@@ -66,7 +66,10 @@ const SizeObserver = props => {
     },
     [props.observerRef]
   )
-  const elementProps = useMemo(() => ({ref, style: props.style}), [props.style, ref])
+  const elementProps = useMemo(
+    () => ({ref, role: `${props.role}item`, style: props.style}),
+    [props.style, props.role, ref]
+  )
   return React.createElement(props.as, elementProps, props.children)
 }
 
@@ -282,6 +285,7 @@ export class Masonry extends React.Component {
               {
                 key,
                 as: itemAs,
+                role,
                 resizeObserver: this.resizeObserver,
                 observerRef: this.setItemRef(index),
                 style:
@@ -324,6 +328,7 @@ export class Masonry extends React.Component {
             {
               key,
               as: itemAs,
+              role,
               resizeObserver: this.resizeObserver,
               observerRef: this.setItemRef(index),
               style:
