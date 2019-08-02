@@ -1,5 +1,5 @@
 # Masonic
-A React virtualized, autosizing masonry component for the window based 
+A React virtualized, autosizing masonry component based 
 upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtualized) 
 and further inspired by [react-window](https://github.com/bvaughn/react-window).
 
@@ -15,8 +15,7 @@ and further inspired by [react-window](https://github.com/bvaughn/react-window).
 this package relies on and provides React hooks. 
 
 ## Motivation
-The only use case I have ever had for a masonry component is relative
-to the browser window. Brian's Masonry component is great in its
+Brian's Masonry component is great in its
 performance and versatility, but I wanted something more directly suited 
 to my growing needs for scalable masonry layout. I also desired something 
 with an API that more closely matched `react-window`'s awesome API.
@@ -313,9 +312,10 @@ efficient in this component because only specific cells and columns are
 updated when cell sizes change, whereas in the original a complete reflow
 is triggered.
 
-4. This component only renders relative to its parent container's width 
+4. The Masonry component only renders relative to its parent container's width 
 and the browser window's height. The original component is tuned for 
-rendering inside a parent container and not the window.
+rendering inside a parent container and not the window. You can import 
+`FreeMasonry` to customize this behavior.
 
 5. The API is a complete rewrite and because of much of what is mentioned
 above, is much easier to use in my opinion.
