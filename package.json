@@ -1,6 +1,6 @@
 {
   "name": "masonic",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "A React virtualized masonry component for the window based on the original by Brian Vaughn",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
@@ -10,13 +10,12 @@
   "dependencies": {
     "@essentials/memoize-one": "^1.0.0",
     "@essentials/one-key-map": "^1.0.0",
-    "@essentials/request-timeout": "^1.0.0",
+    "@essentials/request-timeout": "^1.0.1",
     "@react-hook/window-scroll": "^1.0.0",
-    "@react-hook/window-size": "^1.0.0",
+    "@react-hook/window-size": "^1.0.1",
     "empty": "^0.10.1",
-    "rb-interval-tree": "^2.0.2",
     "resize-observer-polyfill": "^1.5.1",
-    "trie-memoize": "^1.0.5"
+    "trie-memoize": "^1.0.8"
   },
   "peerDependencies": {
     "prop-types": "^15.6.0",
@@ -24,8 +23,8 @@
   },
   "devDependencies": {
     "@stellar-apps/babel-preset-es": "^1.0.4",
-    "@stellar-apps/babel-preset-react": "^1.0.1",
-    "prettier": "^1.16.4",
+    "@stellar-apps/babel-preset-react": "^1.0.3",
+    "prettier": "^1.18.2",
     "rimraf": "^2.6.3"
   },
   "scripts": {

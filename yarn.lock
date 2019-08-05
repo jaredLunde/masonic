@@ -852,6 +852,14 @@
     performance-now "^2.1.0"
     raf "^3.4.1"
 
+"@essentials/request-timeout@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@essentials/request-timeout/-/request-timeout-1.0.1.tgz#fd46f0d7ffdfc422229e5da7de89341fe434d1dd"
+  integrity sha512-31ronVRtN7bTKEwdMnh4/qvNT9pjHpKWt4HFTqNJAIbxeFlO2OLac1vSEH+c1deqkxK0h9wynMxmwRAmQinwwg==
+  dependencies:
+    performance-now "^2.1.0"
+    raf "^3.4.1"
+
 "@react-hook/debounce@^0.1.4":
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-0.1.5.tgz#c772d929d06addccd7d4f41ef4152f5d52eb1a9a"
@@ -874,10 +882,10 @@
     "@react-hook/throttle" "^1.0.0"
     empty "^0.10.1"
 
-"@react-hook/window-size@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@react-hook/window-size/-/window-size-1.0.0.tgz#9496516897483fa4c0b47637907754150363f5b5"
-  integrity sha512-Xq3GsZ9zBCbpcFw+HO7fVJ2LFvLBU31J0InpesGxYqGb87xRI0mvFugNRUL/rSi/Zo8TxiVR8BgM7Zp/wt1FBQ==
+"@react-hook/window-size@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/window-size/-/window-size-1.0.1.tgz#7ea7c22c386e13b0798890e8a6282e7b0ee60a89"
+  integrity sha512-//Ah1CQuyvRuZF7V8FiLcYwpXgLzpvy6U09JNOAp8JBAR/K85wazRQYRQ/RfyyOuURbK8ZU8/Ron/2txXn3H0w==
   dependencies:
     "@react-hook/debounce" "^0.1.4"
     "@react-hook/throttle" "^1.0.0"
@@ -907,10 +915,10 @@
     babel-plugin-macros "^2.5.0"
     cross-env "^5.2.0"
 
-"@stellar-apps/babel-preset-react@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@stellar-apps/babel-preset-react/-/babel-preset-react-1.0.1.tgz#52e2a423585448d1504e717672b97bf650dc08c1"
-  integrity sha512-22dze13r0dcl1kqPhc3RQpKxYqiRfk9NEUBPiYyCVKd/WVLJEpiZS+p5xDnhfOnxr0BHnWDRkrk6Pgmv0HoQMQ==
+"@stellar-apps/babel-preset-react@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@stellar-apps/babel-preset-react/-/babel-preset-react-1.0.3.tgz#f76946a8efb548242484866042444ab9e32d973c"
+  integrity sha512-5B4shlmXCxJ/dLYSZ/xIKhhCn+gDoIB8PliVtLh19UuHEKGW/n5dDQ+ctDjiklgSZ5bTVpsyDvrHl2vW8RU6yQ==
   dependencies:
     "@babel/plugin-transform-react-constant-elements" "^7.2.0"
     "@babel/preset-react" "^7.0.0"
@@ -2229,10 +2237,10 @@ posix-character-classes@^0.1.0:
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
   integrity sha1-AerA/jta9xoqbAL+q7jB/vfgDqs=
 
-prettier@^1.16.4:
-  version "1.16.4"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.16.4.tgz#73e37e73e018ad2db9c76742e2647e21790c9717"
-  integrity sha512-ZzWuos7TI5CKUeQAtFd6Zhm2s6EpAD/ZLApIhsF9pRvRtM1RFo61dM/4MSRUA0SuLugA/zgrZD8m0BaY46Og7g==
+prettier@^1.18.2:
+  version "1.18.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.18.2.tgz#6823e7c5900017b4bd3acf46fe9ac4b4d7bda9ea"
+  integrity sha512-OeHeMc0JhFE9idD4ZdtNibzY0+TPHSpSSb9h8FqtP+YnoZZ1sl8Vc9b1sasjfymH3SonAF4QcA2+mzHPhMvIiw==
 
 private@^0.1.6, private@~0.1.5:
   version "0.1.8"
@@ -2255,11 +2263,6 @@ raf@^3.4.1:
   integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==
   dependencies:
     performance-now "^2.1.0"
-
-rb-interval-tree@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/rb-interval-tree/-/rb-interval-tree-2.0.2.tgz#7a1012340039c5b009e61d2d23425ebf8379a8c6"
-  integrity sha512-vdXn7I9BFq4KEOBqN8tPtVuB5WMs+stwcfgTJNye+ifsB5TjLtLRSXQj5Om68gWEzUErwCXmeHMGgvCMAvIQ6g==
 
 rc@^1.2.7:
   version "1.2.8"
@@ -2668,10 +2671,10 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-trie-memoize@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/trie-memoize/-/trie-memoize-1.0.5.tgz#28be4d64993391bf8133e440a3315d0e544e3d5a"
-  integrity sha512-wDCMgkdhPg7chVYCceMgyAFbf5ICwhDFCV2tmY5kulyTNLn78t3L951R/9b4Q3BXHQCxfEUMVM6NeAAunpv+Dg==
+trie-memoize@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/trie-memoize/-/trie-memoize-1.0.8.tgz#090ca1d5e26aea1173e29360c14155d738f46dc8"
+  integrity sha512-WCEQX3alm/JZw0Ok/q23e4WSY4OnJe1pORugCTs5lKZnNtQcTZLca4AjbHJ+siE9v51aGdJ61l7tWfVGD8AC8Q==
   dependencies:
     is-plain-object "^2.0.4"
 
