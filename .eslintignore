@@ -1,0 +1,3 @@
+**/*.test.js
+src/testUtils.js
+dist

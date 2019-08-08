@@ -1,5 +1,4 @@
 import React, {useCallback, useMemo, useEffect, useRef} from 'react'
-import PropTypes from 'prop-types'
 import ResizeObserver from 'resize-observer-polyfill'
 import trieMemoize from 'trie-memoize'
 import OneKeyMap from '@essentials/one-key-map'
@@ -367,32 +366,30 @@ export class Masonry extends React.Component {
 }
 
 const MasonryWindow = React.memo(
-  React.forwardRef(
-    (props, ref) => {
-      const
-        {width, height, scrollY, isScrolling} = useWindowScroller(
-          props.initialWidth,
-          props.initialHeight,
-          props.windowScroller
-        ),
-        [containerRef, rect] = useContainerRect(width, height)
+  React.forwardRef((props, ref) => {
+    const
+      {width, height, scrollY, isScrolling} = useWindowScroller(
+        props.initialWidth,
+        props.initialHeight,
+        props.windowScroller
+      ),
+      [containerRef, rect] = useContainerRect(width, height)
 
-      return React.createElement(
-        Masonry,
-        Object.assign(
-          {
-            width: rect.width,
-            height,
-            scrollTop: Math.max(0, scrollY - (rect.top + scrollY)),
-            isScrolling,
-            containerRef,
-            ref,
-          },
-          props
-        )
+    return React.createElement(
+      Masonry,
+      Object.assign(
+        {
+          width: rect.width,
+          height,
+          scrollTop: Math.max(0, scrollY - (rect.top + scrollY)),
+          isScrolling,
+          containerRef,
+          ref,
+        },
+        props
       )
-    }
-  )
+    )
+  })
 )
 
 MasonryWindow.defaultProps = {
@@ -410,7 +407,21 @@ MasonryWindow.defaultProps = {
 }
 
 if (__DEV__) {
+  const PropTypes = require('prop-types')
+  SizeObserver.displayName = 'SizeObserver'
+  SizeObserver.propTypes = {
+    as: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
+    role: PropTypes.string,
+    style: PropTypes.object,
+    resizeObserver: PropTypes.object,
+    observerRef: PropTypes.func,
+    children: PropTypes.element
+  }
+  Masonry.displayName = 'FreeMasonry'
   Masonry.propTypes = {
+    columnCount: PropTypes.number,
+    columnWidth: PropTypes.number.isRequired,
+    columnGutter: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,  // width of the container
     height: PropTypes.number.isRequired, // height of the window
     scrollTop: PropTypes.number.isRequired,
@@ -418,7 +429,9 @@ if (__DEV__) {
     containerRef: PropTypes.shape({current: PropTypes.any}).isRequired,
   }
 
+  MasonryWindow.displayName = 'Masonry'
   MasonryWindow.propTypes = {
+    ...Masonry.propTypes,
     as: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired, // container node type
     id: PropTypes.string,
     className: PropTypes.string,
