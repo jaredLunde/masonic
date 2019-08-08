@@ -3,3 +3,5 @@ node_modules
 *.log
 .babelrc
 .idea
+.eslintignore
+.eslintrc
