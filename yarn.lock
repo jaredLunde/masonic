@@ -935,35 +935,35 @@
     "@nodelib/fs.scandir" "2.1.1"
     fastq "^1.6.0"
 
-"@react-hook/debounce@^0.1.4":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-0.1.5.tgz#c772d929d06addccd7d4f41ef4152f5d52eb1a9a"
-  integrity sha512-09vdgRwMHWXNOes+mK8nUgpdutNrfhYRkM5DQL45Urev0ULjdvF2DPyf1n8fyOU+hojK5sRcMySuouoq+cTagA==
+"@react-hook/debounce@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-1.0.2.tgz#e1bddb153fcc3d31d038afb6abb6fbebac071dba"
+  integrity sha512-66tD3eb7Kd+/3qrhyzzUC2NKm1fq9k4LJalbDjMJnRvLQw8MgE7ZMyYAS/y9df3O4Q8emO8ekV3h7mYgBTfkjQ==
   dependencies:
     "@essentials/request-timeout" "^1.0.0"
 
-"@react-hook/throttle@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.0.tgz#4f923279357ed0977b4ef004b62a4a01b16327c5"
-  integrity sha512-xmDDBg4BkRe74hkKSPWval0negM81ulmCr0SbnMb/Xgkuro9t8JejX4Up3RLMNXcAJ4Jvd5+BLsKjHn4YjSKuQ==
+"@react-hook/throttle@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.1.tgz#53d6f4e28b4e3630092ac278991744be26704871"
+  integrity sha512-1TsRQ/uw7WUj8+ITHbD+FlesbfxoSLUypCUzYkOttBXHbNSRNx0DnSHEPDu+IS7LroxdEt451YLybgvpy8X0qg==
   dependencies:
     "@essentials/request-timeout" "^1.0.0"
 
-"@react-hook/window-scroll@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@react-hook/window-scroll/-/window-scroll-1.0.0.tgz#b2b91edc1b045c0725e631c7b1e805f2f82b4792"
-  integrity sha512-0MGj66Eo8dm6AsypDcLt/Wws0nw9JE8RkTYmQBwPmYInOVxrWlhsc40gtksyQ4K/JUyyklJ4Y/+6cC/+9PXfhg==
+"@react-hook/window-scroll@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/window-scroll/-/window-scroll-1.0.1.tgz#4f111e268fc0b135009d944cc3ace382465ce831"
+  integrity sha512-ocsxibFsHXPW40BbryBVa+twFx6/6Tac8GFWB4ZhP/kg/gz06XOg3gHotdFQq1Ar8QHD3PYYjrBEr+QEdZaLOg==
   dependencies:
-    "@react-hook/throttle" "^1.0.0"
+    "@react-hook/throttle" "^1.0.1"
     empty "^0.10.1"
 
-"@react-hook/window-size@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@react-hook/window-size/-/window-size-1.0.1.tgz#7ea7c22c386e13b0798890e8a6282e7b0ee60a89"
-  integrity sha512-//Ah1CQuyvRuZF7V8FiLcYwpXgLzpvy6U09JNOAp8JBAR/K85wazRQYRQ/RfyyOuURbK8ZU8/Ron/2txXn3H0w==
+"@react-hook/window-size@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@react-hook/window-size/-/window-size-1.0.2.tgz#176acdabedb1f17d03c1c72400c980db2f824b88"
+  integrity sha512-+zN66wGkhBz4ifYmyda7IDrKsnqcJkLeuWDhVsmSx8H+Hhewy+A2XP7xD9MmPHsGxIkcdf8FWEVp8xy0ktDDLw==
   dependencies:
-    "@react-hook/debounce" "^0.1.4"
-    "@react-hook/throttle" "^1.0.0"
+    "@react-hook/debounce" "^1.0.2"
+    "@react-hook/throttle" "^1.0.1"
     empty "^0.10.1"
 
 "@samverschueren/stream-to-observable@^0.3.0":

@@ -11,8 +11,8 @@
     "@essentials/memoize-one": "^1.0.0",
     "@essentials/one-key-map": "^1.0.0",
     "@essentials/request-timeout": "^1.0.1",
-    "@react-hook/window-scroll": "^1.0.0",
-    "@react-hook/window-size": "^1.0.1",
+    "@react-hook/window-scroll": "^1.0.1",
+    "@react-hook/window-size": "^1.0.2",
     "empty": "^0.10.1",
     "resize-observer-polyfill": "^1.5.1",
     "trie-memoize": "^1.0.8"
