@@ -1,3 +1,8 @@
+[![bundlephobia](https://img.shields.io/bundlephobia/minzip/masonic?style=plastic)](https://bundlephobia.com/result?p=masonic)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://jaredlunde.mit-license.org/)
+
+---
+
 # Masonic
 A React virtualized, autosizing masonry component based 
 upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtualized) 
