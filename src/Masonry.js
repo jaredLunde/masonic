@@ -8,24 +8,28 @@ import {createItemPositioner, createPositionCache} from './utils'
 import useWindowScroller from './useWindowScroller'
 import useContainerRect from './useContainerRect'
 
-
-export const getColumns = (width = 0, minimumWidth = 0, gutter = 8, columnCount) => {
+export const getColumns = (
+  width = 0,
+  minimumWidth = 0,
+  gutter = 8,
+  columnCount
+) => {
   columnCount = columnCount || Math.floor(width / (minimumWidth + gutter)) || 1
-  const columnWidth = Math.floor((width - (gutter * (columnCount - 1))) / columnCount)
+  const columnWidth = Math.floor(
+    (width - gutter * (columnCount - 1)) / columnCount
+  )
   return [columnWidth, columnCount]
 }
 
-const getContainerStyle = memoizeOne(
-  (isScrolling, estimateTotalHeight) => ({
-    position: 'relative',
-    width: '100%',
-    maxWidth: '100%',
-    height: estimateTotalHeight,
-    maxHeight: estimateTotalHeight,
-    willChange: isScrolling ? 'contents, height' : void 0,
-    pointerEvents: isScrolling ? 'none' : void 0
-  }),
-)
+const getContainerStyle = memoizeOne((isScrolling, estimateTotalHeight) => ({
+  position: 'relative',
+  width: '100%',
+  maxWidth: '100%',
+  height: estimateTotalHeight,
+  maxHeight: estimateTotalHeight,
+  willChange: isScrolling ? 'contents, height' : void 0,
+  pointerEvents: isScrolling ? 'none' : void 0,
+}))
 
 const assignUserStyle = memoizeOne(
   (containerStyle, userStyle) => Object.assign({}, containerStyle, userStyle),
@@ -43,7 +47,7 @@ const getCachedSize = memoizeOne(
     width,
     zIndex: -1000,
     visibility: 'hidden',
-    position: 'absolute'
+    position: 'absolute',
   }),
   (args, pargs) => args[0] === pargs[0]
 )
@@ -55,7 +59,9 @@ const getCachedItemStyle = trieMemoize(
 const SizeObserver = props => {
   const element = useRef(null)
   useEffect(
-    () => () => element.current !== null && props.resizeObserver.unobserve(element.current),
+    () => () =>
+      element.current !== null &&
+      props.resizeObserver.unobserve(element.current),
     emptyArr
   )
   const ref = useCallback(
@@ -73,7 +79,7 @@ const SizeObserver = props => {
 }
 
 export class Masonry extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.itemElements = new WeakMap()
     this.resizeObserver = new ResizeObserver(entries => {
@@ -83,11 +89,14 @@ export class Masonry extends React.Component {
         const entry = entries[i]
 
         if (entry.contentRect.height > 0) {
-          const
-            index = this.itemElements.get(entry.target),
+          const index = this.itemElements.get(entry.target),
             height = entry.target.offsetHeight,
             position = this.itemPositioner.get(index)
-          if (position !== void 0 && index !== void 0 && height !== position.height) {
+          if (
+            position !== void 0 &&
+            index !== void 0 &&
+            height !== position.height
+          ) {
             updates.push(index, height)
           }
         }
@@ -104,17 +113,17 @@ export class Masonry extends React.Component {
     this.positionCache = createPositionCache()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.resizeObserver.disconnect()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     // updates the item positions any time a value potentially affecting their size changes
     if (
-      prevProps.width !== this.props.width
-      || prevProps.columnCount !== this.props.columnCount
-      || prevProps.columnWidth !== this.props.columnWidth
-      || prevProps.columnGutter !== this.props.columnGutter
+      prevProps.width !== this.props.width ||
+      prevProps.columnCount !== this.props.columnCount ||
+      prevProps.columnWidth !== this.props.columnWidth ||
+      prevProps.columnGutter !== this.props.columnGutter
     ) {
       this.repopulatePositions()
       this.forceUpdate()
@@ -122,9 +131,10 @@ export class Masonry extends React.Component {
 
     // calls the onRender callback if the rendered indices changed
     if (
-      typeof this.props.onRender === 'function'
-      && this.stopIndex !== void 0
-      && (this.prevStartIndex !== this.startIndex || this.prevStopIndex !== this.stopIndex)
+      typeof this.props.onRender === 'function' &&
+      this.stopIndex !== void 0 &&
+      (this.prevStartIndex !== this.startIndex ||
+        this.prevStopIndex !== this.stopIndex)
     ) {
       this.props.onRender(this.startIndex, this.stopIndex, this.props.items)
       this.prevStartIndex = this.startIndex
@@ -132,7 +142,7 @@ export class Masonry extends React.Component {
     }
   }
 
-  initPositioner (p = this.props) {
+  initPositioner(p = this.props) {
     let [columnWidth, columnCount] = getColumns(
       p.width,
       p.columnWidth,
@@ -142,7 +152,11 @@ export class Masonry extends React.Component {
     this.columnWidth = columnWidth
     this.columnCount = columnCount
     this.columnGutter = p.columnGutter
-    this.itemPositioner = createItemPositioner(columnCount, columnWidth, p.columnGutter)
+    this.itemPositioner = createItemPositioner(
+      columnCount,
+      columnWidth,
+      p.columnGutter
+    )
   }
 
   repopulatePositions = () => {
@@ -163,10 +177,12 @@ export class Masonry extends React.Component {
   }
 
   updatePositions = updates => {
-    let updatedItems = this.itemPositioner.update(updates), i = 0
+    let updatedItems = this.itemPositioner.update(updates),
+      i = 0
 
     for (; i < updatedItems.length - 1; i++) {
-      const index = updatedItems[i], item = updatedItems[++i]
+      const index = updatedItems[i],
+        item = updatedItems[++i]
       this.positionCache.updatePosition(index, item.left, item.top, item.height)
     }
 
@@ -178,25 +194,22 @@ export class Masonry extends React.Component {
     this.forceUpdate()
   }
 
-  setItemRef = trieMemoize(
-    [Map],
-    index => el => {
-      if (this.resizeObserver !== null && el !== null) {
-        if (this.itemElements.get(el) === void 0) {
-          this.itemElements.set(el, index)
-          this.resizeObserver.observe(el)
-        }
+  setItemRef = trieMemoize([Map], index => el => {
+    if (this.resizeObserver !== null && el !== null) {
+      if (this.itemElements.get(el) === void 0) {
+        this.itemElements.set(el, index)
+        this.resizeObserver.observe(el)
+      }
 
-        if (this.itemPositioner.get(index) === void 0) {
-          const height = el.offsetHeight
-          const item = this.itemPositioner.set(index, height)
-          this.positionCache.setPosition(index, item.left, item.top, height)
-        }
+      if (this.itemPositioner.get(index) === void 0) {
+        const height = el.offsetHeight
+        const item = this.itemPositioner.set(index, height)
+        this.positionCache.setPosition(index, item.left, item.top, height)
       }
     }
-  )
+  })
 
-  render () {
+  render() {
     let {
       // container element props
       as, // container node type
@@ -219,14 +232,12 @@ export class Masonry extends React.Component {
       height,
 
       render,
-      children: renderChildren
+      children: renderChildren,
     } = this.props
-    const
-      itemCount = items.length,
+    const itemCount = items.length,
       measuredCount = this.positionCache.getSize(),
       shortestColumnSize = this.positionCache.getShortestColumnSize()
-    let
-      children = [],
+    let children = [],
       range = [],
       rangeWasEqual = true
     render = renderChildren || render
@@ -240,11 +251,10 @@ export class Masonry extends React.Component {
         let prev = this.prevRange
 
         if (
-          rangeWasEqual === true && (
-            prev[range.length - 1] !== range[range.length - 1]
-            || prev[range.length - 2] !== range[range.length - 2]
-            || prev[range.length - 3] !== range[range.length - 3]
-          )
+          rangeWasEqual === true &&
+          (prev[range.length - 1] !== range[range.length - 1] ||
+            prev[range.length - 2] !== range[range.length - 2] ||
+            prev[range.length - 3] !== range[range.length - 3])
         ) {
           rangeWasEqual = false
         }
@@ -252,29 +262,29 @@ export class Masonry extends React.Component {
     )
 
     if (range.length > 0) {
-      if (rangeWasEqual === true && isScrolling === true && this.prevChildren.length > 0) {
+      if (
+        rangeWasEqual === true &&
+        isScrolling === true &&
+        this.prevChildren.length > 0
+      ) {
         children = this.prevChildren
-      }
-      else {
+      } else {
         this.stopIndex = void 0
 
         for (let i = 0; i < range.length; i++) {
-          const
-            index = range[i],
+          const index = range[i],
             left = range[++i],
             top = range[++i]
 
           if (this.stopIndex === void 0) {
             this.startIndex = index
             this.stopIndex = index
-          }
-          else {
+          } else {
             this.startIndex = Math.min(this.startIndex, index)
             this.stopIndex = Math.max(this.stopIndex, index)
           }
 
-          const
-            data = items[index],
+          const data = items[index],
             key = itemKey(data, index),
             observerStyle = getCachedItemStyle(this.columnWidth, left, top)
 
@@ -292,7 +302,12 @@ export class Masonry extends React.Component {
                     ? assignUserItemStyle(observerStyle, itemStyle)
                     : observerStyle,
               },
-              React.createElement(render, {key, index, data, width: this.columnWidth})
+              React.createElement(render, {
+                key,
+                index,
+                data,
+                width: this.columnWidth,
+              })
             )
           )
         }
@@ -302,22 +317,23 @@ export class Masonry extends React.Component {
       }
     }
 
-    if (shortestColumnSize < (scrollTop + overscanBy) && measuredCount < itemCount) {
+    if (
+      shortestColumnSize < scrollTop + overscanBy &&
+      measuredCount < itemCount
+    ) {
       const batchSize = Math.min(
         itemCount - measuredCount,
         Math.ceil(
-          (scrollTop + overscanBy - shortestColumnSize)
-          / itemHeightEstimate
-          * this.columnCount,
-        ),
+          ((scrollTop + overscanBy - shortestColumnSize) / itemHeightEstimate) *
+            this.columnCount
+        )
       )
 
       let index = measuredCount
       children = children === this.prevChildren ? children.slice(0) : children
 
       for (; index < measuredCount + batchSize; index++) {
-        const
-          data =  items[index],
+        const data = items[index],
           key = itemKey(data, index),
           observerStyle = getCachedSize(this.columnWidth)
 
@@ -333,10 +349,15 @@ export class Masonry extends React.Component {
               style:
                 typeof itemStyle === 'object' && itemStyle !== null
                   ? assignUserItemStyle(observerStyle, itemStyle)
-                  : observerStyle
+                  : observerStyle,
             },
-            React.createElement(render, {key, index, data, width: this.columnWidth})
-          ),
+            React.createElement(render, {
+              key,
+              index,
+              data,
+              width: this.columnWidth,
+            })
+          )
         )
       }
     }
@@ -344,31 +365,31 @@ export class Masonry extends React.Component {
     // the page is being scrolled
     const containerStyle = getContainerStyle(
       isScrolling,
-      this.positionCache.estimateTotalHeight(itemCount, this.columnCount, itemHeightEstimate)
+      this.positionCache.estimateTotalHeight(
+        itemCount,
+        this.columnCount,
+        itemHeightEstimate
+      )
     )
 
-    return React.createElement(
-      as,
-      {
-        ref: containerRef,
-        id,
-        role,
-        className,
-        tabIndex,
-        style:
-          typeof style === 'object' && style !== null
-            ? assignUserStyle(containerStyle, style)
-            : containerStyle,
-        children
-      }
-    )
+    return React.createElement(as, {
+      ref: containerRef,
+      id,
+      role,
+      className,
+      tabIndex,
+      style:
+        typeof style === 'object' && style !== null
+          ? assignUserStyle(containerStyle, style)
+          : containerStyle,
+      children,
+    })
   }
 }
 
 const MasonryWindow = React.memo(
   React.forwardRef((props, ref) => {
-    const
-      {width, height, scrollY, isScrolling} = useWindowScroller(
+    const {width, height, scrollY, isScrolling} = useWindowScroller(
         props.initialWidth,
         props.initialHeight,
         props.windowScroller
@@ -403,7 +424,7 @@ MasonryWindow.defaultProps = {
   initialHeight: 720,
   itemHeightEstimate: 300,
   itemKey: defaultGetItemKey,
-  overscanBy: 2
+  overscanBy: 2,
 }
 
 if (__DEV__) {
@@ -415,14 +436,14 @@ if (__DEV__) {
     style: PropTypes.object,
     resizeObserver: PropTypes.object,
     observerRef: PropTypes.func,
-    children: PropTypes.element
+    children: PropTypes.element,
   }
   Masonry.displayName = 'FreeMasonry'
   Masonry.propTypes = {
     columnCount: PropTypes.number,
     columnWidth: PropTypes.number.isRequired,
     columnGutter: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,  // width of the container
+    width: PropTypes.number.isRequired, // width of the container
     height: PropTypes.number.isRequired, // height of the window
     scrollTop: PropTypes.number.isRequired,
     isScrolling: PropTypes.bool.isRequired,
@@ -460,7 +481,7 @@ if (__DEV__) {
 
     onRender: PropTypes.func,
     render: PropTypes.func.isRequired,
-    children: PropTypes.func
+    children: PropTypes.func,
   }
 }
 

@@ -12,7 +12,9 @@ export const scanForUnloadedRanges = (
   startIndex,
   stopIndex
 ) => {
-  let unloadedRanges = [], rangeStartIndex, rangeStopIndex
+  let unloadedRanges = [],
+    rangeStartIndex,
+    rangeStopIndex
 
   for (let index = startIndex; index <= stopIndex; index++) {
     let loaded = isItemLoaded(index, items)
@@ -22,8 +24,7 @@ export const scanForUnloadedRanges = (
       if (rangeStartIndex === void 0) {
         rangeStartIndex = index
       }
-    }
-    else if (rangeStopIndex !== void 0) {
+    } else if (rangeStopIndex !== void 0) {
       unloadedRanges.push(rangeStartIndex, rangeStopIndex)
       rangeStartIndex = rangeStopIndex = void 0
     }
@@ -34,14 +35,13 @@ export const scanForUnloadedRanges = (
   if (rangeStopIndex !== void 0) {
     const potentialStopIndex = Math.min(
       Math.max(rangeStopIndex, rangeStartIndex + minimumBatchSize - 1),
-      totalItems - 1,
+      totalItems - 1
     )
 
     for (let index = rangeStopIndex + 1; index <= potentialStopIndex; index++) {
       if (isItemLoaded(index, items) === false) {
         rangeStopIndex = index
-      }
-      else {
+      } else {
         break
       }
     }
@@ -52,20 +52,18 @@ export const scanForUnloadedRanges = (
   // Check to see if our first range ended prematurely.
   // In this case we should scan backwards to try filling our :minimumBatchSize.
   if (unloadedRanges.length) {
-    let
-      firstUnloadedStart = unloadedRanges[0],
+    let firstUnloadedStart = unloadedRanges[0],
       firstUnloadedStop = unloadedRanges[1]
 
     while (
-      firstUnloadedStop - firstUnloadedStart + 1 < minimumBatchSize
-      && firstUnloadedStart > 0
+      firstUnloadedStop - firstUnloadedStart + 1 < minimumBatchSize &&
+      firstUnloadedStart > 0
     ) {
       let index = firstUnloadedStart - 1
 
       if (isItemLoaded(index, items) === false) {
         unloadedRanges[0] = firstUnloadedStart = index
-      }
-      else {
+      } else {
         break
       }
     }
@@ -108,7 +106,7 @@ const useInfiniteLoader = (
      * The total number of items you'll need to eventually load (if known). This can
      * be arbitrarily high if not known.
      */
-    totalItems = 9E9
+    totalItems = 9e9,
   } = opt
 
   return useCallback(
@@ -119,7 +117,7 @@ const useInfiniteLoader = (
         items,
         totalItems,
         Math.max(0, startIndex - threshold),
-        Math.min(totalItems - 1, stopIndex + threshold),
+        Math.min(totalItems - 1, stopIndex + threshold)
       )
       // the user is responsible for memoizing their loadMoreItems() function
       // because we don't want to make assumptions about how they want to deal

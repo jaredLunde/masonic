@@ -1,49 +1,56 @@
 {
   "name": "masonic",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "A React virtualized masonry component for the window based on the original by Brian Vaughn",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
   "repository": "https://github.com/jaredLunde/masonic",
   "author": "Jared Lunde <jared@BeStellar.co> (https://BeStellar.co)",
   "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@essentials/memoize-one": "^1.0.0",
     "@essentials/one-key-map": "^1.0.0",
     "@essentials/request-timeout": "^1.0.1",
-    "@react-hook/window-scroll": "^1.0.1",
-    "@react-hook/window-size": "^1.0.2",
+    "@react-hook/window-scroll": "^1.0.3",
+    "@react-hook/window-size": "^1.0.4",
     "empty": "^0.10.1",
     "resize-observer-polyfill": "^1.5.1",
-    "trie-memoize": "^1.0.8"
+    "trie-memoize": "^1.0.15"
   },
   "peerDependencies": {
-    "prop-types": "^15.6.0",
-    "react": "^16.8.0"
+    "prop-types": ">= 15.6.0",
+    "react": ">= 16.8.0"
   },
   "devDependencies": {
-    "@stellar-apps/babel-preset-es": "^1.0.4",
-    "@stellar-apps/babel-preset-react": "^1.0.3",
+    "@babel/preset-react": "^7.0.0",
+    "@lunde/babel-preset-es": "^1.0.1",
     "babel-eslint": "^10.0.2",
+    "cross-env": "^5.2.0",
     "eslint": "^6.1.0",
     "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.0.1",
     "husky": "^3.0.2",
     "lint-staged": "^9.2.1",
     "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
     "react": "^16.8.6",
     "rimraf": "^2.6.3"
   },
   "scripts": {
-    "build": "yarn build:es && yarn build:cjs && yarn prettier:es && yarn prettier:cjs",
-    "build:es": "rimraf dist/es && cross-env NODE_ENV=production BABEL_ENV=es babel src --out-dir dist/es",
-    "build:cjs": "rimraf dist/cjs && cross-env NODE_ENV=production BABEL_ENV=cjs babel src --out-dir dist/cjs",
+    "build": "npm run build:cjs && npm run build:es",
+    "build:cjs": "babel src -d dist/cjs -x .js --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
+    "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .js  --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
+    "format": "npm run format:cjs && npm run format:es && npm run format:src",
+    "format:cjs": "prettier --write \"dist/cjs/**/*.js\"",
+    "format:es": "prettier --write \"dist/es/**/*.js\"",
+    "format:src": "prettier --write \"src/**/*.js\"",
     "lint": "eslint src",
-    "prepublishOnly": "yarn lint && yarn build",
-    "prettier:es": "yarn prettier \"dist/es/**/*.js\"",
-    "prettier:cjs": "yarn prettier \"dist/cjs/**/*.js\"",
-    "prettier": "prettier --single-quote --no-bracket-spacing --trailing-comma es5 --write",
-    "watch:es": "yarn build:es --watch",
-    "watch:cjs": "yarn build:cjs --watch"
+    "prepublishOnly": "npm run lint && npm run build && npm run format",
+    "test": "jest",
+    "validate": "npm run lint"
   },
   "husky": {
     "hooks": {
@@ -51,7 +58,10 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint"
+    "src/**/*.js": [
+      "eslint",
+      "pretty-quick --staged"
+    ]
   },
   "keywords": [
     "react",

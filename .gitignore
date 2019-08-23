@@ -1,6 +1,6 @@
-.git
-node_modules
 .DS_Store
+node_modules
 dist
-.idea
 *.log
+.idea
+coverage

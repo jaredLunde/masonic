@@ -12,8 +12,7 @@ const _GEA = (a, l, h, y) => {
     if (x >= y) {
       i = m
       h = m - 1
-    }
-    else {
+    } else {
       l = m + 1
     }
   }
@@ -28,8 +27,7 @@ const _GEP = (a, l, h, y, c) => {
     if (c(x, y) >= 0) {
       i = m
       h = m - 1
-    }
-    else {
+    } else {
       l = m + 1
     }
   }
@@ -38,7 +36,13 @@ const _GEP = (a, l, h, y, c) => {
 
 const dispatchBsearchGE = (a, y, c, l, h) =>
   typeof c === 'function'
-    ? _GEP(a, l === void 0 ? 0 : l | 0, h === void 0 ? a.length - 1 : h | 0, y, c)
+    ? _GEP(
+        a,
+        l === void 0 ? 0 : l | 0,
+        h === void 0 ? a.length - 1 : h | 0,
+        y,
+        c
+      )
     : _GEA(a, c === void 0 ? 0 : c | 0, l === void 0 ? a.length - 1 : l | 0, y)
 
 const _GTA = (a, l, h, y) => {
@@ -49,8 +53,7 @@ const _GTA = (a, l, h, y) => {
     if (x > y) {
       i = m
       h = m - 1
-    }
-    else {
+    } else {
       l = m + 1
     }
   }
@@ -66,8 +69,7 @@ const _GTP = (a, l, h, y, c) => {
     if (c(x, y) > 0) {
       i = m
       h = m - 1
-    }
-    else {
+    } else {
       l = m + 1
     }
   }
@@ -77,7 +79,13 @@ const _GTP = (a, l, h, y, c) => {
 
 const dispatchBsearchGT = (a, y, c, l, h) =>
   typeof c === 'function'
-    ? _GTP(a, l === void 0 ? 0 : l | 0, h === void 0 ? a.length - 1 : h | 0, y, c)
+    ? _GTP(
+        a,
+        l === void 0 ? 0 : l | 0,
+        h === void 0 ? a.length - 1 : h | 0,
+        y,
+        c
+      )
     : _GTA(a, c === void 0 ? 0 : c | 0, l === void 0 ? a.length - 1 : l | 0, y)
 
 const _LTA = (a, l, h, y) => {
@@ -88,8 +96,7 @@ const _LTA = (a, l, h, y) => {
     if (x < y) {
       i = m
       l = m + 1
-    }
-    else {
+    } else {
       h = m - 1
     }
   }
@@ -99,15 +106,12 @@ const _LTA = (a, l, h, y) => {
 const _LTP = (a, l, h, y, c) => {
   let i = l - 1
   while (l <= h) {
-    let m = (
-        l + h
-      ) >>> 1,
+    let m = (l + h) >>> 1,
       x = a[m]
     if (c(x, y) < 0) {
       i = m
       l = m + 1
-    }
-    else {
+    } else {
       h = m - 1
     }
   }
@@ -116,21 +120,24 @@ const _LTP = (a, l, h, y, c) => {
 
 const dispatchBsearchLT = (a, y, c, l, h) =>
   typeof c === 'function'
-    ? _LTP(a, l === void 0 ? 0 : l | 0, h === void 0 ? a.length - 1 : h | 0, y, c)
+    ? _LTP(
+        a,
+        l === void 0 ? 0 : l | 0,
+        h === void 0 ? a.length - 1 : h | 0,
+        y,
+        c
+      )
     : _LTA(a, c === void 0 ? 0 : c | 0, l === void 0 ? a.length - 1 : l | 0, y)
 
 const _LEA = (a, l, h, y) => {
   let i = l - 1
   while (l <= h) {
-    let m = (
-        l + h
-      ) >>> 1,
+    let m = (l + h) >>> 1,
       x = a[m]
     if (x <= y) {
       i = m
       l = m + 1
-    }
-    else {
+    } else {
       h = m - 1
     }
   }
@@ -140,15 +147,12 @@ const _LEA = (a, l, h, y) => {
 const _LEP = (a, l, h, y, c) => {
   let i = l - 1
   while (l <= h) {
-    let m = (
-        l + h
-      ) >>> 1,
+    let m = (l + h) >>> 1,
       x = a[m]
     if (c(x, y) <= 0) {
       i = m
       l = m + 1
-    }
-    else {
+    } else {
       h = m - 1
     }
   }
@@ -157,7 +161,13 @@ const _LEP = (a, l, h, y, c) => {
 
 const dispatchBsearchLE = (a, y, c, l, h) =>
   typeof c === 'function'
-    ? _LEP(a, l === void 0 ? 0 : l | 0, h === void 0 ? a.length - 1 : h | 0, y, c)
+    ? _LEP(
+        a,
+        l === void 0 ? 0 : l | 0,
+        h === void 0 ? a.length - 1 : h | 0,
+        y,
+        c
+      )
     : _LEA(a, c === void 0 ? 0 : c | 0, l === void 0 ? a.length - 1 : l | 0, y)
 
 const _EQA = (a, l, h, y) => {
@@ -166,11 +176,9 @@ const _EQA = (a, l, h, y) => {
       x = a[m]
     if (x === y) {
       return m
-    }
-    else if (x <= y) {
+    } else if (x <= y) {
       l = m + 1
-    }
-    else {
+    } else {
       h = m - 1
     }
   }
@@ -183,11 +191,9 @@ const _EQP = (a, l, h, y, c) => {
     let p = c(x, y)
     if (p === 0) {
       return m
-    }
-    else if (p <= 0) {
+    } else if (p <= 0) {
       l = m + 1
-    }
-    else {
+    } else {
       h = m - 1
     }
   }
@@ -196,7 +202,13 @@ const _EQP = (a, l, h, y, c) => {
 
 const dispatchBsearchEQ = (a, y, c, l, h) =>
   typeof c === 'function'
-    ? _EQP(a, l === void 0 ? 0 : l | 0, h === void 0 ? a.length - 1 : h | 0, y, c)
+    ? _EQP(
+        a,
+        l === void 0 ? 0 : l | 0,
+        h === void 0 ? a.length - 1 : h | 0,
+        y,
+        c
+      )
     : _EQA(a, c === void 0 ? 0 : c | 0, l === void 0 ? a.length - 1 : l | 0, y)
 
 export default {

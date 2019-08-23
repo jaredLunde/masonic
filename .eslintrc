@@ -8,6 +8,10 @@
       "experimentalObjectRestSpread": true
     }
   },
+  "plugins": [
+    "react",
+    "react-hooks"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended"
@@ -16,7 +20,7 @@
     "no-console": "off",
     "no-prototype-builtins": "off",
     "react/no-children-prop": "off",
-    "react/display-name": "warn"
+    "react/display-name": "off"
   },
   "settings": {
     "react": {
