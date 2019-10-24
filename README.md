@@ -1,6 +1,7 @@
-[![bundlephobia](https://img.shields.io/bundlephobia/minzip/masonic?style=plastic)](https://bundlephobia.com/result?p=masonic)
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://jaredlunde.mit-license.org/)
+[![bundlephobia](https://img.shields.io/bundlephobia/minzip/masonic?style=for-the-badge)](https://bundlephobia.com/result?p=masonic)
+[![GitHub](https://img.shields.io/github/license/jaredLunde/masonic?style=for-the-badge)](https://jaredlunde.mit-license.org/)
 
+---
 ---
 
 # Masonic
