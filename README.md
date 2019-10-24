@@ -2,7 +2,6 @@
 [![GitHub](https://img.shields.io/github/license/jaredLunde/masonic?style=for-the-badge)](https://jaredlunde.mit-license.org/)
 
 ---
----
 
 # Masonic
 A React virtualized, autosizing masonry component based 
