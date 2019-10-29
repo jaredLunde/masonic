@@ -1,7 +1,7 @@
 <hr>
 <div align="center">
   <h1 align="center">
-    masonic
+    Masonic
   </h1>
 </div>
 
@@ -9,9 +9,9 @@
   <a href="https://bundlephobia.com/result?p=masonic">
     <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/masonic?style=for-the-badge&labelColor=24292e">
   </a>
-  <a aria-label="Code coverage report" href="https://codecov.io/gh/jaredLunde/masonic">
+  <!--<a aria-label="Code coverage report" href="https://codecov.io/gh/jaredLunde/masonic">
     <img alt="Code coverage" src="https://img.shields.io/codecov/c/gh/jaredLunde/masonic?style=for-the-badge&labelColor=24292e">
-  </a>
+  </a>-->
   <a aria-label="Build status" href="https://travis-ci.org/jaredLunde/masonic">
     <img alt="Build status" src="https://img.shields.io/travis/jaredLunde/masonic?style=for-the-badge&labelColor=24292e">
   </a>
@@ -23,8 +23,6 @@
   </a>
 </p>
 <hr>
-
-# Masonic
 
 A React virtualized, autosizing masonry component based
 upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtualized)
