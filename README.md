@@ -1,7 +1,7 @@
 <hr>
 <div align="center">
   <h1 align="center">
-    Masonic
+    🧱masonic
   </h1>
 </div>
 
