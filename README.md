@@ -48,9 +48,9 @@ performance and versatility, but I wanted something more directly suited
 to my growing needs for scalable masonry layout. I also desired something
 with an API that more closely matched `react-window`'s awesome API.
 
-# API Documentation
+## API
 
-## `<Masonry>`
+### `<Masonry>`
 
 An autosizing virtualized masonry component which only renders items
 currently visible in the window.
@@ -76,9 +76,9 @@ const EasyMasonryComponent = props => (
 )
 ```
 
-### Prop types
+#### Prop types
 
-#### Column rendering
+##### Column rendering
 
 - `columnWidth`
   - `<number>` **required**
@@ -99,7 +99,7 @@ const EasyMasonryComponent = props => (
     minimum column width. However, in some situations it is nice to be
     able to override that behavior (e.g. when creating a `<List>`)
 
-#### Item rendering
+##### Item rendering
 
 - `render`
   - `<React.Component|function>` **required**
@@ -147,7 +147,7 @@ const EasyMasonryComponent = props => (
     - Your `render` component is not stateful and does not extend `PureComponent`
   - e.g. `itemKey={data => data.id}`
 
-#### Customizing the container element
+##### Customizing the container element
 
 - `as`
   - `<React.Component|function|string>`
@@ -172,7 +172,7 @@ const EasyMasonryComponent = props => (
   - **default** `0`
   - A `tabindex` value to apply to the container. Used for accessibility.
 
-#### Window properties
+##### Window properties
 
 - `initialWidth`
   - `<number>`
@@ -221,7 +221,7 @@ const EasyMasonryComponent = props => (
         instantaneous when you stop resizing and it doesn't do too
         much work in the interim.
 
-#### Callbacks
+##### Callbacks
 
 - `onRender(startIndex: number, stopIndex: number, items: array)`
   - `<function>`
@@ -236,7 +236,7 @@ const EasyMasonryComponent = props => (
   - `items`
     - The array of items provided in the `items` prop
 
-#### Methods
+##### Methods
 
 When a `ref` is provided to this component, you'll have access to its
 following methods:
@@ -249,12 +249,12 @@ following methods:
 
 ---
 
-## `<List>`
+### `<List>`
 
 An autosizing virtualized list component which only renders items currently
 visible in the window. This is just a single-column `Masonry` component.
 
-### Prop types
+#### Prop types
 
 This component inherits all of the props listed in `<Masonry>` with exception
 to `columnWidth`, `columnCount`, and `columnGutter` which are discarded.
