@@ -1,4 +1,3 @@
-<hr>
 <div align="center">
   <h1 align="center">
     🧱 masonic
@@ -27,7 +26,6 @@
 npm i masonic
 </pre>
 
-<hr>
 
 A React virtualized, autosizing masonry component based
 upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtualized)
