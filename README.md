@@ -5,10 +5,6 @@
   </h1>
 </div>
 
-<pre align="center">
-npm i masonic
-</pre>
-
 <p align="center">
   <a href="https://bundlephobia.com/result?p=masonic">
     <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/masonic?style=for-the-badge&labelColor=24292e">
@@ -26,6 +22,10 @@ npm i masonic
     <img alt="MIT License" src="https://img.shields.io/npm/l/masonic?style=for-the-badge&labelColor=24292e">
   </a>
 </p>
+
+<pre align="center">
+npm i masonic
+</pre>
 <hr>
 
 A React virtualized, autosizing masonry component based
