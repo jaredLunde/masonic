@@ -1,11 +1,28 @@
-[![Bundlephobia](https://img.shields.io/bundlephobia/minzip/masonic?style=for-the-badge)](https://bundlephobia.com/result?p=masonic)
+<hr>
+<div align="center">
+  <h1 align="center">
+    masonic
+  </h1>
+</div>
 
-<!--[![Code coverage](https://img.shields.io/codecov/c/gh/jaredLunde/masonic?style=for-the-badge)](https://codecov.io/gh/jaredLunde/masonic)-->
-
-[![Build status](https://img.shields.io/travis/jaredLunde/masonic?style=for-the-badge)](https://travis-ci.org/jaredLunde/masonic)
-[![License](https://img.shields.io/github/license/jaredLunde/masonic?style=for-the-badge)](https://jaredlunde.mit-license.org/)
-
----
+<p align="center">
+  <a href="https://bundlephobia.com/result?p=masonic">
+    <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/masonic?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="Code coverage report" href="https://codecov.io/gh/jaredLunde/masonic">
+    <img alt="Code coverage" src="https://img.shields.io/codecov/c/gh/jaredLunde/masonic?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="Build status" href="https://travis-ci.org/jaredLunde/masonic">
+    <img alt="Build status" src="https://img.shields.io/travis/jaredLunde/masonic">
+  </a>
+  <a aria-label="NPM version" href="https://www.npmjs.com/package/masonic">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/masonic?style=for-the-badge&labelColor=24292e">
+  </a>
+  <a aria-label="License" href="https://jaredlunde.mit-license.org/">
+    <img alt="MIT License" src="https://img.shields.io/npm/l/masonic?style=for-the-badge&labelColor=24292e">
+  </a>
+</p>
+<hr>
 
 # Masonic
 
