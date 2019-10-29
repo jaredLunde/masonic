@@ -33,7 +33,6 @@ and further inspired by [react-window](https://github.com/bvaughn/react-window).
 
 <pre align="center">
 npm i masonic
-or
 yarn add masonic
 </pre>
 
