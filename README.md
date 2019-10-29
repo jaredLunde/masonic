@@ -25,7 +25,6 @@
 
 <pre align="center">
 npm i masonic
-yarn add masonic
 </pre>
 
 <hr>
