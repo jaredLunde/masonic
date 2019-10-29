@@ -2,7 +2,6 @@ import {useState, useEffect, useRef} from 'react'
 import emptyArr from 'empty/array'
 import emptyObj from 'empty/object'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
-import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 import useWindowScroll from '@react-hook/window-scroll'
 import useWindowSize from '@react-hook/window-size'
 
@@ -22,32 +21,25 @@ export default (initialWidth, initialHeight, opt = emptyObj) => {
 
   useLayoutEffect(() => {
     if (isScrollingTimeout.current !== null) {
-      clearRequestTimeout(isScrollingTimeout.current)
+      clearTimeout(isScrollingTimeout.current)
       isScrollingTimeout.current = null
     }
 
-    if (isScrolling === false) setIsScrolling(true)
-
-    const unsetIsScrolling = () => {
+    setIsScrolling(true)
+    isScrollingTimeout.current = setTimeout(() => {
       // This is here to prevent premature bail outs while maintaining high resolution
       // unsets. Without it there will always bee a lot of unnecessary DOM writes to style.
-      const currentScrollY =
-        window.scrollY !== void 0 ? window.scrollY : window.pageYOffset
-
-      if (currentScrollY === scrollY) {
-        setIsScrolling(false)
-      }
-
+      setIsScrolling(false)
       isScrollingTimeout.current = null
-    }
-
-    isScrollingTimeout.current = requestTimeout(unsetIsScrolling, 1000 / 60)
+    }, 1000 / 6)
   }, [scrollY])
   // cleans up isScrollingTimeout on unmount
-  useEffect(() => {
-    let timeout = isScrollingTimeout.current
-    return () => timeout !== null && clearRequestTimeout(timeout)
-  }, emptyArr)
+  useEffect(
+    () => () =>
+      isScrollingTimeout.current !== null &&
+      clearTimeout(isScrollingTimeout.current),
+    emptyArr
+  )
 
   return {width, height, scrollY, isScrolling}
 }

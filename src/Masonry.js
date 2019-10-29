@@ -1,9 +1,10 @@
-import React, {useCallback, useMemo, useEffect, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 import trieMemoize from 'trie-memoize'
-import OneKeyMap from '@essentials/one-key-map'
 import emptyArr from 'empty/array'
+import OneKeyMap from '@essentials/one-key-map'
 import memoizeOne from '@essentials/memoize-one'
+import useLayoutEffect from '@react-hook/passive-layout-effect'
 import {createItemPositioner, createPositionCache} from './utils'
 import useWindowScroller from './useWindowScroller'
 import useContainerRect from './useContainerRect'
@@ -58,18 +59,21 @@ const getCachedItemStyle = trieMemoize(
 
 const SizeObserver = props => {
   const [element, setElement] = useState(null)
-  useEffect(() => {
-    props.observerRef(element)
-    return () => element !== null && props.resizeObserver.unobserve(element)
+  useLayoutEffect(() => {
+    if (element !== null) {
+      const observedElement = element
+      props.observerRef(observedElement)
+      return () => props.resizeObserver.unobserve(observedElement)
+    }
   }, [element, props.observerRef, props.resizeObserver])
   const ref = useCallback(el => {
     setElement(el)
   }, emptyArr)
-  const elementProps = useMemo(
-    () => ({ref, role: `${props.role}item`, style: props.style}),
-    [props.style, props.role, ref]
+  return React.createElement(
+    props.as,
+    {ref, role: `${props.role}item`, style: props.style},
+    props.children
   )
-  return React.createElement(props.as, elementProps, props.children)
 }
 
 export class Masonry extends React.Component {
