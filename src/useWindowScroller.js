@@ -1,6 +1,7 @@
 import {useState, useEffect, useRef} from 'react'
 import emptyArr from 'empty/array'
 import emptyObj from 'empty/object'
+import useLayoutEffect from '@react-hook/passive-layout-effect'
 import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 import useWindowScroll from '@react-hook/window-scroll'
 import useWindowSize from '@react-hook/window-size'
@@ -19,7 +20,7 @@ export default (initialWidth, initialHeight, opt = emptyObj) => {
   const [isScrolling, setIsScrolling] = useState(false)
   const isScrollingTimeout = useRef(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isScrollingTimeout.current !== null) {
       clearRequestTimeout(isScrollingTimeout.current)
       isScrollingTimeout.current = null
@@ -43,12 +44,10 @@ export default (initialWidth, initialHeight, opt = emptyObj) => {
     isScrollingTimeout.current = requestTimeout(unsetIsScrolling, 1000 / 60)
   }, [scrollY])
   // cleans up isScrollingTimeout on unmount
-  useEffect(
-    () => () =>
-      isScrollingTimeout.current !== null &&
-      clearRequestTimeout(isScrollingTimeout.current),
-    emptyArr
-  )
+  useEffect(() => {
+    let timeout = isScrollingTimeout.current
+    return () => timeout !== null && clearRequestTimeout(timeout)
+  }, emptyArr)
 
   return {width, height, scrollY, isScrolling}
 }

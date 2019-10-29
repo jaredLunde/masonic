@@ -1088,6 +1088,11 @@
   dependencies:
     "@essentials/request-timeout" "^1.0.1"
 
+"@react-hook/passive-layout-effect@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@react-hook/passive-layout-effect/-/passive-layout-effect-1.0.1.tgz#3c6cabb4b63439a8c168ed2e0685178814cfabb6"
+  integrity sha512-EG0DvwxiNyVaCgjtHzEL7+2E3fnoMAc0QuMrqoauPGID+vqEdGcH4oV3xsalTG/pXj+IIRP06MZjgBlMIksH2w==
+
 "@react-hook/throttle@^1.0.4", "@react-hook/throttle@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.5.tgz#f5b9bad8c6ccb80a309d86e072db5720dee30a0b"

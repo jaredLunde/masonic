@@ -1,5 +1,7 @@
 [![Bundlephobia](https://img.shields.io/bundlephobia/minzip/masonic?style=for-the-badge)](https://bundlephobia.com/result?p=masonic)
-[![Code coverage](https://img.shields.io/codecov/c/gh/jaredLunde/masonic?style=for-the-badge)](https://codecov.io/gh/jaredLunde/masonic)
+
+<!--[![Code coverage](https://img.shields.io/codecov/c/gh/jaredLunde/masonic?style=for-the-badge)](https://codecov.io/gh/jaredLunde/masonic)-->
+
 [![Build status](https://img.shields.io/travis/jaredLunde/masonic?style=for-the-badge)](https://travis-ci.org/jaredLunde/masonic)
 [![License](https://img.shields.io/github/license/jaredLunde/masonic?style=for-the-badge)](https://jaredlunde.mit-license.org/)
 

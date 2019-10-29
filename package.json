@@ -1,6 +1,6 @@
 {
   "name": "masonic",
-  "version": "1.0.25",
+  "version": "1.1.0",
   "homepage": "https://github.com/jaredLunde/masonic#readme",
   "repository": "github:jaredLunde/masonic",
   "bugs": "https://github.com/jaredLunde/masonic/issues",
@@ -79,6 +79,7 @@
     "@essentials/memoize-one": "^1.0.0",
     "@essentials/one-key-map": "^1.0.0",
     "@essentials/request-timeout": "^1.0.1",
+    "@react-hook/passive-layout-effect": "^1.0.1",
     "@react-hook/window-scroll": "^1.0.3",
     "@react-hook/window-size": "^1.0.7",
     "empty": "^0.10.1",

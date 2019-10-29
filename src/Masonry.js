@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useEffect, useRef} from 'react'
+import React, {useCallback, useMemo, useEffect, useState} from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 import trieMemoize from 'trie-memoize'
 import OneKeyMap from '@essentials/one-key-map'
@@ -57,20 +57,14 @@ const getCachedItemStyle = trieMemoize(
 )
 
 const SizeObserver = props => {
-  const element = useRef(null)
-  useEffect(
-    () => () =>
-      element.current !== null &&
-      props.resizeObserver.unobserve(element.current),
-    emptyArr
-  )
-  const ref = useCallback(
-    el => {
-      element.current = el
-      props.observerRef(el)
-    },
-    [props.observerRef]
-  )
+  const [element, setElement] = useState(null)
+  useEffect(() => {
+    props.observerRef(element)
+    return () => element !== null && props.resizeObserver.unobserve(element)
+  }, [element, props.observerRef, props.resizeObserver])
+  const ref = useCallback(el => {
+    setElement(el)
+  }, emptyArr)
   const elementProps = useMemo(
     () => ({ref, role: `${props.role}item`, style: props.style}),
     [props.style, props.role, ref]
@@ -211,8 +205,7 @@ export class Masonry extends React.Component {
 
   render() {
     let {
-      // container element props
-      as, // container node type
+      as,
       id,
       className,
       style,
@@ -394,7 +387,7 @@ const MasonryWindow = React.memo(
         props.initialHeight,
         props.windowScroller
       ),
-      [containerRef, rect] = useContainerRect(width, height)
+      [rect, containerRef] = useContainerRect(width, height)
 
     return React.createElement(
       Masonry,
