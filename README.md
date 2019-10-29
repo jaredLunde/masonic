@@ -1,3 +1,9 @@
+<div align="center">
+  <h1 align="center">
+    🧱 masonic
+  </h1>
+</div>
+
 <p align="center">
   <a href="https://bundlephobia.com/result?p=masonic">
     <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/masonic?style=for-the-badge&labelColor=24292e">
@@ -15,12 +21,6 @@
     <img alt="MIT License" src="https://img.shields.io/npm/l/masonic?style=for-the-badge&labelColor=24292e">
   </a>
 </p>
-<hr>
-<div align="center">
-  <h1 align="center">
-    🧱 masonic
-  </h1>
-</div>
 
 <p align="center">
   A React virtualized, autosizing masonry component based
