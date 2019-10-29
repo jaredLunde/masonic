@@ -5,11 +5,11 @@
   </h1>
 </div>
 
-<blockquote align="center">
+<p align="center">
   A React virtualized, autosizing masonry component based
 upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtualized)
 and further inspired by [react-window](https://github.com/bvaughn/react-window).
-</blockquote>
+</p>
 
 <p align="center">
   <a href="https://bundlephobia.com/result?p=masonic">
