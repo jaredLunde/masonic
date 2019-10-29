@@ -23,17 +23,16 @@
   </a>
 </p>
 
-<p align="center">
-  A React virtualized, autosizing masonry component based
-upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtualized)
-and further inspired by [react-window](https://github.com/bvaughn/react-window).
-</p>
-
 <pre align="center">
 npm i masonic
 yarn add masonic
 </pre>
 
+<p align="center">
+  A React virtualized, autosizing masonry component based
+upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtualized)
+and further inspired by [react-window](https://github.com/bvaughn/react-window).
+</p>
 <hr>
 
 ## Example
