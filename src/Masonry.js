@@ -440,11 +440,11 @@ if (__DEV__) {
     columnCount: PropTypes.number,
     columnWidth: PropTypes.number.isRequired,
     columnGutter: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired, // width of the container
-    height: PropTypes.number.isRequired, // height of the window
-    scrollTop: PropTypes.number.isRequired,
-    isScrolling: PropTypes.bool.isRequired,
-    containerRef: PropTypes.shape({current: PropTypes.any}).isRequired,
+    width: PropTypes.number, // width of the container
+    height: PropTypes.number, // height of the window
+    scrollTop: PropTypes.number,
+    isScrolling: PropTypes.bool,
+    containerRef: PropTypes.func,
   }
 
   MasonryWindow.displayName = 'Masonry'
