@@ -31,13 +31,11 @@ upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtual
 and further inspired by [react-window](https://github.com/bvaughn/react-window).
 </p>
 
-```shell
-# Install w/ NPM 
+<pre align="center">
 npm i masonic
-
-# Install w/ Yarn
+or
 yarn add masonic
-```
+</pre>
 
 ## Example
 
