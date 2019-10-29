@@ -22,17 +22,20 @@
     <img alt="MIT License" src="https://img.shields.io/npm/l/masonic?style=for-the-badge&labelColor=24292e">
   </a>
 </p>
-<hr>
 
-A React virtualized, autosizing masonry component based
+> A React virtualized, autosizing masonry component based
 upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtualized)
 and further inspired by [react-window](https://github.com/bvaughn/react-window).
 
 ## Installation
 
-#### `npm i masonic`
+```shell
+# Install w/ NPM 
+npm i masonic
 
-#### `yarn add masonic`
+# Install w/ Yarn
+yarn add masonic
+```
 
 ## Example
 
