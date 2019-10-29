@@ -30,11 +30,9 @@ yarn add masonic
 
 <hr>
 
-<p align="center">
-  A React virtualized, autosizing masonry component based
+A React virtualized, autosizing masonry component based
 upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtualized)
 and further inspired by [react-window](https://github.com/bvaughn/react-window).
-</p>
 
 ## Example
 
