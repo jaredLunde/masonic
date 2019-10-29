@@ -1,3 +1,4 @@
+<hr>
 <div align="center">
   <h1 align="center">
     🧱 masonic
@@ -21,6 +22,8 @@
     <img alt="MIT License" src="https://img.shields.io/npm/l/masonic?style=for-the-badge&labelColor=24292e">
   </a>
 </p>
+
+<hr>
 
 <p align="center">
   A React virtualized, autosizing masonry component based
