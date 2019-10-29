@@ -28,8 +28,6 @@ upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtual
 and further inspired by [react-window](https://github.com/bvaughn/react-window).
 </p>
 
-## Installation
-
 ```shell
 # Install w/ NPM 
 npm i masonic
