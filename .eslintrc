@@ -8,19 +8,18 @@
       "experimentalObjectRestSpread": true
     }
   },
-  "plugins": [
-    "react",
-    "react-hooks"
-  ],
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:jest/recommended"
   ],
+  "plugins": ["jest", "react", "react-hooks"],
   "rules": {
     "no-console": "off",
     "no-prototype-builtins": "off",
     "react/no-children-prop": "off",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "react/prop-types": [2, {"ignore": ["children"]}]
   },
   "settings": {
     "react": {
@@ -31,9 +30,22 @@
   "env": {
     "browser": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest/globals": true
   },
   "globals": {
     "__DEV__": true
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/test.js", "**/*.test.js"],
+      "settings": {
+        "import/resolver": {
+          "jest": {
+            "jestConfigFile": "./jest.config.js"
+          }
+        }
+      }
+    }
+  ]
 }

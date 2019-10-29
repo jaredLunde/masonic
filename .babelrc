@@ -1,12 +1,15 @@
 {
   "presets": [
-    "@babel/react",
+    "@babel/preset-react",
     [
       "@lunde/es",
       {
         "env": {
-          "targets": {"node": "8"}
-        }
+          "targets": {
+            "node": "8"
+          }
+        },
+        "typescript": false
       }
     ]
   ],
@@ -18,8 +21,12 @@
           {
             "env": {
               "modules": false,
-              "targets": {"browsers": ">2% in US"}
-            }
+              "targets": {
+                "browsers": "> 2%"
+              }
+            },
+            "objectAssign": false,
+            "typescript": false
           }
         ]
       ]
