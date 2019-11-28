@@ -823,7 +823,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
   }
 )
 
-interface MasonryProps extends FreeMasonryProps {
+export interface MasonryProps extends FreeMasonryProps {
   readonly initialWidth?: number
   readonly initialHeight?: number
   readonly windowScroller?: WindowScrollerOptions
