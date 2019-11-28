@@ -1,25 +1,31 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
-    "sourceType": "module",
     "ecmaFeatures": {
-      "jsx": true,
-      "experimentalObjectRestSpread": true
+      "jsx": true
     }
   },
+  "plugins": ["@typescript-eslint", "jest", "react", "react-hooks"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": ["jest", "react", "react-hooks"],
   "rules": {
+    "@typescript-eslint/member-delimiter-style": "off",
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-this-alias": "off",
     "no-console": "off",
     "no-prototype-builtins": "off",
+    "prefer-spread": "off",
     "react/no-children-prop": "off",
     "react/display-name": "off",
-    "react/prop-types": [2, {"ignore": ["children"]}]
+    "react/prop-types": "off"
   },
   "settings": {
     "react": {
@@ -38,7 +44,7 @@
   },
   "overrides": [
     {
-      "files": ["**/test.js", "**/*.test.js"],
+      "files": ["**/test.ts", "**/*.test.ts", "**/test.tsx", "**/*.test.tsx"],
       "settings": {
         "import/resolver": {
           "jest": {

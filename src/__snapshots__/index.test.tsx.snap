@@ -1,0 +1,1962 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Masonry disables pointer events when isScrolling: pointer-events: none; 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 415px; max-height: 415px; will-change: contents, height; pointer-events: none;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Masonry re-renders on scroll: measure 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 207112px; max-height: 207112px; will-change: contents, height; pointer-events: none;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          1
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          2
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          3
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          4
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          5
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          6
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          7
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          8
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          9
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          10
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Masonry re-renders on scroll: scrolled 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 204626px; max-height: 204626px; will-change: contents, height; pointer-events: none;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          36
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          37
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          38
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          39
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          40
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          41
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          42
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          43
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          44
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          45
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          46
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          47
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          48
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          49
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          50
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          51
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          52
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          53
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          54
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          55
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          56
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          57
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          58
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          59
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          60
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          61
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          62
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          63
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          64
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          65
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          66
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          67
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          68
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          69
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          70
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          71
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          72
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          73
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          74
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          75
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          76
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          77
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          78
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          79
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          80
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          81
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          82
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          83
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          84
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          85
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          86
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          87
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          88
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          89
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          90
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          91
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          92
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          93
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          94
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          95
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          96
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          97
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          98
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          99
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          100
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          101
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          102
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          103
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          104
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          105
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          106
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          107
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          108
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          109
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          110
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          111
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          112
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          113
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          114
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          115
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          116
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          117
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          118
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          119
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          120
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Masonry renders real positions after first pass: measure 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 207112px; max-height: 207112px; will-change: contents, height; pointer-events: none;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          1
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          2
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          3
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          4
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          5
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          6
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          7
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          8
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          9
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          10
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          11
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          12
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          13
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          14
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          15
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          16
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          17
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          18
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          19
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          20
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Masonry renders real positions after first pass: render 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 207112px; max-height: 207112px; will-change: contents, height; pointer-events: none;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          1
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          2
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          3
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          4
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          5
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          6
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          7
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          8
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          9
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          10
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          11
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          12
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          13
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          14
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          15
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          16
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          17
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          18
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          19
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          20
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Masonry sets a custom role: list listitem 1`] = `
+<DocumentFragment>
+  <div
+    role="list"
+    style="position: relative; width: 100%; max-width: 100%; height: 415px; max-height: 415px; will-change: contents, height; pointer-events: none;"
+    tabindex="0"
+  >
+    <div
+      role="listitem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Masonry sets class name: foobar 1`] = `
+<DocumentFragment>
+  <div
+    class="foobar"
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 415px; max-height: 415px; will-change: contents, height; pointer-events: none;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Masonry sets custom element types: ul li 1`] = `
+<DocumentFragment>
+  <ul
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 415px; max-height: 415px; will-change: contents, height; pointer-events: none;"
+    tabindex="0"
+  >
+    <li
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </li>
+  </ul>
+</DocumentFragment>
+`;
+
+exports[`Masonry sets tabIndex: 3 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 415px; max-height: 415px; will-change: contents, height; pointer-events: none;"
+    tabindex="3"
+  >
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Masonry throws 1`] = `"Cannot read property 'length' of undefined"`;

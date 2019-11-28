@@ -1,94 +1,35 @@
-import React, {useCallback, useState} from 'react'
+import React, {ReactElement} from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
-import trieMemoize from 'trie-memoize'
-import emptyArr from 'empty/array'
-import OneKeyMap from '@essentials/one-key-map'
-import memoizeOne from '@essentials/memoize-one'
-import useLayoutEffect from '@react-hook/passive-layout-effect'
-import {createItemPositioner, createPositionCache} from './utils'
-import useWindowScroller from './useWindowScroller'
-import useContainerRect from './useContainerRect'
+import {FreeMasonryProps, getColumns} from './index'
 
-export const getColumns = (
-  width = 0,
-  minimumWidth = 0,
-  gutter = 8,
-  columnCount
-) => {
-  columnCount = columnCount || Math.floor(width / (minimumWidth + gutter)) || 1
-  const columnWidth = Math.floor(
-    (width - gutter * (columnCount - 1)) / columnCount
-  )
-  return [columnWidth, columnCount]
-}
 
-const getContainerStyle = memoizeOne((isScrolling, estimateTotalHeight) => ({
-  position: 'relative',
-  width: '100%',
-  maxWidth: '100%',
-  height: estimateTotalHeight,
-  maxHeight: estimateTotalHeight,
-  willChange: isScrolling ? 'contents, height' : void 0,
-  pointerEvents: isScrolling ? 'none' : void 0,
-}))
+export class FreeMasonry extends React.Component<FreeMasonryProps> {
+  itemElements: WeakMap<Element, number>
+  resizeObserver: ResizeObserver
+  itemPositioner: ItemPositioner
+  prevRange: number[]
+  prevChildren: ReactElement[]
+  positionCache: PositionCache
+  columnCount: number
+  columnWidth: number
+  columnGutter: number
+  prevStartIndex: number | undefined
+  prevStopIndex: number | undefined
+  startIndex: number
+  stopIndex: number | undefined
 
-const assignUserStyle = memoizeOne(
-  (containerStyle, userStyle) => Object.assign({}, containerStyle, userStyle),
-  (args, pargs) => args[0] === pargs[0] && args[1] === pargs[1]
-)
-const assignUserItemStyle = trieMemoize(
-  [WeakMap, OneKeyMap],
-  (itemStyle, userStyle) => Object.assign({}, itemStyle, userStyle)
-)
-const defaultGetItemKey = (_, i) => i
-// tge below memoizations for for ensuring shallow equal is reliable for pure
-// component children
-const getCachedSize = memoizeOne(
-  width => ({
-    width,
-    zIndex: -1000,
-    visibility: 'hidden',
-    position: 'absolute',
-  }),
-  (args, pargs) => args[0] === pargs[0]
-)
-const getCachedItemStyle = trieMemoize(
-  [OneKeyMap, Map, Map],
-  (width, left, top) => ({top, left, width, position: 'absolute'})
-)
-
-const SizeObserver = props => {
-  const [element, setElement] = useState(null)
-  useLayoutEffect(() => {
-    if (element !== null) {
-      const observedElement = element
-      props.observerRef(observedElement)
-      return () => props.resizeObserver.unobserve(observedElement)
-    }
-  }, [element, props.observerRef, props.resizeObserver])
-  const ref = useCallback(el => {
-    setElement(el)
-  }, emptyArr)
-  return React.createElement(
-    props.as,
-    {ref, role: `${props.role}item`, style: props.style},
-    props.children
-  )
-}
-
-export class Masonry extends React.Component {
   constructor(props) {
     super(props)
     this.itemElements = new WeakMap()
     this.resizeObserver = new ResizeObserver(entries => {
-      let updates = []
+      const updates: number[] = []
 
       for (let i = 0; i < entries.length; i++) {
         const entry = entries[i]
 
         if (entry.contentRect.height > 0) {
           const index = this.itemElements.get(entry.target),
-            height = entry.target.offsetHeight,
+            height = (entry.target as HTMLElement).offsetHeight,
             position = this.itemPositioner.get(index)
           if (
             position !== void 0 &&
@@ -111,11 +52,11 @@ export class Masonry extends React.Component {
     this.positionCache = createPositionCache()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     this.resizeObserver.disconnect()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps): void {
     // updates the item positions any time a value potentially affecting their size changes
     if (
       prevProps.width !== this.props.width ||
@@ -140,24 +81,24 @@ export class Masonry extends React.Component {
     }
   }
 
-  initPositioner(p = this.props) {
-    let [columnWidth, columnCount] = getColumns(
+  initPositioner(p = this.props): void {
+    const [columnWidth, columnCount] = getColumns(
       p.width,
-      p.columnWidth,
-      p.columnGutter,
+      p.columnWidth || 200,
+      p.columnGutter || 0,
       p.columnCount
     )
     this.columnWidth = columnWidth
     this.columnCount = columnCount
-    this.columnGutter = p.columnGutter
+    this.columnGutter = p.columnGutter || 0
     this.itemPositioner = createItemPositioner(
       columnCount,
       columnWidth,
-      p.columnGutter
+      p.columnGutter || 0
     )
   }
 
-  repopulatePositions = () => {
+  repopulatePositions = (): void => {
     const prevPositioner = this.itemPositioner
     this.initPositioner()
     const nextPositionCache = createPositionCache()
@@ -174,9 +115,9 @@ export class Masonry extends React.Component {
     this.positionCache = nextPositionCache
   }
 
-  updatePositions = updates => {
-    let updatedItems = this.itemPositioner.update(updates),
-      i = 0
+  updatePositions = (updates: number[]): void => {
+    const updatedItems = this.itemPositioner.update(updates)
+    let i = 0
 
     for (; i < updatedItems.length - 1; i++) {
       const index = updatedItems[i],
@@ -187,12 +128,12 @@ export class Masonry extends React.Component {
     this.forceUpdate()
   }
 
-  clearPositions = () => {
+  clearPositions = (): void => {
     this.positionCache = createPositionCache()
     this.forceUpdate()
   }
 
-  setItemRef = trieMemoize([Map], index => el => {
+  setItemRef = trieMemoize([Map], index => (el: HTMLElement): void => {
     if (this.resizeObserver !== null && el !== null) {
       if (this.itemElements.get(el) === void 0) {
         this.itemElements.set(el, index)
@@ -207,37 +148,34 @@ export class Masonry extends React.Component {
     }
   })
 
-  render() {
-    let {
-      as,
+  render(): ReactElement {
+    const {
+      as = 'div',
       id,
       className,
       style,
-      role,
-      tabIndex,
+      role = 'grid',
+      tabIndex = 0,
       containerRef,
-
       items,
-      itemAs,
+      itemAs = 'div',
       itemStyle,
-      itemHeightEstimate,
-      itemKey,
-      overscanBy,
+      itemHeightEstimate = 300,
+      itemKey = defaultGetItemKey,
 
       scrollTop,
       isScrolling,
       height,
 
       render,
-      children: renderChildren,
     } = this.props
+    let {overscanBy = 2} = this.props
     const itemCount = items.length,
       measuredCount = this.positionCache.getSize(),
       shortestColumnSize = this.positionCache.getShortestColumnSize()
-    let children = [],
-      range = [],
+    let children: ReactElement[] = [],
       rangeWasEqual = true
-    render = renderChildren || render
+    const range: number[] = []
     overscanBy = height * overscanBy
 
     this.positionCache.range(
@@ -245,10 +183,10 @@ export class Masonry extends React.Component {
       scrollTop + overscanBy,
       (i, l, t) => {
         range.push(i, l, t)
-        let prev = this.prevRange
+        const prev = this.prevRange
 
         if (
-          rangeWasEqual === true &&
+          rangeWasEqual &&
           (prev[range.length - 1] !== range[range.length - 1] ||
             prev[range.length - 2] !== range[range.length - 2] ||
             prev[range.length - 3] !== range[range.length - 3])
@@ -259,11 +197,7 @@ export class Masonry extends React.Component {
     )
 
     if (range.length > 0) {
-      if (
-        rangeWasEqual === true &&
-        isScrolling === true &&
-        this.prevChildren.length > 0
-      ) {
+      if (rangeWasEqual && isScrolling && this.prevChildren.length > 0) {
         children = this.prevChildren
       } else {
         this.stopIndex = void 0
@@ -322,7 +256,7 @@ export class Masonry extends React.Component {
         itemCount - measuredCount,
         Math.ceil(
           ((scrollTop + overscanBy - shortestColumnSize) / itemHeightEstimate) *
-            this.columnCount
+          this.columnCount
         )
       )
 
@@ -383,103 +317,3 @@ export class Masonry extends React.Component {
     })
   }
 }
-
-const MasonryWindow = React.memo(
-  React.forwardRef((props, ref) => {
-    const {width, height, scrollY, isScrolling} = useWindowScroller(
-        props.initialWidth,
-        props.initialHeight,
-        props.windowScroller
-      ),
-      [rect, containerRef] = useContainerRect(width, height)
-
-    return React.createElement(
-      Masonry,
-      Object.assign(
-        {
-          width: rect.width,
-          height,
-          scrollTop: Math.max(0, scrollY - (rect.top + scrollY)),
-          isScrolling,
-          containerRef,
-          ref,
-        },
-        props
-      )
-    )
-  })
-)
-
-MasonryWindow.defaultProps = {
-  as: 'div',
-  itemAs: 'div',
-  tabIndex: 0,
-  role: 'grid',
-  columnWidth: 200,
-  columnGutter: 0,
-  initialWidth: 1280,
-  initialHeight: 720,
-  itemHeightEstimate: 300,
-  itemKey: defaultGetItemKey,
-  overscanBy: 2,
-}
-
-if (__DEV__) {
-  const PropTypes = require('prop-types')
-  SizeObserver.displayName = 'SizeObserver'
-  SizeObserver.propTypes = {
-    as: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
-    role: PropTypes.string,
-    style: PropTypes.object,
-    resizeObserver: PropTypes.object,
-    observerRef: PropTypes.func,
-    children: PropTypes.element,
-  }
-  Masonry.displayName = 'FreeMasonry'
-  Masonry.propTypes = {
-    columnCount: PropTypes.number,
-    columnWidth: PropTypes.number.isRequired,
-    columnGutter: PropTypes.number.isRequired,
-    width: PropTypes.number, // width of the container
-    height: PropTypes.number, // height of the window
-    scrollTop: PropTypes.number,
-    isScrolling: PropTypes.bool,
-    containerRef: PropTypes.func,
-  }
-
-  MasonryWindow.displayName = 'Masonry'
-  MasonryWindow.propTypes = {
-    ...Masonry.propTypes,
-    as: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired, // container node type
-    id: PropTypes.string,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    role: PropTypes.string,
-    tabIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-    columnCount: PropTypes.number,
-    columnWidth: PropTypes.number.isRequired,
-    columnGutter: PropTypes.number.isRequired,
-
-    initialWidth: PropTypes.number.isRequired,
-    initialHeight: PropTypes.number.isRequired,
-
-    items: PropTypes.array.isRequired,
-    itemAs: PropTypes.oneOfType([PropTypes.func, PropTypes.string]).isRequired,
-    itemStyle: PropTypes.object,
-    itemHeightEstimate: PropTypes.number.isRequired,
-    itemKey: PropTypes.func,
-    overscanBy: PropTypes.number,
-
-    windowScroller: PropTypes.shape({
-      scroll: PropTypes.shape({fps: PropTypes.number}),
-      size: PropTypes.shape({wait: PropTypes.number}),
-    }),
-
-    onRender: PropTypes.func,
-    render: PropTypes.func.isRequired,
-    children: PropTypes.func,
-  }
-}
-
-export default MasonryWindow

@@ -8,11 +8,11 @@
           "targets": {
             "node": "8"
           }
-        },
-        "typescript": false
+        }
       }
     ]
   ],
+  "plugins": ["typescript-to-proptypes"],
   "env": {
     "es": {
       "presets": [
@@ -25,8 +25,7 @@
                 "browsers": "> 2%"
               }
             },
-            "objectAssign": false,
-            "typescript": false
+            "objectAssign": false
           }
         ]
       ]

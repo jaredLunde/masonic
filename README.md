@@ -9,9 +9,14 @@
   <a href="https://bundlephobia.com/result?p=masonic">
     <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/masonic?style=for-the-badge&labelColor=24292e">
   </a>
-  <!--<a aria-label="Code coverage report" href="https://codecov.io/gh/jaredLunde/masonic">
+  <a aria-label="Types" href="https://www.npmjs.com/package/masonic">
+    <img alt="Types" src="https://img.shields.io/npm/types/masonic?style=for-the-badge&labelColor=24292e">
+  </a>
+  <!--
+  <a aria-label="Code coverage report" href="https://codecov.io/gh/jaredLunde/masonic">
     <img alt="Code coverage" src="https://img.shields.io/codecov/c/gh/jaredLunde/masonic?style=for-the-badge&labelColor=24292e">
-  </a>-->
+  </a>
+  -->
   <a aria-label="Build status" href="https://travis-ci.org/jaredLunde/masonic">
     <img alt="Build status" src="https://img.shields.io/travis/jaredLunde/masonic?style=for-the-badge&labelColor=24292e">
   </a>
@@ -23,30 +28,37 @@
   </a>
 </p>
 
-<pre align="center">
-npm i masonic
-</pre>
+<pre align="center">npm i masonic</pre>
 <hr>
 
 A React virtualized, autosizing masonry component based
 upon Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtualized)
 and further inspired by [react-window](https://github.com/bvaughn/react-window).
 
-## Example
+## Quick Start
 
-### [Check out the demo on CodeSandbox](https://codesandbox.io/s/0oyxozv75v)
+#### [Check out the demo on CodeSandbox](https://codesandbox.io/s/0oyxozv75v)
 
-## Requirements
+```jsx harmony
+import {Masonry} from 'masonic'
 
-`React >16.8` is a minimum requirement because
-this package relies on and provides React hooks.
+const items = []
+for (let i = 0; i < 1000; i++) {
+  items.push({id: i})
+}
 
-## Motivation
+const EasyMasonryComponent = props => (
+  <Masonry items={items} render={MasonryCard} />
+)
 
-Brian's Masonry component is great in its
-performance and versatility, but I wanted something more directly suited
-to my growing needs for scalable masonry layout. I also desired something
-with an API that more closely matched `react-window`'s awesome API.
+const MasonryCard = ({index, data, width}) => (
+  <div>
+    <div>Index: {index}</div>
+    <pre>{JSON.stringify(data)}</pre>
+    <div>Column width: {width}</div>
+  </div>
+)
+```
 
 ## API
 
@@ -355,8 +367,6 @@ the originals, despite the overall design being highly inspired by them.
 5. The API is a complete rewrite and because of much of what is mentioned
    above, is much easier to use in my opinion.
 
-## Credits
+## LICENSE
 
-- Everyone who worked on [`react-virtualized`](https://github.com/bvaughn/react-virtualized/graphs/contributors)
-- Mikola Lysenko for his [`binary-search-bounds`](https://github.com/mikolalysenko/binary-search-bounds)
-  and [`interval-tree-1d`](https://github.com/mikolalysenko/interval-tree-1d)
+MIT

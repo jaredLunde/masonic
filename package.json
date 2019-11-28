@@ -1,10 +1,10 @@
 {
   "name": "masonic",
-  "version": "1.1.5",
+  "version": "2.0.0",
   "homepage": "https://github.com/jaredLunde/masonic#readme",
   "repository": "github:jaredLunde/masonic",
   "bugs": "https://github.com/jaredLunde/masonic/issues",
-  "author": "Jared Lunde <jared@BeStellar.co> (https://jaredLunde.com)",
+  "author": "Jared Lunde <jared.lunde@gmail.com> (https://jaredLunde.com)",
   "license": "MIT",
   "description": "",
   "keywords": [
@@ -30,22 +30,24 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "npm run build:cjs && npm run build:es",
-    "build:cjs": "babel src -d dist/cjs -x .js --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
-    "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .js --ignore \"**/*.test.js\",\"**/test.js\" --delete-dir-on-start",
-    "format": "prettier --write \"**/*.{js,jsx,md,yml,json,babelrc,eslintrc,prettierrc}\"",
-    "lint": "eslint .",
+    "build": "npm run build:cjs && npm run build:es && npm run build:types",
+    "build:cjs": "babel src -d dist/cjs -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
+    "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
+    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts",
+    "check-types": "tsc --noEmit -p tsconfig.json",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,yml,json,babelrc,eslintrc,prettierrc}\"",
+    "lint": "eslint . --ext .ts,.tsx",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
     "test": "jest",
-    "validate": "npm run lint && npm run test -- --coverage"
+    "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && npm run build:types"
     }
   },
   "lint-staged": {
-    "**/*.{js,jsx}": [
+    "**/*.{ts,tsx,js,jsx}": [
       "eslint",
       "prettier --write"
     ],
@@ -59,7 +61,12 @@
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "@testing-library/react-hooks": "latest",
-    "babel-eslint": "latest",
+    "@types/jest": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "babel-plugin-typescript-to-proptypes": "^1.1.0",
     "cross-env": "latest",
     "eslint": "latest",
     "eslint-import-resolver-jest": "latest",
@@ -73,21 +80,21 @@
     "react": "latest",
     "react-dom": "latest",
     "react-test-renderer": "latest",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "ts-jest": "latest",
+    "typescript": "latest"
   },
   "dependencies": {
-    "@essentials/memoize-one": "^1.0.0",
-    "@essentials/one-key-map": "^1.0.0",
-    "@essentials/request-timeout": "^1.0.1",
-    "@react-hook/passive-layout-effect": "^1.0.1",
-    "@react-hook/window-scroll": "^1.0.3",
-    "@react-hook/window-size": "^1.0.7",
-    "empty": "^0.10.1",
+    "@essentials/memoize-one": "^1.0.1",
+    "@essentials/one-key-map": "^1.0.1",
+    "@react-hook/passive-layout-effect": "^1.0.2",
+    "@react-hook/window-scroll": "^1.0.6",
+    "@react-hook/window-size": "^1.0.10",
     "resize-observer-polyfill": "^1.5.1",
-    "trie-memoize": "^1.0.15"
+    "trie-memoize": "^1.0.19"
   },
   "peerDependencies": {
-    "prop-types": ">= 15.6.0",
-    "react": ">= 16.8.0"
+    "prop-types": ">=15.7.2",
+    "react": ">=16.8"
   }
 }
