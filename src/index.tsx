@@ -528,6 +528,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     },
     ref
   ) => {
+    const didMount = useRef('0')
     const forceUpdate = useForceUpdate()
     const initPositioner = (): ItemPositioner => {
       const gutter = columnGutter || 0
@@ -592,6 +593,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     // updates the item positions any time a value potentially affecting their
     // size changes
     useEffect(() => {
+      didMount.current = '1'
       const prevPositioner = itemPositioner.current
       const nextPositionCache = createPositionCache()
       const nextItemPositioner = initPositioner()
@@ -811,6 +813,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     return React.createElement(as, {
       ref: containerRef,
       id,
+      key: `masonic:${didMount.current}`,
       role,
       className,
       tabIndex,
@@ -823,7 +826,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
   }
 )
 
-export interface MasonryProps extends FreeMasonryProps {
+export interface MasonryProps extends MasonryPropsBase {
   readonly initialWidth?: number
   readonly initialHeight?: number
   readonly windowScroller?: WindowScrollerOptions
