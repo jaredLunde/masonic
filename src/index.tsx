@@ -380,7 +380,7 @@ export const useContainerRect = (
   )
 }
 
-export const getColumns = (
+const getColumns = (
   width = 0,
   minimumWidth = 0,
   gutter = 8,
@@ -875,7 +875,7 @@ export const List: React.FC<ListProps> = props => (
 /**
  * Returns all of the ranges within a larger range that contain unloaded rows.
  */
-export const scanForUnloadedRanges = (
+const scanForUnloadedRanges = (
   isItemLoaded: (index: number, items: any[]) => boolean,
   minimumBatchSize: number,
   items: any[],
