@@ -12,6 +12,7 @@ import memoizeOne from '@essentials/memoize-one'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useWindowScroll from '@react-hook/window-scroll'
 import useWindowSize from '@react-hook/window-size'
+import useThrottle from '@react-hook/throttle'
 import IntervalTree from './IntervalTree'
 
 const defaultScrollFps = 8
@@ -501,6 +502,9 @@ const useForceUpdate = (): (() => void) => {
   return useCallback(() => setState(current => ++current), [])
 }
 
+const useForceThrottledUpdate = (): ((state: any) => void) =>
+  useThrottle(0, 30)[1]
+
 const elementsCache: WeakMap<Element, number> = new WeakMap()
 
 interface ResizeObserverEntryBoxSize {
@@ -561,6 +565,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
   ) => {
     const didMount = useRef<string>('0')
     const forceUpdate = useForceUpdate()
+    const forceThrottledUpdate = useForceThrottledUpdate()
     const initPositioner = (): ItemPositioner => {
       const gutter = columnGutter || 0
       const [computedColumnWidth, computedColumnCount] = getColumns(
@@ -577,7 +582,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     }
     const itemPositioner = useRef<ItemPositioner>(initPositioner())
     const positionCache = useRef<PositionCache>(createPositionCache())
-    const [sizeUpdates, setSizeUpdates] = useState<number[] | undefined>()
     const resizeObserver = useState<ResizeObserver>(
       () =>
         new ResizeObserver(entries => {
@@ -605,7 +609,23 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
             }
           }
 
-          if (updates.length > 0) setSizeUpdates(updates)
+          if (updates.length > 0) {
+            const updatedItems = itemPositioner.current.update(updates)
+
+            for (let i = 0; i < updatedItems.length - 1; i++) {
+              const index = updatedItems[i],
+                item = updatedItems[++i]
+
+              positionCache.current.updatePosition(
+                index,
+                item.left,
+                item.top,
+                item.height
+              )
+            }
+
+            forceThrottledUpdate(id => ++id)
+          }
         })
     )[0]
     const stopIndex = useRef<number | undefined>()
@@ -646,26 +666,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
       positionCache.current = nextPositionCache
       forceUpdate()
     }, [width, columnWidth, columnGutter, columnCount])
-
-    // handles cells that resized
-    useEffect(() => {
-      if (sizeUpdates && sizeUpdates.length) {
-        const updatedItems = itemPositioner.current.update(sizeUpdates)
-
-        for (let i = 0; i < updatedItems.length - 1; i++) {
-          const index = updatedItems[i],
-            item = updatedItems[++i]
-          positionCache.current.updatePosition(
-            index,
-            item.left,
-            item.top,
-            item.height
-          )
-        }
-
-        forceUpdate()
-      }
-    }, [sizeUpdates])
 
     // calls the onRender callback if the rendered indices changed
     useLayoutEffect(() => {

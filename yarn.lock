@@ -1112,6 +1112,13 @@
   dependencies:
     "@essentials/request-timeout" "^1.0.1"
 
+"@react-hook/throttle@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-1.0.9.tgz#6cdd0cac14b5218e69b29b931eed220dfed09908"
+  integrity sha512-b9QCMP7gT3rubulW9bUyOyj4iI40MswAJ+Bps8wSkIanhwhvIWypL7fm0HgyQtsGIekY2E6kl0+lm9paPhBDKQ==
+  dependencies:
+    "@essentials/request-timeout" "^1.0.1"
+
 "@react-hook/window-scroll@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@react-hook/window-scroll/-/window-scroll-1.0.6.tgz#e653bd9a485d2d87e19537ac3f209aa74a13e03b"
