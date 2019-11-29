@@ -9,7 +9,7 @@ exports[`Masonry disables pointer events when isScrolling: pointer-events: none;
   >
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -33,7 +33,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
   >
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -46,7 +46,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -59,7 +59,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -72,7 +72,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -85,7 +85,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -98,7 +98,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -111,7 +111,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -124,7 +124,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -137,7 +137,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -150,7 +150,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -163,7 +163,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -187,7 +187,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
   >
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -200,7 +200,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -213,7 +213,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -226,7 +226,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -239,7 +239,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -252,7 +252,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -265,7 +265,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -278,7 +278,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -291,7 +291,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -304,7 +304,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -317,7 +317,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -330,7 +330,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -343,7 +343,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -356,7 +356,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -369,7 +369,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -382,7 +382,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -395,7 +395,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -408,7 +408,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -421,7 +421,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -434,7 +434,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -447,7 +447,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -460,7 +460,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -473,7 +473,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -486,7 +486,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -499,7 +499,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -512,7 +512,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -525,7 +525,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -538,7 +538,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -551,7 +551,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -564,7 +564,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -577,7 +577,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -590,7 +590,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -603,7 +603,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -616,7 +616,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -629,7 +629,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -642,7 +642,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -655,7 +655,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -668,7 +668,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -681,7 +681,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -694,7 +694,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -707,7 +707,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -720,7 +720,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -733,7 +733,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -746,7 +746,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -759,7 +759,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -772,7 +772,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -785,7 +785,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -798,7 +798,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -811,7 +811,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -824,7 +824,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -837,7 +837,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -850,7 +850,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -863,7 +863,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -876,7 +876,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -889,7 +889,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -902,7 +902,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -915,7 +915,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -928,7 +928,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -941,7 +941,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -954,7 +954,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -967,7 +967,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -980,7 +980,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -993,7 +993,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -1006,7 +1006,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1019,7 +1019,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -1032,7 +1032,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -1045,7 +1045,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -1058,7 +1058,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -1071,7 +1071,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -1084,7 +1084,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -1097,7 +1097,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -1110,7 +1110,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -1123,7 +1123,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1136,7 +1136,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -1149,7 +1149,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -1162,7 +1162,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -1175,7 +1175,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -1188,7 +1188,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -1201,7 +1201,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -1214,7 +1214,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -1227,7 +1227,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -1240,7 +1240,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1253,7 +1253,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -1266,7 +1266,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -1279,7 +1279,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -1303,7 +1303,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
   >
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1316,7 +1316,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -1329,7 +1329,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -1342,7 +1342,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -1355,7 +1355,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -1368,7 +1368,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -1381,7 +1381,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -1394,7 +1394,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -1407,7 +1407,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -1420,7 +1420,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1433,7 +1433,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -1446,7 +1446,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -1459,7 +1459,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -1472,7 +1472,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -1485,7 +1485,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -1498,7 +1498,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -1511,7 +1511,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -1524,7 +1524,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -1537,7 +1537,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1550,7 +1550,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -1563,7 +1563,7 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -1587,7 +1587,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
   >
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1600,7 +1600,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -1613,7 +1613,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -1626,7 +1626,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -1639,7 +1639,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -1652,7 +1652,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -1665,7 +1665,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -1678,7 +1678,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -1691,7 +1691,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -1704,7 +1704,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1717,7 +1717,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -1730,7 +1730,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -1743,7 +1743,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -1756,7 +1756,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -1769,7 +1769,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -1782,7 +1782,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -1795,7 +1795,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -1808,7 +1808,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -1821,7 +1821,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1834,7 +1834,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -1847,7 +1847,7 @@ exports[`Masonry renders real positions after first pass: render 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -1871,7 +1871,7 @@ exports[`Masonry sets a custom role: list listitem 1`] = `
   >
     <div
       role="listitem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1896,7 +1896,7 @@ exports[`Masonry sets class name: foobar 1`] = `
   >
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1920,7 +1920,7 @@ exports[`Masonry sets custom element types: ul li 1`] = `
   >
     <li
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -1944,7 +1944,7 @@ exports[`Masonry sets tabIndex: 3 1`] = `
   >
     <div
       role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"

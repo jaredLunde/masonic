@@ -165,9 +165,8 @@ interface PositionCache {
 //   O(log(n)) lookup of cells to render for a given viewport size
 //   O(1) lookup of shortest measured column (so we know when to enter phase 1)
 const createPositionCache = (): PositionCache => {
-  let count = 0
   // Store tops and bottoms of each cell for fast intersection lookup.
-  const intervalTree = new IntervalTree(),
+  const intervalTree = IntervalTree(),
     // Tracks the intervals that were inserted into the interval tree so they can be
     // removed when positions are updated
     intervalValueMap = {},
@@ -182,7 +181,8 @@ const createPositionCache = (): PositionCache => {
     defaultItemHeight: number
   ): number =>
     getTallestColumnSize() +
-    Math.ceil((itemCount - count) / columnCount) * defaultItemHeight
+    Math.ceil((itemCount - intervalTree.getSize()) / columnCount) *
+      defaultItemHeight
 
   // Render all cells visible within the viewport range defined.
   const range = (
@@ -214,8 +214,6 @@ const createPositionCache = (): PositionCache => {
       height = Math.max(columnHeight, top + height)
       columnSizeMap[left] = height
     }
-
-    count = intervalTree.count
   }
 
   // updates the position of an item in the interval tree
@@ -265,7 +263,7 @@ const createPositionCache = (): PositionCache => {
 
   return {
     range,
-    getSize: (): number => count,
+    getSize: intervalTree.getSize,
     estimateTotalHeight,
     getShortestColumnSize,
     setPosition,
@@ -422,12 +420,19 @@ const getCachedSize = memoizeOne(
     zIndex: -1000,
     visibility: 'hidden',
     position: 'absolute',
+    writingMode: 'horizontal-tb',
   }),
   (args, pargs) => args[0] === pargs[0]
 )
 const getCachedItemStyle = trieMemoize(
   [OneKeyMap, Map, Map],
-  (width, left, top) => ({top, left, width, position: 'absolute'})
+  (width, left, top) => ({
+    top,
+    left,
+    width,
+    writingMode: 'horizontal-tb',
+    position: 'absolute',
+  })
 )
 
 export interface SizeObserverProps {
@@ -437,6 +442,7 @@ export interface SizeObserverProps {
   resizeObserver: any
   observerRef: (element: HTMLElement) => void
 }
+
 const SizeObserver: React.FC<SizeObserverProps> = props => {
   const [element, setElement] = useState<HTMLElement | null>(null)
   useLayoutEffect((): void | (() => void) => {
@@ -497,6 +503,31 @@ const useForceUpdate = (): (() => void) => {
 
 const elementsCache: WeakMap<Element, number> = new WeakMap()
 
+interface ResizeObserverEntryBoxSize {
+  /**
+   * The length of the observed element's border box in the block dimension. For
+   * boxes with a horizontal
+   * [writing-mode](https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode),
+   * this is the vertical dimension, or height; if the writing-mode is vertical,
+   * this is the horizontal dimension, or width.
+   */
+  blockSize: number
+
+  /**
+   * The length of the observed element's border box in the inline dimension.
+   * For boxes with a horizontal
+   * [writing-mode](https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode),
+   * this is the horizontal dimension, or width; if the writing-mode is
+   * vertical, this is the vertical dimension, or height.
+   */
+  inlineSize: number
+}
+
+interface NativeResizeObserverEntry extends ResizeObserverEntry {
+  borderBoxSize: ResizeObserverEntryBoxSize
+  contentBoxSize: ResizeObserverEntryBoxSize
+}
+
 export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
   (
     {
@@ -528,7 +559,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     },
     ref
   ) => {
-    const didMount = useRef('0')
+    const didMount = useRef<string>('0')
     const forceUpdate = useForceUpdate()
     const initPositioner = (): ItemPositioner => {
       const gutter = columnGutter || 0
@@ -547,18 +578,23 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     const itemPositioner = useRef<ItemPositioner>(initPositioner())
     const positionCache = useRef<PositionCache>(createPositionCache())
     const [sizeUpdates, setSizeUpdates] = useState<number[] | undefined>()
-    const [resizeObserver] = useState(
+    const resizeObserver = useState<ResizeObserver>(
       () =>
         new ResizeObserver(entries => {
           const updates: number[] = []
 
           for (let i = 0; i < entries.length; i++) {
             const entry = entries[i]
+            const hasBorderBox =
+              (entry as NativeResizeObserverEntry).borderBoxSize !== void 0
+            const height = hasBorderBox
+              ? (entry as NativeResizeObserverEntry).borderBoxSize.blockSize
+              : (entry.target as HTMLElement).offsetHeight
 
-            if (entry.contentRect.height > 0) {
-              const index = elementsCache.get(entry.target),
-                height = (entry.target as HTMLElement).offsetHeight,
-                position = itemPositioner.current.get(index)
+            if (height > 0) {
+              const index = elementsCache.get(entry.target)
+              const position = itemPositioner.current.get(index)
+
               if (
                 position !== void 0 &&
                 index !== void 0 &&
@@ -571,7 +607,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
 
           if (updates.length > 0) setSizeUpdates(updates)
         })
-    )
+    )[0]
     const stopIndex = useRef<number | undefined>()
     const startIndex = useRef<number>(0)
     const prevStartIndex = useRef<number | undefined>()
@@ -615,9 +651,8 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     useEffect(() => {
       if (sizeUpdates && sizeUpdates.length) {
         const updatedItems = itemPositioner.current.update(sizeUpdates)
-        let i = 0
 
-        for (; i < updatedItems.length - 1; i++) {
+        for (let i = 0; i < updatedItems.length - 1; i++) {
           const index = updatedItems[i],
             item = updatedItems[++i]
           positionCache.current.updatePosition(
@@ -686,12 +721,13 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
       (i, l, t) => {
         range.push(i, l, t)
         const prev = prevRange.current
+        const len = range.length
 
         if (
           rangeWasEqual &&
-          (prev[range.length - 1] !== range[range.length - 1] ||
-            prev[range.length - 2] !== range[range.length - 2] ||
-            prev[range.length - 3] !== range[range.length - 3])
+          (prev[len - 1] !== range[len - 1] ||
+            prev[len - 2] !== range[len - 2] ||
+            prev[len - 3] !== range[len - 3])
         ) {
           rangeWasEqual = false
         }

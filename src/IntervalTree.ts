@@ -1,6 +1,6 @@
-const NOT_FOUND = 0,
-  SUCCESS = 1,
-  EMPTY = 2
+const NOT_FOUND = 0
+const SUCCESS = 1
+const EMPTY = 2
 
 const binarySearchGe = (
   a: number[][],
@@ -25,25 +25,37 @@ const binarySearchGe = (
   return i
 }
 
-class IntervalTreeNode {
+interface IIntervalTreeNode {
   mid: number
-  left: IntervalTreeNode | null
-  right: IntervalTreeNode | null
+  left: IIntervalTreeNode | null
+  right: IIntervalTreeNode | null
   leftPoints: number[][]
   rightPoints: number[][]
-  count: number
+  size: number
+  intervals: (result: number[][]) => number[][]
+  insert: (interval: number[]) => void
+  remove: (interval: number[]) => void | number
+  queryInterval: (
+    lo: number,
+    hi: number,
+    cb: (r: number[]) => void
+  ) => number[] | void
+}
 
-  constructor(mid, left, right, leftPoints, rightPoints) {
-    this.mid = mid
-    this.left = left
-    this.right = right
-    this.leftPoints = leftPoints
-    this.rightPoints = rightPoints
-    this.count =
-      (left ? left.count : 0) + (right ? right.count : 0) + leftPoints.length
-  }
-
-  intervals(result: number[][]): number[][] {
+const IntervalTreeNode = (
+  mid,
+  left,
+  right,
+  leftPoints,
+  rightPoints
+): IIntervalTreeNode => ({
+  mid,
+  left,
+  right,
+  leftPoints,
+  rightPoints,
+  size: (left ? left.size : 0) + (right ? right.size : 0) + leftPoints.length,
+  intervals(result): number[][] {
     result.push.apply(result, this.leftPoints)
 
     if (this.left !== null) {
@@ -55,15 +67,14 @@ class IntervalTreeNode {
     }
 
     return result
-  }
-
-  insert(interval: number[]): void {
-    const weight = this.count - this.leftPoints.length
-    this.count += 1
+  },
+  insert(interval): void {
+    const weight = this.size - this.leftPoints.length
+    this.size += 1
 
     if (interval[1] < this.mid) {
       if (this.left !== null) {
-        if (4 * (this.left.count + 1) > 3 * (weight + 1)) {
+        if (4 * (this.left.size + 1) > 3 * (weight + 1)) {
           rebuildWithInterval(this, interval)
         } else {
           this.left.insert(interval)
@@ -73,7 +84,7 @@ class IntervalTreeNode {
       }
     } else if (interval[0] > this.mid) {
       if (this.right !== null) {
-        if (4 * (this.right.count + 1) > 3 * (weight + 1)) {
+        if (4 * (this.right.size + 1) > 3 * (weight + 1)) {
           rebuildWithInterval(this, interval)
         } else {
           this.right.insert(interval)
@@ -87,64 +98,59 @@ class IntervalTreeNode {
       this.leftPoints.splice(l, 0, interval)
       this.rightPoints.splice(r, 0, interval)
     }
-  }
-
+  },
   remove(interval: number[]): void | number {
-    const weight = this.count - this.leftPoints.length
+    const {size, leftPoints, rightPoints, left, mid, right} = this
+    const weight = size - leftPoints.length
 
-    if (interval[1] < this.mid) {
-      if (this.left === null) {
-        return NOT_FOUND
-      }
-
-      const rw = this.right === null ? 0 : this.right.count
+    if (interval[1] < mid) {
+      if (left === null) return NOT_FOUND
+      const rw = right === null ? 0 : right.size
 
       if (4 * rw > 3 * (weight - 1)) {
         return rebuildWithoutInterval(this, interval)
       }
 
-      const r = this.left.remove(interval)
+      const r = left.remove(interval)
 
       if (r === EMPTY) {
         this.left = null
-        this.count -= 1
+        this.size -= 1
         return SUCCESS
       } else if (r === SUCCESS) {
-        this.count -= 1
+        this.size -= 1
       }
 
       return r
     } else if (interval[0] > this.mid) {
-      if (this.right === null) {
+      if (right === null) {
         return NOT_FOUND
       }
 
-      const lw = this.left === null ? 0 : this.left.count
+      const lw = left === null ? 0 : left.size
 
       if (4 * lw > 3 * (weight - 1)) {
         return rebuildWithoutInterval(this, interval)
       }
 
-      const r = this.right.remove(interval)
+      const r = right.remove(interval)
 
       if (r === EMPTY) {
         this.right = null
-        this.count -= 1
+        this.size -= 1
         return SUCCESS
       } else if (r === SUCCESS) {
-        this.count -= 1
+        this.size -= 1
       }
 
       return r
     } else {
-      if (this.count === 1) {
-        return this.leftPoints[0] === interval ? EMPTY : NOT_FOUND
-      }
+      if (size === 1) return leftPoints[0] === interval ? EMPTY : NOT_FOUND
 
-      if (this.leftPoints.length === 1 && this.leftPoints[0] === interval) {
-        if (this.left !== null && this.right !== null) {
-          let p: IntervalTreeNode = this
-          let n = this.left
+      if (leftPoints.length === 1 && leftPoints[0] === interval) {
+        if (left !== null && right !== null) {
+          let p: IIntervalTreeNode = this
+          let n = left
 
           while (n.right) {
             p = n
@@ -152,52 +158,49 @@ class IntervalTreeNode {
           }
 
           if (p === this) {
-            n.right = this.right
+            n.right = right
           } else {
-            const l = this.left
-            const r = this.right
-            p.count -= n.count
+            p.size -= n.size
             p.right = n.left
-            n.left = l
-            n.right = r
+            n.left = left
+            n.right = right
           }
 
           copy(this, n)
 
-          this.count =
-            (this.left === null ? 0 : this.left.count) +
-            (this.right === null ? 0 : this.right.count) +
+          this.size =
+            // need to use `this.` here because of the copy() above potentially
+            // altering the current node
+            (this.left === null ? 0 : this.left.size) +
+            (this.right === null ? 0 : this.right.size) +
             this.leftPoints.length
-        } else if (this.left !== null) {
-          copy(this, this.left)
-        } else if (this.right !== null) {
-          copy(this, this.right)
+        } else if (left !== null) {
+          copy(this, left)
+        } else if (right !== null) {
+          copy(this, right)
         }
 
         return SUCCESS
       }
       for (
-        let l = binarySearchGe(this.leftPoints, interval, compareBegin);
-        l < this.leftPoints.length;
+        let l = binarySearchGe(leftPoints, interval, compareBegin);
+        l < leftPoints.length;
         ++l
       ) {
-        if (this.leftPoints[l][0] !== interval[0]) {
-          break
-        }
-
-        if (this.leftPoints[l] === interval) {
-          this.count -= 1
-          this.leftPoints.splice(l, 1)
+        if (leftPoints[l][0] !== interval[0]) break
+        if (leftPoints[l] === interval) {
+          this.size -= 1
+          leftPoints.splice(l, 1)
 
           for (
-            let r = binarySearchGe(this.rightPoints, interval, compareEnd);
-            r < this.rightPoints.length;
+            let r = binarySearchGe(rightPoints, interval, compareEnd);
+            r < rightPoints.length;
             ++r
           ) {
-            if (this.rightPoints[r][1] !== interval[1]) {
+            if (rightPoints[r][1] !== interval[1]) {
               break
-            } else if (this.rightPoints[r] === interval) {
-              this.rightPoints.splice(r, 1)
+            } else if (rightPoints[r] === interval) {
+              rightPoints.splice(r, 1)
               return SUCCESS
             }
           }
@@ -206,13 +209,8 @@ class IntervalTreeNode {
 
       return NOT_FOUND
     }
-  }
-
-  queryInterval(
-    lo: number,
-    hi: number,
-    cb: (r: number[]) => void
-  ): number[] | void {
+  },
+  queryInterval(lo, hi, cb): number[] | void {
     if (lo < this.mid && this.left !== null) {
       const r = this.left.queryInterval(lo, hi, cb)
       if (r !== void 0) return r
@@ -229,19 +227,19 @@ class IntervalTreeNode {
     } else {
       return reportRange(this.leftPoints, cb)
     }
-  }
-}
+  },
+})
 
-const copy = (a: IntervalTreeNode, b: IntervalTreeNode): void => {
+const copy = (a: IIntervalTreeNode, b: IIntervalTreeNode): void => {
   a.mid = b.mid
   a.left = b.left
   a.right = b.right
   a.leftPoints = b.leftPoints
   a.rightPoints = b.rightPoints
-  a.count = b.count
+  a.size = b.size
 }
 
-const rebuild = (node: IntervalTreeNode, intervals: number[][]): void => {
+const rebuild = (node: IIntervalTreeNode, intervals: number[][]): void => {
   const ntree = createIntervalTree(intervals)
   if (!ntree) return
   node.mid = ntree.mid
@@ -249,11 +247,11 @@ const rebuild = (node: IntervalTreeNode, intervals: number[][]): void => {
   node.right = ntree.right
   node.leftPoints = ntree.leftPoints
   node.rightPoints = ntree.rightPoints
-  node.count = ntree.count
+  node.size = ntree.size
 }
 
 const rebuildWithInterval = (
-  node: IntervalTreeNode,
+  node: IIntervalTreeNode,
   interval: number[]
 ): void => {
   const intervals = node.intervals([])
@@ -262,7 +260,7 @@ const rebuildWithInterval = (
 }
 
 const rebuildWithoutInterval = (
-  node: IntervalTreeNode,
+  node: IIntervalTreeNode,
   interval: number[]
 ): number => {
   const intervals = node.intervals([])
@@ -343,7 +341,9 @@ const bInsert = (
   }
 }
 
-const createIntervalTree = (intervals: number[][]): IntervalTreeNode | null => {
+const createIntervalTree = (
+  intervals: number[][]
+): IIntervalTreeNode | null => {
   if (intervals.length === 0) return null
 
   let i = 0
@@ -377,7 +377,7 @@ const createIntervalTree = (intervals: number[][]): IntervalTreeNode | null => {
   leftPoints.sort(compareBegin)
   rightPoints.sort(compareEnd)
 
-  return new IntervalTreeNode(
+  return IntervalTreeNode(
     mid,
     createIntervalTree(leftIntervals),
     createIntervalTree(rightIntervals),
@@ -387,57 +387,48 @@ const createIntervalTree = (intervals: number[][]): IntervalTreeNode | null => {
 }
 
 //User friendly wrapper that makes it possible to support empty trees
-class IntervalTree {
-  root: IntervalTreeNode | null
-
-  constructor(intervals?: number[][]) {
-    if (intervals !== void 0 && intervals.length > 0) {
-      this.root = createIntervalTree(intervals)
-    } else {
-      this.root = null
-    }
-  }
-
-  insert(interval: number[]): void {
-    if (this.root !== null) {
-      this.root.insert(interval)
-    } else {
-      this.root = new IntervalTreeNode(
-        interval[0],
-        null,
-        null,
-        [interval],
-        [interval]
-      )
-    }
-  }
-
-  remove(interval: number[]): boolean {
-    if (this.root !== null) {
-      const r = this.root.remove(interval)
-
-      if (r === EMPTY) {
-        this.root = null
-      }
-
-      return r !== NOT_FOUND
-    }
-
-    return false
-  }
-
-  queryInterval(
+interface IIntervalTree {
+  insert: (interval: number[]) => void
+  remove: (interval: number[]) => boolean
+  queryInterval: (
     lo: number,
     hi: number,
     cb: (r: number[]) => void
-  ): number[] | void {
-    if (lo <= hi && this.root !== null) {
-      return this.root.queryInterval(lo, hi, cb)
-    }
-  }
+  ) => number[] | void
+  getSize: () => number
+}
 
-  get count(): number {
-    return this.root !== null ? this.root.count : 0
+const IntervalTree = (): IIntervalTree => {
+  let root: IIntervalTreeNode | null = null
+  return {
+    insert(interval): void {
+      if (root !== null) {
+        root.insert(interval)
+      } else {
+        root = IntervalTreeNode(interval[0], null, null, [interval], [interval])
+      }
+    },
+    remove(interval): boolean {
+      if (root !== null) {
+        const r = root.remove(interval)
+
+        if (r === EMPTY) {
+          root = null
+        }
+
+        return r !== NOT_FOUND
+      }
+
+      return false
+    },
+    queryInterval(lo, hi, cb): number[] | void {
+      if (lo <= hi && root !== null) {
+        return root.queryInterval(lo, hi, cb)
+      }
+    },
+    getSize(): number {
+      return root !== null ? root.size : 0
+    },
   }
 }
 

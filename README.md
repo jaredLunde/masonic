@@ -67,27 +67,6 @@ const MasonryCard = ({index, data, width}) => (
 An autosizing virtualized masonry component which only renders items
 currently visible in the window.
 
-```jsx harmony
-import {Masonry} from 'masonic'
-
-const items = []
-for (let i = 0; i < 1000; i++) {
-  items.push({id: i})
-}
-
-const EasyMasonryComponent = props => (
-  <Masonry items={items}>
-    {({index, data, width}) => (
-      <div>
-        <div>Index: {index}</div>
-        <pre>{JSON.stringify(data)}</pre>
-        <div>Column width: {width}</div>
-      </div>
-    )}
-  </Masonry>
-)
-```
-
 #### Prop types
 
 ##### Column rendering
@@ -114,8 +93,7 @@ const EasyMasonryComponent = props => (
 ##### Item rendering
 
 - `render`
-  - `<React.Component|function>` **required**
-  - **alias** `children`
+  - `<React.ComponentClass|React.FunctionComponent>` **required**
   - This is the component which is rendered for each item in `items`
     below. It receives 3 properties from `Masonic`:
     - `index`
