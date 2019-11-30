@@ -16,7 +16,6 @@ import useWindowScroll from '@react-hook/window-scroll'
 import useWindowSize from '@react-hook/window-size'
 import IntervalTree from './IntervalTree'
 
-const defaultScrollFps = 8
 const emptyObj = {}
 const emptyArr = []
 
@@ -296,7 +295,7 @@ export const useWindowScroller = (
   initialHeight: number,
   options: WindowScrollerOptions = emptyObj
 ): WindowScrollerResult => {
-  const fps = options.scroll?.fps || defaultScrollFps
+  const fps = options.scroll?.fps || 8
   const scrollY = useWindowScroll(fps)
   const [width, height] = useWindowSize(
     initialWidth,
@@ -572,7 +571,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     const startIndex = useRef<number>(0)
     const prevStartIndex = useRef<number | undefined>()
     const prevStopIndex = useRef<number | undefined>()
-    const prevChildren = useRef<React.ReactElement[]>(emptyArr)
     const prevRange = useRef<number[]>(emptyArr)
     const [itemPositioner, setItemPositioner] = useState<ItemPositioner>(
       initPositioner
@@ -695,8 +693,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     const itemCount = items.length
     const measuredCount = positionCache.getSize()
     const shortestColumnSize = positionCache.getShortestColumnSize()
-    let children: React.ReactElement[] = []
-    let rangeWasEqual = true
+    const children: React.ReactElement[] = []
     const range: number[] = []
     overscanBy = height * overscanBy
 
@@ -705,72 +702,56 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
       scrollTop + overscanBy,
       (i, l, t) => {
         range.push(i, l, t)
-        const prev = prevRange.current
-        const len = range.length
-
-        if (
-          rangeWasEqual &&
-          (prev[len - 1] !== range[len - 1] ||
-            prev[len - 2] !== range[len - 2] ||
-            prev[len - 3] !== range[len - 3])
-        ) {
-          rangeWasEqual = false
-        }
       }
     )
 
     if (range.length > 0) {
-      if (rangeWasEqual && isScrolling && prevChildren.current.length > 0) {
-        children = prevChildren.current
-      } else {
-        stopIndex.current = void 0
+      stopIndex.current = void 0
 
-        for (let i = 0; i < range.length; i++) {
-          const index = range[i],
-            left = range[++i],
-            top = range[++i]
+      for (let i = 0; i < range.length; i++) {
+        const index = range[i],
+          left = range[++i],
+          top = range[++i]
 
-          if (stopIndex.current === void 0) {
-            startIndex.current = index
-            stopIndex.current = index
-          } else {
-            startIndex.current = Math.min(startIndex.current, index)
-            stopIndex.current = Math.max(stopIndex.current, index)
-          }
-
-          const data = items[index],
-            key = itemKey(data, index),
-            observerStyle = getCachedItemStyle(
-              itemPositioner.columnWidth,
-              left,
-              top
-            )
-
-          children.push(
-            React.createElement(
-              itemAs,
-              {
-                key,
-                ref: setItemRef(index),
-                role: `${role}item`,
-                style:
-                  typeof itemStyle === 'object' && itemStyle !== null
-                    ? assignUserItemStyle(observerStyle, itemStyle)
-                    : observerStyle,
-              },
-              React.createElement(render, {
-                key,
-                index,
-                data,
-                width: itemPositioner.columnWidth,
-              })
-            )
-          )
+        if (stopIndex.current === void 0) {
+          startIndex.current = index
+          stopIndex.current = index
+        } else {
+          startIndex.current = Math.min(startIndex.current, index)
+          stopIndex.current = Math.max(stopIndex.current, index)
         }
 
-        prevRange.current = range
-        prevChildren.current = children
+        const data = items[index],
+          key = itemKey(data, index),
+          observerStyle = getCachedItemStyle(
+            itemPositioner.columnWidth,
+            left,
+            top
+          )
+
+        children.push(
+          React.createElement(
+            itemAs,
+            {
+              key,
+              ref: setItemRef(index),
+              role: `${role}item`,
+              style:
+                typeof itemStyle === 'object' && itemStyle !== null
+                  ? assignUserItemStyle(observerStyle, itemStyle)
+                  : observerStyle,
+            },
+            React.createElement(render, {
+              key,
+              index,
+              data,
+              width: itemPositioner.columnWidth,
+            })
+          )
+        )
       }
+
+      prevRange.current = range
     }
 
     if (
@@ -786,8 +767,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
       )
 
       let index = measuredCount
-      children =
-        children === prevChildren.current ? children.slice(0) : children
 
       for (; index < measuredCount + batchSize; index++) {
         const data = items[index],
