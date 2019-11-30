@@ -446,18 +446,21 @@ export interface SizeObserverProps {
 
 const SizeObserver: React.FC<SizeObserverProps> = props => {
   const [element, setElement] = useState<HTMLElement | null>(null)
-  useLayoutEffect((): void | (() => void) => {
-    if (element !== null) {
-      const observedElement = element
-      props.observerRef(observedElement)
-      return (): void => {
-        props.resizeObserver.unobserve(observedElement)
-      }
+  useEffect((): void | (() => void) => {
+    return (): void => {
+      element !== null && props.resizeObserver.unobserve(element)
     }
-  }, [element, props.observerRef, props.resizeObserver])
+  }, [element, props.resizeObserver])
   return React.createElement(
     props.as,
-    {ref: setElement, role: `${props.role}item`, style: props.style},
+    {
+      ref: (element): void => {
+        props.observerRef(element)
+        setElement(element)
+      },
+      role: `${props.role}item`,
+      style: props.style,
+    },
     props.children
   )
 }
@@ -502,8 +505,10 @@ const useForceUpdate = (): (() => void) => {
   return useCallback(() => setState(current => ++current), [])
 }
 
-const useForceThrottledUpdate = (): ((state: any) => void) =>
-  useThrottle(0, 30)[1]
+const useForceThrottledUpdate = (): (() => void) => {
+  const setState = useThrottle(0, 30)[1]
+  return useCallback(() => setState(current => ++current), [])
+}
 
 const elementsCache: WeakMap<Element, number> = new WeakMap()
 
@@ -624,7 +629,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
               )
             }
 
-            forceThrottledUpdate(id => ++id)
+            forceThrottledUpdate()
           }
         })
     )[0]
@@ -648,22 +653,26 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
 
     // updates the item positions any time a value potentially affecting their
     // size changes
-    useEffect(() => {
+    useLayoutEffect(() => {
       didMount.current = '1'
       const prevPositioner = itemPositioner.current
-      const nextPositionCache = createPositionCache()
-      const nextItemPositioner = initPositioner()
+      const cacheSize = positionCache.current.getSize()
+      positionCache.current = createPositionCache()
+      itemPositioner.current = initPositioner()
 
-      for (let index = 0; index < positionCache.current.getSize(); index++) {
+      for (let index = 0; index < cacheSize; index++) {
         const pos = prevPositioner.get(index)
         if (pos !== void 0) {
-          const item = nextItemPositioner.set(index, pos.height)
-          nextPositionCache.setPosition(index, item.left, item.top, pos.height)
+          const item = itemPositioner.current.set(index, pos.height)
+          positionCache.current.setPosition(
+            index,
+            item.left,
+            item.top,
+            pos.height
+          )
         }
       }
 
-      itemPositioner.current = nextItemPositioner
-      positionCache.current = nextPositionCache
       forceUpdate()
     }, [width, columnWidth, columnGutter, columnCount])
 
@@ -901,15 +910,15 @@ export interface ListProps extends MasonryProps {
   rowGutter?: number
 }
 
-export const List: React.FC<ListProps> = props => (
-  <Masonry
-    role="list"
-    {...props}
-    columnGutter={props.rowGutter}
-    columnCount={1}
-    columnWidth={1}
-  />
-)
+export const List: React.FC<ListProps> = props =>
+  React.createElement(
+    Masonry,
+    Object.assign({role: 'list'}, props, {
+      columnGutter: props.rowGutter,
+      columnCount: 1,
+      columnWidth: 1,
+    })
+  )
 
 /**
  * Returns all of the ranges within a larger range that contain unloaded rows.

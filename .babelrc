@@ -8,11 +8,12 @@
           "targets": {
             "node": "8"
           }
-        }
+        },
+        "objectAssign": false
       }
     ]
   ],
-  "plugins": ["typescript-to-proptypes"],
+  "plugins": ["typescript-to-proptypes", "optimize-react"],
   "env": {
     "es": {
       "presets": [
