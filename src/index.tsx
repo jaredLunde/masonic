@@ -2,9 +2,11 @@ import React, {
   useCallback,
   useEffect,
   useState,
+  useMemo,
   useRef,
   useImperativeHandle,
 } from 'react'
+import {unstable_batchedUpdates} from 'react-dom'
 import ResizeObserver from 'resize-observer-polyfill'
 import trieMemoize from 'trie-memoize'
 import OneKeyMap from '@essentials/one-key-map'
@@ -12,7 +14,6 @@ import memoizeOne from '@essentials/memoize-one'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useWindowScroll from '@react-hook/window-scroll'
 import useWindowSize from '@react-hook/window-size'
-import useThrottle from '@react-hook/throttle'
 import IntervalTree from './IntervalTree'
 
 const defaultScrollFps = 8
@@ -436,35 +437,6 @@ const getCachedItemStyle = trieMemoize(
   })
 )
 
-export interface SizeObserverProps {
-  as: any
-  role: string
-  style: {[property: string]: any}
-  resizeObserver: any
-  observerRef: (element: HTMLElement) => void
-}
-
-const SizeObserver: React.FC<SizeObserverProps> = props => {
-  const [element, setElement] = useState<HTMLElement | null>(null)
-  useEffect((): void | (() => void) => {
-    return (): void => {
-      element !== null && props.resizeObserver.unobserve(element)
-    }
-  }, [element, props.resizeObserver])
-  return React.createElement(
-    props.as,
-    {
-      ref: (element): void => {
-        props.observerRef(element)
-        setElement(element)
-      },
-      role: `${props.role}item`,
-      style: props.style,
-    },
-    props.children
-  )
-}
-
 export interface MasonryPropsBase {
   readonly columnWidth?: number
   readonly columnGutter?: number
@@ -505,11 +477,6 @@ const useForceUpdate = (): (() => void) => {
   return useCallback(() => setState(current => ++current), [])
 }
 
-const useForceThrottledUpdate = (): (() => void) => {
-  const setState = useThrottle(0, 30)[1]
-  return useCallback(() => setState(current => ++current), [])
-}
-
 const elementsCache: WeakMap<Element, number> = new WeakMap()
 
 interface ResizeObserverEntryBoxSize {
@@ -536,6 +503,23 @@ interface NativeResizeObserverEntry extends ResizeObserverEntry {
   borderBoxSize: ResizeObserverEntryBoxSize
   contentBoxSize: ResizeObserverEntryBoxSize
 }
+
+const getRefSetter = trieMemoize(
+  [OneKeyMap],
+  (resizeObserver, positionCache, itemPositioner) =>
+    trieMemoize([{}, Map], index => (el: HTMLElement): void => {
+      if (resizeObserver !== null && el !== null) {
+        resizeObserver.observe(el)
+        elementsCache.set(el, index)
+
+        if (itemPositioner.get(index) === void 0) {
+          const height = el.offsetHeight
+          const item = itemPositioner.set(index, height)
+          positionCache.setPosition(index, item.left, item.top, height)
+        }
+      }
+    })
+)
 
 export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
   (
@@ -570,7 +554,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
   ) => {
     const didMount = useRef<string>('0')
     const forceUpdate = useForceUpdate()
-    const forceThrottledUpdate = useForceThrottledUpdate()
     const initPositioner = (): ItemPositioner => {
       const gutter = columnGutter || 0
       const [computedColumnWidth, computedColumnCount] = getColumns(
@@ -585,15 +568,28 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
         gutter
       )
     }
-    const itemPositioner = useRef<ItemPositioner>(initPositioner())
-    const positionCache = useRef<PositionCache>(createPositionCache())
-    const resizeObserver = useState<ResizeObserver>(
+    const stopIndex = useRef<number | undefined>()
+    const startIndex = useRef<number>(0)
+    const prevStartIndex = useRef<number | undefined>()
+    const prevStopIndex = useRef<number | undefined>()
+    const prevChildren = useRef<React.ReactElement[]>(emptyArr)
+    const prevRange = useRef<number[]>(emptyArr)
+    const [itemPositioner, setItemPositioner] = useState<ItemPositioner>(
+      initPositioner
+    )
+    const [positionCache, setPositionCache] = useState<PositionCache>(
+      createPositionCache
+    )
+    const resizeObserver = useMemo<ResizeObserver>(
       () =>
         new ResizeObserver(entries => {
           const updates: number[] = []
 
           for (let i = 0; i < entries.length; i++) {
             const entry = entries[i]
+            // There are native resize observers that still don't have
+            // the borderBoxSize property. For those we fallback to the
+            // offset height of the target element.
             const hasBorderBox =
               (entry as NativeResizeObserverEntry).borderBoxSize !== void 0
             const height = hasBorderBox
@@ -602,7 +598,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
 
             if (height > 0) {
               const index = elementsCache.get(entry.target)
-              const position = itemPositioner.current.get(index)
+              const position = itemPositioner.get(index)
 
               if (
                 position !== void 0 &&
@@ -615,13 +611,14 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
           }
 
           if (updates.length > 0) {
-            const updatedItems = itemPositioner.current.update(updates)
+            // Updates the size/positions of the cell with the resize
+            // observer updates
+            const updatedItems = itemPositioner.update(updates)
 
             for (let i = 0; i < updatedItems.length - 1; i++) {
-              const index = updatedItems[i],
-                item = updatedItems[++i]
-
-              positionCache.current.updatePosition(
+              const index = updatedItems[i++]
+              const item = updatedItems[i]
+              positionCache.updatePosition(
                 index,
                 item.left,
                 item.top,
@@ -629,54 +626,59 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
               )
             }
 
-            forceThrottledUpdate()
+            forceUpdate()
           }
-        })
-    )[0]
-    const stopIndex = useRef<number | undefined>()
-    const startIndex = useRef<number>(0)
-    const prevStartIndex = useRef<number | undefined>()
-    const prevStopIndex = useRef<number | undefined>()
-    const prevChildren = useRef<React.ReactElement[]>([])
-    const prevRange = useRef<number[]>([])
+        }),
+      [itemPositioner, positionCache]
+    )
 
+    // cleans up the resize observers when they change or the
+    // component unmounts
+    useEffect(() => resizeObserver.disconnect.bind(resizeObserver), [
+      resizeObserver,
+    ])
+
+    // Allows parent components to clear the position cache imperatively
     useImperativeHandle(
       ref,
       () => ({
         clearPositions: (): void => {
-          positionCache.current = createPositionCache()
-          forceUpdate()
+          setPositionCache(createPositionCache())
         },
       }),
       emptyArr
     )
 
-    // updates the item positions any time a value potentially affecting their
+    // Updates the item positions any time a prop potentially affecting their
     // size changes
     useLayoutEffect(() => {
       didMount.current = '1'
-      const prevPositioner = itemPositioner.current
-      const cacheSize = positionCache.current.getSize()
-      positionCache.current = createPositionCache()
-      itemPositioner.current = initPositioner()
+      const prevPositioner = itemPositioner
+      const cacheSize = positionCache.getSize()
+      const nextPositionCache = createPositionCache()
+      const nextItemPositioner = initPositioner()
+      const stateUpdates = (): void => {
+        setPositionCache(nextPositionCache)
+        setItemPositioner(nextItemPositioner)
+      }
+
+      if (typeof unstable_batchedUpdates === 'function') {
+        unstable_batchedUpdates(stateUpdates)
+      } else {
+        stateUpdates()
+      }
 
       for (let index = 0; index < cacheSize; index++) {
         const pos = prevPositioner.get(index)
+
         if (pos !== void 0) {
-          const item = itemPositioner.current.set(index, pos.height)
-          positionCache.current.setPosition(
-            index,
-            item.left,
-            item.top,
-            pos.height
-          )
+          const item = nextItemPositioner.set(index, pos.height)
+          nextPositionCache.setPosition(index, item.left, item.top, pos.height)
         }
       }
-
-      forceUpdate()
     }, [width, columnWidth, columnGutter, columnCount])
 
-    // calls the onRender callback if the rendered indices changed
+    // Calls the onRender callback if the rendered indices changed
     useLayoutEffect(() => {
       if (typeof onRender === 'function') {
         onRender(startIndex.current, stopIndex.current, items)
@@ -685,46 +687,20 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
       }
     }, [items, prevStartIndex.current, prevStopIndex.current])
 
-    // cleans up the resize observers when this component unmounts
-    useEffect(
-      () => (): void => {
-        resizeObserver.disconnect()
-      },
-      emptyArr
+    const setItemRef = getRefSetter(
+      resizeObserver,
+      positionCache,
+      itemPositioner
     )
-
-    const setItemRef = useCallback(
-      trieMemoize([{}], index => (el: HTMLElement): void => {
-        if (resizeObserver !== null && el !== null) {
-          if (elementsCache.get(el) === void 0) {
-            elementsCache.set(el, index)
-            resizeObserver.observe(el)
-          }
-
-          if (itemPositioner.current.get(index) === void 0) {
-            const height = el.offsetHeight
-            const item = itemPositioner.current.set(index, height)
-            positionCache.current.setPosition(
-              index,
-              item.left,
-              item.top,
-              height
-            )
-          }
-        }
-      }),
-      emptyArr
-    )
-
     const itemCount = items.length
-    const measuredCount = positionCache.current.getSize()
-    const shortestColumnSize = positionCache.current.getShortestColumnSize()
+    const measuredCount = positionCache.getSize()
+    const shortestColumnSize = positionCache.getShortestColumnSize()
     let children: React.ReactElement[] = []
     let rangeWasEqual = true
     const range: number[] = []
     overscanBy = height * overscanBy
 
-    positionCache.current.range(
+    positionCache.range(
       Math.max(0, scrollTop - overscanBy),
       scrollTop + overscanBy,
       (i, l, t) => {
@@ -765,20 +741,18 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
           const data = items[index],
             key = itemKey(data, index),
             observerStyle = getCachedItemStyle(
-              itemPositioner.current.columnWidth,
+              itemPositioner.columnWidth,
               left,
               top
             )
 
           children.push(
             React.createElement(
-              SizeObserver,
+              itemAs,
               {
                 key,
-                as: itemAs,
-                role,
-                resizeObserver,
-                observerRef: setItemRef(index),
+                ref: setItemRef(index),
+                role: `${role}item`,
                 style:
                   typeof itemStyle === 'object' && itemStyle !== null
                     ? assignUserItemStyle(observerStyle, itemStyle)
@@ -788,7 +762,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
                 key,
                 index,
                 data,
-                width: itemPositioner.current.columnWidth,
+                width: itemPositioner.columnWidth,
               })
             )
           )
@@ -807,7 +781,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
         itemCount - measuredCount,
         Math.ceil(
           ((scrollTop + overscanBy - shortestColumnSize) / itemHeightEstimate) *
-            itemPositioner.current.columnCount
+            itemPositioner.columnCount
         )
       )
 
@@ -818,16 +792,15 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
       for (; index < measuredCount + batchSize; index++) {
         const data = items[index],
           key = itemKey(data, index),
-          observerStyle = getCachedSize(itemPositioner.current.columnWidth)
+          observerStyle = getCachedSize(itemPositioner.columnWidth)
 
         children.push(
           React.createElement(
-            SizeObserver,
+            itemAs,
             {
               key,
-              as: itemAs,
-              role,
-              resizeObserver,
+              ref: setItemRef(index),
+              role: `${role}item`,
               observerRef: setItemRef(index),
               style:
                 typeof itemStyle === 'object' && itemStyle !== null
@@ -838,7 +811,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
               key,
               index,
               data,
-              width: itemPositioner.current.columnWidth,
+              width: itemPositioner.columnWidth,
             })
           )
         )
@@ -848,9 +821,9 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     // the page is being scrolled
     const containerStyle = getContainerStyle(
       isScrolling,
-      positionCache.current.estimateTotalHeight(
+      positionCache.estimateTotalHeight(
         itemCount,
-        itemPositioner.current.columnCount,
+        itemPositioner.columnCount,
         itemHeightEstimate
       )
     )
@@ -858,7 +831,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     return React.createElement(as, {
       ref: containerRef,
       id,
-      key: `masonic:${didMount.current}`,
+      key: didMount.current,
       role,
       className,
       tabIndex,
