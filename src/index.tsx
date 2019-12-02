@@ -571,7 +571,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     const startIndex = useRef<number>(0)
     const prevStartIndex = useRef<number | undefined>()
     const prevStopIndex = useRef<number | undefined>()
-    const prevRange = useRef<number[]>(emptyArr)
     const [itemPositioner, setItemPositioner] = useState<ItemPositioner>(
       initPositioner
     )
@@ -694,24 +693,14 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     const measuredCount = positionCache.getSize()
     const shortestColumnSize = positionCache.getShortestColumnSize()
     const children: React.ReactElement[] = []
-    const range: number[] = []
+    const itemRole = `${role}item`
     overscanBy = height * overscanBy
 
     positionCache.range(
       Math.max(0, scrollTop - overscanBy),
       scrollTop + overscanBy,
-      (i, l, t) => {
-        range.push(i, l, t)
-      }
-    )
-
-    if (range.length > 0) {
-      stopIndex.current = void 0
-
-      for (let i = 0; i < range.length; i++) {
-        const index = range[i],
-          left = range[++i],
-          top = range[++i]
+      (index, left, top) => {
+        stopIndex.current = void 0
 
         if (stopIndex.current === void 0) {
           startIndex.current = index
@@ -735,7 +724,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
             {
               key,
               ref: setItemRef(index),
-              role: `${role}item`,
+              role: itemRole,
               style:
                 typeof itemStyle === 'object' && itemStyle !== null
                   ? assignUserItemStyle(observerStyle, itemStyle)
@@ -750,9 +739,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
           )
         )
       }
-
-      prevRange.current = range
-    }
+    )
 
     if (
       shortestColumnSize < scrollTop + overscanBy &&
@@ -779,8 +766,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
             {
               key,
               ref: setItemRef(index),
-              role: `${role}item`,
-              observerRef: setItemRef(index),
+              role: itemRole,
               style:
                 typeof itemStyle === 'object' && itemStyle !== null
                   ? assignUserItemStyle(observerStyle, itemStyle)
