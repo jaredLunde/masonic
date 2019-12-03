@@ -1,12 +1,12 @@
 {
   "name": "masonic",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "homepage": "https://github.com/jaredLunde/masonic#readme",
   "repository": "github:jaredLunde/masonic",
   "bugs": "https://github.com/jaredLunde/masonic/issues",
   "author": "Jared Lunde <jared.lunde@gmail.com> (https://jaredLunde.com)",
   "license": "MIT",
-  "description": "",
+  "description": "An autosizing masonry component which only renders items currently visible in the window.",
   "keywords": [
     "react",
     "reactjs",
