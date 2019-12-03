@@ -70,7 +70,7 @@ const IntervalTreeNode = (
   },
   insert(interval): void {
     const weight = this.size - this.leftPoints.length
-    this.size += 1
+    this.size++
 
     if (interval[1] < this.mid) {
       if (this.left !== null) {
@@ -100,8 +100,8 @@ const IntervalTreeNode = (
     }
   },
   remove(interval: number[]): void | number {
-    const {size, leftPoints, rightPoints, left, mid, right} = this
-    const weight = size - leftPoints.length
+    const {leftPoints, rightPoints, left, mid, right} = this
+    const weight = this.size - leftPoints.length
 
     if (interval[1] < mid) {
       if (left === null) return NOT_FOUND
@@ -115,10 +115,10 @@ const IntervalTreeNode = (
 
       if (r === EMPTY) {
         this.left = null
-        this.size -= 1
+        this.size--
         return SUCCESS
       } else if (r === SUCCESS) {
-        this.size -= 1
+        this.size--
       }
 
       return r
@@ -137,15 +137,15 @@ const IntervalTreeNode = (
 
       if (r === EMPTY) {
         this.right = null
-        this.size -= 1
+        this.size--
         return SUCCESS
       } else if (r === SUCCESS) {
-        this.size -= 1
+        this.size--
       }
 
       return r
     } else {
-      if (size === 1) return leftPoints[0] === interval ? EMPTY : NOT_FOUND
+      if (this.size === 1) return leftPoints[0] === interval ? EMPTY : NOT_FOUND
 
       if (leftPoints.length === 1 && leftPoints[0] === interval) {
         if (left !== null && right !== null) {
@@ -189,7 +189,7 @@ const IntervalTreeNode = (
       ) {
         if (leftPoints[l][0] !== interval[0]) break
         if (leftPoints[l] === interval) {
-          this.size -= 1
+          this.size--
           leftPoints.splice(l, 1)
 
           for (
@@ -212,21 +212,15 @@ const IntervalTreeNode = (
   },
   queryInterval(lo, hi, cb): number[] | void {
     if (lo < this.mid && this.left !== null) {
-      const r = this.left.queryInterval(lo, hi, cb)
-      if (r !== void 0) return r
+      this.left.queryInterval(lo, hi, cb)
     }
     if (hi > this.mid && this.right !== null) {
-      const r = this.right.queryInterval(lo, hi, cb)
-      if (r !== void 0) return r
+      this.right.queryInterval(lo, hi, cb)
     }
 
-    if (hi < this.mid) {
-      return reportLeftRange(this.leftPoints, hi, cb)
-    } else if (lo > this.mid) {
-      return reportRightRange(this.rightPoints, lo, cb)
-    } else {
-      return reportRange(this.leftPoints, cb)
-    }
+    if (hi < this.mid) reportLeftRange(this.leftPoints, hi, cb)
+    else if (lo > this.mid) reportRightRange(this.rightPoints, lo, cb)
+    else reportRange(this.leftPoints, cb)
   },
 })
 
@@ -274,33 +268,24 @@ const rebuildWithoutInterval = (
 const reportLeftRange = (
   arr: number[][],
   hi: number,
-  cb: (r: number[]) => void
+  cb: (r: number[]) => any
 ): number[] | void => {
-  for (let i = 0; i < arr.length && arr[i][0] <= hi; ++i) {
-    const r = cb(arr[i])
-    if (r !== void 0) return r
-  }
+  for (let i = 0; i < arr.length && arr[i][0] <= hi; ++i) cb(arr[i])
 }
 
 const reportRightRange = (
   arr: number[][],
   lo: number,
-  cb: (r: number[]) => void
+  cb: (r: number[]) => any
 ): number[] | void => {
-  for (let i = arr.length - 1; i >= 0 && arr[i][1] >= lo; --i) {
-    const r = cb(arr[i])
-    if (r !== void 0) return r
-  }
+  for (let i = arr.length - 1; i >= 0 && arr[i][1] >= lo; --i) cb(arr[i])
 }
 
 const reportRange = (
   arr: number[][],
-  cb: (r: number[]) => void
+  cb: (r: number[]) => any
 ): number[] | void => {
-  for (let i = 0; i < arr.length; ++i) {
-    const r = cb(arr[i])
-    if (r !== void 0) return r
-  }
+  for (let i = 0; i < arr.length; ++i) cb(arr[i])
 }
 
 const compareBegin = (a: number[], b: number[]): number => {
@@ -324,21 +309,13 @@ const bInsert = (
     end = endVal !== void 0 ? endVal : length - 1,
     m = start + Math.floor((end - start) / 2)
 
-  if (length === 0) {
-    array.push(value)
-  } else if (value > array[end]) {
-    array.splice(end + 1, 0, value)
-  } else if (value < array[start]) {
-    array.splice(start, 0, value)
-  } else if (value === array[m]) {
-    array.splice(m, 0, value)
-  } else if (start >= end) {
-    return
-  } else if (value < array[m]) {
-    bInsert(array, value, start, m - 1)
-  } else if (value > array[m]) {
-    bInsert(array, value, m + 1, end)
-  }
+  if (length === 0) array.push(value)
+  else if (value > array[end]) array.splice(end + 1, 0, value)
+  else if (value < array[start]) array.splice(start, 0, value)
+  else if (value === array[m]) array.splice(m, 0, value)
+  else if (start >= end) return
+  else if (value < array[m]) bInsert(array, value, start, m - 1)
+  else if (value > array[m]) bInsert(array, value, m + 1, end)
 }
 
 const createIntervalTree = (
@@ -361,14 +338,9 @@ const createIntervalTree = (
 
   for (i = 0; i < intervals.length; ++i) {
     const s = intervals[i]
-
-    if (s[1] < mid) {
-      leftIntervals.push(s)
-    } else if (mid < s[0]) {
-      rightIntervals.push(s)
-    } else {
-      centerIntervals.push(s)
-    }
+    if (s[1] < mid) leftIntervals.push(s)
+    else if (mid < s[0]) rightIntervals.push(s)
+    else centerIntervals.push(s)
   }
 
   //Split center intervals
@@ -395,7 +367,6 @@ interface IIntervalTree {
     hi: number,
     cb: (r: number[]) => void
   ) => number[] | void
-  getSize: () => number
 }
 
 const IntervalTree = (): IIntervalTree => {
@@ -425,9 +396,6 @@ const IntervalTree = (): IIntervalTree => {
       if (lo <= hi && root !== null) {
         return root.queryInterval(lo, hi, cb)
       }
-    },
-    getSize(): number {
-      return root !== null ? root.size : 0
     },
   }
 }

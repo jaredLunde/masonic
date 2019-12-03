@@ -9,6 +9,7 @@
             "node": "8"
           }
         },
+        "devExpression": false,
         "objectAssign": false
       }
     ]
@@ -26,6 +27,7 @@
                 "browsers": "> 2%"
               }
             },
+            "devExpression": false,
             "objectAssign": false
           }
         ]

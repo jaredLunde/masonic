@@ -34,10 +34,16 @@ const binarySearch = (a: number[], y: number): number => {
   return -1
 }
 
+interface IUpdatedItem {
+  top: number
+  left: number
+  height: number
+}
+
 interface ItemPositioner {
   set: (index: number, height: number) => any
   get: (index: number | undefined) => any
-  update
+  update: (updates: number[]) => (number | IUpdatedItem)[]
   columnCount: number
   columnWidth: number
   columnGutter: number
@@ -79,9 +85,9 @@ const createItemPositioner = (
 
   // this only updates items in the specific columns that have changed, on and after the
   // specific items that have changed
-  const update = (updates: number[]): number[] => {
+  const update = (updates: number[]): (number | IUpdatedItem)[] => {
     const columns: number[] = new Array(columnCount),
-      updatedItems: number[] = []
+      updatedItems: (number | IUpdatedItem)[] = []
     let i = 0,
       j = 0
 
@@ -142,7 +148,7 @@ interface PositionCache {
     hi: number,
     renderCallback: (index: number, left: number, top: number) => void
   ) => void
-  getSize: () => number
+  size: number
   estimateTotalHeight: (
     itemCount: number,
     columnCount: number,
@@ -155,24 +161,19 @@ interface PositionCache {
     top: number,
     height: number
   ) => void
-  updatePosition: (
-    index: number,
-    left: number,
-    top: number,
-    height: number
-  ) => void
 }
 
 //   O(log(n)) lookup of cells to render for a given viewport size
 //   O(1) lookup of shortest measured column (so we know when to enter phase 1)
 const createPositionCache = (): PositionCache => {
+  let cacheSize = 0
   // Store tops and bottoms of each cell for fast intersection lookup.
   const intervalTree = IntervalTree(),
     // Tracks the intervals that were inserted into the interval tree so they can be
     // removed when positions are updated
-    intervalValueMap = {},
+    intervalValueMap: number[][] = [],
     // Maps cell index to x coordinates for quick lookup.
-    leftMap = {},
+    leftMap: number[] = [],
     // Tracks the height of each column
     columnSizeMap = {}
 
@@ -181,9 +182,10 @@ const createPositionCache = (): PositionCache => {
     columnCount: number,
     defaultItemHeight: number
   ): number =>
-    getTallestColumnSize() +
-    Math.ceil((itemCount - intervalTree.getSize()) / columnCount) *
-      defaultItemHeight
+    itemCount === cacheSize
+      ? getTallestColumnSize()
+      : getTallestColumnSize() +
+        Math.ceil((itemCount - cacheSize) / columnCount) * defaultItemHeight
 
   // Render all cells visible within the viewport range defined.
   const range = (
@@ -202,45 +204,23 @@ const createPositionCache = (): PositionCache => {
     top: number,
     height: number
   ): void => {
-    const interval = [top, top + height, index]
-    intervalTree.insert(interval)
-    intervalValueMap[index] = interval
-    leftMap[index] = left
-    const columnHeight = columnSizeMap[left]
-
-    if (columnHeight === void 0) {
-      height = top + height
-      columnSizeMap[left] = height
-    } else {
-      height = Math.max(columnHeight, top + height)
-      columnSizeMap[left] = height
-    }
-  }
-
-  // updates the position of an item in the interval tree
-  const updatePosition = (
-    index: number,
-    left: number,
-    top: number,
-    height: number
-  ): void => {
     const prevInterval = intervalValueMap[index],
-      prev = prevInterval[1],
+      prev = prevInterval !== void 0 && prevInterval[1],
       next = top + height
 
-    intervalTree.remove(prevInterval)
+    if (prevInterval !== void 0) intervalTree.remove(prevInterval)
     const interval = [top, next, index]
     intervalTree.insert(interval)
     intervalValueMap[index] = interval
+    leftMap[index] = left
 
     const columnHeight = columnSizeMap[left]
 
-    if (prev > next) {
-      if (columnSizeMap[left] === prev) {
-        columnSizeMap[left] = next
-      }
-    } else {
-      columnSizeMap[left] = Math.max(columnHeight, next)
+    if (prev !== false && prev > next && columnSizeMap[left] === prev)
+      columnSizeMap[left] = next
+    else {
+      columnSizeMap[left] = Math.max(columnHeight || 0, next)
+      if (prevInterval === void 0) cacheSize++
     }
   }
 
@@ -264,11 +244,12 @@ const createPositionCache = (): PositionCache => {
 
   return {
     range,
-    getSize: intervalTree.getSize,
+    get size(): number {
+      return cacheSize
+    },
     estimateTotalHeight,
     getShortestColumnSize,
     setPosition,
-    updatePosition,
   }
 }
 
@@ -320,13 +301,10 @@ export const useWindowScroller = (
     }, 1000 / 6)
   }, [scrollY])
   // cleans up isScrollingTimeout on unmount
-  useEffect(
-    () => (): void => {
-      isScrollingTimeout.current !== void 0 &&
-        window.clearTimeout(isScrollingTimeout.current)
-    },
-    emptyArr
-  )
+  useEffect(() => {
+    const to = isScrollingTimeout.current
+    return (): any => to !== void 0 && window.clearTimeout(to)
+  }, emptyArr)
 
   return {width, height, scrollY, isScrolling}
 }
@@ -347,8 +325,7 @@ export const useContainerRect = (
   windowWidth: number,
   windowHeight: number
 ): [ContainerRect, (element: HTMLElement) => void] => {
-  const [element, setElement] = useState<HTMLElement | null>(null),
-    queryInterval = useRef<number | undefined>()
+  const [element, setElement] = useState<HTMLElement | null>(null)
   const [containerRect, setContainerRect] = useState<ContainerRect>(defaultRect)
 
   useLayoutEffect((): void | (() => void) => {
@@ -367,7 +344,7 @@ export const useContainerRect = (
       // Got a better way to track changes to `top`?
       // Resize/MutationObserver() won't cover it I don't think (top)
       // Submit a PR
-      const qi = (queryInterval.current = window.setInterval(setRect, 360))
+      const qi = window.setInterval(setRect, 360)
       return (): void => window.clearInterval(qi)
     }
   }, [windowWidth, windowHeight, containerRect, element])
@@ -392,15 +369,17 @@ const getColumns = (
   return [columnWidth, columnCount]
 }
 
-const getContainerStyle = memoizeOne((isScrolling, estimateTotalHeight) => ({
-  position: 'relative',
-  width: '100%',
-  maxWidth: '100%',
-  height: Math.ceil(estimateTotalHeight),
-  maxHeight: Math.ceil(estimateTotalHeight),
-  willChange: isScrolling ? 'contents, height' : void 0,
-  pointerEvents: isScrolling ? 'none' : void 0,
-}))
+const getContainerStyle = memoizeOne(
+  (isScrolling: boolean, estimateTotalHeight: number) => ({
+    position: 'relative',
+    width: '100%',
+    maxWidth: '100%',
+    height: Math.ceil(estimateTotalHeight),
+    maxHeight: Math.ceil(estimateTotalHeight),
+    willChange: isScrolling ? 'contents, height' : void 0,
+    pointerEvents: isScrolling ? 'none' : void 0,
+  })
+)
 
 const assignUserStyle = memoizeOne(
   (containerStyle, userStyle) => Object.assign({}, containerStyle, userStyle),
@@ -504,18 +483,16 @@ interface NativeResizeObserverEntry extends ResizeObserverEntry {
 }
 
 const getRefSetter = trieMemoize(
-  [OneKeyMap],
+  [OneKeyMap, OneKeyMap, OneKeyMap],
   (resizeObserver, positionCache, itemPositioner) =>
-    trieMemoize([{}, Map], index => (el: HTMLElement): void => {
-      if (resizeObserver !== null && el !== null) {
-        resizeObserver.observe(el)
-        elementsCache.set(el, index)
+    trieMemoize([{}], index => (el: HTMLElement | null): void => {
+      if (el === null) return
+      resizeObserver.observe(el)
+      elementsCache.set(el, index)
 
-        if (itemPositioner.get(index) === void 0) {
-          const height = el.offsetHeight
-          const item = itemPositioner.set(index, height)
-          positionCache.setPosition(index, item.left, item.top, height)
-        }
+      if (itemPositioner.get(index) === void 0) {
+        const item = itemPositioner.set(index, el.offsetHeight)
+        positionCache.setPosition(index, item.left, item.top, item.height)
       }
     })
 )
@@ -612,15 +589,10 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
             // observer updates
             const updatedItems = itemPositioner.update(updates)
 
-            for (let i = 0; i < updatedItems.length - 1; i++) {
-              const index = updatedItems[i++]
-              const item = updatedItems[i]
-              positionCache.updatePosition(
-                index,
-                item.left,
-                item.top,
-                item.height
-              )
+            for (let i = 0; i < updatedItems.length; i++) {
+              const index = updatedItems[i++] as number
+              const item = updatedItems[i] as IUpdatedItem
+              positionCache.setPosition(index, item.left, item.top, item.height)
             }
 
             forceUpdate()
@@ -650,8 +622,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     // size changes
     useLayoutEffect(() => {
       didMount.current = '1'
-      const prevPositioner = itemPositioner
-      const cacheSize = positionCache.getSize()
+      const cacheSize = positionCache.size
       const nextPositionCache = createPositionCache()
       const nextItemPositioner = initPositioner()
       const stateUpdates = (): void => {
@@ -666,7 +637,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
       }
 
       for (let index = 0; index < cacheSize; index++) {
-        const pos = prevPositioner.get(index)
+        const pos = itemPositioner.get(index)
 
         if (pos !== void 0) {
           const item = nextItemPositioner.set(index, pos.height)
@@ -690,7 +661,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
       itemPositioner
     )
     const itemCount = items.length
-    const measuredCount = positionCache.getSize()
+    const measuredCount = positionCache.size
     const shortestColumnSize = positionCache.getShortestColumnSize()
     const children: React.ReactElement[] = []
     const itemRole = `${role}item`
@@ -991,4 +962,10 @@ export const useInfiniteLoader = (
     },
     [totalItems, minimumBatchSize, threshold, isItemLoaded]
   )
+}
+
+if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production') {
+  Masonry.displayName = 'Masonry'
+  FreeMasonry.displayName = 'FreeMasonry'
+  List.displayName = 'List'
 }
