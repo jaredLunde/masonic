@@ -4919,11 +4919,6 @@ raf@^3.4.1:
   dependencies:
     performance-now "^2.1.0"
 
-rand-int@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/rand-int/-/rand-int-1.0.0.tgz#7ae9b10bfad7f00899bf8e3730122e7793b3d50e"
-  integrity sha1-eumxC/rX8AiZv443MBIud5Oz1Q4=
-
 rc@^1.2.7:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed"
@@ -5023,11 +5018,6 @@ realpath-native@^1.1.0:
   integrity sha512-wlgPA6cCIIg9gKz0fgAPjnzh4yR/LnXovwuo9hvyGvx3h8nX4+/iLZplfUWasXpqD8BdnGnP5njOFjkUwPzvjA==
   dependencies:
     util.promisify "^1.0.0"
-
-redblack@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/redblack/-/redblack-0.1.2.tgz#23a17109c983cbf24484db551a2346453891e90f"
-  integrity sha1-I6FxCcmDy/JEhNtVGiNGRTiR6Q8=
 
 redent@^3.0.0:
   version "3.0.0"

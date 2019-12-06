@@ -1,6 +1,6 @@
 {
   "name": "masonic",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "homepage": "https://github.com/jaredLunde/masonic#readme",
   "repository": "github:jaredLunde/masonic",
   "bugs": "https://github.com/jaredLunde/masonic/issues",
@@ -79,7 +79,6 @@
     "jest": "latest",
     "lint-staged": "latest",
     "prettier": "latest",
-    "rand-int": "^1.0.0",
     "react": "latest",
     "react-dom": "latest",
     "react-test-renderer": "latest",
@@ -93,7 +92,6 @@
     "@react-hook/passive-layout-effect": "^1.0.2",
     "@react-hook/window-scroll": "^1.0.6",
     "@react-hook/window-size": "^1.0.10",
-    "redblack": "^0.1.2",
     "resize-observer-polyfill": "^1.5.1",
     "trie-memoize": "^1.0.19"
   },

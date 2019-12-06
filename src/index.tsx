@@ -570,7 +570,15 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
 
             if (height > 0) {
               const index = elementsCache.get(entry.target)
-              if (index !== void 0) updates.push(index, height)
+              const position = itemPositioner.get(index)
+
+              if (
+                position !== void 0 &&
+                index !== void 0 &&
+                height !== position.height
+              ) {
+                updates.push(index, height)
+              }
             }
           }
 

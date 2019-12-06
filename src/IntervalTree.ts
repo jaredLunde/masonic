@@ -1,18 +1,15 @@
-enum Color {
-  Red,
-  Black,
-  Nil,
-}
+type Color = 0 | 1 | 2
+const RED = 0
+const BLACK = 1
+const NIL = 2
+
+const DELETE = 0
+const KEEP = 1
+const NOT_FOUND = 2
 
 interface Interval {
   high: number
   index: number
-}
-
-enum IntervalResult {
-  Delete,
-  Keep,
-  NotFound,
 }
 
 interface TreeNode {
@@ -49,7 +46,7 @@ const addInterval = (
 }
 
 const removeInterval = (treeNode: TreeNode, index: number) => {
-  if (treeNode.list === void 0) return IntervalResult.NotFound
+  if (treeNode.list === void 0) return NOT_FOUND
 
   for (let i = treeNode.list.length - 1; i > -1; i--)
     if (treeNode.list[i].index === index) {
@@ -57,14 +54,14 @@ const removeInterval = (treeNode: TreeNode, index: number) => {
       break
     }
 
-  return treeNode.list.length > 0 ? IntervalResult.Keep : IntervalResult.Delete
+  return treeNode.list.length > 0 ? KEEP : DELETE
 }
 
 const NULL_NODE: TreeNode = {
   low: 0,
   max: 0,
   high: 0,
-  color: Color.Nil,
+  color: NIL,
   // @ts-ignore
   parent: undefined,
   // @ts-ignore
@@ -89,14 +86,14 @@ const updateMax = (node: TreeNode) => {
 
 const updateMaxUp = (node: TreeNode) => {
   let x = node
-  while (x.parent != NULL_NODE) {
+  while (x.parent !== NULL_NODE) {
     updateMax(x.parent)
     x = x.parent
   }
 }
 
 const rotateLeft = (tree: Tree, x: TreeNode) => {
-  if (x.right == NULL_NODE) return
+  if (x.right === NULL_NODE) return
   const y = x.right
   x.right = y.left
   if (y.left !== NULL_NODE) y.left.parent = x
@@ -116,7 +113,7 @@ const rotateLeft = (tree: Tree, x: TreeNode) => {
 }
 
 const rotateRight = (tree: Tree, x: TreeNode) => {
-  if (x.left == NULL_NODE) return
+  if (x.left === NULL_NODE) return
   const y = x.left
   x.left = y.right
   if (y.right !== NULL_NODE) y.right.parent = x
@@ -149,61 +146,61 @@ const rbTransplant = (tree: Tree, u: TreeNode, v: TreeNode) => {
 const rbDeleteFixup = (tree: Tree, x: TreeNode) => {
   let w
 
-  while (x !== NULL_NODE && x.color === Color.Black) {
+  while (x !== NULL_NODE && x.color === BLACK) {
     if (x === x.parent.left) {
       w = x.parent.right
-      if (w.color === Color.Red) {
-        w.color = Color.Black
-        x.parent.color = Color.Red
+      if (w.color === RED) {
+        w.color = BLACK
+        x.parent.color = RED
         rotateLeft(tree, x.parent)
         w = x.parent.right
       }
-      if (w.left.color === Color.Black && w.right.color === Color.Black) {
-        w.color = Color.Red
+      if (w.left.color === BLACK && w.right.color === BLACK) {
+        w.color = RED
         x = x.parent
       } else {
-        if (w.right.color === Color.Black) {
-          w.left.color = Color.Black
-          w.color = Color.Red
+        if (w.right.color === BLACK) {
+          w.left.color = BLACK
+          w.color = RED
           rotateRight(tree, w)
           w = x.parent.right
         }
 
         w.color = x.parent.color
-        x.parent.color = Color.Black
-        w.right.color = Color.Black
+        x.parent.color = BLACK
+        w.right.color = BLACK
         rotateLeft(tree, x.parent)
         x = tree.root
       }
     } else {
       w = x.parent.left
 
-      if (w.color === Color.Red) {
-        w.color = Color.Black
-        x.parent.color = Color.Red
+      if (w.color === RED) {
+        w.color = BLACK
+        x.parent.color = RED
         rotateRight(tree, x.parent)
         w = x.parent.left
       }
-      if (w.right.color === Color.Black && w.left.color === Color.Black) {
-        w.color = Color.Red
+      if (w.right.color === BLACK && w.left.color === BLACK) {
+        w.color = RED
         x = x.parent
       } else {
-        if (w.left.color === Color.Black) {
-          w.right.color = Color.Black
-          w.color = Color.Red
+        if (w.left.color === BLACK) {
+          w.right.color = BLACK
+          w.color = RED
           rotateLeft(tree, w)
           w = x.parent.left
         }
 
         w.color = x.parent.color
-        x.parent.color = Color.Black
-        w.left.color = Color.Black
+        x.parent.color = BLACK
+        w.left.color = BLACK
         rotateRight(tree, x.parent)
         x = tree.root
       }
     }
   }
-  x.color = Color.Black
+  x.color = BLACK
 }
 
 const minimumTree = (x: TreeNode) => {
@@ -211,71 +208,25 @@ const minimumTree = (x: TreeNode) => {
   return x
 }
 
-const removeNode = (tree: Tree, low: number, index: number) => {
-  const z = searchNode(tree.root, low)
-  if (z === void 0) return
-
-  const linkedIntervalResult = removeInterval(z, index)
-  if (linkedIntervalResult === IntervalResult.NotFound) return
-  if (linkedIntervalResult === IntervalResult.Keep) {
-    z.high = z.list[0].high
-    updateMax(z)
-    updateMaxUp(z)
-    tree.size--
-    return
-  }
-
-  let y = z
-  let originalYColor = y.color
-  let x
-  if (z.left === NULL_NODE) {
-    x = z.right
-    rbTransplant(tree, z, z.right)
-  } else if (z.right === NULL_NODE) {
-    x = z.left
-    rbTransplant(tree, z, z.left)
-  } else {
-    y = minimumTree(z.right)
-    originalYColor = y.color
-    x = y.right
-    if (y.parent === z) {
-      x.parent = y
-    } else {
-      rbTransplant(tree, y, y.right)
-      y.right = z.right
-      y.right.parent = y
-    }
-    rbTransplant(tree, z, y)
-    y.left = z.left
-    y.left.parent = y
-    y.color = z.color
-  }
-
-  updateMax(x)
-  updateMaxUp(x)
-
-  if (originalYColor === Color.Black) rbDeleteFixup(tree, x)
-  tree.size--
-}
-
 const searchNode = (x: TreeNode, low: number) => {
   while (x !== NULL_NODE && low !== x.low) {
     if (low < x.low) x = x.left
     else x = x.right
   }
+
   return x
 }
 
 const rbInsertFixup = (tree: Tree, z: TreeNode) => {
   let y: TreeNode
-  while (z.parent.color === Color.Red) {
+  while (z.parent.color === RED) {
     if (z.parent === z.parent.parent.left) {
       y = z.parent.parent.right
 
-      if (y.color === Color.Red) {
-        z.parent.color = Color.Black
-        y.color = Color.Black
-        z.parent.parent.color = Color.Red
+      if (y.color === RED) {
+        z.parent.color = BLACK
+        y.color = BLACK
+        z.parent.parent.color = RED
         z = z.parent.parent
       } else {
         if (z === z.parent.right) {
@@ -283,17 +234,17 @@ const rbInsertFixup = (tree: Tree, z: TreeNode) => {
           rotateLeft(tree, z)
         }
 
-        z.parent.color = Color.Black
-        z.parent.parent.color = Color.Red
+        z.parent.color = BLACK
+        z.parent.parent.color = RED
         rotateRight(tree, z.parent.parent)
       }
     } else {
       y = z.parent.parent.left
 
-      if (y.color === Color.Red) {
-        z.parent.color = Color.Black
-        y.color = Color.Black
-        z.parent.parent.color = Color.Red
+      if (y.color === RED) {
+        z.parent.color = BLACK
+        y.color = BLACK
+        z.parent.parent.color = RED
         z = z.parent.parent
       } else {
         if (z === z.parent.left) {
@@ -301,74 +252,13 @@ const rbInsertFixup = (tree: Tree, z: TreeNode) => {
           rotateRight(tree, z)
         }
 
-        z.parent.color = Color.Black
-        z.parent.parent.color = Color.Red
+        z.parent.color = BLACK
+        z.parent.parent.color = RED
         rotateLeft(tree, z.parent.parent)
       }
     }
   }
-  tree.root.color = Color.Black
-}
-
-const addNode = (tree: Tree, low: number, high: number, index: number) => {
-  let x: TreeNode = tree.root
-  let y: TreeNode = NULL_NODE
-
-  while (x !== NULL_NODE) {
-    y = x
-    if (low === y.low) break
-    if (low < x.low) x = x.left
-    else x = x.right
-  }
-
-  if (low === y.low && y !== NULL_NODE) {
-    if (!addInterval(y, high, index)) return
-    y.high = Math.max(y.high, high)
-    updateMax(y)
-    updateMaxUp(y)
-    tree.size++
-    return
-  }
-
-  const z: TreeNode = {
-    low,
-    high,
-    max: high,
-    color: Color.Red,
-    parent: y,
-    left: NULL_NODE,
-    right: NULL_NODE,
-    list: [{index, high}],
-  }
-
-  if (y === NULL_NODE) {
-    tree.root = z
-  } else {
-    if (z.low < y.low) y.left = z
-    else y.right = z
-    updateMaxUp(z)
-  }
-
-  rbInsertFixup(tree, z)
-  tree.size++
-}
-
-const searchRecursive = (
-  node: TreeNode,
-  low: number,
-  high: number,
-  callback: (index: any, low: number, high: number) => any
-) => {
-  if (node === NULL_NODE || low > node.max) return
-  if (node.left !== NULL_NODE) searchRecursive(node.left, low, high, callback)
-  if (node.low <= high && node.high >= low) {
-    for (let i = 0; i < node.list.length; i++) {
-      const linkedInterval = (node.list as Interval[])[i]
-      if (linkedInterval.high >= low)
-        callback(linkedInterval.index, node.low, linkedInterval.high)
-    }
-  }
-  if (node.right !== NULL_NODE) searchRecursive(node.right, low, high, callback)
+  tree.root.color = BLACK
 }
 
 interface IIntervalTree {
@@ -391,13 +281,111 @@ const IntervalTree = (): IIntervalTree => {
 
   return {
     insert(low, high, index) {
-      addNode(tree, low, high, index)
+      let x: TreeNode = tree.root
+      let y: TreeNode = NULL_NODE
+
+      while (x !== NULL_NODE) {
+        y = x
+        if (low === y.low) break
+        if (low < x.low) x = x.left
+        else x = x.right
+      }
+
+      if (low === y.low && y !== NULL_NODE) {
+        if (!addInterval(y, high, index)) return
+        y.high = Math.max(y.high, high)
+        updateMax(y)
+        updateMaxUp(y)
+        tree.size++
+        return
+      }
+
+      const z: TreeNode = {
+        low,
+        high,
+        max: high,
+        color: RED,
+        parent: y,
+        left: NULL_NODE,
+        right: NULL_NODE,
+        list: [{index, high}],
+      }
+
+      if (y === NULL_NODE) {
+        tree.root = z
+      } else {
+        if (z.low < y.low) y.left = z
+        else y.right = z
+        updateMaxUp(z)
+      }
+
+      rbInsertFixup(tree, z)
+      tree.size++
     },
     remove(low, high, index) {
-      removeNode(tree, low, index)
+      const z = searchNode(tree.root, low)
+      if (z === void 0) return
+
+      const intervalResult = removeInterval(z, index)
+      if (intervalResult === NOT_FOUND) return
+      if (intervalResult === KEEP) {
+        z.high = z.list[0].high
+        updateMax(z)
+        updateMaxUp(z)
+        tree.size--
+        return
+      }
+
+      let y = z
+      let originalYColor = y.color
+      let x
+
+      if (z.left === NULL_NODE) {
+        x = z.right
+        rbTransplant(tree, z, z.right)
+      } else if (z.right === NULL_NODE) {
+        x = z.left
+        rbTransplant(tree, z, z.left)
+      } else {
+        y = minimumTree(z.right)
+        originalYColor = y.color
+        x = y.right
+
+        if (y.parent === z) {
+          x.parent = y
+        } else {
+          rbTransplant(tree, y, y.right)
+          y.right = z.right
+          y.right.parent = y
+        }
+
+        rbTransplant(tree, z, y)
+        y.left = z.left
+        y.left.parent = y
+        y.color = z.color
+      }
+
+      updateMax(x)
+      updateMaxUp(x)
+
+      if (originalYColor === BLACK) rbDeleteFixup(tree, x)
+      tree.size--
     },
     search(low, high, callback) {
-      searchRecursive(tree.root, low, high, callback)
+      function searchRecursive(node: TreeNode) {
+        if (node === NULL_NODE || low > node.max) return
+        if (node.left !== NULL_NODE) searchRecursive(node.left)
+        if (node.low <= high && node.high >= low) {
+          for (let i = 0; i < node.list.length; i++) {
+            const interval = (node.list as Interval[])[i]
+            if (interval.high >= low)
+              callback(interval.index, node.low, interval.high)
+          }
+        }
+        if (node.right !== NULL_NODE) searchRecursive(node.right)
+      }
+
+      searchRecursive(tree.root)
     },
     get size() {
       return tree.size
