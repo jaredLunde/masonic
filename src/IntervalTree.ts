@@ -390,13 +390,13 @@ const IntervalTree = (): IIntervalTree => {
   }
 
   return {
-    insert (low, high, index) {
+    insert(low, high, index) {
       addNode(tree, low, high, index)
     },
-    remove (low, high, index) {
+    remove(low, high, index) {
       removeNode(tree, low, index)
     },
-    search (low, high, callback) {
+    search(low, high, callback) {
       searchRecursive(tree.root, low, high, callback)
     },
     get size() {
