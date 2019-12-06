@@ -9,7 +9,7 @@ interface Interval {
   index: number
 }
 
-enum ListResult {
+enum IntervalResult {
   Delete,
   Keep,
   NotFound,
@@ -49,7 +49,7 @@ const addInterval = (
 }
 
 const removeInterval = (treeNode: TreeNode, index: number) => {
-  if (treeNode.list === void 0) return ListResult.NotFound
+  if (treeNode.list === void 0) return IntervalResult.NotFound
 
   for (let i = treeNode.list.length - 1; i > -1; i--)
     if (treeNode.list[i].index === index) {
@@ -57,7 +57,7 @@ const removeInterval = (treeNode: TreeNode, index: number) => {
       break
     }
 
-  return treeNode.list.length > 0 ? ListResult.Keep : ListResult.Delete
+  return treeNode.list.length > 0 ? IntervalResult.Keep : IntervalResult.Delete
 }
 
 const NULL_NODE: TreeNode = {
@@ -215,9 +215,9 @@ const removeNode = (tree: Tree, low: number, index: number) => {
   const z = searchNode(tree.root, low)
   if (z === void 0) return
 
-  const linkedListResult = removeInterval(z, index)
-  if (linkedListResult === ListResult.NotFound) return
-  if (linkedListResult === ListResult.Keep) {
+  const linkedIntervalResult = removeInterval(z, index)
+  if (linkedIntervalResult === IntervalResult.NotFound) return
+  if (linkedIntervalResult === IntervalResult.Keep) {
     z.high = z.list[0].high
     updateMax(z)
     updateMaxUp(z)
