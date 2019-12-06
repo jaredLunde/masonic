@@ -1,401 +1,409 @@
-const NOT_FOUND = 0
-const SUCCESS = 1
-const EMPTY = 2
-
-const binarySearchGe = (
-  a: number[][],
-  y: number[],
-  c: (x: number[], y: number[]) => number
-): number => {
-  let h = a.length - 1
-  let i = h + 1
-  let l = 0
-
-  while (l <= h) {
-    const m = (l + h) >>> 1
-    const x = a[m]
-    if (c(x, y) >= 0) {
-      i = m
-      h = m - 1
-    } else {
-      l = m + 1
-    }
-  }
-
-  return i
+enum Color {
+  Red,
+  Black,
+  Nil,
 }
 
-interface IIntervalTreeNode {
-  mid: number
-  left: IIntervalTreeNode | null
-  right: IIntervalTreeNode | null
-  leftPoints: number[][]
-  rightPoints: number[][]
+interface Interval {
+  high: number
+  index: number
+}
+
+enum ListResult {
+  Delete,
+  Keep,
+  NotFound,
+}
+
+interface TreeNode {
+  max: number
+  low: number
+  high: number
+  color: Color
+  parent: TreeNode
+  right: TreeNode
+  left: TreeNode
+  list: Interval[]
+}
+
+interface Tree {
+  root: TreeNode
   size: number
-  intervals: (result: number[][]) => number[][]
-  insert: (interval: number[]) => void
-  remove: (interval: number[]) => void | number
-  queryInterval: (
-    lo: number,
-    hi: number,
-    cb: (r: number[]) => void
-  ) => number[] | void
 }
 
-const IntervalTreeNode = (
-  mid,
-  left,
-  right,
-  leftPoints,
-  rightPoints
-): IIntervalTreeNode => ({
-  mid,
-  left,
-  right,
-  leftPoints,
-  rightPoints,
-  size: (left ? left.size : 0) + (right ? right.size : 0) + leftPoints.length,
-  intervals(result): number[][] {
-    result.push.apply(result, this.leftPoints)
-
-    if (this.left !== null) {
-      this.left.intervals(result)
-    }
-
-    if (this.right !== null) {
-      this.right.intervals(result)
-    }
-
-    return result
-  },
-  insert(interval): void {
-    const weight = this.size - this.leftPoints.length
-    this.size++
-
-    if (interval[1] < this.mid) {
-      if (this.left !== null) {
-        if (4 * (this.left.size + 1) > 3 * (weight + 1)) {
-          rebuildWithInterval(this, interval)
-        } else {
-          this.left.insert(interval)
-        }
-      } else {
-        this.left = createIntervalTree([interval])
-      }
-    } else if (interval[0] > this.mid) {
-      if (this.right !== null) {
-        if (4 * (this.right.size + 1) > 3 * (weight + 1)) {
-          rebuildWithInterval(this, interval)
-        } else {
-          this.right.insert(interval)
-        }
-      } else {
-        this.right = createIntervalTree([interval])
-      }
-    } else {
-      const l = binarySearchGe(this.leftPoints, interval, compareBegin)
-      const r = binarySearchGe(this.rightPoints, interval, compareEnd)
-      this.leftPoints.splice(l, 0, interval)
-      this.rightPoints.splice(r, 0, interval)
-    }
-  },
-  remove(interval: number[]): void | number {
-    const {leftPoints, rightPoints, left, mid, right} = this
-    const weight = this.size - leftPoints.length
-
-    if (interval[1] < mid) {
-      if (left === null) return NOT_FOUND
-      const rw = right === null ? 0 : right.size
-
-      if (4 * rw > 3 * (weight - 1)) {
-        return rebuildWithoutInterval(this, interval)
-      }
-
-      const r = left.remove(interval)
-
-      if (r === EMPTY) {
-        this.left = null
-        this.size--
-        return SUCCESS
-      } else if (r === SUCCESS) {
-        this.size--
-      }
-
-      return r
-    } else if (interval[0] > this.mid) {
-      if (right === null) {
-        return NOT_FOUND
-      }
-
-      const lw = left === null ? 0 : left.size
-
-      if (4 * lw > 3 * (weight - 1)) {
-        return rebuildWithoutInterval(this, interval)
-      }
-
-      const r = right.remove(interval)
-
-      if (r === EMPTY) {
-        this.right = null
-        this.size--
-        return SUCCESS
-      } else if (r === SUCCESS) {
-        this.size--
-      }
-
-      return r
-    } else {
-      if (this.size === 1) return leftPoints[0] === interval ? EMPTY : NOT_FOUND
-
-      if (leftPoints.length === 1 && leftPoints[0] === interval) {
-        if (left !== null && right !== null) {
-          let p: IIntervalTreeNode = this
-          let n = left
-
-          while (n.right) {
-            p = n
-            n = n.right
-          }
-
-          if (p === this) {
-            n.right = right
-          } else {
-            p.size -= n.size
-            p.right = n.left
-            n.left = left
-            n.right = right
-          }
-
-          copy(this, n)
-
-          this.size =
-            // need to use `this.` here because of the copy() above potentially
-            // altering the current node
-            (this.left === null ? 0 : this.left.size) +
-            (this.right === null ? 0 : this.right.size) +
-            this.leftPoints.length
-        } else if (left !== null) {
-          copy(this, left)
-        } else if (right !== null) {
-          copy(this, right)
-        }
-
-        return SUCCESS
-      }
-      for (
-        let l = binarySearchGe(leftPoints, interval, compareBegin);
-        l < leftPoints.length;
-        ++l
-      ) {
-        if (leftPoints[l][0] !== interval[0]) break
-        if (leftPoints[l] === interval) {
-          this.size--
-          leftPoints.splice(l, 1)
-
-          for (
-            let r = binarySearchGe(rightPoints, interval, compareEnd);
-            r < rightPoints.length;
-            ++r
-          ) {
-            if (rightPoints[r][1] !== interval[1]) {
-              break
-            } else if (rightPoints[r] === interval) {
-              rightPoints.splice(r, 1)
-              return SUCCESS
-            }
-          }
-        }
-      }
-
-      return NOT_FOUND
-    }
-  },
-  queryInterval(lo, hi, cb): number[] | void {
-    if (lo < this.mid && this.left !== null) {
-      this.left.queryInterval(lo, hi, cb)
-    }
-    if (hi > this.mid && this.right !== null) {
-      this.right.queryInterval(lo, hi, cb)
-    }
-
-    if (hi < this.mid) reportLeftRange(this.leftPoints, hi, cb)
-    else if (lo > this.mid) reportRightRange(this.rightPoints, lo, cb)
-    else reportRange(this.leftPoints, cb)
-  },
-})
-
-const copy = (a: IIntervalTreeNode, b: IIntervalTreeNode): void => {
-  a.mid = b.mid
-  a.left = b.left
-  a.right = b.right
-  a.leftPoints = b.leftPoints
-  a.rightPoints = b.rightPoints
-  a.size = b.size
-}
-
-const rebuild = (node: IIntervalTreeNode, intervals: number[][]): void => {
-  const ntree = createIntervalTree(intervals)
-  if (!ntree) return
-  node.mid = ntree.mid
-  node.left = ntree.left
-  node.right = ntree.right
-  node.leftPoints = ntree.leftPoints
-  node.rightPoints = ntree.rightPoints
-  node.size = ntree.size
-}
-
-const rebuildWithInterval = (
-  node: IIntervalTreeNode,
-  interval: number[]
-): void => {
-  const intervals = node.intervals([])
-  intervals.push(interval)
-  rebuild(node, intervals)
-}
-
-const rebuildWithoutInterval = (
-  node: IIntervalTreeNode,
-  interval: number[]
-): number => {
-  const intervals = node.intervals([])
-  const idx = intervals.indexOf(interval)
-  if (idx === -1) return NOT_FOUND
-  intervals.splice(idx, 1)
-  rebuild(node, intervals)
-  return SUCCESS
-}
-
-const reportLeftRange = (
-  arr: number[][],
-  hi: number,
-  cb: (r: number[]) => any
-): number[] | void => {
-  for (let i = 0; i < arr.length && arr[i][0] <= hi; ++i) cb(arr[i])
-}
-
-const reportRightRange = (
-  arr: number[][],
-  lo: number,
-  cb: (r: number[]) => any
-): number[] | void => {
-  for (let i = arr.length - 1; i >= 0 && arr[i][1] >= lo; --i) cb(arr[i])
-}
-
-const reportRange = (
-  arr: number[][],
-  cb: (r: number[]) => any
-): number[] | void => {
-  for (let i = 0; i < arr.length; ++i) cb(arr[i])
-}
-
-const compareBegin = (a: number[], b: number[]): number => {
-  const d = a[0] - b[0]
-  return d !== 0 ? d : a[1] - b[1]
-}
-
-const compareEnd = (a: number[], b: number[]): number => {
-  const d = a[1] - b[1]
-  return d !== 0 ? d : a[0] - b[0]
-}
-
-const bInsert = (
-  array: number[],
-  value: number,
-  startVal?: number,
-  endVal?: number
-): void => {
-  const length = array.length,
-    start = startVal !== void 0 ? startVal : 0,
-    end = endVal !== void 0 ? endVal : length - 1,
-    m = start + Math.floor((end - start) / 2)
-
-  if (length === 0) array.push(value)
-  else if (value > array[end]) array.splice(end + 1, 0, value)
-  else if (value < array[start]) array.splice(start, 0, value)
-  else if (value === array[m]) array.splice(m, 0, value)
-  else if (start >= end) return
-  else if (value < array[m]) bInsert(array, value, start, m - 1)
-  else if (value > array[m]) bInsert(array, value, m + 1, end)
-}
-
-const createIntervalTree = (
-  intervals: number[][]
-): IIntervalTreeNode | null => {
-  if (intervals.length === 0) return null
-
-  let i = 0
-  const pts = []
-
-  for (; i < intervals.length; ++i) {
-    bInsert(pts, intervals[i][0])
-    bInsert(pts, intervals[i][1])
+const addInterval = (
+  treeNode: TreeNode,
+  high: number,
+  index: number
+): boolean => {
+  if (treeNode.list.length === 0) {
+    treeNode.list.push({index, high})
+    return true
   }
 
-  const mid = pts[pts.length >> 1],
-    leftIntervals: number[][] = [],
-    rightIntervals: number[][] = [],
-    centerIntervals: number[][] = []
+  for (let i = 0; i < treeNode.list.length; i++)
+    if (treeNode.list[i].index === index) return false
 
-  for (i = 0; i < intervals.length; ++i) {
-    const s = intervals[i]
-    if (s[1] < mid) leftIntervals.push(s)
-    else if (mid < s[0]) rightIntervals.push(s)
-    else centerIntervals.push(s)
-  }
-
-  //Split center intervals
-  const leftPoints = centerIntervals
-  const rightPoints = centerIntervals.slice(0)
-  leftPoints.sort(compareBegin)
-  rightPoints.sort(compareEnd)
-
-  return IntervalTreeNode(
-    mid,
-    createIntervalTree(leftIntervals),
-    createIntervalTree(rightIntervals),
-    leftPoints,
-    rightPoints
-  )
+  treeNode.list.push({index, high})
+  return true
 }
 
-//User friendly wrapper that makes it possible to support empty trees
+const removeInterval = (treeNode: TreeNode, index: number) => {
+  if (treeNode.list === void 0) return ListResult.NotFound
+
+  for (let i = treeNode.list.length - 1; i > -1; i--)
+    if (treeNode.list[i].index === index) {
+      treeNode.list.splice(i, 1)
+      break
+    }
+
+  return treeNode.list.length > 0 ? ListResult.Keep : ListResult.Delete
+}
+
+const NULL_NODE: TreeNode = {
+  low: 0,
+  max: 0,
+  high: 0,
+  color: Color.Nil,
+  // @ts-ignore
+  parent: undefined,
+  // @ts-ignore
+  right: undefined,
+  // @ts-ignore
+  left: undefined,
+  // @ts-ignore
+  list: undefined,
+}
+
+NULL_NODE.parent = NULL_NODE
+NULL_NODE.left = NULL_NODE
+NULL_NODE.right = NULL_NODE
+
+const updateMax = (node: TreeNode) => {
+  const max = node.high
+  if (node.left === NULL_NODE && node.right === NULL_NODE) node.max = max
+  else if (node.left === NULL_NODE) node.max = Math.max(node.right.max, max)
+  else if (node.right === NULL_NODE) node.max = Math.max(node.left.max, max)
+  else node.max = Math.max(Math.max(node.left.max, node.right.max), max)
+}
+
+const updateMaxUp = (node: TreeNode) => {
+  let x = node
+  while (x.parent != NULL_NODE) {
+    updateMax(x.parent)
+    x = x.parent
+  }
+}
+
+const rotateLeft = (tree: Tree, x: TreeNode) => {
+  if (x.right == NULL_NODE) return
+  const y = x.right
+  x.right = y.left
+  if (y.left !== NULL_NODE) y.left.parent = x
+  y.parent = x.parent
+
+  if (x.parent === NULL_NODE) tree.root = y
+  else {
+    if (x === x.parent.left) x.parent.left = y
+    else x.parent.right = y
+  }
+
+  y.left = x
+  x.parent = y
+
+  updateMax(x)
+  updateMax(y)
+}
+
+const rotateRight = (tree: Tree, x: TreeNode) => {
+  if (x.left == NULL_NODE) return
+  const y = x.left
+  x.left = y.right
+  if (y.right !== NULL_NODE) y.right.parent = x
+  y.parent = x.parent
+
+  if (x.parent === NULL_NODE) tree.root = y
+  else {
+    if (x === x.parent.right) x.parent.right = y
+    else x.parent.left = y
+  }
+
+  y.right = x
+  x.parent = y
+
+  updateMax(x)
+  updateMax(y)
+}
+
+const rbTransplant = (tree: Tree, u: TreeNode, v: TreeNode) => {
+  if (u.parent === NULL_NODE) {
+    tree.root = v
+  } else if (u === u.parent.left) {
+    u.parent.left = v
+  } else {
+    u.parent.right = v
+  }
+  v.parent = u.parent
+}
+
+const rbDeleteFixup = (tree: Tree, x: TreeNode) => {
+  let w
+
+  while (x !== NULL_NODE && x.color === Color.Black) {
+    if (x === x.parent.left) {
+      w = x.parent.right
+      if (w.color === Color.Red) {
+        w.color = Color.Black
+        x.parent.color = Color.Red
+        rotateLeft(tree, x.parent)
+        w = x.parent.right
+      }
+      if (w.left.color === Color.Black && w.right.color === Color.Black) {
+        w.color = Color.Red
+        x = x.parent
+      } else {
+        if (w.right.color === Color.Black) {
+          w.left.color = Color.Black
+          w.color = Color.Red
+          rotateRight(tree, w)
+          w = x.parent.right
+        }
+
+        w.color = x.parent.color
+        x.parent.color = Color.Black
+        w.right.color = Color.Black
+        rotateLeft(tree, x.parent)
+        x = tree.root
+      }
+    } else {
+      w = x.parent.left
+
+      if (w.color === Color.Red) {
+        w.color = Color.Black
+        x.parent.color = Color.Red
+        rotateRight(tree, x.parent)
+        w = x.parent.left
+      }
+      if (w.right.color === Color.Black && w.left.color === Color.Black) {
+        w.color = Color.Red
+        x = x.parent
+      } else {
+        if (w.left.color === Color.Black) {
+          w.right.color = Color.Black
+          w.color = Color.Red
+          rotateLeft(tree, w)
+          w = x.parent.left
+        }
+
+        w.color = x.parent.color
+        x.parent.color = Color.Black
+        w.left.color = Color.Black
+        rotateRight(tree, x.parent)
+        x = tree.root
+      }
+    }
+  }
+  x.color = Color.Black
+}
+
+const minimumTree = (x: TreeNode) => {
+  while (x.left !== NULL_NODE) x = x.left
+  return x
+}
+
+const removeNode = (tree: Tree, low: number, index: number) => {
+  const z = searchNode(tree.root, low)
+  if (z === void 0) return
+
+  const linkedListResult = removeInterval(z, index)
+  if (linkedListResult === ListResult.NotFound) return
+  if (linkedListResult === ListResult.Keep) {
+    z.high = z.list[0].high
+    updateMax(z)
+    updateMaxUp(z)
+    tree.size--
+    return
+  }
+
+  let y = z
+  let originalYColor = y.color
+  let x
+  if (z.left === NULL_NODE) {
+    x = z.right
+    rbTransplant(tree, z, z.right)
+  } else if (z.right === NULL_NODE) {
+    x = z.left
+    rbTransplant(tree, z, z.left)
+  } else {
+    y = minimumTree(z.right)
+    originalYColor = y.color
+    x = y.right
+    if (y.parent === z) {
+      x.parent = y
+    } else {
+      rbTransplant(tree, y, y.right)
+      y.right = z.right
+      y.right.parent = y
+    }
+    rbTransplant(tree, z, y)
+    y.left = z.left
+    y.left.parent = y
+    y.color = z.color
+  }
+
+  updateMax(x)
+  updateMaxUp(x)
+
+  if (originalYColor === Color.Black) rbDeleteFixup(tree, x)
+  tree.size--
+}
+
+const searchNode = (x: TreeNode, low: number) => {
+  while (x !== NULL_NODE && low !== x.low) {
+    if (low < x.low) x = x.left
+    else x = x.right
+  }
+  return x
+}
+
+const rbInsertFixup = (tree: Tree, z: TreeNode) => {
+  let y: TreeNode
+  while (z.parent.color === Color.Red) {
+    if (z.parent === z.parent.parent.left) {
+      y = z.parent.parent.right
+
+      if (y.color === Color.Red) {
+        z.parent.color = Color.Black
+        y.color = Color.Black
+        z.parent.parent.color = Color.Red
+        z = z.parent.parent
+      } else {
+        if (z === z.parent.right) {
+          z = z.parent
+          rotateLeft(tree, z)
+        }
+
+        z.parent.color = Color.Black
+        z.parent.parent.color = Color.Red
+        rotateRight(tree, z.parent.parent)
+      }
+    } else {
+      y = z.parent.parent.left
+
+      if (y.color === Color.Red) {
+        z.parent.color = Color.Black
+        y.color = Color.Black
+        z.parent.parent.color = Color.Red
+        z = z.parent.parent
+      } else {
+        if (z === z.parent.left) {
+          z = z.parent
+          rotateRight(tree, z)
+        }
+
+        z.parent.color = Color.Black
+        z.parent.parent.color = Color.Red
+        rotateLeft(tree, z.parent.parent)
+      }
+    }
+  }
+  tree.root.color = Color.Black
+}
+
+const addNode = (tree: Tree, low: number, high: number, index: number) => {
+  let x: TreeNode = tree.root
+  let y: TreeNode = NULL_NODE
+
+  while (x !== NULL_NODE) {
+    y = x
+    if (low === y.low) break
+    if (low < x.low) x = x.left
+    else x = x.right
+  }
+
+  if (low === y.low && y !== NULL_NODE) {
+    if (!addInterval(y, high, index)) return
+    y.high = Math.max(y.high, high)
+    updateMax(y)
+    updateMaxUp(y)
+    tree.size++
+    return
+  }
+
+  const z: TreeNode = {
+    low,
+    high,
+    max: high,
+    color: Color.Red,
+    parent: y,
+    left: NULL_NODE,
+    right: NULL_NODE,
+    list: [{index, high}],
+  }
+
+  if (y === NULL_NODE) {
+    tree.root = z
+  } else {
+    if (z.low < y.low) y.left = z
+    else y.right = z
+    updateMaxUp(z)
+  }
+
+  rbInsertFixup(tree, z)
+  tree.size++
+}
+
+const searchRecursive = (
+  node: TreeNode,
+  low: number,
+  high: number,
+  callback: (index: any, low: number, high: number) => any
+) => {
+  if (node === NULL_NODE || low > node.max) return
+  if (node.left !== NULL_NODE) searchRecursive(node.left, low, high, callback)
+  if (node.low <= high && node.high >= low) {
+    for (let i = 0; i < node.list.length; i++) {
+      const linkedInterval = (node.list as Interval[])[i]
+      if (linkedInterval.high >= low)
+        callback(linkedInterval.index, node.low, linkedInterval.high)
+    }
+  }
+  if (node.right !== NULL_NODE) searchRecursive(node.right, low, high, callback)
+}
+
 interface IIntervalTree {
-  insert: (interval: number[]) => void
-  remove: (interval: number[]) => boolean
-  queryInterval: (
-    lo: number,
-    hi: number,
-    cb: (r: number[]) => void
-  ) => number[] | void
+  insert(low: number, high: number, index: number): void
+  remove(low: number, high: number, index: number): void
+  search(
+    low: number,
+    high: number,
+    callback: (index: number, low: number, high: number) => any
+  ): void
+  size: number
+  root: TreeNode
 }
 
 const IntervalTree = (): IIntervalTree => {
-  let root: IIntervalTreeNode | null = null
+  const tree = {
+    root: NULL_NODE,
+    size: 0,
+  }
+
   return {
-    insert(interval): void {
-      if (root !== null) {
-        root.insert(interval)
-      } else {
-        root = IntervalTreeNode(interval[0], null, null, [interval], [interval])
-      }
+    insert (low, high, index) {
+      addNode(tree, low, high, index)
     },
-    remove(interval): boolean {
-      if (root !== null) {
-        const r = root.remove(interval)
-
-        if (r === EMPTY) {
-          root = null
-        }
-
-        return r !== NOT_FOUND
-      }
-
-      return false
+    remove (low, high, index) {
+      removeNode(tree, low, index)
     },
-    queryInterval(lo, hi, cb): number[] | void {
-      if (lo <= hi && root !== null) {
-        return root.queryInterval(lo, hi, cb)
-      }
+    search (low, high, callback) {
+      searchRecursive(tree.root, low, high, callback)
+    },
+    get size() {
+      return tree.size
+    },
+    get root() {
+      return tree.root
     },
   }
 }

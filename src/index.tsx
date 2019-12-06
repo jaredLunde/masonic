@@ -14,7 +14,7 @@ import memoizeOne from '@essentials/memoize-one'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useWindowScroll from '@react-hook/window-scroll'
 import useWindowSize from '@react-hook/window-size'
-import IntervalTree from './IntervalTree'
+import createIntervalTree from './IntervalTree'
 
 const emptyObj = {}
 const emptyArr = []
@@ -166,9 +166,8 @@ interface PositionCache {
 //   O(log(n)) lookup of cells to render for a given viewport size
 //   O(1) lookup of shortest measured column (so we know when to enter phase 1)
 const createPositionCache = (): PositionCache => {
-  let cacheSize = 0
   // Store tops and bottoms of each cell for fast intersection lookup.
-  const intervalTree = IntervalTree(),
+  const intervalTree = createIntervalTree(),
     // Tracks the intervals that were inserted into the interval tree so they can be
     // removed when positions are updated
     intervalValueMap: number[][] = [],
@@ -182,10 +181,11 @@ const createPositionCache = (): PositionCache => {
     columnCount: number,
     defaultItemHeight: number
   ): number =>
-    itemCount === cacheSize
+    itemCount === intervalTree.size
       ? getTallestColumnSize()
       : getTallestColumnSize() +
-        Math.ceil((itemCount - cacheSize) / columnCount) * defaultItemHeight
+        Math.ceil((itemCount - intervalTree.size) / columnCount) *
+          defaultItemHeight
 
   // Render all cells visible within the viewport range defined.
   const range = (
@@ -193,8 +193,8 @@ const createPositionCache = (): PositionCache => {
     hi: number,
     renderCallback: (index: number, left: number, top: number) => void
   ): void => {
-    intervalTree.queryInterval(lo, hi, r =>
-      renderCallback(r[2] /*index*/, leftMap[r[2] /*index*/], r[0] /*top*/)
+    intervalTree.search(lo, hi, (index, top) =>
+      renderCallback(index, leftMap[index], top)
     )
   }
 
@@ -208,10 +208,9 @@ const createPositionCache = (): PositionCache => {
       prev = prevInterval !== void 0 && prevInterval[1],
       next = top + height
 
-    if (prevInterval !== void 0) intervalTree.remove(prevInterval)
-    const interval = [top, next, index]
-    intervalTree.insert(interval)
-    intervalValueMap[index] = interval
+    if (prevInterval !== void 0) intervalTree.remove.apply(null, prevInterval)
+    intervalTree.insert(top, next, index)
+    intervalValueMap[index] = [top, next, index]
     leftMap[index] = left
 
     const columnHeight = columnSizeMap[left]
@@ -220,7 +219,6 @@ const createPositionCache = (): PositionCache => {
       columnSizeMap[left] = next
     else {
       columnSizeMap[left] = Math.max(columnHeight || 0, next)
-      if (prevInterval === void 0) cacheSize++
     }
   }
 
@@ -245,7 +243,7 @@ const createPositionCache = (): PositionCache => {
   return {
     range,
     get size(): number {
-      return cacheSize
+      return intervalTree.size
     },
     estimateTotalHeight,
     getShortestColumnSize,
@@ -529,7 +527,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     ref
   ) => {
     const didMount = useRef<string>('0')
-    const forceUpdate = useForceUpdate()
     const initPositioner = (): ItemPositioner => {
       const gutter = columnGutter || 0
       const [computedColumnWidth, computedColumnCount] = getColumns(
@@ -554,6 +551,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     const [positionCache, setPositionCache] = useState<PositionCache>(
       createPositionCache
     )
+    const forceUpdate = useForceUpdate()
     const resizeObserver = useMemo<ResizeObserver>(
       () =>
         new ResizeObserver(entries => {
@@ -572,15 +570,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
 
             if (height > 0) {
               const index = elementsCache.get(entry.target)
-              const position = itemPositioner.get(index)
-
-              if (
-                position !== void 0 &&
-                index !== void 0 &&
-                height !== position.height
-              ) {
-                updates.push(index, height)
-              }
+              if (index !== void 0) updates.push(index, height)
             }
           }
 
@@ -588,7 +578,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
             // Updates the size/positions of the cell with the resize
             // observer updates
             const updatedItems = itemPositioner.update(updates)
-
             for (let i = 0; i < updatedItems.length; i++) {
               const index = updatedItems[i++] as number
               const item = updatedItems[i] as IUpdatedItem
@@ -606,7 +595,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     useEffect(() => resizeObserver.disconnect.bind(resizeObserver), [
       resizeObserver,
     ])
-
     // Allows parent components to clear the position cache imperatively
     useImperativeHandle(
       ref,
@@ -617,7 +605,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
       }),
       emptyArr
     )
-
     // Updates the item positions any time a prop potentially affecting their
     // size changes
     useLayoutEffect(() => {
@@ -645,7 +632,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
         }
       }
     }, [width, columnWidth, columnGutter, columnCount])
-
     // Calls the onRender callback if the rendered indices changed
     useLayoutEffect(() => {
       if (typeof onRender === 'function') {
@@ -672,7 +658,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
       scrollTop + overscanBy,
       (index, left, top) => {
         stopIndex.current = void 0
-
         if (stopIndex.current === void 0) {
           startIndex.current = index
           stopIndex.current = index
