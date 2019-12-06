@@ -428,7 +428,7 @@ export interface MasonryPropsBase {
   readonly itemAs?: any
   readonly itemStyle?: {[property: string]: any}
   readonly itemHeightEstimate?: number
-  readonly itemKey?: (items: any[], index: number) => string | number
+  readonly itemKey?: (data: any, index: number) => string | number
   readonly overscanBy?: number
   readonly onRender?: (
     startIndex: number,
