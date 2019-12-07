@@ -7,11 +7,6 @@ const DELETE = 0
 const KEEP = 1
 const NOT_FOUND = 2
 
-interface Interval {
-  high: number
-  index: number
-}
-
 interface TreeNode {
   max: number
   low: number
@@ -20,7 +15,7 @@ interface TreeNode {
   parent: TreeNode
   right: TreeNode
   left: TreeNode
-  list: Interval[]
+  list: number[]
 }
 
 interface Tree {
@@ -34,23 +29,23 @@ const addInterval = (
   index: number
 ): boolean => {
   if (treeNode.list.length === 0) {
-    treeNode.list.push({index, high})
+    treeNode.list.push(index, high)
     return true
   }
 
   for (let i = 0; i < treeNode.list.length; i++)
-    if (treeNode.list[i].index === index) return false
+    if (treeNode.list[i] === index && i % 2 === 0) return false
 
-  treeNode.list.push({index, high})
+  treeNode.list.push(index, high)
   return true
 }
 
 const removeInterval = (treeNode: TreeNode, index: number) => {
   if (treeNode.list === void 0) return NOT_FOUND
 
-  for (let i = treeNode.list.length - 1; i > -1; i--)
-    if (treeNode.list[i].index === index) {
-      treeNode.list.splice(i, 1)
+  for (let i = 0; i < treeNode.list.length; i++)
+    if (treeNode.list[i] === index && i % 2 === 0) {
+      treeNode.list.splice(i, 2)
       break
     }
 
@@ -86,6 +81,7 @@ const updateMax = (node: TreeNode) => {
 
 const updateMaxUp = (node: TreeNode) => {
   let x = node
+
   while (x.parent !== NULL_NODE) {
     updateMax(x.parent)
     x = x.parent
@@ -132,29 +128,27 @@ const rotateRight = (tree: Tree, x: TreeNode) => {
   updateMax(y)
 }
 
-const rbTransplant = (tree: Tree, u: TreeNode, v: TreeNode) => {
-  if (u.parent === NULL_NODE) {
-    tree.root = v
-  } else if (u === u.parent.left) {
-    u.parent.left = v
-  } else {
-    u.parent.right = v
-  }
-  v.parent = u.parent
+const replaceNode = (tree: Tree, x: TreeNode, y: TreeNode) => {
+  if (x.parent === NULL_NODE) tree.root = y
+  else if (x === x.parent.left) x.parent.left = y
+  else x.parent.right = y
+  y.parent = x.parent
 }
 
-const rbDeleteFixup = (tree: Tree, x: TreeNode) => {
+const fixRemove = (tree: Tree, x: TreeNode) => {
   let w
 
   while (x !== NULL_NODE && x.color === BLACK) {
     if (x === x.parent.left) {
       w = x.parent.right
+
       if (w.color === RED) {
         w.color = BLACK
         x.parent.color = RED
         rotateLeft(tree, x.parent)
         w = x.parent.right
       }
+
       if (w.left.color === BLACK && w.right.color === BLACK) {
         w.color = RED
         x = x.parent
@@ -181,6 +175,7 @@ const rbDeleteFixup = (tree: Tree, x: TreeNode) => {
         rotateRight(tree, x.parent)
         w = x.parent.left
       }
+
       if (w.right.color === BLACK && w.left.color === BLACK) {
         w.color = RED
         x = x.parent
@@ -200,6 +195,7 @@ const rbDeleteFixup = (tree: Tree, x: TreeNode) => {
       }
     }
   }
+
   x.color = BLACK
 }
 
@@ -208,16 +204,15 @@ const minimumTree = (x: TreeNode) => {
   return x
 }
 
-const searchNode = (x: TreeNode, low: number) => {
-  while (x !== NULL_NODE && low !== x.low) {
-    if (low < x.low) x = x.left
-    else x = x.right
-  }
+// const searchNode = (x: TreeNode, low: number) => {
+//   while (x !== NULL_NODE && low !== x.low) {
+//     if (low < x.low) x = x.left
+//     else x = x.right
+//   }
+//   return x
+// }
 
-  return x
-}
-
-const rbInsertFixup = (tree: Tree, z: TreeNode) => {
+const fixInsert = (tree: Tree, z: TreeNode) => {
   let y: TreeNode
   while (z.parent.color === RED) {
     if (z.parent === z.parent.parent.left) {
@@ -277,6 +272,10 @@ const IntervalTree = (): IIntervalTree => {
   const tree = {
     root: NULL_NODE,
     size: 0,
+    // we know these indexes are a consistent, safe way to make look ups
+    // for our case so it's a solid O(1) alternative to
+    // the O(log n) searchNode()
+    indexMap: {},
   }
 
   return {
@@ -296,6 +295,7 @@ const IntervalTree = (): IIntervalTree => {
         y.high = Math.max(y.high, high)
         updateMax(y)
         updateMaxUp(y)
+        tree.indexMap[index] = y
         tree.size++
         return
       }
@@ -308,7 +308,7 @@ const IntervalTree = (): IIntervalTree => {
         parent: y,
         left: NULL_NODE,
         right: NULL_NODE,
-        list: [{index, high}],
+        list: [index, high],
       }
 
       if (y === NULL_NODE) {
@@ -319,17 +319,20 @@ const IntervalTree = (): IIntervalTree => {
         updateMaxUp(z)
       }
 
-      rbInsertFixup(tree, z)
+      fixInsert(tree, z)
+      tree.indexMap[index] = z
       tree.size++
     },
+
     remove(low, high, index) {
-      const z = searchNode(tree.root, low)
-      if (z === void 0) return
+      const z = tree.indexMap[index]
+      if (z === void 0 || z.low !== low) return
+      delete tree.indexMap[index]
 
       const intervalResult = removeInterval(z, index)
       if (intervalResult === NOT_FOUND) return
       if (intervalResult === KEEP) {
-        z.high = z.list[0].high
+        z.high = z.list[1]
         updateMax(z)
         updateMaxUp(z)
         tree.size--
@@ -342,10 +345,10 @@ const IntervalTree = (): IIntervalTree => {
 
       if (z.left === NULL_NODE) {
         x = z.right
-        rbTransplant(tree, z, z.right)
+        replaceNode(tree, z, z.right)
       } else if (z.right === NULL_NODE) {
         x = z.left
-        rbTransplant(tree, z, z.left)
+        replaceNode(tree, z, z.left)
       } else {
         y = minimumTree(z.right)
         originalYColor = y.color
@@ -354,12 +357,12 @@ const IntervalTree = (): IIntervalTree => {
         if (y.parent === z) {
           x.parent = y
         } else {
-          rbTransplant(tree, y, y.right)
+          replaceNode(tree, y, y.right)
           y.right = z.right
           y.right.parent = y
         }
 
-        rbTransplant(tree, z, y)
+        replaceNode(tree, z, y)
         y.left = z.left
         y.left.parent = y
         y.color = z.color
@@ -368,18 +371,19 @@ const IntervalTree = (): IIntervalTree => {
       updateMax(x)
       updateMaxUp(x)
 
-      if (originalYColor === BLACK) rbDeleteFixup(tree, x)
+      if (originalYColor === BLACK) fixRemove(tree, x)
       tree.size--
     },
+
     search(low, high, callback) {
       function searchRecursive(node: TreeNode) {
         if (node === NULL_NODE || low > node.max) return
         if (node.left !== NULL_NODE) searchRecursive(node.left)
         if (node.low <= high && node.high >= low) {
           for (let i = 0; i < node.list.length; i++) {
-            const interval = (node.list as Interval[])[i]
-            if (interval.high >= low)
-              callback(interval.index, node.low, interval.high)
+            const index = node.list[i]
+            const nodeHigh = node.list[++i]
+            if (nodeHigh >= low) callback(index, node.low, nodeHigh)
           }
         }
         if (node.right !== NULL_NODE) searchRecursive(node.right)
@@ -387,9 +391,11 @@ const IntervalTree = (): IIntervalTree => {
 
       searchRecursive(tree.root)
     },
+
     get size() {
       return tree.size
     },
+
     get root() {
       return tree.root
     },
