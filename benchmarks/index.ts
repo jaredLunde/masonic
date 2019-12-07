@@ -10,11 +10,10 @@ bench('IntervalTree.search()', ({duration}) => {
     const lower = randInt(0, 200000)
     tree.insert(lower, lower + randInt(200, 400), i)
   }
-  const lower = randInt(0, 100000)
-  // tree.search(lower, lower + 1, () => found++)
+  const cb = () => {}
 
   return () => {
-    tree.search(lower, lower + 720, () => {})
+    tree.search(0, 300000, cb)
   }
 })
 

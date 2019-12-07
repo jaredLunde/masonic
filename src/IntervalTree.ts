@@ -379,7 +379,7 @@ const IntervalTree = (): IIntervalTree => {
       const stack = [tree.root]
       while (stack.length !== 0) {
         const node = stack.pop() as TreeNode
-        if (node === NULL_NODE || low > node.max) return
+        if (node === NULL_NODE || low > node.max) continue
         if (node.left !== NULL_NODE) stack.push(node.left)
         if (node.right !== NULL_NODE) stack.push(node.right)
         if (node.low <= high && node.high >= low) {
