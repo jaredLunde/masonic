@@ -28,7 +28,7 @@ describe('Interval tree', function() {
     const tree = createIntervalTree()
     tree.insert(4, 7, 1)
     const results = searchTree(tree, 0, 10)
-    expect(results[0]).toEqual([1, 4, 7])
+    expect(results[0]).toEqual([1, 4])
   })
 
   it('should find left overlap', function() {

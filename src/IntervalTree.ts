@@ -262,7 +262,7 @@ interface IIntervalTree {
   search(
     low: number,
     high: number,
-    callback: (index: number, low: number, high: number) => any
+    callback: (index: number, low: number) => any
   ): void
   size: number
   root: TreeNode
@@ -376,20 +376,21 @@ const IntervalTree = (): IIntervalTree => {
     },
 
     search(low, high, callback) {
-      function searchRecursive(node: TreeNode) {
+      const stack = [tree.root]
+      while (stack.length !== 0) {
+        const node = stack.pop() as TreeNode
         if (node === NULL_NODE || low > node.max) return
-        if (node.left !== NULL_NODE) searchRecursive(node.left)
+        if (node.left !== NULL_NODE) stack.push(node.left)
+        if (node.right !== NULL_NODE) stack.push(node.right)
         if (node.low <= high && node.high >= low) {
-          for (let i = 0; i < node.list.length; i++) {
-            const index = node.list[i]
-            const nodeHigh = node.list[++i]
-            if (nodeHigh >= low) callback(index, node.low, nodeHigh)
+          for (let i = 0, len = node.list.length; i < len; i++) {
+            const index = node.list[i++]
+            // normally we'd include the high bound here, too, but since we
+            // don't need it in practice, it makes sense to just leave it out
+            if (node.list[i] >= low) callback(index, node.low)
           }
         }
-        if (node.right !== NULL_NODE) searchRecursive(node.right)
       }
-
-      searchRecursive(tree.root)
     },
 
     get size() {

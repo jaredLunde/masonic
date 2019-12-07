@@ -1,6 +1,6 @@
 {
   "name": "masonic",
-  "version": "2.0.16",
+  "version": "2.0.17",
   "homepage": "https://github.com/jaredLunde/masonic#readme",
   "repository": "github:jaredLunde/masonic",
   "bugs": "https://github.com/jaredLunde/masonic/issues",
@@ -31,6 +31,7 @@
   ],
   "sideEffects": false,
   "scripts": {
+    "bench": "babel-node ./benchmarks --extensions \".ts\"",
     "build": "npm run build:cjs && npm run build:es && npm run build:types",
     "build:cjs": "babel src -d dist/cjs -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
     "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
@@ -57,7 +58,9 @@
     ]
   },
   "devDependencies": {
+    "@babel/node": "^7.7.4",
     "@babel/preset-react": "latest",
+    "@essentials/benchmark": "^1.0.5",
     "@lunde/babel-preset-es": "latest",
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
@@ -79,6 +82,7 @@
     "jest": "latest",
     "lint-staged": "latest",
     "prettier": "latest",
+    "rand-int": "^1.0.0",
     "react": "latest",
     "react-dom": "latest",
     "react-test-renderer": "latest",
