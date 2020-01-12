@@ -270,8 +270,8 @@ export interface WindowScrollerResult {
 const defaultSizeOpt = {wait: 120}
 
 export const useWindowScroller = (
-  initialWidth: number,
-  initialHeight: number,
+  initialWidth = 1280,
+  initialHeight = 720,
   options: WindowScrollerOptions = emptyObj
 ): WindowScrollerResult => {
   const fps = options.scroll?.fps || 8
@@ -421,12 +421,12 @@ export interface MasonryPropsBase {
   readonly as?: any
   readonly id?: string
   readonly className?: string
-  readonly style?: {[property: string]: any}
+  readonly style?: React.CSSProperties
   readonly role?: string
   readonly tabIndex?: number | string
   readonly items: any[]
   readonly itemAs?: any
-  readonly itemStyle?: {[property: string]: any}
+  readonly itemStyle?: React.CSSProperties
   readonly itemHeightEstimate?: number
   readonly itemKey?: (data: any, index: number) => string | number
   readonly overscanBy?: number
@@ -443,14 +443,14 @@ export interface FreeMasonryProps extends MasonryPropsBase {
   readonly height: number // height of the window
   readonly scrollTop: number
   readonly isScrolling?: boolean
-  readonly containerRef?: (
-    element: HTMLElement
-  ) => void | {current: HTMLElement | null | undefined}
+  readonly containerRef?:
+    | ((element: HTMLElement) => void)
+    | React.MutableRefObject<HTMLElement | null>
 }
 
 const useForceUpdate = (): (() => void) => {
   const setState = useState<number>(0)[1]
-  return useCallback(() => setState(current => ++current), [])
+  return useCallback(() => setState(current => ++current), emptyArr)
 }
 
 const elementsCache: WeakMap<Element, number> = new WeakMap()
@@ -782,8 +782,8 @@ export interface MasonryProps extends MasonryPropsBase {
 export const Masonry: React.FC<MasonryProps> = React.memo(
   React.forwardRef((props, ref) => {
     const {width, height, scrollY, isScrolling} = useWindowScroller(
-        props.initialWidth || 1280,
-        props.initialHeight || 720,
+        props.initialWidth,
+        props.initialHeight,
         props.windowScroller
       ),
       [rect, containerRef] = useContainerRect(width, height)
