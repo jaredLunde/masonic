@@ -6019,10 +6019,10 @@ tr46@^1.0.1:
   dependencies:
     punycode "^2.1.0"
 
-trie-memoize@^1.0.19:
-  version "1.0.19"
-  resolved "https://registry.yarnpkg.com/trie-memoize/-/trie-memoize-1.0.19.tgz#f2be8cb86e1ba5e4b65a2653b8c84a5b6e5c49ed"
-  integrity sha512-06htp1U35e9BNruPW24dIOyZJ271NBpjktX9wWi+c/zIkJvrt/VjTBEMTttHw5GloXxi7RG6oc7YoQ59caE3EQ==
+trie-memoize@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/trie-memoize/-/trie-memoize-1.1.0.tgz#2244ac75701b93585fc8c4a1a2f85ca132d4b5f3"
+  integrity sha512-7HPe38HUMaKzn+iFfnOO7E3fUcFo02P+QHvN0dcit3RjMxYFmk/poN9xHRptgPRk9MR/7bqPqcAyns8BCf0Yhg==
 
 ts-jest@latest:
   version "24.2.0"

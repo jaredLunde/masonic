@@ -386,7 +386,8 @@ const assignUserStyle = memoizeOne(
 
 const assignUserItemStyle = trieMemoize(
   [WeakMap, OneKeyMap],
-  (itemStyle, userStyle) => Object.assign({}, itemStyle, userStyle)
+  (itemStyle: React.CSSProperties, userStyle: React.CSSProperties) =>
+    Object.assign({}, itemStyle, userStyle)
 )
 
 const defaultGetItemKey = (_: any[], i: number): number => i
@@ -404,7 +405,7 @@ const getCachedSize = memoizeOne(
 )
 const getCachedItemStyle = trieMemoize(
   [OneKeyMap, Map, Map],
-  (width, left, top) => ({
+  (width: number, left: number, top: number): React.CSSProperties => ({
     top,
     left,
     width,
@@ -482,7 +483,11 @@ interface NativeResizeObserverEntry extends ResizeObserverEntry {
 
 const getRefSetter = trieMemoize(
   [OneKeyMap, OneKeyMap, OneKeyMap],
-  (resizeObserver, positionCache, itemPositioner) =>
+  (
+    resizeObserver: ResizeObserver,
+    positionCache: PositionCache,
+    itemPositioner: ItemPositioner
+  ) =>
     trieMemoize([{}], index => (el: HTMLElement | null): void => {
       if (el === null) return
       resizeObserver.observe(el)
@@ -902,7 +907,11 @@ export interface InfiniteLoaderOptions {
   totalItems?: number
 }
 
-export const useInfiniteLoader = (
+export interface LoadMoreItemsCallback {
+  (startIndex: number, stopIndex: number, items: any[]): void
+}
+
+export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
   /**
    * Callback to be invoked when more rows must be loaded.
    * It should implement the following signature: (startIndex, stopIndex, items): Promise
@@ -910,9 +919,9 @@ export const useInfiniteLoader = (
    * It will be used to determine when to refresh the list with the newly-loaded data.
    * This callback may be called multiple times in reaction to a single scroll event.
    */
-  loadMoreItems,
+  loadMoreItems: T,
   options: InfiniteLoaderOptions = emptyObj
-): ((startIndex: number, stopIndex: number, items: any[]) => void) => {
+): LoadMoreItemsCallback {
   const {
     /**
      * Function responsible for tracking the loaded state of each row.
