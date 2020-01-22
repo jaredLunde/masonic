@@ -647,7 +647,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     }, [width, columnWidth, columnGutter, columnCount])
     // Calls the onRender callback if the rendered indices changed
     useLayoutEffect(() => {
-      if (typeof onRender === 'function') {
+      if (typeof onRender === 'function' && stopIndex.current !== void 0) {
         onRender(startIndex.current, stopIndex.current, items)
         prevStartIndex.current = startIndex.current
         prevStopIndex.current = stopIndex.current
