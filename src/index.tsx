@@ -665,12 +665,12 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     const children: React.ReactElement[] = []
     const itemRole = `${role}item`
     overscanBy = height * overscanBy
+    stopIndex.current = void 0
 
     positionCache.range(
       Math.max(0, scrollTop - overscanBy),
       scrollTop + overscanBy,
       (index, left, top) => {
-        stopIndex.current = void 0
         if (stopIndex.current === void 0) {
           startIndex.current = index
           stopIndex.current = index
