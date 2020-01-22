@@ -652,7 +652,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
         prevStartIndex.current = startIndex.current
         prevStopIndex.current = stopIndex.current
       }
-    }, [items, prevStartIndex.current, prevStopIndex.current])
+    }, [items, startIndex.current, stopIndex.current])
 
     const setItemRef = getRefSetter(
       resizeObserver,
