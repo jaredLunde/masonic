@@ -548,8 +548,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     }
     const stopIndex = useRef<number | undefined>()
     const startIndex = useRef<number>(0)
-    const prevStartIndex = useRef<number | undefined>()
-    const prevStopIndex = useRef<number | undefined>()
     const [itemPositioner, setItemPositioner] = useState<ItemPositioner>(
       initPositioner
     )
@@ -608,6 +606,12 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
     useEffect(() => resizeObserver.disconnect.bind(resizeObserver), [
       resizeObserver,
     ])
+    // Calls the onRender callback if the rendered indices changed
+    useEffect(() => {
+      if (typeof onRender === 'function' && stopIndex.current !== void 0) {
+        onRender(startIndex.current, stopIndex.current, items)
+      }
+    }, [items, startIndex.current, stopIndex.current])
     // Allows parent components to clear the position cache imperatively
     useImperativeHandle(
       ref,
@@ -645,14 +649,6 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
         }
       }
     }, [width, columnWidth, columnGutter, columnCount])
-    // Calls the onRender callback if the rendered indices changed
-    useLayoutEffect(() => {
-      if (typeof onRender === 'function' && stopIndex.current !== void 0) {
-        onRender(startIndex.current, stopIndex.current, items)
-        prevStartIndex.current = startIndex.current
-        prevStopIndex.current = stopIndex.current
-      }
-    }, [items, startIndex.current, stopIndex.current])
 
     const setItemRef = getRefSetter(
       resizeObserver,
