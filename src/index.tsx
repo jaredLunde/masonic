@@ -214,12 +214,8 @@ const createPositionCache = (): PositionCache => {
     leftMap[index] = left
 
     const columnHeight = columnSizeMap[left]
-
-    if (prev !== false && prev > next && columnSizeMap[left] === prev)
-      columnSizeMap[left] = next
-    else {
-      columnSizeMap[left] = Math.max(columnHeight || 0, next)
-    }
+    columnSizeMap[left] =
+      columnHeight === prev ? next : Math.max(columnHeight || 0, next)
   }
 
   const getShortestColumnSize = (): number => {
