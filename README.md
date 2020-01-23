@@ -17,8 +17,8 @@
     <img alt="Code coverage" src="https://img.shields.io/codecov/c/gh/jaredLunde/masonic?style=for-the-badge&labelColor=24292e">
   </a>
   -->
-  <a aria-label="Build status" href="https://travis-ci.org/jaredLunde/masonic">
-    <img alt="Build status" src="https://img.shields.io/travis/jaredLunde/masonic?style=for-the-badge&labelColor=24292e">
+  <a aria-label="Build status" href="https://travis-ci.com/jaredLunde/masonic">
+    <img alt="Build status" src="https://img.shields.io/travis/com/jaredLunde/masonic?style=for-the-badge&labelColor=24292e">
   </a>
   <a aria-label="NPM version" href="https://www.npmjs.com/package/masonic">
     <img alt="NPM Version" src="https://img.shields.io/npm/v/masonic?style=for-the-badge&labelColor=24292e">
