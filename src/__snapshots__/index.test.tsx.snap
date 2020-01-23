@@ -2141,4 +2141,202 @@ exports[`FreeMasonry sets tabIndex: 3 1`] = `
 </DocumentFragment>
 `;
 
+exports[`FreeMasonry sets user style on container: display: none; 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0; display: none;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`FreeMasonry sets user style on item: display: none; 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute; display: none;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`FreeMasonry should apply columnGutter: 305 -> 325 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 20px; max-height: 20px;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 305px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 325px; width: 305px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          1
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 650px; width: 305px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          2
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 975px; width: 305px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          3
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 20px; left: 0px; width: 305px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          4
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`FreeMasonry should override columnWidth with columnCount: width: 1280; 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 1280px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 1280px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          1
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
 exports[`FreeMasonry throws 1`] = `"Cannot read property 'length' of undefined"`;
+
+exports[`List should render single column 1`] = `
+<DocumentFragment>
+  <div
+    role="list"
+    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0; will-change: contents, height; pointer-events: none;"
+    tabindex="0"
+  >
+    <div
+      role="listitem"
+      style="top: 0px; left: 0px; width: 1280px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="listitem"
+      style="top: 0px; left: 0px; width: 1280px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          1
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

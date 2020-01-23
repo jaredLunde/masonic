@@ -1,7 +1,7 @@
 /* jest */
 import React from 'react'
 import {render} from '@testing-library/react'
-import {FreeMasonry} from './index'
+import {FreeMasonry, List} from './index'
 
 const heights = [360, 420, 372, 460, 520, 356, 340, 376, 524]
 const avgHeight = heights.reduce((a, b) => a + b) / heights.length
@@ -121,6 +121,76 @@ describe('FreeMasonry', () => {
     expect(result.asFragment()).toMatchSnapshot('3')
   })
 
+  it('sets user style on container', () => {
+    const result = render(
+      <FreeMasonry
+        render={FakeCard}
+        items={getFakeItems(1)}
+        width={1280}
+        height={720}
+        scrollTop={0}
+        overscanBy={1}
+        itemHeightEstimate={avgHeight}
+        style={{display: 'none'}}
+      />
+    )
+
+    expect(result.asFragment()).toMatchSnapshot('display: none;')
+  })
+
+  it('sets user style on item', () => {
+    const result = render(
+      <FreeMasonry
+        render={FakeCard}
+        items={getFakeItems(1)}
+        width={1280}
+        height={720}
+        scrollTop={0}
+        overscanBy={1}
+        itemHeightEstimate={avgHeight}
+        itemStyle={{display: 'none'}}
+      />
+    )
+
+    expect(result.asFragment()).toMatchSnapshot('display: none;')
+  })
+
+  it('should apply columnGutter', () => {
+    const result = render(
+      <FreeMasonry
+        render={FakeCard}
+        items={getFakeItems(5)}
+        width={1280}
+        height={720}
+        columnWidth={1280 / 5}
+        columnGutter={20}
+        scrollTop={0}
+        overscanBy={1}
+        itemHeightEstimate={avgHeight}
+      />
+    )
+
+    expect(result.asFragment()).toMatchSnapshot('305 -> 325')
+  })
+
+  it('should override columnWidth with columnCount', () => {
+    const result = render(
+      <FreeMasonry
+        render={FakeCard}
+        items={getFakeItems(2)}
+        width={1280}
+        height={720}
+        columnWidth={1280 / 5}
+        columnCount={1}
+        scrollTop={0}
+        overscanBy={1}
+        itemHeightEstimate={avgHeight}
+      />
+    )
+
+    expect(result.asFragment()).toMatchSnapshot('width: 1280;')
+  })
+
   it('disables pointer events when isScrolling', () => {
     const result = render(
       <FreeMasonry
@@ -236,5 +306,23 @@ describe('FreeMasonry', () => {
         }),
       ])
     )
+  })
+})
+
+describe('List', () => {
+  it('should render single column', () => {
+    const items = getFakeItems(2)
+    const onRender = jest.fn()
+    const result = render(
+      <List
+        render={FakeCard}
+        items={items}
+        overscanBy={1}
+        itemHeightEstimate={avgHeight}
+        onRender={onRender}
+      />
+    )
+
+    expect(result.asFragment()).toMatchSnapshot()
   })
 })

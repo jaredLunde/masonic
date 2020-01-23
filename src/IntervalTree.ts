@@ -5,7 +5,12 @@ const NIL = 2
 
 const DELETE = 0
 const KEEP = 1
-const NOT_FOUND = 2
+
+type ListNode = {
+  index: number
+  high: number
+  next: ListNode | null
+}
 
 interface TreeNode {
   max: number
@@ -15,7 +20,7 @@ interface TreeNode {
   parent: TreeNode
   right: TreeNode
   left: TreeNode
-  list: number[]
+  list: ListNode
 }
 
 interface Tree {
@@ -28,28 +33,41 @@ const addInterval = (
   high: number,
   index: number
 ): boolean => {
-  if (treeNode.list.length === 0) {
-    treeNode.list.push(index, high)
-    return true
+  let node: ListNode | null = treeNode.list
+  let prevNode: ListNode | undefined
+
+  while (node) {
+    if (node.index === index) return false
+    if (high > node.high) break
+    prevNode = node
+    node = node.next
   }
 
-  for (let i = 0; i < treeNode.list.length; i++)
-    if (treeNode.list[i] === index && i % 2 === 0) return false
+  if (!prevNode) treeNode.list = {index, high, next: node}
+  if (prevNode) prevNode.next = {index, high, next: prevNode.next}
 
-  treeNode.list.push(index, high)
   return true
 }
 
 const removeInterval = (treeNode: TreeNode, index: number) => {
-  if (treeNode.list === void 0) return NOT_FOUND
+  let node: ListNode | null = treeNode.list
+  if (node.index === index) {
+    if (node.next === null) return DELETE
+    treeNode.list = node.next
+    return KEEP
+  }
 
-  for (let i = 0; i < treeNode.list.length; i++)
-    if (treeNode.list[i] === index && i % 2 === 0) {
-      treeNode.list.splice(i, 2)
-      break
+  let prevNode: ListNode | undefined = node
+  node = node.next
+
+  while (node !== null) {
+    if (node.index === index) {
+      prevNode.next = node.next
+      return KEEP
     }
-
-  return treeNode.list.length > 0 ? KEEP : DELETE
+    prevNode = node
+    node = node.next
+  }
 }
 
 const NULL_NODE: TreeNode = {
@@ -204,14 +222,6 @@ const minimumTree = (x: TreeNode) => {
   return x
 }
 
-// const searchNode = (x: TreeNode, low: number) => {
-//   while (x !== NULL_NODE && low !== x.low) {
-//     if (low < x.low) x = x.left
-//     else x = x.right
-//   }
-//   return x
-// }
-
 const fixInsert = (tree: Tree, z: TreeNode) => {
   let y: TreeNode
   while (z.parent.color === RED) {
@@ -273,7 +283,7 @@ const IntervalTree = (): IIntervalTree => {
     size: 0,
     // we know these indexes are a consistent, safe way to make look ups
     // for our case so it's a solid O(1) alternative to
-    // the O(log n) searchNode()
+    // the O(log n) searchNode() in typical interval trees
     indexMap: {},
   }
 
@@ -307,7 +317,7 @@ const IntervalTree = (): IIntervalTree => {
         parent: y,
         left: NULL_NODE,
         right: NULL_NODE,
-        list: [index, high],
+        list: {index, high, next: null},
       }
 
       if (y === NULL_NODE) {
@@ -329,9 +339,9 @@ const IntervalTree = (): IIntervalTree => {
       delete tree.indexMap[index]
 
       const intervalResult = removeInterval(z, index)
-      if (intervalResult === NOT_FOUND) return
+      if (intervalResult === void 0) return
       if (intervalResult === KEEP) {
-        z.high = z.list[1]
+        z.high = z.list.high
         updateMax(z)
         updateMaxUp(z)
         tree.size--
@@ -382,11 +392,10 @@ const IntervalTree = (): IIntervalTree => {
         if (node.left !== NULL_NODE) stack.push(node.left)
         if (node.right !== NULL_NODE) stack.push(node.right)
         if (node.low <= high && node.high >= low) {
-          for (let i = 0, len = node.list.length; i < len; i++) {
-            const index = node.list[i++]
-            // normally we'd include the high bound here, too, but since we
-            // don't need it in practice, it makes sense to just leave it out
-            if (node.list[i] >= low) callback(index, node.low)
+          let curr: ListNode | null = node.list
+          while (curr !== null) {
+            if (curr.high >= low) callback(curr.index, node.low)
+            curr = curr.next
           }
         }
       }

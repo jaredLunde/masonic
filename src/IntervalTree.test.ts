@@ -1,140 +1,180 @@
 import createIntervalTree from './IntervalTree'
+const toIdSorted = result => result.map(([id]) => id).sort((a, b) => a - b)
+const toExpectedIdSorted = result =>
+  result.map(([, , id]) => id).sort((a, b) => a - b)
 
-const searchTree = (tree, start, end): any[] => {
+const shuffle = original => {
+  const array = original.concat()
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j], array[i]]
+  }
+  return array
+}
+
+const getRandomInt = (min, max) => {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const search = (tree, low, high) => {
   const results: any[] = []
-  tree.search(start, end, (...args) => results.push(args))
+  tree.search(low, high, (...args) => results.push(args))
   return results
 }
 
-function getPermutations(array: any[]): any[] {
-  function p(array, temp): void {
-    let i, x
-    if (!array.length) result.push(temp)
-
-    for (i = 0; i < array.length; i++) {
-      x = array.splice(i, 1)[0]
-      p(array, temp.concat([x]))
-      array.splice(i, 0, x)
+const expectSearch = (records, tree, low, high) => {
+  const expectation = records.filter(record => {
+    if (!record) {
+      return false
     }
-  }
+    const [otherLow, otherHigh] = record
+    return otherLow <= high && otherHigh >= low
+  })
 
-  const result: any[] = []
-  p(array, [])
-  return result
+  expect(toIdSorted(search(tree, low, high)).join(',')).toEqual(
+    toExpectedIdSorted(expectation).join(',')
+  )
 }
 
-describe('Interval tree', function() {
-  it('should insert', function() {
+describe('tree', () => {
+  it('should insert, remove, and find', () => {
     const tree = createIntervalTree()
-    tree.insert(4, 7, 1)
-    const results = searchTree(tree, 0, 10)
-    expect(results[0]).toEqual([1, 4])
-  })
 
-  it('should find left overlap', function() {
-    const tree = createIntervalTree()
-    tree.insert(4, 7, 1)
-    const results = searchTree(tree, 0, 10)
-    expect(results.length).toEqual(1)
-  })
+    const list = [
+      [15, 23, 1],
+      [8, 9, 2],
+      [25, 30, 3],
+      [19, 20, 4],
+      [16, 21, 5],
+      [5, 8, 6],
+      [26, 26, 7],
+      [0, 21, 8],
+      [17, 19, 9],
+      [6, 10, 10],
+    ]
 
-  it('should find center overlap', function() {
-    const tree = createIntervalTree()
-    tree.insert(4, 7, 1)
-    const results = searchTree(tree, 5, 6)
-    expect(results.length).toEqual(1)
-  })
+    for (const [low, high, id] of list) {
+      tree.insert(low, high, id)
+    }
 
-  it('should find right overlap', function() {
-    const tree = createIntervalTree()
-    tree.insert(4, 7, 1)
-    const results = searchTree(tree, 5, 10)
-    expect(results.length).toEqual(1)
-  })
+    const results = [
+      [0, 30, '1,2,3,4,5,6,7,8,9,10'],
+      [7, 8, '2,6,8,10'],
+      [0, 1, '8'],
+      [-2, -1, ''],
+    ]
 
-  it('should find complete overlap', function() {
-    const tree = createIntervalTree()
-    tree.insert(4, 7, 1)
-    const results = searchTree(tree, 0, 10)
-    expect(results.length).toEqual(1)
-  })
+    for (let i = 0; i < 10000; ++i) {
+      for (const [low, high, id] of shuffle(list)) {
+        tree.remove(low, high, id)
+      }
 
-  it('should not remove non existing node', function() {
-    const tree = createIntervalTree()
-    tree.insert(4, 7, 1)
-    tree.remove(4, 7, 2)
-    tree.remove(5, 7, 1)
-    const results = searchTree(tree, 0, 10)
-    expect(results.length).toEqual(1)
-  })
+      expect(tree.size).toBe(0)
 
-  it('should remove', function() {
-    const tree = createIntervalTree()
-    tree.insert(4, 7, 1)
-    tree.remove(4, 7, 1)
-    const results = searchTree(tree, 0, 10)
-    expect(results.length).toEqual(0)
-  })
+      for (const [low, high, id] of shuffle(list)) {
+        tree.insert(low, high, id)
+      }
 
-  it('should not remove from empty tree', function() {
-    const tree = createIntervalTree()
-    tree.remove(4, 7, 1)
-    const results = searchTree(tree, 0, 10)
-    expect(results.length).toEqual(0)
-  })
+      expect(tree.size).toBe(10)
 
-  it('should handle many insertions and deletions', function() {
-    const permutations = getPermutations([
-      [2240, 2456, 1],
-      [3104, 3320, 2],
-      [3968, 4184, 3],
-      [4832, 5048, 4],
-      [5696, 5912, 5],
-      [2252, 2270, 6],
-    ])
-
-    const inserts = [...permutations[0]]
-
-    for (let i = 0; i < permutations.length; i++) {
-      const permutation = permutations[i]
-      const tree = createIntervalTree()
-
-      for (const item of inserts) tree.insert.apply(null, item)
-
-      while (permutation.length) {
-        const choice = permutation.pop()
-        tree.remove.apply(null, choice)
-        expect(tree.size).toEqual(permutation.length)
-        expect(searchTree(tree, 0, 6000).length).toEqual(permutation.length)
+      for (const [low, high, result] of results) {
+        expect(toIdSorted(search(tree, low, high)).join(',')).toEqual(result)
       }
     }
   })
 
-  it('should handle many values with same key', function() {
-    const permutations = getPermutations([
-      [1000, 2456, 1],
-      [1000, 3320, 2],
-      [1000, 4184, 3],
-      [1000, 5048, 4],
-      [1000, 5912, 5],
-      [1000, 2270, 6],
-    ])
+  it('should insert and remove multiple', () => {
+    const tree = createIntervalTree()
 
-    const inserts = [...permutations[0]]
+    const records = []
 
-    for (let i = 0; i < permutations.length; i++) {
-      const permutation = permutations[i]
-      //console.log(`[${i+1}] Testing permutation`, permutation)
-      const tree = createIntervalTree()
+    for (let i = 0; i < 1000; ++i) {
+      const low = getRandomInt(0, 100)
+      const high = getRandomInt(low, low + getRandomInt(0, 100))
 
-      for (const item of inserts) tree.insert.apply(null, item)
+      records.push([low, high, i])
+      tree.insert(low, high, i)
 
-      while (permutation.length) {
-        const choice = permutation.pop()
-        tree.remove.apply(null, choice)
-        // console.log(choice[2], searchTree(tree, 0, 6000))
-        expect(tree.size).toEqual(permutation.length)
-        expect(searchTree(tree, 0, 6000).length).toEqual(permutation.length)
+      expectSearch(records, tree, low, high)
+      expect(tree.size).toBe(records.length)
+    }
+
+    const toRemove = shuffle(records.concat())
+    for (let i = 0; i < toRemove.length; ++i) {
+      const [low, high, id] = toRemove[i]
+      toRemove[i] = undefined
+      tree.remove(low, high, id)
+      expectSearch(toRemove, tree, low, high)
+
+      for (let j = 0; j < 100; ++j) {
+        const low = getRandomInt(0, 100)
+        const high = getRandomInt(low, low + getRandomInt(0, 100))
+        expectSearch(toRemove, tree, low, high)
+      }
+      expect(tree.size).toBe(records.length - i - 1)
+    }
+  })
+
+  it('should insert and remove multiple randomly', () => {
+    const list = []
+    const tree = createIntervalTree()
+    let id = 0
+
+    const removeAnItem = (list, tree) => {
+      if (list.length === 0) {
+        return
+      }
+      const idx = getRandomInt(0, list.length - 1)
+      const item = list[idx]
+      list.splice(idx, 1)
+      tree.remove(item[0], item[1], item[2])
+    }
+
+    const addAnItem = (list, tree) => {
+      const low = getRandomInt(0, 100)
+      const record = [low, low + getRandomInt(0, 100), ++id]
+      list.push(record)
+      tree.insert(record[0], record[1], record[2])
+    }
+
+    for (let i = 0; i < 1000; ++i) {
+      const action = getRandomInt(0, 3)
+      if (action === 0) {
+        removeAnItem(list, tree)
+      }
+      if (action === 1) {
+        addAnItem(list, tree)
+      }
+      expect(list.length).toEqual(tree.size)
+      for (let j = 0; j < 10; ++j) {
+        const low = getRandomInt(0, 100)
+        const high = low + getRandomInt(0, 100)
+        expectSearch(list, tree, low, high)
+      }
+    }
+  })
+
+  it('should insert and find', () => {
+    const list = []
+    const tree = createIntervalTree()
+    let id = 0
+
+    const addAnItem = (list, tree) => {
+      const low = getRandomInt(0, 100)
+      const record = [low, low + getRandomInt(0, 100), ++id]
+      list.push(record)
+      tree.insert(record[0], record[1], record[2])
+    }
+
+    for (let i = 0; i < 1000; ++i) {
+      addAnItem(list, tree)
+      expect(list.length).toEqual(tree.size)
+      for (let j = 0; j < 10; ++j) {
+        const low = getRandomInt(0, 100)
+        const high = low + getRandomInt(0, 100)
+        expectSearch(list, tree, low, high)
       }
     }
   })
