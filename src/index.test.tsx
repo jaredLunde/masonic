@@ -1,7 +1,7 @@
 /* jest */
 import React from 'react'
 import {render} from '@testing-library/react'
-import {Masonry} from './index'
+import {FreeMasonry} from './index'
 
 const heights = [360, 420, 372, 460, 520, 356, 340, 376, 524]
 const avgHeight = heights.reduce((a, b) => a + b) / heights.length
@@ -46,15 +46,15 @@ beforeEach(() => {
   resetSize()
 })
 
-describe('Masonry', () => {
+describe('FreeMasonry', () => {
   it('throws', () => {
     // @ts-ignore
-    expect(() => render(<Masonry />)).toThrowErrorMatchingSnapshot()
+    expect(() => render(<FreeMasonry />)).toThrowErrorMatchingSnapshot()
   })
 
   it('sets a custom role', () => {
     const result = render(
-      <Masonry
+      <FreeMasonry
         render={FakeCard}
         items={getFakeItems(1)}
         width={1280}
@@ -71,7 +71,7 @@ describe('Masonry', () => {
 
   it('sets custom element types', () => {
     const result = render(
-      <Masonry
+      <FreeMasonry
         render={FakeCard}
         items={getFakeItems(1)}
         width={1280}
@@ -89,7 +89,7 @@ describe('Masonry', () => {
 
   it('sets class name', () => {
     const result = render(
-      <Masonry
+      <FreeMasonry
         render={FakeCard}
         items={getFakeItems(1)}
         width={1280}
@@ -106,7 +106,7 @@ describe('Masonry', () => {
 
   it('sets tabIndex', () => {
     const result = render(
-      <Masonry
+      <FreeMasonry
         render={FakeCard}
         items={getFakeItems(1)}
         width={1280}
@@ -123,7 +123,7 @@ describe('Masonry', () => {
 
   it('disables pointer events when isScrolling', () => {
     const result = render(
-      <Masonry
+      <FreeMasonry
         render={FakeCard}
         items={getFakeItems(1)}
         width={1280}
@@ -141,7 +141,7 @@ describe('Masonry', () => {
   it('renders real positions after first pass', () => {
     const items = getFakeItems(3000)
     const result = render(
-      <Masonry
+      <FreeMasonry
         render={FakeCard}
         items={items}
         width={1280}
@@ -154,7 +154,7 @@ describe('Masonry', () => {
     expect(result.asFragment()).toMatchSnapshot('measure')
 
     result.rerender(
-      <Masonry
+      <FreeMasonry
         render={FakeCard}
         items={items}
         width={1280}
@@ -170,7 +170,7 @@ describe('Masonry', () => {
   it('re-renders on scroll', () => {
     const items = getFakeItems(3000)
     const result = render(
-      <Masonry
+      <FreeMasonry
         render={FakeCard}
         items={items}
         width={1280}
@@ -184,7 +184,7 @@ describe('Masonry', () => {
     expect(result.asFragment()).toMatchSnapshot('measure')
 
     result.rerender(
-      <Masonry
+      <FreeMasonry
         render={FakeCard}
         items={items}
         width={1280}
@@ -195,18 +195,46 @@ describe('Masonry', () => {
       />
     )
 
-    result.rerender(
-      <Masonry
+    expect(result.asFragment()).toMatchSnapshot('scrolled')
+  })
+
+  it('fires onRender', () => {
+    const items = getFakeItems(3000)
+    const onRender = jest.fn()
+    const result = render(
+      <FreeMasonry
         render={FakeCard}
         items={items}
         width={1280}
         height={720}
-        scrollTop={1280 * 4}
+        scrollTop={0}
         overscanBy={1}
         itemHeightEstimate={avgHeight}
+        onRender={onRender}
       />
     )
-
-    expect(result.asFragment()).toMatchSnapshot('scrolled')
+    result.rerender(
+      <FreeMasonry
+        render={FakeCard}
+        items={items}
+        width={1280}
+        height={720}
+        scrollTop={0}
+        overscanBy={1}
+        itemHeightEstimate={avgHeight}
+        onRender={onRender}
+      />
+    )
+    expect(onRender).toBeCalledTimes(1)
+    expect(onRender).toBeCalledWith(
+      0,
+      21,
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: expect.any(Number),
+          height: expect.any(Number),
+        }),
+      ])
+    )
   })
 })

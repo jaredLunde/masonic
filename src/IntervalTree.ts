@@ -265,7 +265,6 @@ interface IIntervalTree {
     callback: (index: number, low: number) => any
   ): void
   size: number
-  root: TreeNode
 }
 
 const IntervalTree = (): IIntervalTree => {
@@ -395,10 +394,6 @@ const IntervalTree = (): IIntervalTree => {
 
     get size() {
       return tree.size
-    },
-
-    get root() {
-      return tree.root
     },
   }
 }

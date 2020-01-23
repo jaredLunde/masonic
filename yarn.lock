@@ -917,10 +917,10 @@
     performance-now "^2.1.0"
     pretty-ms "^4.0.0"
 
-"@essentials/memoize-one@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@essentials/memoize-one/-/memoize-one-1.0.1.tgz#e710ac6a7240e6df2d397b811e02f814be6a4b8d"
-  integrity sha512-1sMTRDsPif89IemiDfBI5A+WTlO2BlazqMGrcZ8O/hyeEbh3VNB8Uq+1BsztFNvnkqXWFpvYkqy/XtKIklezCQ==
+"@essentials/memoize-one@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@essentials/memoize-one/-/memoize-one-1.0.2.tgz#a8e9c5e203f985a0b64ab3fee278370a8aa14bf8"
+  integrity sha512-FhL++iIRtTCYZPBQ3rUzlH1ngmrgYhkCgeNqhl6X6/Aj0P8Rf4Ppko3E9tgLpBdBGZfwqhGmJHpKkSSE69UglA==
 
 "@essentials/one-key-map@^1.0.1":
   version "1.0.1"
@@ -1135,10 +1135,10 @@
   dependencies:
     "@essentials/request-timeout" "^1.0.1"
 
-"@react-hook/passive-layout-effect@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@react-hook/passive-layout-effect/-/passive-layout-effect-1.0.2.tgz#a0138ece2a86d53d9ba947818715076a9aed6ba7"
-  integrity sha512-el1V2Calc5/HzUbz/Gkit9yeI/ypoap46Eo9u4EOg6+pnSQkUwU0faM22+Owp7+0cbz30fT9zFLrXy4JDuBSBQ==
+"@react-hook/passive-layout-effect@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@react-hook/passive-layout-effect/-/passive-layout-effect-1.0.3.tgz#55faac3bce2ad2b4a12eb0c6a52903da32fdc006"
+  integrity sha512-VFUvBBSYWRigI/YhMRp28tncMWYVgzsUdmdIdZyJ3CpKgj5sLmm4RmJdIoKIfWO/WRX5XQ+83GW2E6VmqTHZ3g==
 
 "@react-hook/throttle@^1.0.7":
   version "1.0.7"

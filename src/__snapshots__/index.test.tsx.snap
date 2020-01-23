@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Masonry disables pointer events when isScrolling: pointer-events: none; 1`] = `
+exports[`FreeMasonry disables pointer events when isScrolling: pointer-events: none; 1`] = `
 <DocumentFragment>
   <div
     role="grid"
@@ -24,11 +24,11 @@ exports[`Masonry disables pointer events when isScrolling: pointer-events: none;
 </DocumentFragment>
 `;
 
-exports[`Masonry re-renders on scroll: measure 1`] = `
+exports[`FreeMasonry re-renders on scroll: measure 1`] = `
 <DocumentFragment>
   <div
     role="grid"
-    style="position: relative; width: 100%; max-width: 100%; height: 205869px; max-height: 205869px; will-change: contents, height; pointer-events: none;"
+    style="position: relative; width: 100%; max-width: 100%; height: 206697px; max-height: 206697px;"
     tabindex="0"
   >
     <div
@@ -176,7 +176,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -189,7 +189,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -202,7 +202,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 520px;"
@@ -215,7 +215,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 356px;"
@@ -228,7 +228,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 340px;"
@@ -241,7 +241,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 376px;"
@@ -254,7 +254,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 524px;"
@@ -267,7 +267,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -280,7 +280,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 420px;"
@@ -293,7 +293,7 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 372px;"
@@ -306,7 +306,640 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
     </div>
     <div
       role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          21
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`FreeMasonry re-renders on scroll: scrolled 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 205869px; max-height: 205869px;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          22
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          23
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          24
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          25
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          26
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          27
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          28
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          29
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          30
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          31
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          32
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          33
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          34
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          35
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          36
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          37
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          38
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          39
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          40
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          41
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          42
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          43
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          44
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          45
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          46
+        </span>
+        Hello
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`FreeMasonry renders real positions after first pass: measure 1`] = `
+<DocumentFragment>
+  <div
+    role="grid"
+    style="position: relative; width: 100%; max-width: 100%; height: 205869px; max-height: 205869px;"
+    tabindex="0"
+  >
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          0
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          1
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          2
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          3
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          4
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          5
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          6
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          7
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          8
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          9
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          10
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          11
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 460px;"
+      >
+        <span>
+          12
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 520px;"
+      >
+        <span>
+          13
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 356px;"
+      >
+        <span>
+          14
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 340px;"
+      >
+        <span>
+          15
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 376px;"
+      >
+        <span>
+          16
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 524px;"
+      >
+        <span>
+          17
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 360px;"
+      >
+        <span>
+          18
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 420px;"
+      >
+        <span>
+          19
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
+    >
+      <div
+        style="width: 100%; height: 372px;"
+      >
+        <span>
+          20
+        </span>
+        Hello
+      </div>
+    </div>
+    <div
+      role="griditem"
+      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
     >
       <div
         style="width: 100%; height: 460px;"
@@ -460,43 +1093,6 @@ exports[`Masonry re-renders on scroll: measure 1`] = `
         Hello
       </div>
     </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Masonry re-renders on scroll: scrolled 1`] = `
-<DocumentFragment>
-  <div
-    role="grid"
-    style="position: relative; width: 100%; max-width: 100%; height: 203384px; max-height: 203384px; will-change: contents, height; pointer-events: none;"
-    tabindex="0"
-  >
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          58
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          59
-        </span>
-        Hello
-      </div>
-    </div>
     <div
       role="griditem"
       style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
@@ -505,7 +1101,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
         style="width: 100%; height: 340px;"
       >
         <span>
-          60
+          33
         </span>
         Hello
       </div>
@@ -518,7 +1114,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
         style="width: 100%; height: 376px;"
       >
         <span>
-          61
+          34
         </span>
         Hello
       </div>
@@ -531,7 +1127,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
         style="width: 100%; height: 524px;"
       >
         <span>
-          62
+          35
         </span>
         Hello
       </div>
@@ -544,7 +1140,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
         style="width: 100%; height: 360px;"
       >
         <span>
-          63
+          36
         </span>
         Hello
       </div>
@@ -557,7 +1153,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
         style="width: 100%; height: 420px;"
       >
         <span>
-          64
+          37
         </span>
         Hello
       </div>
@@ -570,7 +1166,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
         style="width: 100%; height: 372px;"
       >
         <span>
-          65
+          38
         </span>
         Hello
       </div>
@@ -583,7 +1179,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
         style="width: 100%; height: 460px;"
       >
         <span>
-          66
+          39
         </span>
         Hello
       </div>
@@ -596,7 +1192,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
         style="width: 100%; height: 520px;"
       >
         <span>
-          67
+          40
         </span>
         Hello
       </div>
@@ -609,969 +1205,7 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
         style="width: 100%; height: 356px;"
       >
         <span>
-          68
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          69
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          70
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          71
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          72
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          73
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          74
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          75
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          76
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          77
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          78
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          79
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          80
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          81
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          82
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          83
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          84
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          85
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          86
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          87
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          88
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          89
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          90
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          91
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          92
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          93
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          94
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          95
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          96
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          97
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          98
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          99
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          100
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          101
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          102
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          103
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          104
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          105
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          106
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          107
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          108
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          109
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          110
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          111
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          112
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          113
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          114
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          115
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          116
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          117
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          118
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          119
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          120
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          121
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          122
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          123
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          124
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          125
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          126
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          127
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          128
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          129
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          130
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          131
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          132
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          133
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          134
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          135
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          136
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          137
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          138
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          139
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          140
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          141
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          142
+          41
         </span>
         Hello
       </div>
@@ -1580,11 +1214,11 @@ exports[`Masonry re-renders on scroll: scrolled 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Masonry renders real positions after first pass: measure 1`] = `
+exports[`FreeMasonry renders real positions after first pass: render 1`] = `
 <DocumentFragment>
   <div
     role="grid"
-    style="position: relative; width: 100%; max-width: 100%; height: 204212px; max-height: 204212px; will-change: contents, height; pointer-events: none;"
+    style="position: relative; width: 100%; max-width: 100%; height: 204212px; max-height: 204212px;"
     tabindex="0"
   >
     <div
@@ -2410,841 +2044,11 @@ exports[`Masonry renders real positions after first pass: measure 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Masonry renders real positions after first pass: render 1`] = `
-<DocumentFragment>
-  <div
-    role="grid"
-    style="position: relative; width: 100%; max-width: 100%; height: 204212px; max-height: 204212px; will-change: contents, height; pointer-events: none;"
-    tabindex="0"
-  >
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          0
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          1
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          2
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          3
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          4
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          5
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          6
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          7
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          8
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          9
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          10
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          11
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          12
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          13
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          14
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          15
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          16
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          17
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          18
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          19
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="top: 0px; left: 0px; width: 213px; writing-mode: horizontal-tb; position: absolute;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          20
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          21
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          22
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          23
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          24
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          25
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          26
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          27
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          28
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          29
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          30
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          31
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          32
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          33
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          34
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          35
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          36
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          37
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          38
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          39
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          40
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          41
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          42
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          43
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          44
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          45
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          46
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          47
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          48
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          49
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          50
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          51
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          52
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          53
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 360px;"
-      >
-        <span>
-          54
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 420px;"
-      >
-        <span>
-          55
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 372px;"
-      >
-        <span>
-          56
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 460px;"
-      >
-        <span>
-          57
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 520px;"
-      >
-        <span>
-          58
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 356px;"
-      >
-        <span>
-          59
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 340px;"
-      >
-        <span>
-          60
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 376px;"
-      >
-        <span>
-          61
-        </span>
-        Hello
-      </div>
-    </div>
-    <div
-      role="griditem"
-      style="width: 213px; z-index: -1000; visibility: hidden; position: absolute; writing-mode: horizontal-tb;"
-    >
-      <div
-        style="width: 100%; height: 524px;"
-      >
-        <span>
-          62
-        </span>
-        Hello
-      </div>
-    </div>
-  </div>
-</DocumentFragment>
-`;
-
-exports[`Masonry sets a custom role: list listitem 1`] = `
+exports[`FreeMasonry sets a custom role: list listitem 1`] = `
 <DocumentFragment>
   <div
     role="list"
-    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0; will-change: contents, height; pointer-events: none;"
+    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0;"
     tabindex="0"
   >
     <div
@@ -3264,12 +2068,12 @@ exports[`Masonry sets a custom role: list listitem 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Masonry sets class name: foobar 1`] = `
+exports[`FreeMasonry sets class name: foobar 1`] = `
 <DocumentFragment>
   <div
     class="foobar"
     role="grid"
-    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0; will-change: contents, height; pointer-events: none;"
+    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0;"
     tabindex="0"
   >
     <div
@@ -3289,11 +2093,11 @@ exports[`Masonry sets class name: foobar 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Masonry sets custom element types: ul li 1`] = `
+exports[`FreeMasonry sets custom element types: ul li 1`] = `
 <DocumentFragment>
   <ul
     role="grid"
-    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0; will-change: contents, height; pointer-events: none;"
+    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0;"
     tabindex="0"
   >
     <li
@@ -3313,11 +2117,11 @@ exports[`Masonry sets custom element types: ul li 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Masonry sets tabIndex: 3 1`] = `
+exports[`FreeMasonry sets tabIndex: 3 1`] = `
 <DocumentFragment>
   <div
     role="grid"
-    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0; will-change: contents, height; pointer-events: none;"
+    style="position: relative; width: 100%; max-width: 100%; height: 0px; max-height: 0;"
     tabindex="3"
   >
     <div
@@ -3337,4 +2141,4 @@ exports[`Masonry sets tabIndex: 3 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Masonry throws 1`] = `"Cannot read property 'length' of undefined"`;
+exports[`FreeMasonry throws 1`] = `"Cannot read property 'length' of undefined"`;

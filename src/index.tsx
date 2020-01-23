@@ -309,7 +309,11 @@ export const useWindowScroller = (
 
 const defaultRect = {top: 0, width: 0}
 const getContainerRect = memoizeOne(
-  (element, width, top) => [{width, top}, element],
+  (
+    element: (element: HTMLElement) => void,
+    width: number,
+    top: number
+  ): [ContainerRect, (element: HTMLElement) => void] => [{width, top}, element],
   (args, pargs) =>
     args[1] === pargs[1] && args[2] === pargs[2] && args[0] === pargs[0]
 )
@@ -368,7 +372,7 @@ const getColumns = (
 }
 
 const getContainerStyle = memoizeOne(
-  (isScrolling: boolean, estimateTotalHeight: number) => ({
+  (isScrolling: boolean | undefined, estimateTotalHeight: number) => ({
     position: 'relative',
     width: '100%',
     maxWidth: '100%',
@@ -394,7 +398,7 @@ const defaultGetItemKey = (_: any[], i: number): number => i
 // the below memoizations for for ensuring shallow equal is reliable for pure
 // component children
 const getCachedSize = memoizeOne(
-  width => ({
+  (width: number): React.CSSProperties => ({
     width,
     zIndex: -1000,
     visibility: 'hidden',
