@@ -274,35 +274,23 @@ export const useWindowScroller = (
   initialHeight = 720,
   options: WindowScrollerOptions = emptyObj
 ): WindowScrollerResult => {
-  const fps = options.scroll?.fps || 8
-  const scrollY = useWindowScroll(fps)
+  const scrollY = useWindowScroll(options.scroll?.fps || 8)
+  const [isScrolling, setIsScrolling] = useState<boolean>(false)
   const [width, height] = useWindowSize(
     initialWidth,
     initialHeight,
     options.size || defaultSizeOpt
   )
-  const [isScrolling, setIsScrolling] = useState<boolean>(false)
-  const isScrollingTimeout = useRef<number | undefined>()
 
   useLayoutEffect(() => {
-    if (isScrollingTimeout.current !== null) {
-      clearTimeout(isScrollingTimeout.current)
-      isScrollingTimeout.current = void 0
-    }
-
-    setIsScrolling(true)
-    isScrollingTimeout.current = window.setTimeout(() => {
+    if (!isScrolling) setIsScrolling(true)
+    const to = window.setTimeout(() => {
       // This is here to prevent premature bail outs while maintaining high resolution
       // unsets. Without it there will always bee a lot of unnecessary DOM writes to style.
       setIsScrolling(false)
-      isScrollingTimeout.current = void 0
     }, 1000 / 6)
+    return (): any => window.clearTimeout(to)
   }, [scrollY])
-  // cleans up isScrollingTimeout on unmount
-  useEffect(() => {
-    const to = isScrollingTimeout.current
-    return (): any => to !== void 0 && window.clearTimeout(to)
-  }, emptyArr)
 
   return {width, height, scrollY, isScrolling}
 }
