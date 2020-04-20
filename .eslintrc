@@ -16,17 +16,17 @@
     "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
     "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/no-this-alias": "off",
     "no-console": "off",
     "no-prototype-builtins": "off",
-    "prefer-spread": "off",
     "react/no-children-prop": "off",
     "react/display-name": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "settings": {
     "react": {
@@ -41,7 +41,7 @@
     "jest/globals": true
   },
   "globals": {
-    "__DEV__": true
+    "__DEV__": false
   },
   "overrides": [
     {

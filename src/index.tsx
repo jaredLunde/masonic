@@ -286,6 +286,7 @@ export const useWindowScroller = (
       setIsScrolling(false)
     }, 1000 / 6)
     return (): any => window.clearTimeout(to)
+    // eslint-disable-next-line
   }, [scrollY])
 
   return {width, height, scrollY, isScrolling}
@@ -438,8 +439,9 @@ export interface FreeMasonryProps extends MasonryPropsBase {
 }
 
 const useForceUpdate = (): (() => void) => {
-  const setState = useState<number>(0)[1]
-  return useCallback(() => setState(current => ++current), emptyArr)
+  const setState = useState<{}>({})[1]
+  // eslint-disable-next-line
+  return useCallback(() => setState({}), emptyArr)
 }
 
 const elementsCache: WeakMap<Element, number> = new WeakMap()
@@ -586,6 +588,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
             forceUpdate()
           }
         }),
+      // eslint-disable-next-line
       [itemPositioner, positionCache]
     )
 
@@ -599,7 +602,8 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
       if (typeof onRender === 'function' && stopIndex.current !== void 0) {
         onRender(startIndex.current, stopIndex.current, items)
       }
-    }, [items, startIndex.current, stopIndex.current])
+      // eslint-disable-next-line
+    }, [onRender, items, startIndex.current, stopIndex.current])
     // Allows parent components to clear the position cache imperatively
     useImperativeHandle(
       ref,
@@ -608,6 +612,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
           setPositionCache(createPositionCache())
         },
       }),
+      // eslint-disable-next-line
       emptyArr
     )
     // Updates the item positions any time a prop potentially affecting their
@@ -636,6 +641,7 @@ export const FreeMasonry: React.FC<FreeMasonryProps> = React.forwardRef(
           nextPositionCache.setPosition(index, item.left, item.top, pos.height)
         }
       }
+      // eslint-disable-next-line
     }, [width, columnWidth, columnGutter, columnCount])
 
     const setItemRef = getRefSetter(
@@ -946,7 +952,7 @@ export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
       for (let i = 0; i < unloadedRanges.length - 1; ++i)
         loadMoreItems(unloadedRanges[i], unloadedRanges[++i], items)
     },
-    [totalItems, minimumBatchSize, threshold, isItemLoaded]
+    [loadMoreItems, totalItems, minimumBatchSize, threshold, isItemLoaded]
   )
 }
 
