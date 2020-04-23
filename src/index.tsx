@@ -14,6 +14,7 @@ import memoizeOne from '@essentials/memoize-one'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useWindowScroll from '@react-hook/window-scroll'
 import useWindowSize from '@react-hook/window-size'
+import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 import createIntervalTree from './IntervalTree'
 
 const emptyObj = {}
@@ -278,12 +279,12 @@ export const useWindowScroller = (
 
   useLayoutEffect(() => {
     if (!isScrolling) setIsScrolling(true)
-    const to = window.setTimeout(() => {
+    const to = requestTimeout(() => {
       // This is here to prevent premature bail outs while maintaining high resolution
       // unsets. Without it there will always bee a lot of unnecessary DOM writes to style.
       setIsScrolling(false)
-    }, 1000 / 6)
-    return (): any => window.clearTimeout(to)
+    }, 1000 / 8)
+    return (): any => clearRequestTimeout(to)
     // eslint-disable-next-line
   }, [scrollY])
 
