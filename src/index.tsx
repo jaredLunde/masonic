@@ -263,7 +263,7 @@ export interface WindowScrollerResult {
   isScrolling: boolean
 }
 
-const defaultSizeOpt = {wait: 120}
+const defaultSizeOpt = {initialWidth: 1280, initialHeight: 720, wait: 120}
 
 export const useWindowScroller = (
   initialWidth = 1280,
@@ -273,9 +273,7 @@ export const useWindowScroller = (
   const scrollY = useWindowScroll(options.scroll?.fps || 8)
   const [isScrolling, setIsScrolling] = useState<boolean>(false)
   const [width, height] = useWindowSize(
-    initialWidth,
-    initialHeight,
-    options.size || defaultSizeOpt
+    Object.assign({initialWidth, initialHeight}, options.size) || defaultSizeOpt
   )
 
   useLayoutEffect(() => {

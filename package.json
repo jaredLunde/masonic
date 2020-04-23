@@ -1,6 +1,6 @@
 {
   "name": "masonic",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "homepage": "https://github.com/jaredLunde/masonic#readme",
   "repository": "github:jaredLunde/masonic",
   "bugs": "https://github.com/jaredLunde/masonic/issues",
@@ -94,8 +94,8 @@
     "@essentials/memoize-one": "^1.0.2",
     "@essentials/one-key-map": "^1.0.1",
     "@react-hook/passive-layout-effect": "^1.0.3",
-    "@react-hook/window-scroll": "^1.0.6",
-    "@react-hook/window-size": "^1.0.10",
+    "@react-hook/window-scroll": "^1.1.1",
+    "@react-hook/window-size": "^2.0.0",
     "resize-observer-polyfill": "^1.5.1",
     "trie-memoize": "^1.1.0"
   },
