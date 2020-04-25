@@ -1,109 +1,167 @@
-import React from 'react';
-import ResizeObserver from 'resize-observer-polyfill';
-import { DebouncedWindowSizeOptions } from '@react-hook/window-size';
-interface UpdatedItem {
-    top: number;
-    left: number;
-    height: number;
+import React from 'react'
+import ResizeObserver from 'resize-observer-polyfill'
+interface Item {
+  top: number
+  left: number
+  height: number
+  column: number
 }
-interface ItemPositioner {
-    set: (index: number, height: number) => any;
-    get: (index: number | undefined) => any;
-    update: (updates: number[]) => (number | UpdatedItem)[];
-    columnCount: number;
-    columnWidth: number;
-    columnGutter: number;
+interface Positioner {
+  columnCount: number
+  columnWidth: number
+  set: (index: number, height: number) => void
+  get: (index: number) => Item | undefined
+  update: (updates: number[]) => void
+  range: (
+    lo: number,
+    hi: number,
+    renderCallback: (index: number, left: number, top: number) => void
+  ) => void
+  size: () => number
+  estimateHeight: (itemCount: number, defaultItemHeight: number) => number
+  getShortestColumn: () => number
 }
-interface PositionCache {
-    range: (lo: number, hi: number, renderCallback: (index: number, left: number, top: number) => void) => void;
-    size: number;
-    estimateTotalHeight: (itemCount: number, columnCount: number, defaultItemHeight: number) => number;
-    getShortestColumnSize: () => number;
-    setPosition: (index: number, left: number, top: number, height: number) => void;
+export declare const useScroller: (fps?: number) => [number, boolean]
+export declare const useContainerPosition: (
+  element: React.MutableRefObject<HTMLElement | null>,
+  deps?: React.DependencyList
+) => ContainerPosition
+interface ContainerPosition {
+  top: number
+  width: number
 }
-export interface WindowScrollerOptions {
-    size?: {
-        wait?: number;
-    };
-    scroll?: {
-        fps?: number;
-    };
+export declare const usePositioner: ({
+  width,
+  columnWidth,
+  columnGutter,
+  columnCount,
+}: {
+  width: number
+  columnWidth?: number | undefined
+  columnGutter?: number | undefined
+  columnCount?: number | undefined
+}) => Positioner
+export declare const useResizeObserver: (
+  positioner: Positioner
+) => ResizeObserver
+export declare const useMasonry: ({
+  positioner,
+  resizeObserver,
+  items,
+  onRender,
+  as,
+  id,
+  className,
+  style,
+  role,
+  tabIndex,
+  containerRef,
+  itemAs,
+  itemStyle,
+  itemHeightEstimate,
+  itemKey,
+  overscanBy,
+  scrollTop,
+  isScrolling,
+  height,
+  render,
+}: UseMasonry) => React.ReactElement<
+  any,
+  | string
+  | ((
+      props: any
+    ) => React.ReactElement<
+      any,
+      string | any | (new (props: any) => React.Component<any, any, any>)
+    > | null)
+  | (new (props: any) => React.Component<any, any, any>)
+>
+export declare const Masonry: React.FC<MasonryProps>
+interface UseMasonry {
+  items: any[]
+  positioner: Positioner
+  resizeObserver?: ReturnType<typeof useResizeObserver>
+  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>
+  id?: string
+  className?: string
+  style?: React.CSSProperties
+  role?: string
+  tabIndex?: number
+  containerRef?:
+    | ((element: HTMLElement) => void)
+    | React.MutableRefObject<HTMLElement | null>
+  itemAs?: keyof JSX.IntrinsicElements | React.ComponentType<any>
+  itemStyle?: React.CSSProperties
+  itemHeightEstimate?: number
+  itemKey?: (data: any, index: number) => string | number
+  overscanBy?: number
+  height: number
+  scrollTop: number
+  isScrolling?: boolean
+  render: React.ComponentType<any>
+  onRender?: (
+    startIndex: number,
+    stopIndex: number | undefined,
+    items: any[]
+  ) => void
 }
-export declare const useScroller: (fps?: number) => [number, boolean];
-interface ContainerRect {
-    top: number;
-    width: number;
-    height: number;
+export interface MasonryProps
+  extends Omit<
+    UseMasonry,
+    | 'scrollTop'
+    | 'height'
+    | 'isScrolling'
+    | 'positioner'
+    | 'resizeObserver'
+    | 'containerRef'
+  > {
+  columnWidth?: number
+  columnGutter?: number
+  columnCount?: number
+  initialWidth?: number
+  initialHeight?: number
+  scrollFps?: number
 }
-export declare const useContainerSize: (options?: DebouncedWindowSizeOptions) => [ContainerRect, (element: HTMLElement) => void];
-export declare const usePositioner: ({ width, columnWidth, columnGutter, columnCount, }: FreeMasonryProps) => [ItemPositioner, PositionCache];
-export declare const useResizeObserver: (itemPositioner: ItemPositioner, positionCache: PositionCache) => ResizeObserver;
-export declare const MasonryRenderer: React.FC<MasonryRendererProps>;
-export declare const MasonryScroller: React.FC<MasonryProps & {
-    top?: number;
-}>;
-export declare const Masonry: React.FC<MasonryProps>;
-export interface MasonryPropsBase {
-    columnWidth?: number;
-    columnGutter?: number;
-    columnCount?: number;
-    as?: any;
-    id?: string;
-    className?: string;
-    style?: React.CSSProperties;
-    role?: string;
-    tabIndex?: number | string;
-    items: any[];
-    itemAs?: any;
-    itemStyle?: React.CSSProperties;
-    itemHeightEstimate?: number;
-    itemKey?: (data: any, index: number) => string | number;
-    overscanBy?: number;
-    onRender?: (startIndex: number, stopIndex: number | undefined, items: any[]) => void;
-    render: any;
+export interface MasonryScrollerProps
+  extends Omit<
+    MasonryProps,
+    | 'columnWidth'
+    | 'columnGutter'
+    | 'columnCount'
+    | 'initialWidth'
+    | 'initialHeight'
+  > {
+  top?: number
+  height: number
+  containerRef?: UseMasonry['containerRef']
+  positioner: Positioner
+  resizeObserver: UseMasonry['resizeObserver']
 }
-interface MasonryRendererProps extends MasonryPropsBase {
-    width: number;
-    height: number;
-    top?: number;
-    scrollTop: number;
-    isScrolling?: boolean;
-    containerRef?: ((element: HTMLElement) => void) | React.MutableRefObject<HTMLElement | null>;
-    resizeObserver?: ReturnType<typeof useResizeObserver>;
-    positionCache: PositionCache;
-    itemPositioner: ItemPositioner;
-}
-export interface FreeMasonryProps extends MasonryRendererProps {
-    top?: number;
-}
-export interface MasonryProps extends MasonryPropsBase {
-    initialWidth?: number;
-    initialHeight?: number;
-    scrollerFps?: number;
-}
-export declare const List: React.FC<ListProps>;
+export declare const List: React.FC<ListProps>
 export interface ListProps extends MasonryProps {
-    columnGutter?: never;
-    columnCount?: never;
-    columnWidth?: never;
-    rowGutter?: number;
+  columnGutter?: never
+  columnCount?: never
+  columnWidth?: never
+  rowGutter?: number
 }
 export declare function useInfiniteLoader<T extends LoadMoreItemsCallback>(
-/**
- * Callback to be invoked when more rows must be loaded.
- * It should implement the following signature: (startIndex, stopIndex, items): Promise
- * The returned Promise should be resolved once row data has finished loading.
- * It will be used to determine when to refresh the list with the newly-loaded data.
- * This callback may be called multiple times in reaction to a single scroll event.
- */
-loadMoreItems: T, options?: InfiniteLoaderOptions): LoadMoreItemsCallback;
+  /**
+   * Callback to be invoked when more rows must be loaded.
+   * It should implement the following signature: (startIndex, stopIndex, items): Promise
+   * The returned Promise should be resolved once row data has finished loading.
+   * It will be used to determine when to refresh the list with the newly-loaded data.
+   * This callback may be called multiple times in reaction to a single scroll event.
+   */
+  loadMoreItems: T,
+  options?: InfiniteLoaderOptions
+): LoadMoreItemsCallback
 export interface InfiniteLoaderOptions {
-    isItemLoaded?: (index: number, items: any[]) => boolean;
-    minimumBatchSize?: number;
-    threshold?: number;
-    totalItems?: number;
+  isItemLoaded?: (index: number, items: any[]) => boolean
+  minimumBatchSize?: number
+  threshold?: number
+  totalItems?: number
 }
 export interface LoadMoreItemsCallback {
-    (startIndex: number, stopIndex: number, items: any[]): void;
+  (startIndex: number, stopIndex: number, items: any[]): void
 }
-export {};
+export {}

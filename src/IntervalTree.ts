@@ -350,7 +350,7 @@ const IntervalTree = (): IIntervalTree => {
 
       let y = z
       let originalYColor = y.color
-      let x
+      let x: TreeNode
 
       if (z.left === NULL_NODE) {
         x = z.right
