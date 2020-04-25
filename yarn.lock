@@ -927,13 +927,17 @@
   resolved "https://registry.yarnpkg.com/@essentials/one-key-map/-/one-key-map-1.0.1.tgz#a8ac7059a9f15cba5a32c4d7e2a7546d186553a8"
   integrity sha512-cOhq1OosW3AlZnJF7Q1FSWsFQy9d2iZOpuv5THm2QyZHjfdQhRS9Nyr3+IiDQL7h/fONY9E87pkSjQ8gplEppA==
 
-"@essentials/request-timeout@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@essentials/request-timeout/-/request-timeout-1.0.2.tgz#0fcb7d7ec186fcfc5f32685968407a2d51d6443d"
-  integrity sha512-P4pM8z1J9Ifj9SanjHyIuzV+AF/Ry6Coxm6foyza3aiDsweHME3t5sRrKv0ohpsmQLrmgt8XLlwFLPoAYLpq2Q==
+"@essentials/raf@^1.1.2":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@essentials/raf/-/raf-1.1.3.tgz#0ed3d95ce7c59ffb7a4c2bd77e9e3301466b42fc"
+  integrity sha512-2pnbJu6M2agYKPhnD2lqRxLGG4GOfMFxIePw0WoIDmuTmnfrCoIJp9RlgDhVhbOGHXiQHARdrvGeiHgC3B5YnA==
+
+"@essentials/request-timeout@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@essentials/request-timeout/-/request-timeout-1.2.0.tgz#00aabcbb4ca20a731f030a44588acf0c8491d9bc"
+  integrity sha512-7HbQnSxy2lpf2/wz5XNwjzKakyyZAtptTGYzfIaS4xTXgXs64xfXM8UT4fG40sEEJitXFkwzxgCCXVrokorGLQ==
   dependencies:
-    performance-now "^2.1.0"
-    raf "^3.4.1"
+    "@essentials/raf" "^1.1.2"
 
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
@@ -1128,35 +1132,35 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@react-hook/debounce@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-2.0.2.tgz#98c9842f20dc56e2d3171508f095cb47ad2dbe01"
-  integrity sha512-8U3fQKdhHaG6bczKgzgJFX3nc/N11K/Zu8HXHfdweAtP4iMfUUBum0EhwkOmlQAy8P27eaG1pjFd5vGwHWfS7w==
+"@react-hook/debounce@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@react-hook/debounce/-/debounce-2.0.3.tgz#46b346580a19b41e9f25faad0a4103d7c7e5e1ba"
+  integrity sha512-G1RStTQ5NJvy0N/Wydn+wdahpEJpdKe/KzTVEkGZ7DTKCixjbOD5TtBJfnkajQzfQUrgLely2JE65W58F2hb1A==
 
 "@react-hook/passive-layout-effect@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@react-hook/passive-layout-effect/-/passive-layout-effect-1.0.3.tgz#55faac3bce2ad2b4a12eb0c6a52903da32fdc006"
   integrity sha512-VFUvBBSYWRigI/YhMRp28tncMWYVgzsUdmdIdZyJ3CpKgj5sLmm4RmJdIoKIfWO/WRX5XQ+83GW2E6VmqTHZ3g==
 
-"@react-hook/throttle@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-2.1.0.tgz#33a187251a6a481ee7b26981459092752238464d"
-  integrity sha512-HJ0jgidcdkfW5YHXMDZzxdwB1SrUHJ1B6Ir/c6pQKnE9xvVimJaehglErZsCTGymEV4VX/U84hHBEo9XBxiWyw==
+"@react-hook/throttle@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@react-hook/throttle/-/throttle-2.1.2.tgz#ff2b342655896dd210246f382e156cdb2ab599cf"
+  integrity sha512-AmZX4wUXHJe/jN33elneFDt5zJN6f4uB9ruTDrBaUcA+Yroh+hjqBlL4/N3IL2sf6oyDRmL2eMQUgJoJN+akIg==
 
-"@react-hook/window-scroll@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@react-hook/window-scroll/-/window-scroll-1.1.2.tgz#379a26439e440bb7093c238c23dd863b9ce2aa24"
-  integrity sha512-AGlFHlbcvh1D9Cs9ElvTtzVnYlRg5HW+VVOlCtp0gzG0zxmnBxsUwWvD+qpoUJ51HcajHLW7kj/FZSGq7lqKhQ==
+"@react-hook/window-scroll@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@react-hook/window-scroll/-/window-scroll-1.1.4.tgz#1604a0cba2dd5d27b21c9faa370920c32499bd09"
+  integrity sha512-TGoJD1OjJ3WpNwfGndc5aMBsepBBTQRa3pnyOJXLLmAZW9YCyapKa+DpT5U70RqbCXgRXhUB4begqSoOBm7zeA==
   dependencies:
-    "@react-hook/throttle" "^2.1.0"
+    "@react-hook/throttle" "^2.1.2"
 
-"@react-hook/window-size@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@react-hook/window-size/-/window-size-2.0.1.tgz#f4780bafef49b2c28c492d2ab591cfc11bab8312"
-  integrity sha512-DtD3mBFVVWARFoGJ1aKjABeudXtp3iYM162E2/19Ceh8hEufCMe+cVc3P9vTMo/jge6Risu2tfS9/lpc0KPUqg==
+"@react-hook/window-size@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@react-hook/window-size/-/window-size-2.0.4.tgz#e6eb73a7c3b78f9ad79634ce47432905af830855"
+  integrity sha512-7Eo44fLY1ryiL6pOjcCUTxPqsBjVrj0TpJNCGaoqMc88KWYYI6p2micKCVGqIRqTY5HontZFrlkAL3ZoOVic9Q==
   dependencies:
-    "@react-hook/debounce" "^2.0.2"
-    "@react-hook/throttle" "^2.1.0"
+    "@react-hook/debounce" "^2.0.3"
+    "@react-hook/throttle" "^2.1.2"
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
@@ -5073,13 +5077,6 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-raf@^3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
-  integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==
-  dependencies:
-    performance-now "^2.1.0"
-
 rand-int@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/rand-int/-/rand-int-1.0.0.tgz#7ae9b10bfad7f00899bf8e3730122e7793b3d50e"
@@ -6015,10 +6012,10 @@ tr46@^1.0.1:
   dependencies:
     punycode "^2.1.0"
 
-trie-memoize@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/trie-memoize/-/trie-memoize-1.1.0.tgz#2244ac75701b93585fc8c4a1a2f85ca132d4b5f3"
-  integrity sha512-7HPe38HUMaKzn+iFfnOO7E3fUcFo02P+QHvN0dcit3RjMxYFmk/poN9xHRptgPRk9MR/7bqPqcAyns8BCf0Yhg==
+trie-memoize@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/trie-memoize/-/trie-memoize-1.1.2.tgz#94ad8ff5b288819b62fd6f29eade2c84af435721"
+  integrity sha512-I9tAnQCriR/qd9ab4h+fUBOAa9qy2FlDOvKbPsbsj4n9+GdszyHVOSg/slUQFhAp80G7y+ze1sln37x7E/7GHA==
 
 ts-jest@latest:
   version "24.2.0"
