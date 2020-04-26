@@ -334,16 +334,9 @@ const createPositioner = (
   // O(log(n)) lookup of cells to render for a given viewport size
   // Store tops and bottoms of each cell for fast intersection lookup.
   const intervalTree = createIntervalTree()
-  // Tracks the intervals that were inserted into the interval tree so they can be
-  // removed when positions are updated
-  const intervalValueMap: number[][] = []
-  // Maps cell index to x coordinates for quick lookup.
-  const leftMap: number[] = []
-  // Tracks the height of each column
-  const columnSizeMap: Record<string, number> = {}
   // Track the height of each column.
   // Layout algorithm below always inserts into the shortest column.
-  const columnHeights = new Array(columnCount)
+  const columnHeights: number[] = new Array(columnCount)
   // Used for O(1) item access
   const items: PositionerItem[] = []
   // Tracks the item indexes within an individual column
@@ -356,19 +349,15 @@ const createPositioner = (
 
   const setPosition = (
     index: number,
-    {top, left, height}: PositionerItem
+    {top, height}: PositionerItem,
+    prevTop = top,
+    prevHeight = height
   ): void => {
-    const prevInterval = intervalValueMap[index]
-    const prev = prevInterval !== void 0 && prevInterval[1]
-    const next = top + height
+    if (prevHeight !== height || prevTop !== top)
+      intervalTree.remove(prevTop, prevTop + prevHeight, index)
 
-    if (prevInterval !== void 0) intervalTree.remove.apply(null, prevInterval)
+    const next = top + height
     intervalTree.insert(top, next, index)
-    intervalValueMap[index] = [top, next, index]
-    leftMap[index] = left
-    const columnHeight = columnSizeMap[left]
-    columnSizeMap[left] =
-      columnHeight === prev ? next : Math.max(columnHeight || 0, next)
   }
 
   return {
@@ -409,8 +398,9 @@ const createPositioner = (
       for (; i < updates.length - 1; i++) {
         const index = updates[i]
         const item = items[index]
+        const prevHeight = item.height
         item.height = updates[++i]
-        setPosition(index, item)
+        setPosition(index, item, item.top, prevHeight)
         columns[item.column] =
           columns[item.column] === void 0
             ? index
@@ -426,27 +416,27 @@ const createPositioner = (
         const startIndex = binarySearch(itemsInColumn, columns[i])
         const index = columnItems[i][startIndex]
         const startItem = items[index]
-
         columnHeights[i] = startItem.top + startItem.height + columnGutter
 
         for (j = startIndex + 1; j < itemsInColumn.length; j++) {
-          const index = itemsInColumn[j],
-            item = items[index]
+          const index = itemsInColumn[j]
+          const item = items[index]
+          const prevTop = item.top
           item.top = columnHeights[i]
           columnHeights[i] = item.top + item.height + columnGutter
-          setPosition(index, item)
+          setPosition(index, item, prevTop)
         }
       }
     },
     // Render all cells visible within the viewport range defined.
     range: (lo, hi, renderCallback) =>
       intervalTree.search(lo, hi, (index, top) =>
-        renderCallback(index, leftMap[index], top)
+        renderCallback(index, items[index].left, top)
       ),
     estimateHeight: (itemCount, defaultItemHeight): number => {
       const tallestColumn = Math.max(
         0,
-        Math.max.apply(null, Object.values(columnSizeMap))
+        Math.max.apply(null, Object.values(columnHeights))
       )
 
       return itemCount === intervalTree.size
@@ -456,7 +446,7 @@ const createPositioner = (
               defaultItemHeight
     },
     shortestColumn: () => {
-      const sizes = Object.values(columnSizeMap)
+      const sizes = Object.values(columnHeights)
       if (sizes.length > 1) return Math.min.apply(null, sizes)
       return sizes[0] || 0
     },
