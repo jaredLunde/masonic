@@ -24,6 +24,6 @@ module.exports = (api) => {
       ['@babel/preset-react', {/*runtime: 'automatic',*/ useSpread: true}],
       presetEnv,
     ],
-    plugins: ['optimize-react'],
+    plugins: ['optimize-react', 'annotate-pure-calls'],
   }
 }

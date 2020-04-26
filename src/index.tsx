@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useMemo, useRef} from 'react'
+import React, {useCallback, useEffect, useState, useRef} from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 import trieMemoize from 'trie-memoize'
 import OneKeyMap from '@essentials/one-key-map'
@@ -47,10 +47,10 @@ export const useMasonry = ({
     range,
     estimateHeight,
     size,
-    getShortestColumn,
+    shortestColumn,
   } = positioner
   const measuredCount = size()
-  const shortestColumnSize = getShortestColumn()
+  const shortestColumnSize = shortestColumn()
   const children: React.ReactElement[] = []
   const itemRole = `${role}item`
 
@@ -95,7 +95,7 @@ export const useMasonry = ({
           role={itemRole}
           style={
             typeof itemStyle === 'object' && itemStyle !== null
-              ? assignUserItemStyle(phaseTwoStyle, itemStyle)
+              ? Object.assign(phaseTwoStyle, itemStyle)
               : phaseTwoStyle
           }
         >
@@ -130,8 +130,8 @@ export const useMasonry = ({
           ref={setItemRef(index)}
           role={itemRole}
           style={
-            typeof itemStyle === 'object' && itemStyle !== null
-              ? assignUserItemStyle(phaseOneStyle, itemStyle)
+            typeof itemStyle === 'object'
+              ? Object.assign(phaseOneStyle, itemStyle)
               : phaseOneStyle
           }
         >
@@ -156,7 +156,7 @@ export const useMasonry = ({
       className={className}
       tabIndex={tabIndex}
       style={
-        typeof style === 'object' && style !== null
+        typeof style === 'object'
           ? assignUserStyle(containerStyle, style)
           : containerStyle
       }
@@ -165,10 +165,11 @@ export const useMasonry = ({
   )
 }
 
+// ~5.5x faster than createElement without the memo
 const createRenderElement = trieMemoize(
-  [WeakMap, [], WeakMap, {}],
+  [OneKeyMap, {}, WeakMap, OneKeyMap],
   (RenderComponent, index, data, columnWidth) => (
-    <RenderComponent index={index} data={data} columnWidth={columnWidth} />
+    <RenderComponent index={index} data={data} width={columnWidth} />
   )
 )
 
@@ -217,7 +218,7 @@ export const Masonry: React.FC<MasonryProps> = React.memo((props) => {
   ) as any
   nextProps.positioner = usePositioner(nextProps)
   nextProps.resizeObserver = useResizeObserver(nextProps.positioner)
-  return /*#__PURE__*/ React.createElement(MasonryScroller, nextProps)
+  return React.createElement(MasonryScroller, nextProps)
 })
 
 interface UseMasonry {
@@ -288,7 +289,7 @@ export interface MasonryScrollerProps
 }
 
 export const List: React.FC<ListProps> = (props) =>
-  /*#__PURE__*/ React.createElement(
+  React.createElement(
     Masonry,
     Object.assign({role: 'list'}, props, {
       columnGutter: props.rowGutter,
@@ -451,7 +452,7 @@ const createPositioner = (
             Math.ceil((itemCount - intervalTree.size) / columnCount) *
               defaultItemHeight
     },
-    getShortestColumn: () => {
+    shortestColumn: () => {
       const sizes = Object.values(columnSizeMap)
       if (sizes.length > 1) return Math.min.apply(null, sizes)
       return sizes[0] || 0
@@ -475,7 +476,7 @@ export interface Positioner {
   ) => void
   size: () => number
   estimateHeight: (itemCount: number, defaultItemHeight: number) => number
-  getShortestColumn: () => number
+  shortestColumn: () => number
 }
 
 export interface PositionerItem {
@@ -510,15 +511,12 @@ const getContainerStyle = memoizeOne(
   })
 )
 
+const cmp2 = (args: IArguments, pargs: IArguments) =>
+  args[0] === pargs[0] && args[1] === pargs[1]
+
 const assignUserStyle = memoizeOne(
   (containerStyle, userStyle) => Object.assign({}, containerStyle, userStyle),
-  (args, pargs) => args[0] === pargs[0] && args[1] === pargs[1]
-)
-
-const assignUserItemStyle = trieMemoize(
-  [WeakMap, OneKeyMap],
-  (itemStyle: React.CSSProperties, userStyle: React.CSSProperties) =>
-    Object.assign({}, itemStyle, userStyle)
+  cmp2
 )
 
 const defaultGetItemKey = (_: any[], i: number): number => i
@@ -542,16 +540,16 @@ const useForceUpdate = () => {
 
 const elementsCache: WeakMap<Element, number> = new WeakMap()
 
-const getRefSetter = trieMemoize(
-  [OneKeyMap, OneKeyMap],
-  (positioner: Positioner, resizeObserver?: ResizeObserver) =>
-    trieMemoize([[]], (index: number) => (el: HTMLElement | null): void => {
-      if (el === null) return
-      if (resizeObserver) resizeObserver.observe(el)
-      elementsCache.set(el, index)
-      if (positioner.get(index) === void 0)
-        positioner.set(index, el.offsetHeight)
-    })
+const getRefSetter = memoizeOne(
+  (positioner: Positioner, resizeObserver?: ResizeObserver) => (
+    index: number
+  ) => (el: HTMLElement | null): void => {
+    if (el === null) return
+    if (resizeObserver) resizeObserver.observe(el)
+    elementsCache.set(el, index)
+    if (positioner.get(index) === void 0) positioner.set(index, el.offsetHeight)
+  },
+  cmp2
 )
 
 export const useScroller = (fps = 12): [number, boolean] => {
@@ -657,50 +655,53 @@ export const usePositioner = ({
 
 export const useResizeObserver = (positioner: Positioner) => {
   const forceUpdate = useForceUpdate()
-  const resizeObserver = useMemo<ResizeObserver>(
-    () =>
-      new ResizeObserver((entries) => {
-        const updates: number[] = []
-        let i = 0
-
-        for (; i < entries.length; i++) {
-          const entry = entries[i]
-          // There are native resize observers that still don't have
-          // the borderBoxSize property. For those we fallback to the
-          // offset height of the target element.
-          const height =
-            (entry as NativeResizeObserverEntry).borderBoxSize !== void 0
-              ? (entry as NativeResizeObserverEntry).borderBoxSize.blockSize
-              : (entry.target as HTMLElement).offsetHeight
-
-          if (height > 0) {
-            const index = elementsCache.get(entry.target)
-
-            if (index !== void 0) {
-              const position = positioner.get(index)
-
-              if (position !== void 0 && height !== position.height)
-                updates.push(index, height)
-            }
-          }
-        }
-
-        if (updates.length > 0) {
-          // Updates the size/positions of the cell with the resize
-          // observer updates
-          positioner.update(updates)
-          forceUpdate()
-        }
-      }),
-    [positioner, forceUpdate]
-  )
-
+  const resizeObserver = createResizeObserver(positioner, forceUpdate)
   // Cleans up the resize observers when they change or the
   // component unmounts
   useEffect(() => () => resizeObserver.disconnect(), [resizeObserver])
 
   return resizeObserver
 }
+
+// Using trie-memoize instead of memoize-one because there may be multiple
+// masonry components on one page
+const createResizeObserver = trieMemoize(
+  [WeakMap],
+  (positioner: Positioner, forceUpdate: () => void) =>
+    new ResizeObserver((entries) => {
+      const updates: number[] = []
+      let i = 0
+
+      for (; i < entries.length; i++) {
+        const entry = entries[i]
+        // There are native resize observers that still don't have
+        // the borderBoxSize property. For those we fallback to the
+        // offset height of the target element.
+        const height =
+          (entry as NativeResizeObserverEntry).borderBoxSize !== void 0
+            ? (entry as NativeResizeObserverEntry).borderBoxSize.blockSize
+            : (entry.target as HTMLElement).offsetHeight
+
+        if (height > 0) {
+          const index = elementsCache.get(entry.target)
+
+          if (index !== void 0) {
+            const position = positioner.get(index)
+
+            if (position !== void 0 && height !== position.height)
+              updates.push(index, height)
+          }
+        }
+      }
+
+      if (updates.length > 0) {
+        // Updates the size/positions of the cell with the resize
+        // observer updates
+        positioner.update(updates)
+        forceUpdate()
+      }
+    })
+)
 
 interface ResizeObserverEntryBoxSize {
   blockSize: number

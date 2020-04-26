@@ -103,7 +103,7 @@ export interface Positioner {
   ) => void
   size: () => number
   estimateHeight: (itemCount: number, defaultItemHeight: number) => number
-  getShortestColumn: () => number
+  shortestColumn: () => number
 }
 export interface PositionerItem {
   top: number

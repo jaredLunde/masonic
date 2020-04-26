@@ -16,10 +16,14 @@ interface TreeNode {
   max: number
   low: number
   high: number
-  color: Color
-  parent: TreeNode
-  right: TreeNode
-  left: TreeNode
+  // color
+  C: Color
+  // P
+  P: TreeNode
+  // right
+  R: TreeNode
+  // left
+  L: TreeNode
   list: ListNode
 }
 
@@ -74,196 +78,196 @@ const NULL_NODE: TreeNode = {
   low: 0,
   max: 0,
   high: 0,
-  color: NIL,
+  C: NIL,
   // @ts-ignore
-  parent: undefined,
+  P: undefined,
   // @ts-ignore
-  right: undefined,
+  R: undefined,
   // @ts-ignore
-  left: undefined,
+  L: undefined,
   // @ts-ignore
   list: undefined,
 }
 
-NULL_NODE.parent = NULL_NODE
-NULL_NODE.left = NULL_NODE
-NULL_NODE.right = NULL_NODE
+NULL_NODE.P = NULL_NODE
+NULL_NODE.L = NULL_NODE
+NULL_NODE.R = NULL_NODE
 
 const updateMax = (node: TreeNode) => {
   const max = node.high
-  if (node.left === NULL_NODE && node.right === NULL_NODE) node.max = max
-  else if (node.left === NULL_NODE) node.max = Math.max(node.right.max, max)
-  else if (node.right === NULL_NODE) node.max = Math.max(node.left.max, max)
-  else node.max = Math.max(Math.max(node.left.max, node.right.max), max)
+  if (node.L === NULL_NODE && node.R === NULL_NODE) node.max = max
+  else if (node.L === NULL_NODE) node.max = Math.max(node.R.max, max)
+  else if (node.R === NULL_NODE) node.max = Math.max(node.L.max, max)
+  else node.max = Math.max(Math.max(node.L.max, node.R.max), max)
 }
 
 const updateMaxUp = (node: TreeNode) => {
   let x = node
 
-  while (x.parent !== NULL_NODE) {
-    updateMax(x.parent)
-    x = x.parent
+  while (x.P !== NULL_NODE) {
+    updateMax(x.P)
+    x = x.P
   }
 }
 
 const rotateLeft = (tree: Tree, x: TreeNode) => {
-  if (x.right === NULL_NODE) return
-  const y = x.right
-  x.right = y.left
-  if (y.left !== NULL_NODE) y.left.parent = x
-  y.parent = x.parent
+  if (x.R === NULL_NODE) return
+  const y = x.R
+  x.R = y.L
+  if (y.L !== NULL_NODE) y.L.P = x
+  y.P = x.P
 
-  if (x.parent === NULL_NODE) tree.root = y
+  if (x.P === NULL_NODE) tree.root = y
   else {
-    if (x === x.parent.left) x.parent.left = y
-    else x.parent.right = y
+    if (x === x.P.L) x.P.L = y
+    else x.P.R = y
   }
 
-  y.left = x
-  x.parent = y
+  y.L = x
+  x.P = y
 
   updateMax(x)
   updateMax(y)
 }
 
 const rotateRight = (tree: Tree, x: TreeNode) => {
-  if (x.left === NULL_NODE) return
-  const y = x.left
-  x.left = y.right
-  if (y.right !== NULL_NODE) y.right.parent = x
-  y.parent = x.parent
+  if (x.L === NULL_NODE) return
+  const y = x.L
+  x.L = y.R
+  if (y.R !== NULL_NODE) y.R.P = x
+  y.P = x.P
 
-  if (x.parent === NULL_NODE) tree.root = y
+  if (x.P === NULL_NODE) tree.root = y
   else {
-    if (x === x.parent.right) x.parent.right = y
-    else x.parent.left = y
+    if (x === x.P.R) x.P.R = y
+    else x.P.L = y
   }
 
-  y.right = x
-  x.parent = y
+  y.R = x
+  x.P = y
 
   updateMax(x)
   updateMax(y)
 }
 
 const replaceNode = (tree: Tree, x: TreeNode, y: TreeNode) => {
-  if (x.parent === NULL_NODE) tree.root = y
-  else if (x === x.parent.left) x.parent.left = y
-  else x.parent.right = y
-  y.parent = x.parent
+  if (x.P === NULL_NODE) tree.root = y
+  else if (x === x.P.L) x.P.L = y
+  else x.P.R = y
+  y.P = x.P
 }
 
 const fixRemove = (tree: Tree, x: TreeNode) => {
   let w
 
-  while (x !== NULL_NODE && x.color === BLACK) {
-    if (x === x.parent.left) {
-      w = x.parent.right
+  while (x !== NULL_NODE && x.C === BLACK) {
+    if (x === x.P.L) {
+      w = x.P.R
 
-      if (w.color === RED) {
-        w.color = BLACK
-        x.parent.color = RED
-        rotateLeft(tree, x.parent)
-        w = x.parent.right
+      if (w.C === RED) {
+        w.C = BLACK
+        x.P.C = RED
+        rotateLeft(tree, x.P)
+        w = x.P.R
       }
 
-      if (w.left.color === BLACK && w.right.color === BLACK) {
-        w.color = RED
-        x = x.parent
+      if (w.L.C === BLACK && w.R.C === BLACK) {
+        w.C = RED
+        x = x.P
       } else {
-        if (w.right.color === BLACK) {
-          w.left.color = BLACK
-          w.color = RED
+        if (w.R.C === BLACK) {
+          w.L.C = BLACK
+          w.C = RED
           rotateRight(tree, w)
-          w = x.parent.right
+          w = x.P.R
         }
 
-        w.color = x.parent.color
-        x.parent.color = BLACK
-        w.right.color = BLACK
-        rotateLeft(tree, x.parent)
+        w.C = x.P.C
+        x.P.C = BLACK
+        w.R.C = BLACK
+        rotateLeft(tree, x.P)
         x = tree.root
       }
     } else {
-      w = x.parent.left
+      w = x.P.L
 
-      if (w.color === RED) {
-        w.color = BLACK
-        x.parent.color = RED
-        rotateRight(tree, x.parent)
-        w = x.parent.left
+      if (w.C === RED) {
+        w.C = BLACK
+        x.P.C = RED
+        rotateRight(tree, x.P)
+        w = x.P.L
       }
 
-      if (w.right.color === BLACK && w.left.color === BLACK) {
-        w.color = RED
-        x = x.parent
+      if (w.R.C === BLACK && w.L.C === BLACK) {
+        w.C = RED
+        x = x.P
       } else {
-        if (w.left.color === BLACK) {
-          w.right.color = BLACK
-          w.color = RED
+        if (w.L.C === BLACK) {
+          w.R.C = BLACK
+          w.C = RED
           rotateLeft(tree, w)
-          w = x.parent.left
+          w = x.P.L
         }
 
-        w.color = x.parent.color
-        x.parent.color = BLACK
-        w.left.color = BLACK
-        rotateRight(tree, x.parent)
+        w.C = x.P.C
+        x.P.C = BLACK
+        w.L.C = BLACK
+        rotateRight(tree, x.P)
         x = tree.root
       }
     }
   }
 
-  x.color = BLACK
+  x.C = BLACK
 }
 
 const minimumTree = (x: TreeNode) => {
-  while (x.left !== NULL_NODE) x = x.left
+  while (x.L !== NULL_NODE) x = x.L
   return x
 }
 
 const fixInsert = (tree: Tree, z: TreeNode) => {
   let y: TreeNode
-  while (z.parent.color === RED) {
-    if (z.parent === z.parent.parent.left) {
-      y = z.parent.parent.right
+  while (z.P.C === RED) {
+    if (z.P === z.P.P.L) {
+      y = z.P.P.R
 
-      if (y.color === RED) {
-        z.parent.color = BLACK
-        y.color = BLACK
-        z.parent.parent.color = RED
-        z = z.parent.parent
+      if (y.C === RED) {
+        z.P.C = BLACK
+        y.C = BLACK
+        z.P.P.C = RED
+        z = z.P.P
       } else {
-        if (z === z.parent.right) {
-          z = z.parent
+        if (z === z.P.R) {
+          z = z.P
           rotateLeft(tree, z)
         }
 
-        z.parent.color = BLACK
-        z.parent.parent.color = RED
-        rotateRight(tree, z.parent.parent)
+        z.P.C = BLACK
+        z.P.P.C = RED
+        rotateRight(tree, z.P.P)
       }
     } else {
-      y = z.parent.parent.left
+      y = z.P.P.L
 
-      if (y.color === RED) {
-        z.parent.color = BLACK
-        y.color = BLACK
-        z.parent.parent.color = RED
-        z = z.parent.parent
+      if (y.C === RED) {
+        z.P.C = BLACK
+        y.C = BLACK
+        z.P.P.C = RED
+        z = z.P.P
       } else {
-        if (z === z.parent.left) {
-          z = z.parent
+        if (z === z.P.L) {
+          z = z.P
           rotateRight(tree, z)
         }
 
-        z.parent.color = BLACK
-        z.parent.parent.color = RED
-        rotateLeft(tree, z.parent.parent)
+        z.P.C = BLACK
+        z.P.P.C = RED
+        rotateLeft(tree, z.P.P)
       }
     }
   }
-  tree.root.color = BLACK
+  tree.root.C = BLACK
 }
 
 interface IIntervalTree {
@@ -281,11 +285,11 @@ const IntervalTree = (): IIntervalTree => {
   const tree = {
     root: NULL_NODE,
     size: 0,
-    // we know these indexes are a consistent, safe way to make look ups
-    // for our case so it's a solid O(1) alternative to
-    // the O(log n) searchNode() in typical interval trees
-    indexMap: {},
   }
+  // we know these indexes are a consistent, safe way to make look ups
+  // for our case so it's a solid O(1) alternative to
+  // the O(log n) searchNode() in typical interval trees
+  const indexMap = {}
 
   return {
     insert(low, high, index) {
@@ -295,8 +299,8 @@ const IntervalTree = (): IIntervalTree => {
       while (x !== NULL_NODE) {
         y = x
         if (low === y.low) break
-        if (low < x.low) x = x.left
-        else x = x.right
+        if (low < x.low) x = x.L
+        else x = x.R
       }
 
       if (low === y.low && y !== NULL_NODE) {
@@ -304,7 +308,7 @@ const IntervalTree = (): IIntervalTree => {
         y.high = Math.max(y.high, high)
         updateMax(y)
         updateMaxUp(y)
-        tree.indexMap[index] = y
+        indexMap[index] = y
         tree.size++
         return
       }
@@ -313,30 +317,30 @@ const IntervalTree = (): IIntervalTree => {
         low,
         high,
         max: high,
-        color: RED,
-        parent: y,
-        left: NULL_NODE,
-        right: NULL_NODE,
+        C: RED,
+        P: y,
+        L: NULL_NODE,
+        R: NULL_NODE,
         list: {index, high, next: null},
       }
 
       if (y === NULL_NODE) {
         tree.root = z
       } else {
-        if (z.low < y.low) y.left = z
-        else y.right = z
+        if (z.low < y.low) y.L = z
+        else y.R = z
         updateMaxUp(z)
       }
 
       fixInsert(tree, z)
-      tree.indexMap[index] = z
+      indexMap[index] = z
       tree.size++
     },
 
     remove(low, high, index) {
-      const z = tree.indexMap[index]
+      const z = indexMap[index]
       if (z === void 0 || z.low !== low) return
-      delete tree.indexMap[index]
+      delete indexMap[index]
 
       const intervalResult = removeInterval(z, index)
       if (intervalResult === void 0) return
@@ -349,32 +353,32 @@ const IntervalTree = (): IIntervalTree => {
       }
 
       let y = z
-      let originalYColor = y.color
+      let originalYColor = y.C
       let x: TreeNode
 
-      if (z.left === NULL_NODE) {
-        x = z.right
-        replaceNode(tree, z, z.right)
-      } else if (z.right === NULL_NODE) {
-        x = z.left
-        replaceNode(tree, z, z.left)
+      if (z.L === NULL_NODE) {
+        x = z.R
+        replaceNode(tree, z, z.R)
+      } else if (z.R === NULL_NODE) {
+        x = z.L
+        replaceNode(tree, z, z.L)
       } else {
-        y = minimumTree(z.right)
-        originalYColor = y.color
-        x = y.right
+        y = minimumTree(z.R)
+        originalYColor = y.C
+        x = y.R
 
-        if (y.parent === z) {
-          x.parent = y
+        if (y.P === z) {
+          x.P = y
         } else {
-          replaceNode(tree, y, y.right)
-          y.right = z.right
-          y.right.parent = y
+          replaceNode(tree, y, y.R)
+          y.R = z.R
+          y.R.P = y
         }
 
         replaceNode(tree, z, y)
-        y.left = z.left
-        y.left.parent = y
-        y.color = z.color
+        y.L = z.L
+        y.L.P = y
+        y.C = z.C
       }
 
       updateMax(x)
@@ -389,8 +393,8 @@ const IntervalTree = (): IIntervalTree => {
       while (stack.length !== 0) {
         const node = stack.pop() as TreeNode
         if (node === NULL_NODE || low > node.max) continue
-        if (node.left !== NULL_NODE) stack.push(node.left)
-        if (node.right !== NULL_NODE) stack.push(node.right)
+        if (node.L !== NULL_NODE) stack.push(node.L)
+        if (node.R !== NULL_NODE) stack.push(node.R)
         if (node.low <= high && node.high >= low) {
           let curr: ListNode | null = node.list
           while (curr !== null) {

@@ -80,6 +80,7 @@
     "@types/react-dom": "^16.9.6",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
+    "babel-plugin-annotate-pure-calls": "^0.4.0",
     "babel-plugin-optimize-react": "^0.0.4",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
