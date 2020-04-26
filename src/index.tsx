@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState, useMemo, useRef} from 'react'
-import {unstable_batchedUpdates} from 'react-dom'
 import ResizeObserver from 'resize-observer-polyfill'
 import trieMemoize from 'trie-memoize'
 import OneKeyMap from '@essentials/one-key-map'
@@ -10,439 +9,13 @@ import {useWindowSize} from '@react-hook/window-size'
 import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 import createIntervalTree from './IntervalTree'
 
-const emptyObj = {}
-const emptyArr = []
-
-const binarySearch = (a: number[], y: number): number => {
-  let l = 0
-  let h = a.length - 1
-
-  while (l <= h) {
-    const m = (l + h) >>> 1
-    const x = a[m]
-    if (x === y) return m
-    else if (x <= y) l = m + 1
-    else h = m - 1
-  }
-
-  return -1
-}
-
-const createPositioner = (
-  columnCount: number,
-  columnWidth: number,
-  columnGutter = 0
-): Positioner => {
-  //   O(log(n)) lookup of cells to render for a given viewport size
-  //   O(1) lookup of shortest measured column (so we know when to enter phase 1)
-  // Store tops and bottoms of each cell for fast intersection lookup.
-  const intervalTree = createIntervalTree()
-  // Tracks the intervals that were inserted into the interval tree so they can be
-  // removed when positions are updated
-  const intervalValueMap: number[][] = []
-  // Maps cell index to x coordinates for quick lookup.
-  const leftMap: number[] = []
-  // Tracks the height of each column
-  const columnSizeMap: Record<string, number> = {}
-  // Track the height of each column.
-  // Layout algorithm below always inserts into the shortest column.
-  const columnHeights = new Array(columnCount)
-  const items: Item[] = []
-  const columnItems: number[][] = new Array(columnCount)
-
-  for (let i = 0; i < columnCount; i++) {
-    columnHeights[i] = 0
-    columnItems[i] = []
-  }
-
-  const setPosition = (index: number, {top, left, height}: Item): void => {
-    const prevInterval = intervalValueMap[index]
-    const prev = prevInterval !== void 0 && prevInterval[1]
-    const next = top + height
-
-    if (prevInterval !== void 0) intervalTree.remove.apply(null, prevInterval)
-    intervalTree.insert(top, next, index)
-    intervalValueMap[index] = [top, next, index]
-    leftMap[index] = left
-    const columnHeight = columnSizeMap[left]
-    columnSizeMap[left] =
-      columnHeight === prev ? next : Math.max(columnHeight || 0, next)
-  }
-
-  return {
-    columnCount,
-    columnWidth,
-    set: (index, height = 0) => {
-      let column = 0
-
-      // finds the shortest column and uses it
-      for (let i = 1; i < columnHeights.length; i++) {
-        if (columnHeights[i] < columnHeights[column]) column = i
-      }
-
-      const top = columnHeights[column] || 0
-      columnHeights[column] = top + height + columnGutter
-      columnItems[column].push(index)
-      setPosition(
-        index,
-        (items[index] = {
-          left: column * (columnWidth + columnGutter),
-          top,
-          height,
-          column,
-        })
-      )
-    },
-    get: (index) => items[index],
-    // This only updates items in the specific columns that have changed, on and after the
-    // specific items that have changed
-    update: (updates) => {
-      const columns: number[] = new Array(columnCount)
-      let i = 0,
-        j = 0
-
-      // determines which columns have items that changed, as well as the minimum index
-      // changed in that column, as all items after that index will have their positions
-      // affected by the change
-      for (; i < updates.length - 1; i++) {
-        const index = updates[i]
-        const item = items[index]
-        item.height = updates[++i]
-        setPosition(index, item)
-        columns[item.column] =
-          columns[item.column] === void 0
-            ? index
-            : Math.min(index, columns[item.column])
-      }
-
-      for (i = 0; i < columns.length; i++) {
-        // bails out if the column didn't change
-        if (columns[i] === void 0) continue
-        const itemsInColumn = columnItems[i]
-        // the index order is sorted with certainty so binary search is a great solution
-        // here as opposed to Array.indexOf()
-        const startIndex = binarySearch(itemsInColumn, columns[i])
-        const index = columnItems[i][startIndex]
-        const startItem = items[index]
-
-        columnHeights[i] = startItem.top + startItem.height + columnGutter
-
-        for (j = startIndex + 1; j < itemsInColumn.length; j++) {
-          const index = itemsInColumn[j],
-            item = items[index]
-          item.top = columnHeights[i]
-          columnHeights[i] = item.top + item.height + columnGutter
-          setPosition(index, item)
-        }
-      }
-    },
-    // Render all cells visible within the viewport range defined.
-    range: (lo, hi, renderCallback) =>
-      intervalTree.search(lo, hi, (index, top) =>
-        renderCallback(index, leftMap[index], top)
-      ),
-    estimateHeight: (itemCount, defaultItemHeight): number => {
-      const tallestColumn = Math.max(
-        0,
-        Math.max.apply(null, Object.values(columnSizeMap))
-      )
-
-      return itemCount === intervalTree.size
-        ? tallestColumn
-        : tallestColumn +
-            Math.ceil((itemCount - intervalTree.size) / columnCount) *
-              defaultItemHeight
-    },
-    getShortestColumn: () => {
-      const sizes = Object.values(columnSizeMap)
-      if (sizes.length > 1) return Math.min.apply(null, sizes)
-      return sizes[0] || 0
-    },
-    size(): number {
-      return intervalTree.size
-    },
-  }
-}
-
-interface Item {
-  top: number
-  left: number
-  height: number
-  column: number
-}
-
-interface Positioner {
-  columnCount: number
-  columnWidth: number
-  set: (index: number, height: number) => void
-  get: (index: number) => Item | undefined
-  update: (updates: number[]) => void
-  range: (
-    lo: number,
-    hi: number,
-    renderCallback: (index: number, left: number, top: number) => void
-  ) => void
-  size: () => number
-  estimateHeight: (itemCount: number, defaultItemHeight: number) => number
-  getShortestColumn: () => number
-}
-
-const getColumns = (
-  width = 0,
-  minimumWidth = 0,
-  gutter = 8,
-  columnCount?: number
-): [number, number] => {
-  columnCount = columnCount || Math.floor(width / (minimumWidth + gutter)) || 1
-  const columnWidth = Math.floor(
-    (width - gutter * (columnCount - 1)) / columnCount
-  )
-  return [columnWidth, columnCount]
-}
-
-const getContainerStyle = memoizeOne(
-  (isScrolling: boolean | undefined, estimateHeight: number) => ({
-    position: 'relative',
-    width: '100%',
-    maxWidth: '100%',
-    height: Math.ceil(estimateHeight),
-    maxHeight: Math.ceil(estimateHeight),
-    willChange: isScrolling ? 'contents, height' : void 0,
-    pointerEvents: isScrolling ? 'none' : void 0,
-  })
-)
-
-const assignUserStyle = memoizeOne(
-  (containerStyle, userStyle) => Object.assign({}, containerStyle, userStyle),
-  (args, pargs) => args[0] === pargs[0] && args[1] === pargs[1]
-)
-
-const assignUserItemStyle = trieMemoize(
-  [WeakMap, OneKeyMap],
-  (itemStyle: React.CSSProperties, userStyle: React.CSSProperties) =>
-    Object.assign({}, itemStyle, userStyle)
-)
-
-const defaultGetItemKey = (_: any[], i: number): number => i
-// the below memoizations for for ensuring shallow equal is reliable for pure
-// component children
-const getCachedSize = memoizeOne(
-  (width: number): React.CSSProperties => ({
-    width,
-    zIndex: -1000,
-    visibility: 'hidden',
-    position: 'absolute',
-    writingMode: 'horizontal-tb',
-  }),
-  (args, pargs) => args[0] === pargs[0]
-)
-const getCachedItemStyle = trieMemoize(
-  [OneKeyMap, Map, Map],
-  (width: number, left: number, top: number): React.CSSProperties => ({
-    top,
-    left,
-    width,
-    writingMode: 'horizontal-tb',
-    position: 'absolute',
-  })
-)
-
-const useForceUpdate = (): (() => void) => {
-  const setState = useState<{}>({})[1]
-  // eslint-disable-next-line
-  return useRef(() => setState({})).current
-}
-
-const elementsCache: WeakMap<Element, number> = new WeakMap()
-
-const getRefSetter = trieMemoize(
-  [OneKeyMap, OneKeyMap, OneKeyMap],
-  (positioner: Positioner, resizeObserver?: ResizeObserver) =>
-    trieMemoize([{}], (index: number) => (el: HTMLElement | null): void => {
-      if (el === null) return
-      resizeObserver?.observe?.(el)
-      elementsCache.set(el, index)
-      if (positioner.get(index) === void 0)
-        positioner.set(index, el.offsetHeight)
-    })
-)
-
-export const useScroller = (fps = 6): [number, boolean] => {
-  const scrollY = useScrollPosition(fps)
-  const [isScrolling, setIsScrolling] = useState<boolean>(false)
-
-  useEffect(() => {
-    setIsScrolling(true)
-    const to = requestTimeout(() => {
-      // This is here to prevent premature bail outs while maintaining high resolution
-      // unsets. Without it there will always bee a lot of unnecessary DOM writes to style.
-      setIsScrolling(false)
-    }, 40 + 1000 / fps)
-    return () => clearRequestTimeout(to)
-    // eslint-disable-next-line
-  }, [scrollY])
-
-  return [scrollY, isScrolling]
-}
-
-export const useContainerPosition = (
-  element: React.MutableRefObject<HTMLElement | null>,
-  deps: React.DependencyList = emptyArr
-): ContainerPosition => {
-  const [containerPosition, setContainerPosition] = useState<
-    Omit<ContainerPosition, 'height'>
-  >(defaultContainerPos)
-
-  useLayoutEffect(() => {
-    const {current} = element
-    if (current !== null) {
-      const rect = current.getBoundingClientRect()
-      let top = 0
-      let el = current
-
-      do {
-        top += el.offsetTop || 0
-        el = el.offsetParent as HTMLElement
-      } while (el)
-
-      if (
-        top !== containerPosition.top ||
-        rect.width !== containerPosition.width
-      ) {
-        setContainerPosition({
-          top,
-          width: rect.width,
-        })
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, deps)
-
-  return containerPosition
-}
-
-interface ContainerPosition {
-  top: number
-  width: number
-}
-
-const defaultContainerPos = {top: 0, width: 0}
-
-export const usePositioner = ({
-  width,
-  columnWidth = 200,
-  columnGutter = 0,
-  columnCount,
-}: {
-  width: number
-  columnWidth?: number
-  columnGutter?: number
-  columnCount?: number
-}): Positioner => {
-  const initPositioner = (): Positioner => {
-    const gutter = columnGutter
-    const [computedColumnWidth, computedColumnCount] = getColumns(
-      width,
-      columnWidth,
-      gutter,
-      columnCount
-    )
-    return createPositioner(computedColumnCount, computedColumnWidth, gutter)
-  }
-  const [positioner, setPositioner] = useState<Positioner>(initPositioner)
-
-  // Updates the item positions any time a prop potentially affecting their
-  // size changes
-  useLayoutEffect(() => {
-    const cacheSize = positioner.size()
-    const nextPositioner = initPositioner()
-    const stateUpdates = (): void => {
-      setPositioner(nextPositioner)
-    }
-
-    if (typeof unstable_batchedUpdates === 'function') {
-      unstable_batchedUpdates(stateUpdates)
-    } else {
-      stateUpdates()
-    }
-
-    for (let index = 0; index < cacheSize; index++) {
-      const pos = positioner.get(index)
-      nextPositioner.set(index, pos !== void 0 ? pos.height : 0)
-    }
-    // eslint-disable-next-line
-  }, [width, columnWidth, columnGutter, columnCount])
-
-  return positioner
-}
-
-export const useResizeObserver = (positioner: Positioner) => {
-  const forceUpdate = useForceUpdate()
-  const resizeObserver = useMemo<ResizeObserver>(
-    () =>
-      new ResizeObserver((entries) => {
-        const updates: number[] = []
-        let i = 0
-        const len = entries.length
-
-        for (; i < len; i++) {
-          const entry = entries[i]
-          // There are native resize observers that still don't have
-          // the borderBoxSize property. For those we fallback to the
-          // offset height of the target element.
-          const hasBorderBox =
-            (entry as NativeResizeObserverEntry).borderBoxSize !== void 0
-          const height = hasBorderBox
-            ? (entry as NativeResizeObserverEntry).borderBoxSize.blockSize
-            : (entry.target as HTMLElement).offsetHeight
-
-          if (height > 0) {
-            const index = elementsCache.get(entry.target)
-
-            if (index !== void 0) {
-              const position = positioner.get(index)
-
-              if (position !== void 0 && height !== position.height) {
-                updates.push(index, height)
-              }
-            }
-          }
-        }
-
-        if (updates.length > 0) {
-          // Updates the size/positions of the cell with the resize
-          // observer updates
-          positioner.update(updates)
-          forceUpdate()
-        }
-      }),
-    [positioner, forceUpdate]
-  )
-
-  // Cleans up the resize observers when they change or the
-  // component unmounts
-  useEffect(() => () => resizeObserver.disconnect(), [resizeObserver])
-
-  return resizeObserver
-}
-
-interface ResizeObserverEntryBoxSize {
-  blockSize: number
-  inlineSize: number
-}
-
-interface NativeResizeObserverEntry extends ResizeObserverEntry {
-  borderBoxSize: ResizeObserverEntryBoxSize
-  contentBoxSize: ResizeObserverEntryBoxSize
-}
-
 export const useMasonry = ({
+  // Measurement and layout
   positioner,
   resizeObserver,
-
+  // Grid items
   items,
-  onRender,
-
+  // Container props
   as = 'div',
   id,
   className,
@@ -450,17 +23,18 @@ export const useMasonry = ({
   role = 'grid',
   tabIndex = 0,
   containerRef,
+  // Item props
   itemAs = 'div',
   itemStyle,
   itemHeightEstimate = 300,
   itemKey = defaultGetItemKey,
+  // Rendering props
   overscanBy = 2,
-
   scrollTop,
   isScrolling,
   height,
-
   render,
+  onRender,
 }: UseMasonry) => {
   const didMount = useRef('0')
   const stopIndex = useRef<number | undefined>()
@@ -498,7 +72,7 @@ export const useMasonry = ({
 
       const data = items[index]
       const key = itemKey(data, index)
-      const observerStyle = getCachedItemStyle(
+      const phaseTwoStyle = getCachedItemStyle(
         positioner.columnWidth,
         left,
         top
@@ -513,8 +87,8 @@ export const useMasonry = ({
             role: itemRole,
             style:
               typeof itemStyle === 'object' && itemStyle !== null
-                ? assignUserItemStyle(observerStyle, itemStyle)
-                : observerStyle,
+                ? assignUserItemStyle(phaseTwoStyle, itemStyle)
+                : phaseTwoStyle,
           },
           React.createElement(render, {
             key,
@@ -540,11 +114,11 @@ export const useMasonry = ({
     )
 
     let index = measuredCount
+    const phaseOneStyle = getCachedSize(positioner.columnWidth)
 
     for (; index < measuredCount + batchSize; index++) {
       const data = items[index]
       const key = itemKey(data, index)
-      const observerStyle = getCachedSize(positioner.columnWidth)
 
       children.push(
         React.createElement(
@@ -555,8 +129,8 @@ export const useMasonry = ({
             role: itemRole,
             style:
               typeof itemStyle === 'object' && itemStyle !== null
-                ? assignUserItemStyle(observerStyle, itemStyle)
-                : observerStyle,
+                ? assignUserItemStyle(phaseOneStyle, itemStyle)
+                : phaseOneStyle,
           },
           React.createElement(render, {
             key,
@@ -722,6 +296,424 @@ export interface ListProps extends MasonryProps {
   rowGutter?: number
 }
 
+const emptyObj = {}
+const emptyArr = []
+
+const binarySearch = (a: number[], y: number): number => {
+  let l = 0
+  let h = a.length - 1
+
+  while (l <= h) {
+    const m = (l + h) >>> 1
+    const x = a[m]
+    if (x === y) return m
+    else if (x <= y) l = m + 1
+    else h = m - 1
+  }
+
+  return -1
+}
+
+const createPositioner = (
+  columnCount: number,
+  columnWidth: number,
+  columnGutter = 0
+): Positioner => {
+  // O(log(n)) lookup of cells to render for a given viewport size
+  // Store tops and bottoms of each cell for fast intersection lookup.
+  const intervalTree = createIntervalTree()
+  // Tracks the intervals that were inserted into the interval tree so they can be
+  // removed when positions are updated
+  const intervalValueMap: number[][] = []
+  // Maps cell index to x coordinates for quick lookup.
+  const leftMap: number[] = []
+  // Tracks the height of each column
+  const columnSizeMap: Record<string, number> = {}
+  // Track the height of each column.
+  // Layout algorithm below always inserts into the shortest column.
+  const columnHeights = new Array(columnCount)
+  // Used for O(1) item access
+  const items: PositionerItem[] = []
+  // Tracks the item indexes within an individual column
+  const columnItems: number[][] = new Array(columnCount)
+
+  for (let i = 0; i < columnCount; i++) {
+    columnHeights[i] = 0
+    columnItems[i] = []
+  }
+
+  const setPosition = (
+    index: number,
+    {top, left, height}: PositionerItem
+  ): void => {
+    const prevInterval = intervalValueMap[index]
+    const prev = prevInterval !== void 0 && prevInterval[1]
+    const next = top + height
+
+    if (prevInterval !== void 0) intervalTree.remove.apply(null, prevInterval)
+    intervalTree.insert(top, next, index)
+    intervalValueMap[index] = [top, next, index]
+    leftMap[index] = left
+    const columnHeight = columnSizeMap[left]
+    columnSizeMap[left] =
+      columnHeight === prev ? next : Math.max(columnHeight || 0, next)
+  }
+
+  return {
+    columnCount,
+    columnWidth,
+    set: (index, height = 0) => {
+      let column = 0
+
+      // finds the shortest column and uses it
+      for (let i = 1; i < columnHeights.length; i++) {
+        if (columnHeights[i] < columnHeights[column]) column = i
+      }
+
+      const top = columnHeights[column] || 0
+      columnHeights[column] = top + height + columnGutter
+      columnItems[column].push(index)
+      setPosition(
+        index,
+        (items[index] = {
+          left: column * (columnWidth + columnGutter),
+          top,
+          height,
+          column,
+        })
+      )
+    },
+    get: (index) => items[index],
+    // This only updates items in the specific columns that have changed, on and after the
+    // specific items that have changed
+    update: (updates) => {
+      const columns: number[] = new Array(columnCount)
+      let i = 0,
+        j = 0
+
+      // determines which columns have items that changed, as well as the minimum index
+      // changed in that column, as all items after that index will have their positions
+      // affected by the change
+      for (; i < updates.length - 1; i++) {
+        const index = updates[i]
+        const item = items[index]
+        item.height = updates[++i]
+        setPosition(index, item)
+        columns[item.column] =
+          columns[item.column] === void 0
+            ? index
+            : Math.min(index, columns[item.column])
+      }
+
+      for (i = 0; i < columns.length; i++) {
+        // bails out if the column didn't change
+        if (columns[i] === void 0) continue
+        const itemsInColumn = columnItems[i]
+        // the index order is sorted with certainty so binary search is a great solution
+        // here as opposed to Array.indexOf()
+        const startIndex = binarySearch(itemsInColumn, columns[i])
+        const index = columnItems[i][startIndex]
+        const startItem = items[index]
+
+        columnHeights[i] = startItem.top + startItem.height + columnGutter
+
+        for (j = startIndex + 1; j < itemsInColumn.length; j++) {
+          const index = itemsInColumn[j],
+            item = items[index]
+          item.top = columnHeights[i]
+          columnHeights[i] = item.top + item.height + columnGutter
+          setPosition(index, item)
+        }
+      }
+    },
+    // Render all cells visible within the viewport range defined.
+    range: (lo, hi, renderCallback) =>
+      intervalTree.search(lo, hi, (index, top) =>
+        renderCallback(index, leftMap[index], top)
+      ),
+    estimateHeight: (itemCount, defaultItemHeight): number => {
+      const tallestColumn = Math.max(
+        0,
+        Math.max.apply(null, Object.values(columnSizeMap))
+      )
+
+      return itemCount === intervalTree.size
+        ? tallestColumn
+        : tallestColumn +
+            Math.ceil((itemCount - intervalTree.size) / columnCount) *
+              defaultItemHeight
+    },
+    getShortestColumn: () => {
+      const sizes = Object.values(columnSizeMap)
+      if (sizes.length > 1) return Math.min.apply(null, sizes)
+      return sizes[0] || 0
+    },
+    size(): number {
+      return intervalTree.size
+    },
+  }
+}
+
+export interface Positioner {
+  columnCount: number
+  columnWidth: number
+  set: (index: number, height: number) => void
+  get: (index: number) => PositionerItem | undefined
+  update: (updates: number[]) => void
+  range: (
+    lo: number,
+    hi: number,
+    renderCallback: (index: number, left: number, top: number) => void
+  ) => void
+  size: () => number
+  estimateHeight: (itemCount: number, defaultItemHeight: number) => number
+  getShortestColumn: () => number
+}
+
+export interface PositionerItem {
+  top: number
+  left: number
+  height: number
+  column: number
+}
+
+const getColumns = (
+  width = 0,
+  minimumWidth = 0,
+  gutter = 8,
+  columnCount?: number
+): [number, number] => {
+  columnCount = columnCount || Math.floor(width / (minimumWidth + gutter)) || 1
+  const columnWidth = Math.floor(
+    (width - gutter * (columnCount - 1)) / columnCount
+  )
+  return [columnWidth, columnCount]
+}
+
+const getContainerStyle = memoizeOne(
+  (isScrolling: boolean | undefined, estimateHeight: number) => ({
+    position: 'relative',
+    width: '100%',
+    maxWidth: '100%',
+    height: Math.ceil(estimateHeight),
+    maxHeight: Math.ceil(estimateHeight),
+    willChange: isScrolling ? 'contents, height' : void 0,
+    pointerEvents: isScrolling ? 'none' : void 0,
+  })
+)
+
+const assignUserStyle = memoizeOne(
+  (containerStyle, userStyle) => Object.assign({}, containerStyle, userStyle),
+  (args, pargs) => args[0] === pargs[0] && args[1] === pargs[1]
+)
+
+const assignUserItemStyle = trieMemoize(
+  [WeakMap, OneKeyMap],
+  (itemStyle: React.CSSProperties, userStyle: React.CSSProperties) =>
+    Object.assign({}, itemStyle, userStyle)
+)
+
+const defaultGetItemKey = (_: any[], i: number): number => i
+// the below memoizations for for ensuring shallow equal is reliable for pure
+// component children
+const getCachedSize = memoizeOne(
+  (width: number): React.CSSProperties => ({
+    width,
+    zIndex: -1000,
+    visibility: 'hidden',
+    position: 'absolute',
+    writingMode: 'horizontal-tb',
+  }),
+  (args, pargs) => args[0] === pargs[0]
+)
+const getCachedItemStyle = trieMemoize(
+  [OneKeyMap, Map, Map],
+  (width: number, left: number, top: number): React.CSSProperties => ({
+    top,
+    left,
+    width,
+    writingMode: 'horizontal-tb',
+    position: 'absolute',
+  })
+)
+
+const useForceUpdate = () => {
+  const setState = useState(emptyObj)[1]
+  return useRef(() => setState({})).current
+}
+
+const elementsCache: WeakMap<Element, number> = new WeakMap()
+
+const getRefSetter = trieMemoize(
+  [OneKeyMap, OneKeyMap, OneKeyMap],
+  (positioner: Positioner, resizeObserver?: ResizeObserver) =>
+    trieMemoize([{}], (index: number) => (el: HTMLElement | null): void => {
+      if (el === null) return
+      if (resizeObserver) resizeObserver.observe(el)
+      elementsCache.set(el, index)
+      if (positioner.get(index) === void 0)
+        positioner.set(index, el.offsetHeight)
+    })
+)
+
+export const useScroller = (fps = 12): [number, boolean] => {
+  const scrollY = useScrollPosition(fps)
+  const [isScrolling, setIsScrolling] = useState<boolean>(false)
+
+  useEffect(() => {
+    setIsScrolling(true)
+    const to = requestTimeout(() => {
+      // This is here to prevent premature bail outs while maintaining high resolution
+      // unsets. Without it there will always bee a lot of unnecessary DOM writes to style.
+      setIsScrolling(false)
+    }, 40 + 1000 / fps)
+    return () => clearRequestTimeout(to)
+  }, [fps, scrollY])
+
+  return [scrollY, isScrolling]
+}
+
+export const useContainerPosition = (
+  element: React.MutableRefObject<HTMLElement | null>,
+  deps: React.DependencyList = emptyArr
+): ContainerPosition => {
+  const [containerPosition, setContainerPosition] = useState<
+    Omit<ContainerPosition, 'height'>
+  >(defaultContainerPos)
+
+  useLayoutEffect(() => {
+    const {current} = element
+    if (current !== null) {
+      const rect = current.getBoundingClientRect()
+      let top = 0
+      let el = current
+
+      do {
+        top += el.offsetTop || 0
+        el = el.offsetParent as HTMLElement
+      } while (el)
+
+      if (
+        top !== containerPosition.top ||
+        rect.width !== containerPosition.width
+      ) {
+        setContainerPosition({
+          top,
+          width: rect.width,
+        })
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps)
+
+  return containerPosition
+}
+
+interface ContainerPosition {
+  top: number
+  width: number
+}
+
+const defaultContainerPos = {top: 0, width: 0}
+
+export const usePositioner = ({
+  width,
+  columnWidth = 200,
+  columnGutter = 0,
+  columnCount,
+}: {
+  width: number
+  columnWidth?: number
+  columnGutter?: number
+  columnCount?: number
+}): Positioner => {
+  const initPositioner = (): Positioner => {
+    const gutter = columnGutter
+    const [computedColumnWidth, computedColumnCount] = getColumns(
+      width,
+      columnWidth,
+      gutter,
+      columnCount
+    )
+    return createPositioner(computedColumnCount, computedColumnWidth, gutter)
+  }
+  const [positioner, setPositioner] = useState<Positioner>(initPositioner)
+
+  // Updates the item positions any time a prop potentially affecting their
+  // size changes
+  useLayoutEffect(() => {
+    const cacheSize = positioner.size()
+    const nextPositioner = initPositioner()
+
+    for (let index = 0; index < cacheSize; index++) {
+      const pos = positioner.get(index)
+      nextPositioner.set(index, pos !== void 0 ? pos.height : 0)
+    }
+
+    setPositioner(nextPositioner)
+    // eslint-disable-next-line
+  }, [width, columnWidth, columnGutter, columnCount])
+
+  return positioner
+}
+
+export const useResizeObserver = (positioner: Positioner) => {
+  const forceUpdate = useForceUpdate()
+  const resizeObserver = useMemo<ResizeObserver>(
+    () =>
+      new ResizeObserver((entries) => {
+        const updates: number[] = []
+        let i = 0
+
+        for (; i < entries.length; i++) {
+          const entry = entries[i]
+          // There are native resize observers that still don't have
+          // the borderBoxSize property. For those we fallback to the
+          // offset height of the target element.
+          const height =
+            (entry as NativeResizeObserverEntry).borderBoxSize !== void 0
+              ? (entry as NativeResizeObserverEntry).borderBoxSize.blockSize
+              : (entry.target as HTMLElement).offsetHeight
+
+          if (height > 0) {
+            const index = elementsCache.get(entry.target)
+
+            if (index !== void 0) {
+              const position = positioner.get(index)
+
+              if (position !== void 0 && height !== position.height)
+                updates.push(index, height)
+            }
+          }
+        }
+
+        if (updates.length > 0) {
+          // Updates the size/positions of the cell with the resize
+          // observer updates
+          positioner.update(updates)
+          forceUpdate()
+        }
+      }),
+    [positioner, forceUpdate]
+  )
+
+  // Cleans up the resize observers when they change or the
+  // component unmounts
+  useEffect(() => () => resizeObserver.disconnect(), [resizeObserver])
+
+  return resizeObserver
+}
+
+interface ResizeObserverEntryBoxSize {
+  blockSize: number
+  inlineSize: number
+}
+
+interface NativeResizeObserverEntry extends ResizeObserverEntry {
+  borderBoxSize: ResizeObserverEntryBoxSize
+  contentBoxSize: ResizeObserverEntryBoxSize
+}
+
 export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
   /**
    * Callback to be invoked when more rows must be loaded.
@@ -767,7 +759,7 @@ export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
         Math.max(0, startIndex - threshold),
         Math.min(totalItems - 1, stopIndex + threshold)
       )
-      // the user is responsible for memoizing their loadMoreItems() function
+      // The user is responsible for memoizing their loadMoreItems() function
       // because we don't want to make assumptions about how they want to deal
       // with `items`
       for (let i = 0; i < unloadedRanges.length - 1; ++i)
@@ -863,6 +855,5 @@ export interface LoadMoreItemsCallback {
 
 if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production') {
   Masonry.displayName = 'Masonry'
-  // FreeMasonry.displayName = 'FreeMasonry'
   List.displayName = 'List'
 }

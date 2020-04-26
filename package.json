@@ -30,13 +30,16 @@
   ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
+  "source": "src/index.ts",
   "types": "types/index.d.ts",
   "files": [
+    "/src",
     "/dist",
     "/types"
   ],
   "sideEffects": false,
   "scripts": {
+    "bench": "babel-node ./benchmarks --extensions \".ts\"",
     "build": "npm run build-main && npm run build-module && npm run build-types",
     "build-main": "npm run compile -- -d dist/main --env-name main",
     "build-module": "npm run compile -- -d dist/module --env-name module",
@@ -78,7 +81,6 @@
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
     "babel-plugin-optimize-react": "^0.0.4",
-    "babel-plugin-typescript-to-proptypes": "^1.1.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-import-resolver-jest": "latest",

@@ -1,11 +1,11 @@
 /* jest */
 import React from 'react'
 import {render} from '@testing-library/react'
-import {FreeMasonry, List} from './index'
+import {useMasonry, List} from './index'
 
 const heights = [360, 420, 372, 460, 520, 356, 340, 376, 524]
 const avgHeight = heights.reduce((a, b) => a + b) / heights.length
-const getHeight = i => heights[i % heights.length]
+const getHeight = (i) => heights[i % heights.length]
 
 const getFakeItems = (n = 10): {id: number; height: number}[] => {
   const fakeItems: {id: number; height: number}[] = []
@@ -19,6 +19,8 @@ const FakeCard = ({data: {height}, index}): React.ReactElement => (
     Hello
   </div>
 )
+
+const FreeMasonry = (props) => useMasonry(props)
 
 // Simulate window resize event
 const resizeEvent = document.createEvent('Event')

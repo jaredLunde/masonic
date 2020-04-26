@@ -1,54 +1,9 @@
 import React from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
-interface Item {
-  top: number
-  left: number
-  height: number
-  column: number
-}
-interface Positioner {
-  columnCount: number
-  columnWidth: number
-  set: (index: number, height: number) => void
-  get: (index: number) => Item | undefined
-  update: (updates: number[]) => void
-  range: (
-    lo: number,
-    hi: number,
-    renderCallback: (index: number, left: number, top: number) => void
-  ) => void
-  size: () => number
-  estimateHeight: (itemCount: number, defaultItemHeight: number) => number
-  getShortestColumn: () => number
-}
-export declare const useScroller: (fps?: number) => [number, boolean]
-export declare const useContainerPosition: (
-  element: React.MutableRefObject<HTMLElement | null>,
-  deps?: React.DependencyList
-) => ContainerPosition
-interface ContainerPosition {
-  top: number
-  width: number
-}
-export declare const usePositioner: ({
-  width,
-  columnWidth,
-  columnGutter,
-  columnCount,
-}: {
-  width: number
-  columnWidth?: number | undefined
-  columnGutter?: number | undefined
-  columnCount?: number | undefined
-}) => Positioner
-export declare const useResizeObserver: (
-  positioner: Positioner
-) => ResizeObserver
 export declare const useMasonry: ({
   positioner,
   resizeObserver,
   items,
-  onRender,
   as,
   id,
   className,
@@ -65,6 +20,7 @@ export declare const useMasonry: ({
   isScrolling,
   height,
   render,
+  onRender,
 }: UseMasonry) => React.ReactElement<
   any,
   | string
@@ -144,6 +100,50 @@ export interface ListProps extends MasonryProps {
   columnWidth?: never
   rowGutter?: number
 }
+export interface Positioner {
+  columnCount: number
+  columnWidth: number
+  set: (index: number, height: number) => void
+  get: (index: number) => PositionerItem | undefined
+  update: (updates: number[]) => void
+  range: (
+    lo: number,
+    hi: number,
+    renderCallback: (index: number, left: number, top: number) => void
+  ) => void
+  size: () => number
+  estimateHeight: (itemCount: number, defaultItemHeight: number) => number
+  getShortestColumn: () => number
+}
+export interface PositionerItem {
+  top: number
+  left: number
+  height: number
+  column: number
+}
+export declare const useScroller: (fps?: number) => [number, boolean]
+export declare const useContainerPosition: (
+  element: React.MutableRefObject<HTMLElement | null>,
+  deps?: React.DependencyList
+) => ContainerPosition
+interface ContainerPosition {
+  top: number
+  width: number
+}
+export declare const usePositioner: ({
+  width,
+  columnWidth,
+  columnGutter,
+  columnCount,
+}: {
+  width: number
+  columnWidth?: number | undefined
+  columnGutter?: number | undefined
+  columnCount?: number | undefined
+}) => Positioner
+export declare const useResizeObserver: (
+  positioner: Positioner
+) => ResizeObserver
 export declare function useInfiniteLoader<T extends LoadMoreItemsCallback>(
   /**
    * Callback to be invoked when more rows must be loaded.

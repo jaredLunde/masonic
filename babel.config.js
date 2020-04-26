@@ -1,4 +1,4 @@
-module.exports = api => {
+module.exports = (api) => {
   const module = api.env('module')
   const presetEnv = [
     '@lunde/es',
@@ -21,6 +21,6 @@ module.exports = api => {
 
   return {
     presets: [['@babel/preset-react', {useSpread: true}], presetEnv],
-    plugins: ['optimize-react', 'typescript-to-proptypes'],
+    plugins: ['optimize-react'],
   }
 }
