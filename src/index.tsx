@@ -347,19 +347,6 @@ const createPositioner = (
     columnItems[i] = []
   }
 
-  const setPosition = (
-    index: number,
-    {top, height}: PositionerItem,
-    prevTop = top,
-    prevHeight = height
-  ): void => {
-    if (prevHeight !== height || prevTop !== top)
-      intervalTree.remove(prevTop, prevTop + prevHeight, index)
-
-    const next = top + height
-    intervalTree.insert(top, next, index)
-  }
-
   return {
     columnCount,
     columnWidth,
@@ -374,15 +361,13 @@ const createPositioner = (
       const top = columnHeights[column] || 0
       columnHeights[column] = top + height + columnGutter
       columnItems[column].push(index)
-      setPosition(
-        index,
-        (items[index] = {
-          left: column * (columnWidth + columnGutter),
-          top,
-          height,
-          column,
-        })
-      )
+      items[index] = {
+        left: column * (columnWidth + columnGutter),
+        top,
+        height,
+        column,
+      }
+      intervalTree.insert(top, top + height, index)
     },
     get: (index) => items[index],
     // This only updates items in the specific columns that have changed, on and after the
@@ -398,9 +383,9 @@ const createPositioner = (
       for (; i < updates.length - 1; i++) {
         const index = updates[i]
         const item = items[index]
-        const prevHeight = item.height
+        intervalTree.remove(index)
         item.height = updates[++i]
-        setPosition(index, item, item.top, prevHeight)
+        intervalTree.insert(item.top, item.top + item.height, index)
         columns[item.column] =
           columns[item.column] === void 0
             ? index
@@ -421,10 +406,10 @@ const createPositioner = (
         for (j = startIndex + 1; j < itemsInColumn.length; j++) {
           const index = itemsInColumn[j]
           const item = items[index]
-          const prevTop = item.top
+          intervalTree.remove(index)
           item.top = columnHeights[i]
           columnHeights[i] = item.top + item.height + columnGutter
-          setPosition(index, item, prevTop)
+          intervalTree.insert(item.top, item.top + item.height, index)
         }
       }
     },

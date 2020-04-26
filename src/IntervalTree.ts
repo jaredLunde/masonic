@@ -272,7 +272,7 @@ const fixInsert = (tree: Tree, z: TreeNode) => {
 
 interface IIntervalTree {
   insert(low: number, high: number, index: number): void
-  remove(low: number, high: number, index: number): void
+  remove(index: number): void
   search(
     low: number,
     high: number,
@@ -337,9 +337,9 @@ const IntervalTree = (): IIntervalTree => {
       tree.size++
     },
 
-    remove(low, high, index) {
+    remove(index) {
       const z = indexMap[index]
-      if (z === void 0 || z.low !== low) return
+      if (z === void 0) return
       delete indexMap[index]
 
       const intervalResult = removeInterval(z, index)
