@@ -4,14 +4,14 @@ export declare const useMasonry: ({
   positioner,
   resizeObserver,
   items,
-  as,
+  as: ContainerComponent,
   id,
   className,
   style,
   role,
   tabIndex,
   containerRef,
-  itemAs,
+  itemAs: ItemComponent,
   itemStyle,
   itemHeightEstimate,
   itemKey,
@@ -19,19 +19,9 @@ export declare const useMasonry: ({
   scrollTop,
   isScrolling,
   height,
-  render,
+  render: RenderComponent,
   onRender,
-}: UseMasonry) => React.ReactElement<
-  any,
-  | string
-  | ((
-      props: any
-    ) => React.ReactElement<
-      any,
-      string | any | (new (props: any) => React.Component<any, any, any>)
-    > | null)
-  | (new (props: any) => React.Component<any, any, any>)
->
+}: UseMasonry) => JSX.Element
 export declare const Masonry: React.FC<MasonryProps>
 interface UseMasonry {
   items: any[]

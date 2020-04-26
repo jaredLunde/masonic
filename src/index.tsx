@@ -16,7 +16,7 @@ export const useMasonry = ({
   // Grid items
   items,
   // Container props
-  as = 'div',
+  as: ContainerComponent = 'div',
   id,
   className,
   style,
@@ -24,7 +24,7 @@ export const useMasonry = ({
   tabIndex = 0,
   containerRef,
   // Item props
-  itemAs = 'div',
+  itemAs: ItemComponent = 'div',
   itemStyle,
   itemHeightEstimate = 300,
   itemKey = defaultGetItemKey,
@@ -33,7 +33,7 @@ export const useMasonry = ({
   scrollTop,
   isScrolling,
   height,
-  render,
+  render: RenderComponent,
   onRender,
 }: UseMasonry) => {
   const didMount = useRef('0')
@@ -41,8 +41,16 @@ export const useMasonry = ({
   const startIndex = useRef(0)
   const setItemRef = getRefSetter(positioner, resizeObserver)
   const itemCount = items.length
-  const measuredCount = positioner.size()
-  const shortestColumnSize = positioner.getShortestColumn()
+  const {
+    columnWidth,
+    columnCount,
+    range,
+    estimateHeight,
+    size,
+    getShortestColumn,
+  } = positioner
+  const measuredCount = size()
+  const shortestColumnSize = getShortestColumn()
   const children: React.ReactElement[] = []
   const itemRole = `${role}item`
 
@@ -58,7 +66,7 @@ export const useMasonry = ({
   overscanBy = height * overscanBy
   stopIndex.current = void 0
 
-  positioner.range(
+  range(
     Math.max(0, scrollTop - overscanBy),
     scrollTop + overscanBy,
     (index, left, top) => {
@@ -72,31 +80,21 @@ export const useMasonry = ({
 
       const data = items[index]
       const key = itemKey(data, index)
-      const phaseTwoStyle = getCachedItemStyle(
-        positioner.columnWidth,
-        left,
-        top
-      )
+      const phaseTwoStyle = getCachedItemStyle(columnWidth, left, top)
 
       children.push(
-        React.createElement(
-          itemAs,
-          {
-            key,
-            ref: setItemRef(index),
-            role: itemRole,
-            style:
-              typeof itemStyle === 'object' && itemStyle !== null
-                ? assignUserItemStyle(phaseTwoStyle, itemStyle)
-                : phaseTwoStyle,
-          },
-          React.createElement(render, {
-            key,
-            index,
-            data,
-            width: positioner.columnWidth,
-          })
-        )
+        <ItemComponent
+          key={key}
+          ref={setItemRef(index)}
+          role={itemRole}
+          style={
+            typeof itemStyle === 'object' && itemStyle !== null
+              ? assignUserItemStyle(phaseTwoStyle, itemStyle)
+              : phaseTwoStyle
+          }
+        >
+          {createRenderElement(RenderComponent, index, data, columnWidth)}
+        </ItemComponent>
       )
     }
   )
@@ -109,36 +107,30 @@ export const useMasonry = ({
       itemCount - measuredCount,
       Math.ceil(
         ((scrollTop + overscanBy - shortestColumnSize) / itemHeightEstimate) *
-          positioner.columnCount
+          columnCount
       )
     )
 
     let index = measuredCount
-    const phaseOneStyle = getCachedSize(positioner.columnWidth)
+    const phaseOneStyle = getCachedSize(columnWidth)
 
     for (; index < measuredCount + batchSize; index++) {
       const data = items[index]
       const key = itemKey(data, index)
 
       children.push(
-        React.createElement(
-          itemAs,
-          {
-            key,
-            ref: setItemRef(index),
-            role: itemRole,
-            style:
-              typeof itemStyle === 'object' && itemStyle !== null
-                ? assignUserItemStyle(phaseOneStyle, itemStyle)
-                : phaseOneStyle,
-          },
-          React.createElement(render, {
-            key,
-            index,
-            data,
-            width: positioner.columnWidth,
-          })
-        )
+        <ItemComponent
+          key={key}
+          ref={setItemRef(index)}
+          role={itemRole}
+          style={
+            typeof itemStyle === 'object' && itemStyle !== null
+              ? assignUserItemStyle(phaseOneStyle, itemStyle)
+              : phaseOneStyle
+          }
+        >
+          {createRenderElement(RenderComponent, index, data, columnWidth)}
+        </ItemComponent>
       )
     }
   }
@@ -146,23 +138,33 @@ export const useMasonry = ({
   // the page is being scrolled
   const containerStyle = getContainerStyle(
     isScrolling,
-    positioner.estimateHeight(itemCount, itemHeightEstimate)
+    estimateHeight(itemCount, itemHeightEstimate)
   )
 
-  return React.createElement(as, {
-    ref: containerRef,
-    id,
-    key: didMount.current,
-    role,
-    className,
-    tabIndex,
-    style:
-      typeof style === 'object' && style !== null
-        ? assignUserStyle(containerStyle, style)
-        : containerStyle,
-    children,
-  })
+  return (
+    <ContainerComponent
+      ref={containerRef}
+      key={didMount.current}
+      id={id}
+      role={role}
+      className={className}
+      tabIndex={tabIndex}
+      style={
+        typeof style === 'object' && style !== null
+          ? assignUserStyle(containerStyle, style)
+          : containerStyle
+      }
+      children={children}
+    />
+  )
 }
+
+const createRenderElement = trieMemoize(
+  [WeakMap, [], WeakMap, {}],
+  (RenderComponent, index, data, columnWidth) => (
+    <RenderComponent index={index} data={data} columnWidth={columnWidth} />
+  )
+)
 
 // We put this in its own layer because it's the thing that will trigger the most updates
 // and we don't want to slower ourselves by cycling through all the functions, objects, and effects
@@ -209,7 +211,7 @@ export const Masonry: React.FC<MasonryProps> = React.memo((props) => {
   ) as any
   nextProps.positioner = usePositioner(nextProps)
   nextProps.resizeObserver = useResizeObserver(nextProps.positioner)
-  return React.createElement(MasonryScroller, nextProps)
+  return /*#__PURE__*/ React.createElement(MasonryScroller, nextProps)
 })
 
 interface UseMasonry {
@@ -280,7 +282,7 @@ export interface MasonryScrollerProps
 }
 
 export const List: React.FC<ListProps> = (props) =>
-  React.createElement(
+  /*#__PURE__*/ React.createElement(
     Masonry,
     Object.assign({role: 'list'}, props, {
       columnGutter: props.rowGutter,
@@ -497,7 +499,7 @@ const getContainerStyle = memoizeOne(
     maxWidth: '100%',
     height: Math.ceil(estimateHeight),
     maxHeight: Math.ceil(estimateHeight),
-    willChange: isScrolling ? 'contents, height' : void 0,
+    willChange: isScrolling ? 'contents' : void 0,
     pointerEvents: isScrolling ? 'none' : void 0,
   })
 )

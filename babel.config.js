@@ -20,7 +20,10 @@ module.exports = (api) => {
   ]
 
   return {
-    presets: [['@babel/preset-react', {useSpread: true}], presetEnv],
+    presets: [
+      ['@babel/preset-react', {/*runtime: 'automatic',*/ useSpread: true}],
+      presetEnv,
+    ],
     plugins: ['optimize-react'],
   }
 }
