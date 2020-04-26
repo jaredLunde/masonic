@@ -253,15 +253,15 @@ export interface PositionerItem {
 
 ---
 
-### useScroller(fps?)
+### useScroller(offset?, fps?)
 
 ```jsx harmony
 import React from 'react'
 import {useMasonry, usePositioner, useScroller} from 'masonic'
 
 const MyCustomMasonry = (props) => {
-  const {width, height, scrollY, isScrolling} = useWindowScroller(),
-    [rect, containerRef] = useContainerRect(width, height)
+  const {offset} = useContainerPosition(ref)
+  const {scrollTop, isScrolling} = useScroller(offset)
 
   return React.createElement(
     FreeMasonry,
@@ -269,7 +269,7 @@ const MyCustomMasonry = (props) => {
       {
         width: rect.width,
         height,
-        scrollTop: Math.max(0, scrollY - (rect.top + scrollY)),
+        scrollTop,
         isScrolling,
         containerRef,
       },
@@ -281,9 +281,10 @@ const MyCustomMasonry = (props) => {
 
 #### Arguments
 
-| Argument | Type     | Description                                                                                                                                                                                               |
-| -------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| fps      | `number` | The rate in frames per second with which this hook will update the scroll position of the window. My advice is to shoot for as low as possible without experiencing lag in your components as you scroll. |
+| Argument | Type     | Description                                                                                                                                                                                                 |
+| -------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| offset   | `number` | The distance in px between the top of your masonry container and the top of the document                                                                                                                    |
+| fps      | `number` | The rate in frames per second with which this hook will update the scroll position of the document. My advice is to shoot for as low as possible without experiencing lag in your components as you scroll. |
 
 ---
 

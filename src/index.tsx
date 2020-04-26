@@ -65,19 +65,15 @@ export const useMasonry = ({
 
   overscanBy = height * overscanBy
   stopIndex.current = void 0
+  const rangeEnd = scrollTop + overscanBy
 
   range(
-    Math.max(0, scrollTop - overscanBy),
-    scrollTop + overscanBy,
+    // We overscan in both directions because users scroll both ways,
+    // though one must admit scrolling down is more common and thus
+    // we only overscan by half the downward overscan amount
+    Math.max(0, scrollTop - overscanBy / 2),
+    rangeEnd,
     (index, left, top) => {
-      if (stopIndex.current === void 0) {
-        startIndex.current = index
-        stopIndex.current = index
-      } else {
-        startIndex.current = Math.min(startIndex.current, index)
-        stopIndex.current = Math.max(stopIndex.current, index)
-      }
-
       const data = items[index]
       const key = itemKey(data, index)
       const phaseTwoStyle: React.CSSProperties = {
@@ -102,13 +98,18 @@ export const useMasonry = ({
           {createRenderElement(RenderComponent, index, data, columnWidth)}
         </ItemComponent>
       )
+
+      if (stopIndex.current === void 0) {
+        startIndex.current = index
+        stopIndex.current = index
+      } else {
+        startIndex.current = Math.min(startIndex.current, index)
+        stopIndex.current = Math.max(stopIndex.current, index)
+      }
     }
   )
 
-  if (
-    shortestColumnSize < scrollTop + overscanBy &&
-    measuredCount < itemCount
-  ) {
+  if (shortestColumnSize < rangeEnd && measuredCount < itemCount) {
     const batchSize = Math.min(
       itemCount - measuredCount,
       Math.ceil(
@@ -177,8 +178,10 @@ const createRenderElement = trieMemoize(
 // and we don't want to slower ourselves by cycling through all the functions, objects, and effects
 // of other hooks
 const MasonryScroller: React.FC<MasonryScrollerProps> = (props) => {
-  const [scrollY, isScrolling] = useScroller(props.scrollFps)
-
+  const {scrollTop, isScrolling} = useScroller(props.offset, props.scrollFps)
+  // This is an update-heavy phase and while we could just Object.assign here,
+  // it is way faster to inline and there's a relatively low hit to he bundle
+  // size.
   return useMasonry({
     positioner: props.positioner,
     resizeObserver: props.resizeObserver,
@@ -196,7 +199,7 @@ const MasonryScroller: React.FC<MasonryScrollerProps> = (props) => {
     itemHeightEstimate: props.itemHeightEstimate,
     itemKey: props.itemKey,
     overscanBy: props.overscanBy,
-    scrollTop: Math.max(0, scrollY - (props.top || 0)),
+    scrollTop,
     isScrolling,
     height: props.height,
     render: props.render,
@@ -209,7 +212,7 @@ export const Masonry: React.FC<MasonryProps> = React.memo((props) => {
   const containerPos = useContainerPosition(containerRef, windowSize)
   const nextProps = Object.assign(
     {
-      top: containerPos.top,
+      offset: containerPos.offset,
       width: containerPos.width || windowSize[0],
       height: windowSize[1],
       containerRef,
@@ -281,7 +284,7 @@ export interface MasonryScrollerProps
     | 'initialWidth'
     | 'initialHeight'
   > {
-  top?: number
+  offset?: number
   height: number
   containerRef?: UseMasonry['containerRef']
   positioner: Positioner
@@ -552,7 +555,10 @@ const getRefSetter = memoizeOne(
   cmp2
 )
 
-export const useScroller = (fps = 12): [number, boolean] => {
+export const useScroller = (
+  offset = 0,
+  fps = 12
+): {scrollTop: number; isScrolling: boolean} => {
   const scrollY = useScrollPosition(fps)
   const [isScrolling, setIsScrolling] = useState<boolean>(false)
 
@@ -566,7 +572,7 @@ export const useScroller = (fps = 12): [number, boolean] => {
     return () => clearRequestTimeout(to)
   }, [fps, scrollY])
 
-  return [scrollY, isScrolling]
+  return {scrollTop: Math.max(0, scrollY - offset), isScrolling}
 }
 
 export const useContainerPosition = (
@@ -575,26 +581,26 @@ export const useContainerPosition = (
 ): ContainerPosition => {
   const [containerPosition, setContainerPosition] = useState<
     Omit<ContainerPosition, 'height'>
-  >(defaultContainerPos)
+  >({offset: 0, width: 0})
 
   useLayoutEffect(() => {
     const {current} = element
     if (current !== null) {
       const rect = current.getBoundingClientRect()
-      let top = 0
+      let offset = 0
       let el = current
 
       do {
-        top += el.offsetTop || 0
+        offset += el.offsetTop || 0
         el = el.offsetParent as HTMLElement
       } while (el)
 
       if (
-        top !== containerPosition.top ||
+        offset !== containerPosition.offset ||
         rect.width !== containerPosition.width
       ) {
         setContainerPosition({
-          top,
+          offset,
           width: rect.width,
         })
       }
@@ -606,11 +612,9 @@ export const useContainerPosition = (
 }
 
 interface ContainerPosition {
-  top: number
+  offset: number
   width: number
 }
-
-const defaultContainerPos = {top: 0, width: 0}
 
 export const usePositioner = ({
   width,
@@ -659,7 +663,6 @@ export const useResizeObserver = (positioner: Positioner) => {
   // Cleans up the resize observers when they change or the
   // component unmounts
   useEffect(() => () => resizeObserver.disconnect(), [resizeObserver])
-
   return resizeObserver
 }
 

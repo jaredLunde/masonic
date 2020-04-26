@@ -77,7 +77,7 @@ export interface MasonryScrollerProps
     | 'initialWidth'
     | 'initialHeight'
   > {
-  top?: number
+  offset?: number
   height: number
   containerRef?: UseMasonry['containerRef']
   positioner: Positioner
@@ -111,13 +111,19 @@ export interface PositionerItem {
   height: number
   column: number
 }
-export declare const useScroller: (fps?: number) => [number, boolean]
+export declare const useScroller: (
+  offset?: number,
+  fps?: number
+) => {
+  scrollTop: number
+  isScrolling: boolean
+}
 export declare const useContainerPosition: (
   element: React.MutableRefObject<HTMLElement | null>,
   deps?: React.DependencyList
 ) => ContainerPosition
 interface ContainerPosition {
-  top: number
+  offset: number
   width: number
 }
 export declare const usePositioner: ({
