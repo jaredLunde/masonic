@@ -22,7 +22,6 @@ export declare const useMasonry: ({
   render: RenderComponent,
   onRender,
 }: UseMasonry) => JSX.Element
-export declare const Masonry: React.FC<MasonryProps>
 interface UseMasonry {
   items: any[]
   positioner: Positioner
@@ -51,6 +50,7 @@ interface UseMasonry {
     items: any[]
   ) => void
 }
+export declare const Masonry: React.FC<MasonryProps>
 export interface MasonryProps
   extends Omit<
     UseMasonry,
@@ -90,27 +90,6 @@ export interface ListProps extends MasonryProps {
   columnWidth?: never
   rowGutter?: number
 }
-export interface Positioner {
-  columnCount: number
-  columnWidth: number
-  set: (index: number, height: number) => void
-  get: (index: number) => PositionerItem | undefined
-  update: (updates: number[]) => void
-  range: (
-    lo: number,
-    hi: number,
-    renderCallback: (index: number, left: number, top: number) => void
-  ) => void
-  size: () => number
-  estimateHeight: (itemCount: number, defaultItemHeight: number) => number
-  shortestColumn: () => number
-}
-export interface PositionerItem {
-  top: number
-  left: number
-  height: number
-  column: number
-}
 export declare const useScroller: (
   offset?: number,
   fps?: number
@@ -122,7 +101,7 @@ export declare const useContainerPosition: (
   element: React.MutableRefObject<HTMLElement | null>,
   deps?: React.DependencyList
 ) => ContainerPosition
-interface ContainerPosition {
+export interface ContainerPosition {
   offset: number
   width: number
 }
@@ -139,6 +118,10 @@ export declare const usePositioner: ({
 }) => Positioner
 export declare const useResizeObserver: (
   positioner: Positioner
+) => ResizeObserver
+export declare const createResizeObserver: (
+  positioner: Positioner,
+  updater: (updates: number[]) => void
 ) => ResizeObserver
 export declare function useInfiniteLoader<T extends LoadMoreItemsCallback>(
   /**
@@ -159,5 +142,26 @@ export interface InfiniteLoaderOptions {
 }
 export interface LoadMoreItemsCallback {
   (startIndex: number, stopIndex: number, items: any[]): void
+}
+export interface Positioner {
+  columnCount: number
+  columnWidth: number
+  set: (index: number, height: number) => void
+  get: (index: number) => PositionerItem | undefined
+  update: (updates: number[]) => void
+  range: (
+    lo: number,
+    hi: number,
+    renderCallback: (index: number, left: number, top: number) => void
+  ) => void
+  size: () => number
+  estimateHeight: (itemCount: number, defaultItemHeight: number) => number
+  shortestColumn: () => number
+}
+export interface PositionerItem {
+  top: number
+  left: number
+  height: number
+  column: number
 }
 export {}

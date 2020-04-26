@@ -166,6 +166,42 @@ export const useMasonry = ({
   )
 }
 
+interface UseMasonry {
+  items: any[]
+  positioner: Positioner
+  resizeObserver?: ReturnType<typeof useResizeObserver>
+
+  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>
+  id?: string
+  className?: string
+  style?: React.CSSProperties
+  role?: string
+  tabIndex?: number
+  containerRef?:
+    | ((element: HTMLElement) => void)
+    | React.MutableRefObject<HTMLElement | null>
+
+  itemAs?: keyof JSX.IntrinsicElements | React.ComponentType<any>
+  itemStyle?: React.CSSProperties
+  itemHeightEstimate?: number
+  itemKey?: (data: any, index: number) => string | number
+  overscanBy?: number
+
+  height: number
+  scrollTop: number
+  isScrolling?: boolean
+
+  render: React.ComponentType<any>
+  onRender?: (
+    startIndex: number,
+    stopIndex: number | undefined,
+    items: any[]
+  ) => void
+}
+
+//
+// Render-phase utilities
+
 // ~5.5x faster than createElement without the memo
 const createRenderElement = trieMemoize(
   [OneKeyMap, {}, WeakMap, OneKeyMap],
@@ -173,6 +209,70 @@ const createRenderElement = trieMemoize(
     <RenderComponent index={index} data={data} width={columnWidth} />
   )
 )
+
+const getColumns = (
+  width = 0,
+  minimumWidth = 0,
+  gutter = 8,
+  columnCount?: number
+): [number, number] => {
+  columnCount = columnCount || Math.floor(width / (minimumWidth + gutter)) || 1
+  const columnWidth = Math.floor(
+    (width - gutter * (columnCount - 1)) / columnCount
+  )
+  return [columnWidth, columnCount]
+}
+
+const getContainerStyle = memoizeOne(
+  (isScrolling: boolean | undefined, estimateHeight: number) => ({
+    position: 'relative',
+    width: '100%',
+    maxWidth: '100%',
+    height: Math.ceil(estimateHeight),
+    maxHeight: Math.ceil(estimateHeight),
+    willChange: isScrolling ? 'contents' : void 0,
+    pointerEvents: isScrolling ? 'none' : void 0,
+  })
+)
+
+const cmp2 = (args: IArguments, pargs: IArguments) =>
+  args[0] === pargs[0] && args[1] === pargs[1]
+
+const assignUserStyle = memoizeOne(
+  (containerStyle, userStyle) => Object.assign({}, containerStyle, userStyle),
+  cmp2
+)
+
+const defaultGetItemKey = (_: any[], i: number): number => i
+// the below memoizations for for ensuring shallow equal is reliable for pure
+// component children
+const getCachedSize = memoizeOne(
+  (width: number): React.CSSProperties => ({
+    width,
+    zIndex: -1000,
+    visibility: 'hidden',
+    position: 'absolute',
+    writingMode: 'horizontal-tb',
+  }),
+  (args, pargs) => args[0] === pargs[0]
+)
+
+const elementsCache: WeakMap<Element, number> = new WeakMap()
+
+const getRefSetter = memoizeOne(
+  (positioner: Positioner, resizeObserver?: ResizeObserver) => (
+    index: number
+  ) => (el: HTMLElement | null): void => {
+    if (el === null) return
+    if (resizeObserver) resizeObserver.observe(el)
+    elementsCache.set(el, index)
+    if (positioner.get(index) === void 0) positioner.set(index, el.offsetHeight)
+  },
+  cmp2
+)
+
+//
+// Components
 
 // We put this in its own layer because it's the thing that will trigger the most updates
 // and we don't want to slower ourselves by cycling through all the functions, objects, and effects
@@ -223,39 +323,6 @@ export const Masonry: React.FC<MasonryProps> = React.memo((props) => {
   nextProps.resizeObserver = useResizeObserver(nextProps.positioner)
   return React.createElement(MasonryScroller, nextProps)
 })
-
-interface UseMasonry {
-  items: any[]
-  positioner: Positioner
-  resizeObserver?: ReturnType<typeof useResizeObserver>
-
-  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>
-  id?: string
-  className?: string
-  style?: React.CSSProperties
-  role?: string
-  tabIndex?: number
-  containerRef?:
-    | ((element: HTMLElement) => void)
-    | React.MutableRefObject<HTMLElement | null>
-
-  itemAs?: keyof JSX.IntrinsicElements | React.ComponentType<any>
-  itemStyle?: React.CSSProperties
-  itemHeightEstimate?: number
-  itemKey?: (data: any, index: number) => string | number
-  overscanBy?: number
-
-  height: number
-  scrollTop: number
-  isScrolling?: boolean
-
-  render: React.ComponentType<any>
-  onRender?: (
-    startIndex: number,
-    stopIndex: number | undefined,
-    items: any[]
-  ) => void
-}
 
 export interface MasonryProps
   extends Omit<
@@ -311,224 +378,12 @@ export interface ListProps extends MasonryProps {
 const emptyObj = {}
 const emptyArr = []
 
-const binarySearch = (a: number[], y: number): number => {
-  let l = 0
-  let h = a.length - 1
-
-  while (l <= h) {
-    const m = (l + h) >>> 1
-    const x = a[m]
-    if (x === y) return m
-    else if (x <= y) l = m + 1
-    else h = m - 1
-  }
-
-  return -1
-}
-
-const createPositioner = (
-  columnCount: number,
-  columnWidth: number,
-  columnGutter = 0
-): Positioner => {
-  // O(log(n)) lookup of cells to render for a given viewport size
-  // Store tops and bottoms of each cell for fast intersection lookup.
-  const intervalTree = createIntervalTree()
-  // Track the height of each column.
-  // Layout algorithm below always inserts into the shortest column.
-  const columnHeights: number[] = new Array(columnCount)
-  // Used for O(1) item access
-  const items: PositionerItem[] = []
-  // Tracks the item indexes within an individual column
-  const columnItems: number[][] = new Array(columnCount)
-
-  for (let i = 0; i < columnCount; i++) {
-    columnHeights[i] = 0
-    columnItems[i] = []
-  }
-
-  return {
-    columnCount,
-    columnWidth,
-    set: (index, height = 0) => {
-      let column = 0
-
-      // finds the shortest column and uses it
-      for (let i = 1; i < columnHeights.length; i++) {
-        if (columnHeights[i] < columnHeights[column]) column = i
-      }
-
-      const top = columnHeights[column] || 0
-      columnHeights[column] = top + height + columnGutter
-      columnItems[column].push(index)
-      items[index] = {
-        left: column * (columnWidth + columnGutter),
-        top,
-        height,
-        column,
-      }
-      intervalTree.insert(top, top + height, index)
-    },
-    get: (index) => items[index],
-    // This only updates items in the specific columns that have changed, on and after the
-    // specific items that have changed
-    update: (updates) => {
-      const columns: number[] = new Array(columnCount)
-      let i = 0,
-        j = 0
-
-      // determines which columns have items that changed, as well as the minimum index
-      // changed in that column, as all items after that index will have their positions
-      // affected by the change
-      for (; i < updates.length - 1; i++) {
-        const index = updates[i]
-        const item = items[index]
-        intervalTree.remove(index)
-        item.height = updates[++i]
-        intervalTree.insert(item.top, item.top + item.height, index)
-        columns[item.column] =
-          columns[item.column] === void 0
-            ? index
-            : Math.min(index, columns[item.column])
-      }
-
-      for (i = 0; i < columns.length; i++) {
-        // bails out if the column didn't change
-        if (columns[i] === void 0) continue
-        const itemsInColumn = columnItems[i]
-        // the index order is sorted with certainty so binary search is a great solution
-        // here as opposed to Array.indexOf()
-        const startIndex = binarySearch(itemsInColumn, columns[i])
-        const index = columnItems[i][startIndex]
-        const startItem = items[index]
-        columnHeights[i] = startItem.top + startItem.height + columnGutter
-
-        for (j = startIndex + 1; j < itemsInColumn.length; j++) {
-          const index = itemsInColumn[j]
-          const item = items[index]
-          intervalTree.remove(index)
-          item.top = columnHeights[i]
-          columnHeights[i] = item.top + item.height + columnGutter
-          intervalTree.insert(item.top, item.top + item.height, index)
-        }
-      }
-    },
-    // Render all cells visible within the viewport range defined.
-    range: (lo, hi, renderCallback) =>
-      intervalTree.search(lo, hi, (index, top) =>
-        renderCallback(index, items[index].left, top)
-      ),
-    estimateHeight: (itemCount, defaultItemHeight): number => {
-      const tallestColumn = Math.max(
-        0,
-        Math.max.apply(null, Object.values(columnHeights))
-      )
-
-      return itemCount === intervalTree.size
-        ? tallestColumn
-        : tallestColumn +
-            Math.ceil((itemCount - intervalTree.size) / columnCount) *
-              defaultItemHeight
-    },
-    shortestColumn: () => {
-      const sizes = Object.values(columnHeights)
-      if (sizes.length > 1) return Math.min.apply(null, sizes)
-      return sizes[0] || 0
-    },
-    size(): number {
-      return intervalTree.size
-    },
-  }
-}
-
-export interface Positioner {
-  columnCount: number
-  columnWidth: number
-  set: (index: number, height: number) => void
-  get: (index: number) => PositionerItem | undefined
-  update: (updates: number[]) => void
-  range: (
-    lo: number,
-    hi: number,
-    renderCallback: (index: number, left: number, top: number) => void
-  ) => void
-  size: () => number
-  estimateHeight: (itemCount: number, defaultItemHeight: number) => number
-  shortestColumn: () => number
-}
-
-export interface PositionerItem {
-  top: number
-  left: number
-  height: number
-  column: number
-}
-
-const getColumns = (
-  width = 0,
-  minimumWidth = 0,
-  gutter = 8,
-  columnCount?: number
-): [number, number] => {
-  columnCount = columnCount || Math.floor(width / (minimumWidth + gutter)) || 1
-  const columnWidth = Math.floor(
-    (width - gutter * (columnCount - 1)) / columnCount
-  )
-  return [columnWidth, columnCount]
-}
-
-const getContainerStyle = memoizeOne(
-  (isScrolling: boolean | undefined, estimateHeight: number) => ({
-    position: 'relative',
-    width: '100%',
-    maxWidth: '100%',
-    height: Math.ceil(estimateHeight),
-    maxHeight: Math.ceil(estimateHeight),
-    willChange: isScrolling ? 'contents' : void 0,
-    pointerEvents: isScrolling ? 'none' : void 0,
-  })
-)
-
-const cmp2 = (args: IArguments, pargs: IArguments) =>
-  args[0] === pargs[0] && args[1] === pargs[1]
-
-const assignUserStyle = memoizeOne(
-  (containerStyle, userStyle) => Object.assign({}, containerStyle, userStyle),
-  cmp2
-)
-
-const defaultGetItemKey = (_: any[], i: number): number => i
-// the below memoizations for for ensuring shallow equal is reliable for pure
-// component children
-const getCachedSize = memoizeOne(
-  (width: number): React.CSSProperties => ({
-    width,
-    zIndex: -1000,
-    visibility: 'hidden',
-    position: 'absolute',
-    writingMode: 'horizontal-tb',
-  }),
-  (args, pargs) => args[0] === pargs[0]
-)
-
+//
+// Hooks
 const useForceUpdate = () => {
   const setState = useState(emptyObj)[1]
   return useRef(() => setState({})).current
 }
-
-const elementsCache: WeakMap<Element, number> = new WeakMap()
-
-const getRefSetter = memoizeOne(
-  (positioner: Positioner, resizeObserver?: ResizeObserver) => (
-    index: number
-  ) => (el: HTMLElement | null): void => {
-    if (el === null) return
-    if (resizeObserver) resizeObserver.observe(el)
-    elementsCache.set(el, index)
-    if (positioner.get(index) === void 0) positioner.set(index, el.offsetHeight)
-  },
-  cmp2
-)
 
 export const useScroller = (
   offset = 0,
@@ -554,9 +409,9 @@ export const useContainerPosition = (
   element: React.MutableRefObject<HTMLElement | null>,
   deps: React.DependencyList = emptyArr
 ): ContainerPosition => {
-  const [containerPosition, setContainerPosition] = useState<
-    Omit<ContainerPosition, 'height'>
-  >({offset: 0, width: 0})
+  const [containerPosition, setContainerPosition] = useState<ContainerPosition>(
+    {offset: 0, width: 0}
+  )
 
   useLayoutEffect(() => {
     const {current} = element
@@ -586,7 +441,7 @@ export const useContainerPosition = (
   return containerPosition
 }
 
-interface ContainerPosition {
+export interface ContainerPosition {
   offset: number
   width: number
 }
@@ -643,9 +498,9 @@ export const useResizeObserver = (positioner: Positioner) => {
 
 // Using trie-memoize instead of memoize-one because there may be multiple
 // masonry components on one page
-const createResizeObserver = trieMemoize(
+export const createResizeObserver = trieMemoize(
   [WeakMap],
-  (positioner: Positioner, forceUpdate: () => void) =>
+  (positioner: Positioner, updater: (updates: number[]) => void) =>
     new ResizeObserver((entries) => {
       const updates: number[] = []
       let i = 0
@@ -676,7 +531,7 @@ const createResizeObserver = trieMemoize(
         // Updates the size/positions of the cell with the resize
         // observer updates
         positioner.update(updates)
-        forceUpdate()
+        updater(updates)
       }
     })
 )
@@ -833,4 +688,159 @@ export interface LoadMoreItemsCallback {
 if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production') {
   Masonry.displayName = 'Masonry'
   List.displayName = 'List'
+}
+
+//
+// Utilities
+const createPositioner = (
+  columnCount: number,
+  columnWidth: number,
+  columnGutter = 0
+): Positioner => {
+  // O(log(n)) lookup of cells to render for a given viewport size
+  // Store tops and bottoms of each cell for fast intersection lookup.
+  const intervalTree = createIntervalTree()
+  // Track the height of each column.
+  // Layout algorithm below always inserts into the shortest column.
+  const columnHeights: number[] = new Array(columnCount)
+  // Used for O(1) item access
+  const items: PositionerItem[] = []
+  // Tracks the item indexes within an individual column
+  const columnItems: number[][] = new Array(columnCount)
+
+  for (let i = 0; i < columnCount; i++) {
+    columnHeights[i] = 0
+    columnItems[i] = []
+  }
+
+  return {
+    columnCount,
+    columnWidth,
+    set: (index, height = 0) => {
+      let column = 0
+
+      // finds the shortest column and uses it
+      for (let i = 1; i < columnHeights.length; i++) {
+        if (columnHeights[i] < columnHeights[column]) column = i
+      }
+
+      const top = columnHeights[column] || 0
+      columnHeights[column] = top + height + columnGutter
+      columnItems[column].push(index)
+      items[index] = {
+        left: column * (columnWidth + columnGutter),
+        top,
+        height,
+        column,
+      }
+      intervalTree.insert(top, top + height, index)
+    },
+    get: (index) => items[index],
+    // This only updates items in the specific columns that have changed, on and after the
+    // specific items that have changed
+    update: (updates) => {
+      const columns: number[] = new Array(columnCount)
+      let i = 0,
+        j = 0
+
+      // determines which columns have items that changed, as well as the minimum index
+      // changed in that column, as all items after that index will have their positions
+      // affected by the change
+      for (; i < updates.length - 1; i++) {
+        const index = updates[i]
+        const item = items[index]
+        item.height = updates[++i]
+        intervalTree.remove(index)
+        intervalTree.insert(item.top, item.top + item.height, index)
+        columns[item.column] =
+          columns[item.column] === void 0
+            ? index
+            : Math.min(index, columns[item.column])
+      }
+
+      for (i = 0; i < columns.length; i++) {
+        // bails out if the column didn't change
+        if (columns[i] === void 0) continue
+        const itemsInColumn = columnItems[i]
+        // the index order is sorted with certainty so binary search is a great solution
+        // here as opposed to Array.indexOf()
+        const startIndex = binarySearch(itemsInColumn, columns[i])
+        const index = columnItems[i][startIndex]
+        const startItem = items[index]
+        columnHeights[i] = startItem.top + startItem.height + columnGutter
+
+        for (j = startIndex + 1; j < itemsInColumn.length; j++) {
+          const index = itemsInColumn[j]
+          const item = items[index]
+          item.top = columnHeights[i]
+          columnHeights[i] = item.top + item.height + columnGutter
+          intervalTree.remove(index)
+          intervalTree.insert(item.top, item.top + item.height, index)
+        }
+      }
+    },
+    // Render all cells visible within the viewport range defined.
+    range: (lo, hi, renderCallback) =>
+      intervalTree.search(lo, hi, (index, top) =>
+        renderCallback(index, items[index].left, top)
+      ),
+    estimateHeight: (itemCount, defaultItemHeight): number => {
+      const tallestColumn = Math.max(
+        0,
+        Math.max.apply(null, Object.values(columnHeights))
+      )
+
+      return itemCount === intervalTree.size
+        ? tallestColumn
+        : tallestColumn +
+            Math.ceil((itemCount - intervalTree.size) / columnCount) *
+              defaultItemHeight
+    },
+    shortestColumn: () => {
+      const sizes = Object.values(columnHeights)
+      if (sizes.length > 1) return Math.min.apply(null, sizes)
+      return sizes[0] || 0
+    },
+    size(): number {
+      return intervalTree.size
+    },
+  }
+}
+
+export interface Positioner {
+  columnCount: number
+  columnWidth: number
+  set: (index: number, height: number) => void
+  get: (index: number) => PositionerItem | undefined
+  update: (updates: number[]) => void
+  range: (
+    lo: number,
+    hi: number,
+    renderCallback: (index: number, left: number, top: number) => void
+  ) => void
+  size: () => number
+  estimateHeight: (itemCount: number, defaultItemHeight: number) => number
+  shortestColumn: () => number
+}
+
+export interface PositionerItem {
+  top: number
+  left: number
+  height: number
+  column: number
+}
+
+const binarySearch = (a: number[], y: number): number => {
+  let l = 0
+  let h = a.length - 1
+
+  while (l <= h) {
+    const m = (l + h) >>> 1
+    const x = a[m]
+    if (x === y) return m
+    else if (x <= y) l = m + 1
+    else h = m - 1
+  }
+
+  return -1
 }
