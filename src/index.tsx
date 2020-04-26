@@ -80,7 +80,13 @@ export const useMasonry = ({
 
       const data = items[index]
       const key = itemKey(data, index)
-      const phaseTwoStyle = getCachedItemStyle(columnWidth, left, top)
+      const phaseTwoStyle: React.CSSProperties = {
+        top,
+        left,
+        width: columnWidth,
+        writingMode: 'horizontal-tb',
+        position: 'absolute',
+      }
 
       children.push(
         <ItemComponent
@@ -528,16 +534,6 @@ const getCachedSize = memoizeOne(
   }),
   (args, pargs) => args[0] === pargs[0]
 )
-const getCachedItemStyle = trieMemoize(
-  [OneKeyMap, Map, Map],
-  (width: number, left: number, top: number): React.CSSProperties => ({
-    top,
-    left,
-    width,
-    writingMode: 'horizontal-tb',
-    position: 'absolute',
-  })
-)
 
 const useForceUpdate = () => {
   const setState = useState(emptyObj)[1]
@@ -547,9 +543,9 @@ const useForceUpdate = () => {
 const elementsCache: WeakMap<Element, number> = new WeakMap()
 
 const getRefSetter = trieMemoize(
-  [OneKeyMap, OneKeyMap, OneKeyMap],
+  [OneKeyMap, OneKeyMap],
   (positioner: Positioner, resizeObserver?: ResizeObserver) =>
-    trieMemoize([{}], (index: number) => (el: HTMLElement | null): void => {
+    trieMemoize([[]], (index: number) => (el: HTMLElement | null): void => {
       if (el === null) return
       if (resizeObserver) resizeObserver.observe(el)
       elementsCache.set(el, index)

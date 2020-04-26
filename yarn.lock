@@ -5955,10 +5955,10 @@ tr46@^1.0.1:
   dependencies:
     punycode "^2.1.0"
 
-trie-memoize@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/trie-memoize/-/trie-memoize-1.1.2.tgz#94ad8ff5b288819b62fd6f29eade2c84af435721"
-  integrity sha512-I9tAnQCriR/qd9ab4h+fUBOAa9qy2FlDOvKbPsbsj4n9+GdszyHVOSg/slUQFhAp80G7y+ze1sln37x7E/7GHA==
+trie-memoize@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/trie-memoize/-/trie-memoize-1.1.4.tgz#aea92c6741215825db17f5e7979a7cf33df532f6"
+  integrity sha512-UzfqhBxTOpNhRl/0HWVvajT2HqYUvU/KhoNRhgvVWW9LkLXIan5txd9O2rirAxghm+bY5PLz7lkP3cqFdraehQ==
 
 ts-jest@^25.4.0:
   version "25.4.0"
