@@ -103,10 +103,10 @@ const MasonryCard = ({index, data: {id}, width}) => (
 
 ### Utilities
 
-| Utility                  | Description                                                                                                                                                                                       |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `createPositioner()`     | Creates a cell positioner for the [`useMasonry()`](#usemasonry) hook. The [`usePositioner()`](#usepositioner) hook uses this utility in the background.                                           |
-| `createResizeObserver()` | Creates a resize observer that fires an `updater` callback whenever the height of one or many cells change. The [`useResizeObserver()`](#useresizeobserver) hook is using this in the background. |
+| Utility                  | Description                                                                                                                                                                                    |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `createPositioner()`     | Creates a cell positioner for the [`useMasonry()`](#usemasonry) hook. The [`usePositioner()`](#usepositioner) hook uses this utility under the hood.                                           |
+| `createResizeObserver()` | Creates a resize observer that fires an `updater` callback whenever the height of one or many cells change. The [`useResizeObserver()`](#useresizeobserver) hook is using this under the hood. |
 
 ### Recipes
 
@@ -222,11 +222,7 @@ browser `window` changes. This bare-metal component is used by [`<Masonry>`](#ma
 
 When would you use this? If you're building an advanced masonry grid implementation, but you don't want
 to deal with figuring out how to optimize the exchange between scroll position changes in the browser
-`window` and the [`useMasonry() hook`].
-
-#### Props
-
-#### Example
+`window` and the [`useMasonry() hook`](#usemasonry).
 
 [Check out an example on **CodeSandbox**](#comingsoon)
 
@@ -257,20 +253,14 @@ const MyMasonry = (props) => {
 }
 ```
 
+#### Props
+
 ---
 
 ### &lt;List&gt;
 
-This is a single-column [`<Masonry>`](#masonry) component. It accepts all of the props outlined in [`<Masonry>`](#masonry) above,
-except `columnGutter`, `columnWidth`, and `columnCount`.
-
-#### List-specific props
-
-| Prop      | Type     | Default | Required? | Description                                                            |
-| --------- | -------- | ------- | --------- | ---------------------------------------------------------------------- |
-| rowGutter | `number` | `0`     | No        | The amount of vertical space in pixels to add between list item cards. |
-
-#### Example
+This is a single-column [`<Masonry>`](#masonry) component. That is, it uses the [`useMasonry()`](#usemasonry) hook
+and other utilities to create a virtualized list.
 
 [Check out an example on **CodeSandbox**](#comingsoon)
 
@@ -293,6 +283,15 @@ const ListCard = ({index, data: {id}, width}) => (
   </div>
 )
 ```
+
+#### List-specific props
+
+In addition to these props, this component accepts all of the props outlined in [`<Masonry>`](#masonry) except
+`columnGutter`, `columnWidth`, and `columnCount`.
+
+| Prop      | Type     | Default | Required? | Description                                                            |
+| --------- | -------- | ------- | --------- | ---------------------------------------------------------------------- |
+| rowGutter | `number` | `0`     | No        | The amount of vertical space in pixels to add between list item cards. |
 
 ---
 
@@ -355,24 +354,24 @@ const MyMasonry = (props) => {
 
 **Grid container options**
 
-| Prop         | Type                                                     | Default  | Required? | Description                                                                                                            |
-| ------------ | -------------------------------------------------------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------------------- |
-| as           | `keyof JSX.IntrinsicElements | React.ComponentType<any>` | `"div"`  | No        | This is the type of element the grid container will be rendered as.                                                    |
-| id           | `string`                                                 |          | No        | Optionally gives the grid container an `id` prop.                                                                      |
-| className    | `string`                                                 |          | No        | Optionally gives the grid container a `className` prop.                                                                |
-| style        | `React.CSSProperties`                                    |          | No        | Adds extra `style` attributes to the container in addition to those created by the [`useMasonry()`](#usemasonry) hook. |
-| role         | `"grid" | "list"`                                        | `"grid"` | No        | Optionally swap out the accessibility `role` prop of the container and its items.                                      |
-| tabIndex     | `number`                                                 | `0`      | No        | Change the `tabIndex` of the grid container.                                                                           |
-| containerRef | `React.MutableRefObject<HTMLElement | null>`             |          | No        | Forwards a React ref to the grid container.                                                                            |
+| Prop         | Type                                                                                                                      | Default  | Required? | Description                                                                                                            |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------------------- |
+| as           | <code>keyof JSX.IntrinsicElements &#0124; React.ComponentType&lt;any&gt;</code>                                           | `"div"`  | No        | This is the type of element the grid container will be rendered as.                                                    |
+| id           | `string`                                                                                                                  |          | No        | Optionally gives the grid container an `id` prop.                                                                      |
+| className    | `string`                                                                                                                  |          | No        | Optionally gives the grid container a `className` prop.                                                                |
+| style        | `React.CSSProperties`                                                                                                     |          | No        | Adds extra `style` attributes to the container in addition to those created by the [`useMasonry()`](#usemasonry) hook. |
+| role         | `"grid" | "list"`                                                                                                         | `"grid"` | No        | Optionally swap out the accessibility `role` prop of the container and its items.                                      |
+| tabIndex     | `number`                                                                                                                  | `0`      | No        | Change the `tabIndex` of the grid container.                                                                           |
+| containerRef | <code>React.MutableRefObject&lt;HTMLElement &#0124; null&gt;</code>` | | No | Forwards a React ref to the grid container. |
 
 **Grid item options**
 
-| Prop               | Type                                                     | Default                  | Required? | Description                                                                                                                                                                                                                                                                                                                                                                   |
-| ------------------ | -------------------------------------------------------- | ------------------------ | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| itemAs             | `keyof JSX.IntrinsicElements | React.ComponentType<any>` | `"div"`                  | No        | This is the type of element the grid items will be rendered as.                                                                                                                                                                                                                                                                                                               |
-| itemStyle          | `React.CSSProperties`                                    |                          | No        | Adds extra `style` attributes to the grid items in addition to those created by the [`useMasonry()`](#usemasonry) hook.                                                                                                                                                                                                                                                       |
-| itemHeightEstimate | `number`                                                 | `300`                    | No        | This value is used for estimating the initial height of the masonry grid. It is important for the UX of the scrolling behavior and in determining how many `items` to render in a batch, so it's wise to set this value with some level accuracy, though it doesn't need to be perfect.                                                                                       |
-| itemKey            | `(data: any, index: number) => string | number`          | `(data, index) => index` | No        | The value returned here must be unique to the item. By default, the key is the item's index. This is ok if your collection of items is never modified. Setting this property ensures that the component in `render` is reused each time the masonry grid is reflowed. A common pattern would be to return the item's database ID here if there is one, e.g. `data => data.id` |
+| Prop               | Type                                                                            | Default                  | Required? | Description                                                                                                                                                                                                                                                                                                                                                                   |
+| ------------------ | ------------------------------------------------------------------------------- | ------------------------ | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| itemAs             | <code>keyof JSX.IntrinsicElements &#0124; React.ComponentType&lt;any&gt;</code> | `"div"`                  | No        | This is the type of element the grid items will be rendered as.                                                                                                                                                                                                                                                                                                               |
+| itemStyle          | `React.CSSProperties`                                                           |                          | No        | Adds extra `style` attributes to the grid items in addition to those created by the [`useMasonry()`](#usemasonry) hook.                                                                                                                                                                                                                                                       |
+| itemHeightEstimate | `number`                                                                        | `300`                    | No        | This value is used for estimating the initial height of the masonry grid. It is important for the UX of the scrolling behavior and in determining how many `items` to render in a batch, so it's wise to set this value with some level accuracy, though it doesn't need to be perfect.                                                                                       |
+| itemKey            | <code>(data: any, index: number) => string &#124; number</code>                 | `(data, index) => index` | No        | The value returned here must be unique to the item. By default, the key is the item's index. This is ok if your collection of items is never modified. Setting this property ensures that the component in `render` is reused each time the masonry grid is reflowed. A common pattern would be to return the item's database ID here if there is one, e.g. `data => data.id` |
 
 **Callbacks**
 
