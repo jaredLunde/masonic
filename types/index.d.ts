@@ -50,6 +50,7 @@ interface UseMasonry {
     items: any[]
   ) => void
 }
+export declare const MasonryScroller: React.FC<MasonryScrollerProps>
 export declare const Masonry: React.FC<MasonryProps>
 export interface MasonryProps
   extends Omit<
@@ -81,7 +82,7 @@ export interface MasonryScrollerProps
   height: number
   containerRef?: UseMasonry['containerRef']
   positioner: Positioner
-  resizeObserver: UseMasonry['resizeObserver']
+  resizeObserver?: UseMasonry['resizeObserver']
 }
 export declare const List: React.FC<ListProps>
 export interface ListProps extends MasonryProps {
@@ -105,17 +106,20 @@ export interface ContainerPosition {
   offset: number
   width: number
 }
-export declare const usePositioner: ({
-  width,
-  columnWidth,
-  columnGutter,
-  columnCount,
-}: {
-  width: number
-  columnWidth?: number | undefined
-  columnGutter?: number | undefined
-  columnCount?: number | undefined
-}) => Positioner
+export declare const usePositioner: (
+  {
+    width,
+    columnWidth,
+    columnGutter,
+    columnCount,
+  }: {
+    width: number
+    columnWidth?: number | undefined
+    columnGutter?: number | undefined
+    columnCount?: number | undefined
+  },
+  deps?: React.DependencyList
+) => Positioner
 export declare const useResizeObserver: (
   positioner: Positioner
 ) => ResizeObserver

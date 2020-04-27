@@ -12,11 +12,9 @@
   <a aria-label="Types" href="https://www.npmjs.com/package/masonic">
     <img alt="Types" src="https://img.shields.io/npm/types/masonic?style=for-the-badge&labelColor=24292e">
   </a>
-  <!--
   <a aria-label="Code coverage report" href="https://codecov.io/gh/jaredLunde/masonic">
     <img alt="Code coverage" src="https://img.shields.io/codecov/c/gh/jaredLunde/masonic?style=for-the-badge&labelColor=24292e">
   </a>
-  -->
   <a aria-label="Build status" href="https://travis-ci.com/jaredLunde/masonic">
     <img alt="Build status" src="https://img.shields.io/travis/com/jaredLunde/masonic?style=for-the-badge&labelColor=24292e">
   </a>
@@ -250,6 +248,41 @@ export interface PositionerItem {
   column: number
 }
 ```
+
+---
+
+### useMasonry(options)
+
+```jsx harmony
+import React from 'react'
+import {useMasonry, usePositioner, useScroller} from 'masonic'
+
+const MyCustomMasonry = (props) => {
+  const {offset} = useContainerPosition(ref)
+  const {scrollTop, isScrolling} = useScroller(offset)
+
+  return React.createElement(
+    FreeMasonry,
+    Object.assign(
+      {
+        width: rect.width,
+        height,
+        scrollTop,
+        isScrolling,
+        containerRef,
+      },
+      props
+    )
+  )
+}
+```
+
+#### Arguments
+
+| Argument | Type     | Description                                                                                                                                                                                                 |
+| -------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| offset   | `number` | The distance in px between the top of your masonry container and the top of the document                                                                                                                    |
+| fps      | `number` | The rate in frames per second with which this hook will update the scroll position of the document. My advice is to shoot for as low as possible without experiencing lag in your components as you scroll. |
 
 ---
 

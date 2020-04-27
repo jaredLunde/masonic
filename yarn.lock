@@ -1276,6 +1276,37 @@
   dependencies:
     any-observable "^0.3.0"
 
+"@shopify/async@^2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@shopify/async/-/async-2.1.4.tgz#5e326240a161c20387b2939e7e875ebb11de56de"
+  integrity sha512-ckjtMjQE38Rq6pucfQ/oF4YSCEX1Y9ErhgOm7ZgTuJhr7fzti5/cFzWNRl0jf7q+hWb8Ve22XXmJLMlB+2v1rA==
+
+"@shopify/decorators@^1.1.11":
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/@shopify/decorators/-/decorators-1.1.11.tgz#ae111160185d9f33aebbab4df401b4bea858f302"
+  integrity sha512-qE5y08Oh6ukSQuF7CIPaCs9oLy99nRv1Rmq9rhb7Q02DB9+8z6uNGVmhcftbrIs/7VEMlqk0LrfL6e0ijrxy3g==
+  dependencies:
+    "@shopify/function-enhancers" "^1.0.9"
+
+"@shopify/function-enhancers@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@shopify/function-enhancers/-/function-enhancers-1.0.9.tgz#aa95e49ca2a3be1c76259ebce078b607faf26007"
+  integrity sha512-iGoGIuJIFgWyEnEttjvtSH+5nQS6Lv4LAAooSNaviL10Ah+gLBfFcuSIj19fVLaRl9WxYSIu4sWqwnwn/W+n1g==
+
+"@shopify/jest-dom-mocks@^2.9.0":
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/@shopify/jest-dom-mocks/-/jest-dom-mocks-2.9.0.tgz#7b1c2ed58a6554f30e945fe5b49e9ef35f9195e7"
+  integrity sha512-+S3Hf7Tx7Tt5U0trOfTMh77aZ6OsbCiXhTRX79FO7/XY6f2azUE0JubqAz6GyGbuE0Fd4DgP0/reRRICXfN+Ng==
+  dependencies:
+    "@shopify/async" "^2.1.4"
+    "@shopify/decorators" "^1.1.11"
+    "@types/fetch-mock" "^6.0.1"
+    "@types/lolex" "^2.1.3"
+    fetch-mock "^6.3.0"
+    lolex "^2.7.5"
+    promise "^8.0.3"
+    tslib "^1.9.3"
+
 "@sinonjs/commons@^1.7.0":
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/@sinonjs/commons/-/commons-1.7.2.tgz#505f55c74e0272b43f6c52d81946bed7058fc0e2"
@@ -1369,6 +1400,11 @@
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
   integrity sha512-OCutwjDZ4aFS6PB1UZ988C4YgwlBHJd6wCeQqaLdmadZ/7e+w79+hbMUFC1QXDNCmdyoRfAFdm0RypzwR+Qpag==
 
+"@types/fetch-mock@^6.0.1":
+  version "6.0.5"
+  resolved "https://registry.yarnpkg.com/@types/fetch-mock/-/fetch-mock-6.0.5.tgz#acbc6771d43d7ebc1f0a8b7e3d57147618f8eacb"
+  integrity sha512-rV8O2j/TIi0PtFCOlK55JnfKpE8Hm6PKFgrUZY/3FNHw4uBEMHnM+5ZickDO1duOyKxbpY3VES5T4NIwZXvodA==
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.1.tgz#42995b446db9a48a11a07ec083499a860e9138ff"
@@ -1401,6 +1437,11 @@
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.4.tgz#38fd73ddfd9b55abb1e1b2ed578cb55bd7b7d339"
   integrity sha512-8+KAKzEvSUdeo+kmqnKrqgeE+LcA0tjYWFY7RPProVYwnqDjukzO+3b6dLD56rYX5TdWejnEOLJYOIeh4CXKuA==
+
+"@types/lolex@^2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@types/lolex/-/lolex-2.1.3.tgz#793557c9b8ad319b4c8e4c6548b90893f4aa5f69"
+  integrity sha512-nEipOLYyZJ4RKHCg7tlR37ewFy91oggmip2MBzPdVQ8QhTFqjcRhE8R0t4tfpDnSlxGWHoEGJl0UCC4kYhqoiw==
 
 "@types/node@^13.13.2":
   version "13.13.2"
@@ -1712,6 +1753,11 @@ array-unique@^0.3.2:
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
   integrity sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg=
 
+asap@~2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
+  integrity sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
+
 asn1@~0.2.3:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/asn1/-/asn1-0.2.4.tgz#8d2475dfab553bb33e77b54e59e880bb8ce23136"
@@ -1826,6 +1872,15 @@ babel-plugin-optimize-react@^0.0.4:
   resolved "https://registry.yarnpkg.com/babel-plugin-optimize-react/-/babel-plugin-optimize-react-0.0.4.tgz#6326ac8f0f77e3fa3e8195b4d998287d47877c65"
   integrity sha512-I3o7GW66dIpXraND0ZAYXEDQ/wOiuefUQqn1PZZcub2flREANb2NXejL52iTMUWtKM++lu5OasVtZewn+WvkNg==
 
+babel-polyfill@^6.26.0:
+  version "6.26.0"
+  resolved "https://registry.yarnpkg.com/babel-polyfill/-/babel-polyfill-6.26.0.tgz#379937abc67d7895970adc621f284cd966cf2153"
+  integrity sha1-N5k3q8Z9eJWXCtxiHyhM2WbPIVM=
+  dependencies:
+    babel-runtime "^6.26.0"
+    core-js "^2.5.0"
+    regenerator-runtime "^0.10.5"
+
 babel-preset-current-node-syntax@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/babel-preset-current-node-syntax/-/babel-preset-current-node-syntax-0.1.2.tgz#fb4a4c51fe38ca60fede1dc74ab35eb843cb41d6"
@@ -1849,6 +1904,14 @@ babel-preset-jest@^25.4.0:
   dependencies:
     babel-plugin-jest-hoist "^25.4.0"
     babel-preset-current-node-syntax "^0.1.2"
+
+babel-runtime@^6.26.0:
+  version "6.26.0"
+  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
+  integrity sha1-llxwWGaOgrVde/4E/yM3vItWR/4=
+  dependencies:
+    core-js "^2.4.0"
+    regenerator-runtime "^0.11.0"
 
 balanced-match@^1.0.0:
   version "1.0.0"
@@ -2247,6 +2310,11 @@ core-js-pure@^3.0.0:
   version "3.6.5"
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.6.5.tgz#c79e75f5e38dbc85a662d91eea52b8256d53b813"
   integrity sha512-lacdXOimsiD0QyNf9BC/mxivNJ/ybBGJXQFKzRekp1WTHoVUWsUHEn+2T8GJAzzIhyOuXA+gOxCVN3l+5PLPUA==
+
+core-js@^2.4.0, core-js@^2.5.0:
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
+  integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
 
 core-js@^3.2.1:
   version "3.6.5"
@@ -2875,6 +2943,15 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
+fetch-mock@^6.3.0:
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/fetch-mock/-/fetch-mock-6.5.2.tgz#b3842b305c13ea0f81c85919cfaa7de387adfa3e"
+  integrity sha512-EIvbpCLBTYyDLu4HJiqD7wC8psDwTUaPaWXNKZbhNO/peUYKiNp5PkZGKRJtnTxaPQu71ivqafvjpM7aL+MofQ==
+  dependencies:
+    babel-polyfill "^6.26.0"
+    glob-to-regexp "^0.4.0"
+    path-to-regexp "^2.2.1"
+
 figures@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-1.7.0.tgz#cbe1e3affcf1cd44b80cadfed28dc793a9701d2e"
@@ -3102,6 +3179,11 @@ glob-parent@^5.0.0:
   integrity sha512-FnI+VGOpnlGHWZxthPGR+QhR78fuiK0sNLkHQv+bL9fQi57lNNdquIbna/WrfROrolq8GK5Ek6BiMwqL/voRYQ==
   dependencies:
     is-glob "^4.0.1"
+
+glob-to-regexp@^0.4.0:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/glob-to-regexp/-/glob-to-regexp-0.4.1.tgz#c75297087c851b9a578bd217dd59a92f59fe546e"
+  integrity sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==
 
 glob@^7.0.0, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6:
   version "7.1.6"
@@ -4291,6 +4373,11 @@ log-update@^2.3.0:
     cli-cursor "^2.0.0"
     wrap-ansi "^3.0.1"
 
+lolex@^2.7.5:
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/lolex/-/lolex-2.7.5.tgz#113001d56bfc7e02d56e36291cc5c413d1aa0733"
+  integrity sha512-l9x0+1offnKKIzYVjyXU2SiwhXDLekRzKyhnbyldPHvC7BvLPVpdNUNR2KeMAiCN2D/kLNttZgQD5WjSxuBx3Q==
+
 lolex@^5.0.0:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/lolex/-/lolex-5.1.2.tgz#953694d098ce7c07bc5ed6d0e42bc6c0c6d5a367"
@@ -4502,6 +4589,11 @@ node-environment-flags@^1.0.5:
   dependencies:
     object.getownpropertydescriptors "^2.0.3"
     semver "^5.7.0"
+
+node-fetch@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
+  integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
 
 node-int64@^0.4.0:
   version "0.4.0"
@@ -4846,6 +4938,11 @@ path-parse@^1.0.6:
   resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
   integrity sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==
 
+path-to-regexp@^2.2.1:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-2.4.0.tgz#35ce7f333d5616f1c1e1bfe266c3aba2e5b2e704"
+  integrity sha512-G6zHoVqC6GGTQkZwF4lkuEyMbVOjoBKAEybQUypI1WTkqinCOrq2x6U2+phkJ1XsEMTy4LjtwPI7HW+NVrRR2w==
+
 path-type@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
@@ -4952,6 +5049,13 @@ progress@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
+
+promise@^8.0.3:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/promise/-/promise-8.1.0.tgz#697c25c3dfe7435dd79fcd58c38a135888eaf05e"
+  integrity sha512-W04AqnILOL/sPRXziNicCjSNRruLAuIHEOVBazepu0545DDNGYHz7ar9ZgZ1fMU8/MA4mVxp5rkBWRi6OXIy3Q==
+  dependencies:
+    asap "~2.0.6"
 
 prompts@^2.0.1:
   version "2.3.2"
@@ -5102,6 +5206,16 @@ regenerate@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha512-1G6jJVDWrt0rK99kBjvEtziZNCICAuvIPkSiUFIQxVP06RCVpq3dmDo2oi6ABpYaDYaTRr67BEhL8r1wgEZZKg==
+
+regenerator-runtime@^0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.10.5.tgz#336c3efc1220adcedda2c9fab67b5a7955a33658"
+  integrity sha1-M2w+/BIgrc7dosn6tntaeVWjNlg=
+
+regenerator-runtime@^0.11.0:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
+  integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
 
 regenerator-runtime@^0.13.4:
   version "0.13.5"
@@ -5982,7 +6096,7 @@ ts-jest@^25.4.0:
     semver "6.x"
     yargs-parser "18.x"
 
-tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
   integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==

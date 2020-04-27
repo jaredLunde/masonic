@@ -264,8 +264,8 @@ const getRefSetter = memoizeOne(
     index: number
   ) => (el: HTMLElement | null): void => {
     if (el === null) return
-    if (resizeObserver) resizeObserver.observe(el)
     elementsCache.set(el, index)
+    if (resizeObserver) resizeObserver.observe(el)
     if (positioner.get(index) === void 0) positioner.set(index, el.offsetHeight)
   },
   cmp2
@@ -277,12 +277,15 @@ const getRefSetter = memoizeOne(
 // We put this in its own layer because it's the thing that will trigger the most updates
 // and we don't want to slower ourselves by cycling through all the functions, objects, and effects
 // of other hooks
-const MasonryScroller: React.FC<MasonryScrollerProps> = (props) => {
+export const MasonryScroller: React.FC<MasonryScrollerProps> = (props) => {
   const {scrollTop, isScrolling} = useScroller(props.offset, props.scrollFps)
+
   // This is an update-heavy phase and while we could just Object.assign here,
   // it is way faster to inline and there's a relatively low hit to he bundle
   // size.
   return useMasonry({
+    scrollTop,
+    isScrolling,
     positioner: props.positioner,
     resizeObserver: props.resizeObserver,
     items: props.items,
@@ -299,8 +302,6 @@ const MasonryScroller: React.FC<MasonryScrollerProps> = (props) => {
     itemHeightEstimate: props.itemHeightEstimate,
     itemKey: props.itemKey,
     overscanBy: props.overscanBy,
-    scrollTop,
-    isScrolling,
     height: props.height,
     render: props.render,
   })
@@ -355,7 +356,7 @@ export interface MasonryScrollerProps
   height: number
   containerRef?: UseMasonry['containerRef']
   positioner: Positioner
-  resizeObserver: UseMasonry['resizeObserver']
+  resizeObserver?: UseMasonry['resizeObserver']
 }
 
 export const List: React.FC<ListProps> = (props) =>
@@ -393,7 +394,7 @@ export const useScroller = (
   const [isScrolling, setIsScrolling] = useState<boolean>(false)
 
   useEffect(() => {
-    setIsScrolling(true)
+    if (scrollY > 0) setIsScrolling(true)
     const to = requestTimeout(() => {
       // This is here to prevent premature bail outs while maintaining high resolution
       // unsets. Without it there will always bee a lot of unnecessary DOM writes to style.
@@ -416,7 +417,6 @@ export const useContainerPosition = (
   useLayoutEffect(() => {
     const {current} = element
     if (current !== null) {
-      const rect = current.getBoundingClientRect()
       let offset = 0
       let el = current
 
@@ -427,11 +427,11 @@ export const useContainerPosition = (
 
       if (
         offset !== containerPosition.offset ||
-        rect.width !== containerPosition.width
+        current.offsetWidth !== containerPosition.width
       ) {
         setContainerPosition({
           offset,
-          width: rect.width,
+          width: current.offsetWidth,
         })
       }
     }
@@ -446,17 +446,20 @@ export interface ContainerPosition {
   width: number
 }
 
-export const usePositioner = ({
-  width,
-  columnWidth = 200,
-  columnGutter = 0,
-  columnCount,
-}: {
-  width: number
-  columnWidth?: number
-  columnGutter?: number
-  columnCount?: number
-}): Positioner => {
+export const usePositioner = (
+  {
+    width,
+    columnWidth = 200,
+    columnGutter = 0,
+    columnCount,
+  }: {
+    width: number
+    columnWidth?: number
+    columnGutter?: number
+    columnCount?: number
+  },
+  deps: React.DependencyList = emptyArr
+): Positioner => {
   const initPositioner = (): Positioner => {
     const gutter = columnGutter
     const [computedColumnWidth, computedColumnCount] = getColumns(
@@ -468,6 +471,12 @@ export const usePositioner = ({
     return createPositioner(computedColumnCount, computedColumnWidth, gutter)
   }
   const [positioner, setPositioner] = useState<Positioner>(initPositioner)
+
+  // Create a new positioner when the dependencies change
+  useLayoutEffect(() => {
+    if (positioner.size() > 0) setPositioner(initPositioner())
+    // eslint-disable-next-line
+  }, deps)
 
   // Updates the item positions any time a prop potentially affecting their
   // size changes
@@ -500,6 +509,8 @@ export const useResizeObserver = (positioner: Positioner) => {
 // masonry components on one page
 export const createResizeObserver = trieMemoize(
   [WeakMap],
+  // TODO: figure out a way to test this
+  /* istanbul ignore next */
   (positioner: Positioner, updater: (updates: number[]) => void) =>
     new ResizeObserver((entries) => {
       const updates: number[] = []
@@ -514,7 +525,6 @@ export const createResizeObserver = trieMemoize(
           (entry as NativeResizeObserverEntry).borderBoxSize !== void 0
             ? (entry as NativeResizeObserverEntry).borderBoxSize.blockSize
             : (entry.target as HTMLElement).offsetHeight
-
         if (height > 0) {
           const index = elementsCache.get(entry.target)
 
@@ -560,7 +570,6 @@ export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
   const {
     /**
      * Function responsible for tracking the loaded state of each row.
-     * It should implement the following signature: (index): boolean
      */
     isItemLoaded = defaultIsItemLoaded,
     /**
@@ -571,7 +580,6 @@ export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
     /**
      * Threshold at which to pre-fetch data.
      * A threshold X means that data will start loading when a user scrolls within X rows.
-     * This value defaults to 15.
      */
     threshold = 16,
     /**
@@ -613,9 +621,11 @@ const scanForUnloadedRanges = (
   stopIndex: number
 ): number[] => {
   const unloadedRanges: number[] = []
-  let rangeStartIndex, rangeStopIndex
+  let rangeStartIndex,
+    rangeStopIndex,
+    index = startIndex
 
-  for (let index = startIndex; index <= stopIndex; index++) {
+  for (; index <= stopIndex; index++) {
     const loaded = isItemLoaded(index, items)
 
     if (!loaded) {
@@ -637,7 +647,7 @@ const scanForUnloadedRanges = (
       totalItems - 1
     )
 
-    for (let index = rangeStopIndex + 1; index <= potentialStopIndex; index++) {
+    for (index = rangeStopIndex + 1; index <= potentialStopIndex; index++) {
       if (!isItemLoaded(index, items)) {
         rangeStopIndex = index
       } else {
@@ -650,6 +660,7 @@ const scanForUnloadedRanges = (
 
   // Check to see if our first range ended prematurely.
   // In this case we should scan backwards to try filling our :minimumBatchSize.
+  /* istanbul ignore next */
   if (unloadedRanges.length) {
     let firstUnloadedStart = unloadedRanges[0]
     const firstUnloadedStop = unloadedRanges[1]
@@ -683,11 +694,6 @@ export interface InfiniteLoaderOptions {
 
 export interface LoadMoreItemsCallback {
   (startIndex: number, stopIndex: number, items: any[]): void
-}
-
-if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production') {
-  Masonry.displayName = 'Masonry'
-  List.displayName = 'List'
 }
 
 //
@@ -785,10 +791,7 @@ const createPositioner = (
         renderCallback(index, items[index].left, top)
       ),
     estimateHeight: (itemCount, defaultItemHeight): number => {
-      const tallestColumn = Math.max(
-        0,
-        Math.max.apply(null, Object.values(columnHeights))
-      )
+      const tallestColumn = Math.max(0, Math.max.apply(null, columnHeights))
 
       return itemCount === intervalTree.size
         ? tallestColumn
@@ -797,9 +800,8 @@ const createPositioner = (
               defaultItemHeight
     },
     shortestColumn: () => {
-      const sizes = Object.values(columnHeights)
-      if (sizes.length > 1) return Math.min.apply(null, sizes)
-      return sizes[0] || 0
+      if (columnHeights.length > 1) return Math.min.apply(null, columnHeights)
+      return columnHeights[0] || 0
     },
     size(): number {
       return intervalTree.size
@@ -830,6 +832,7 @@ export interface PositionerItem {
   column: number
 }
 
+/* istanbul ignore next */
 const binarySearch = (a: number[], y: number): number => {
   let l = 0
   let h = a.length - 1
@@ -843,4 +846,9 @@ const binarySearch = (a: number[], y: number): number => {
   }
 
   return -1
+}
+
+if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production') {
+  Masonry.displayName = 'Masonry'
+  List.displayName = 'List'
 }
