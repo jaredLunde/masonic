@@ -130,8 +130,6 @@ export declare const createResizeObserver: (
 export declare function useInfiniteLoader<T extends LoadMoreItemsCallback>(
   /**
    * Callback to be invoked when more rows must be loaded.
-   * It should implement the following signature: (startIndex, stopIndex, items): Promise
-   * The returned Promise should be resolved once row data has finished loading.
    * It will be used to determine when to refresh the list with the newly-loaded data.
    * This callback may be called multiple times in reaction to a single scroll event.
    */

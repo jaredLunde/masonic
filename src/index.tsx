@@ -559,8 +559,6 @@ interface NativeResizeObserverEntry extends ResizeObserverEntry {
 export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
   /**
    * Callback to be invoked when more rows must be loaded.
-   * It should implement the following signature: (startIndex, stopIndex, items): Promise
-   * The returned Promise should be resolved once row data has finished loading.
    * It will be used to determine when to refresh the list with the newly-loaded data.
    * This callback may be called multiple times in reaction to a single scroll event.
    */
@@ -850,5 +848,6 @@ const binarySearch = (a: number[], y: number): number => {
 
 if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production') {
   Masonry.displayName = 'Masonry'
+  MasonryScroller.displayName = 'MasonryScroller'
   List.displayName = 'List'
 }
