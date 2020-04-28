@@ -103,10 +103,10 @@ const MasonryCard = ({index, data: {id}, width}) => (
 
 ### Utilities
 
-| Utility                  | Description                                                                                                                                                                                              |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `createPositioner()`     | Creates a cell positioner for the [`useMasonry()`](#usemasonryoptions) hook. The [`usePositioner()`](#usepositioneroptions-deps) hook uses this utility under the hood.                                  |
-| `createResizeObserver()` | Creates a resize observer that fires an `updater` callback whenever the height of one or many cells change. The [`useResizeObserver()`](#useresizeobserverpositioner) hook is using this under the hood. |
+| Utility                                                                       | Description                                                                                                                                                                                              |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`createPositioner()`](#createpositionercolumncount-columnwidth-columngutter) | Creates a cell positioner for the [`useMasonry()`](#usemasonryoptions) hook. The [`usePositioner()`](#usepositioneroptions-deps) hook uses this utility under the hood.                                  |
+| [`createResizeObserver()`](#createresizeobserverpositioner-updater)           | Creates a resize observer that fires an `updater` callback whenever the height of one or many cells change. The [`useResizeObserver()`](#useresizeobserverpositioner) hook is using this under the hood. |
 
 ### Recipes
 
