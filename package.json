@@ -1,6 +1,6 @@
 {
   "name": "masonic",
-  "version": "2.1.10",
+  "version": "3.0.0-beta",
   "homepage": "https://github.com/jaredLunde/masonic#readme",
   "repository": "github:jaredLunde/masonic",
   "bugs": "https://github.com/jaredLunde/masonic/issues",
@@ -22,83 +22,95 @@
     "infinite scrolling",
     "scrolling",
     "virtualized",
-    "masonic"
+    "masonic",
+    "grid component",
+    "react grid",
+    "masonry grid",
+    "react masonry grid"
   ],
-  "main": "dist/cjs/index.js",
-  "module": "dist/es/index.js",
+  "main": "dist/main/index.js",
+  "module": "dist/module/index.js",
+  "source": "src/index.tsx",
+  "types": "types/index.d.ts",
   "files": [
-    "/dist"
+    "/src",
+    "/dist",
+    "/types"
   ],
   "sideEffects": false,
   "scripts": {
     "bench": "babel-node ./benchmarks --extensions \".ts\"",
-    "build": "npm run build:cjs && npm run build:es && npm run build:types",
-    "build:cjs": "babel src -d dist/cjs -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
-    "build:es": "cross-env BABEL_ENV=es babel src -d dist/es -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
-    "build:types": "tsc -p tsconfig.json -d --outDir dist/es --emitDeclarationOnly && mkdir -p dist/cjs && cp -R dist/es/**.d.ts dist/cjs && rimraf dist/**/*.test.d.ts",
+    "build": "npm run build-main && npm run build-module && npm run build-types",
+    "build-main": "npm run compile -- -d dist/main --env-name main",
+    "build-module": "npm run compile -- -d dist/module --env-name module",
+    "build-types": "tsc -p tsconfig.json -d --outDir types --emitDeclarationOnly",
     "check-types": "tsc --noEmit -p tsconfig.json",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,yml,json,babelrc,eslintrc,prettierrc}\"",
-    "lint": "eslint . --ext .ts,.tsx",
+    "compile": "babel src -x .ts,.tsx --ignore \"**/*.test.ts\",\"**/test.ts\",\"**/*.test.tsx\",\"**/test.tsx\" --delete-dir-on-start",
+    "format": "prettier --write \"**/*.{ts,tsx,js,md,yml,json,babelrc,eslintrc,prettierrc}\"",
+    "lint": "eslint . --ext .ts,tsx",
     "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
     "test": "jest",
     "validate": "npm run check-types && npm run lint && npm run test -- --coverage"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run build:types"
+      "pre-commit": "npm run build-types && git add types && lint-staged"
     }
   },
   "lint-staged": {
-    "**/*.{ts,tsx,js,jsx}": [
+    "**/*.{ts,tsx,js}": [
       "eslint",
       "prettier --write"
     ],
-    "**/*.{md,yml,json,babelrc,eslintrc,prettierrc}": [
+    "**/*.{md,yml,json,eslintrc,prettierrc}": [
       "prettier --write"
     ]
   },
   "devDependencies": {
     "@babel/node": "^7.7.4",
-    "@babel/preset-react": "latest",
+    "@babel/preset-react": "^7.9.4",
     "@essentials/benchmark": "^1.0.5",
     "@lunde/babel-preset-es": "latest",
-    "@testing-library/jest-dom": "latest",
-    "@testing-library/react": "latest",
+    "@shopify/jest-dom-mocks": "^2.9.0",
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/react": "^10.0.3",
     "@testing-library/react-hooks": "latest",
-    "@types/jest": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "@typescript-eslint/eslint-plugin": "latest",
-    "@typescript-eslint/parser": "latest",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.2",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "babel-plugin-annotate-pure-calls": "^0.4.0",
     "babel-plugin-optimize-react": "^0.0.4",
-    "babel-plugin-typescript-to-proptypes": "^1.1.0",
-    "cross-env": "latest",
-    "eslint": "latest",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.8.0",
     "eslint-import-resolver-jest": "latest",
-    "eslint-plugin-jest": "latest",
-    "eslint-plugin-react": "latest",
-    "eslint-plugin-react-hooks": "latest",
-    "husky": "latest",
-    "jest": "latest",
-    "lint-staged": "latest",
-    "prettier": "latest",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "husky": "^4.2.5",
+    "jest": "^25.4.0",
+    "lint-staged": "^10.1.7",
+    "node-fetch": "^2.6.0",
+    "prettier": "^2.0.5",
     "rand-int": "^1.0.0",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-test-renderer": "latest",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-test-renderer": "^16.13.1",
     "rimraf": "^2.6.3",
-    "ts-jest": "latest",
-    "typescript": "latest"
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
     "@essentials/memoize-one": "^1.0.2",
     "@essentials/one-key-map": "^1.0.1",
-    "@essentials/request-timeout": "^1.0.2",
+    "@essentials/request-timeout": "^1.2.0",
     "@react-hook/passive-layout-effect": "^1.0.3",
-    "@react-hook/window-scroll": "^1.1.2",
-    "@react-hook/window-size": "^2.0.1",
+    "@react-hook/window-scroll": "^1.1.4",
+    "@react-hook/window-size": "^2.0.4",
     "resize-observer-polyfill": "^1.5.1",
-    "trie-memoize": "^1.1.0"
+    "trie-memoize": "^1.1.4"
   },
   "peerDependencies": {
     "prop-types": ">=15.7.2",

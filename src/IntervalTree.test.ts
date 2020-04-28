@@ -1,9 +1,9 @@
 import createIntervalTree from './IntervalTree'
-const toIdSorted = result => result.map(([id]) => id).sort((a, b) => a - b)
-const toExpectedIdSorted = result =>
+const toIdSorted = (result) => result.map(([id]) => id).sort((a, b) => a - b)
+const toExpectedIdSorted = (result) =>
   result.map(([, , id]) => id).sort((a, b) => a - b)
 
-const shuffle = original => {
+const shuffle = (original) => {
   const array = original.concat()
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -25,7 +25,7 @@ const search = (tree, low, high) => {
 }
 
 const expectSearch = (records, tree, low, high) => {
-  const expectation = records.filter(record => {
+  const expectation = records.filter((record) => {
     if (!record) {
       return false
     }
@@ -68,7 +68,7 @@ describe('tree', () => {
 
     for (let i = 0; i < 10000; ++i) {
       for (const [low, high, id] of shuffle(list)) {
-        tree.remove(low, high, id)
+        tree.remove(id)
       }
 
       expect(tree.size).toBe(0)
@@ -105,7 +105,7 @@ describe('tree', () => {
     for (let i = 0; i < toRemove.length; ++i) {
       const [low, high, id] = toRemove[i]
       toRemove[i] = undefined
-      tree.remove(low, high, id)
+      tree.remove(id)
       expectSearch(toRemove, tree, low, high)
 
       for (let j = 0; j < 100; ++j) {
@@ -129,7 +129,7 @@ describe('tree', () => {
       const idx = getRandomInt(0, list.length - 1)
       const item = list[idx]
       list.splice(idx, 1)
-      tree.remove(item[0], item[1], item[2])
+      tree.remove(item[2])
     }
 
     const addAnItem = (list, tree) => {
