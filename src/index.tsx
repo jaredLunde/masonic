@@ -726,7 +726,7 @@ export const useResizeObserver = (positioner: Positioner) => {
 
 /**
  * Creates a resize observer that fires an `updater` callback whenever the height of
- * one or many cells change. The `useResizeObserver()` hook is using this in the background.
+ * one or many cells change. The `useResizeObserver()` hook is using this under the hood.
  *
  * @param positioner A cell positioner created by the `usePositioner()` hook or the `createPositioner()` utility
  * @param updater A callback that fires whenever one or many cell heights change.
@@ -937,9 +937,9 @@ export type LoadMoreItemsCallback = (
 
 /**
  * Creates a cell positioner for the `useMasonry()` hook. The `usePositioner()` hook uses
- * this utility in the background.
+ * this utility under the hood.
  *
- * @param columnCount The number of colums in the grid
+ * @param columnCount The number of columns in the grid
  * @param columnWidth The width of each column in the grid
  * @param columnGutter The amount of horizontal and vertical space in pixels to render
  *  between each grid item.
