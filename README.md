@@ -96,26 +96,27 @@ const MasonryCard = ({index, data: {id}, width}) => (
 | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`useMasonry()`](#usemasonryoptions)                             | This hook handles the render phases of the masonry layout and returns the grid as a React element.                                                                                                                                                                                                    |
 | [`usePositioner()`](#usepositioneroptions-deps)                  | This hook creates the grid cell positioner and cache required by [`useMasonry()`](#usemasonryoptions). This is the meat of the grid's layout algorithm, determining which cells to render at a given scroll position, as well as where to place new items in the grid.                                |
-| [`useResizeObserver()`](#useeresizeobserverpositioner)           | Creates a resize observer that forces updates to the grid when mutations are made to the grid cells affecting their size.                                                                                                                                                                             |
+| [`useResizeObserver()`](#useresizeobserverpositioner)            | Creates a resize observer that forces updates to the grid when mutations are made to the grid cells affecting their size.                                                                                                                                                                             |
 | [`useContainerPosition()`](#usecontainerpositionelementref-deps) | A hook for measuring the width of the grid container, as well as its distance from the top of the document. These values are necessary to correctly calculate the number/width of columns to render, as well as the number of rows to render.                                                         |
 | [`useScroller()`](#usescrolleroffset-fps)                        | A hook for tracking whether the `window` is currently being scrolled and it's scroll position on the y-axis. These values are used for determining which grid cells to render and when to add styles to the grid container that maximize scroll performance.                                          |
 | [`useInfiniteLoader()`](#useinfiniteloaderloadmoreitems-options) | A utility hook for seamlessly adding infinite scroll behavior to the [`useMasonry()`](#usemasonryoptions) hook. This hook invokes a callback each time the last rendered index surpasses the total number of items in your items array or the number defined in the `totalItems` option of this hook. |
 
 ### Utilities
 
-| Utility                  | Description                                                                                                                                                                                               |
-| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `createPositioner()`     | Creates a cell positioner for the [`useMasonry()`](#usemasonryoptions) hook. The [`usePositioner()`](#usepositioneroptions-deps) hook uses this utility under the hood.                                   |
-| `createResizeObserver()` | Creates a resize observer that fires an `updater` callback whenever the height of one or many cells change. The [`useResizeObserver()`](#useeresizeobserverpositioner) hook is using this under the hood. |
+| Utility                  | Description                                                                                                                                                                                              |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `createPositioner()`     | Creates a cell positioner for the [`useMasonry()`](#usemasonryoptions) hook. The [`usePositioner()`](#usepositioneroptions-deps) hook uses this utility under the hood.                                  |
+| `createResizeObserver()` | Creates a resize observer that fires an `updater` callback whenever the height of one or many cells change. The [`useResizeObserver()`](#useresizeobserverpositioner) hook is using this under the hood. |
 
 ### Recipes
 
+- [Add infinite scrolling behavior to your Masonry component.](https://codesandbox.io/s/useinfiniteloader-example-vn30p?file=/src/index.js)
+- [Cells don't resize once they're measured? Build a Masonry grid without the resize observer.](https://codesandbox.io/s/usemasonry-example-3pcg9?file=/src/index.js)
+
 #### Coming soon!
 
-- [Add infinite scrolling behavior to your Masonry component.](#comingsoon)
 - [Reset `<Masonry>` when the route changes.](#comingsoon)
   - [Do the same with an advanced implementation and the `usePositioner()` hook.](#comingsoon)
-- [Cells don't resize once they're measured? Build a Masonry grid without the resize observer.](#comingsoon)
 - [Render a Masonry component relative to an HTML element rather than the browser `window`.](#comingsoon)
 
 ---
@@ -125,7 +126,7 @@ const MasonryCard = ({index, data: {id}, width}) => (
 An autosizing masonry grid that only renders items currently visible in the browser `window`. This
 component will change its column count to fit its container's width and will decide how many rows
 to render based upon the height of the browser `window`. To facilitate this, it uses [`useMasonry()`](#usemasonryoptions),
-[`usePositioner()`](#usepositioneroptions-deps), [`useResizeObserver()`](#useeresizeobserverpositioner),  
+[`usePositioner()`](#usepositioneroptions-deps), [`useResizeObserver()`](#useresizeobserverpositioner),  
 [`useContainerPosition()`](#usecontainerpositionelementref-deps), and [`useScroller()`](#usescrolleroffset-fps) under the hood.
 
 This is the "batteries included" option. It's the easiest way to get off and running with your app and a
@@ -170,7 +171,7 @@ Props for tuning the column width, count, and gutter of your component.
 | ------------ | -------- | ------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | columnWidth  | `number` | `240`   | Yes       | This is the minimum column width. `Masonic` will automatically size your columns to fill its container based on your provided `columnWidth` and `columnGutter` values. It will never render anything smaller than this defined width unless its container is smaller than its value. |
 | columnGutter | `number` | `0`     | No        | This sets the amount (px) of vertical and horizontal space between grid cells.                                                                                                                                                                                                       |
-| columnCount  | `number` |         | No        | By default, `Masonic` derives the column count from the `columnWidth` prop. However, in some situations it is nice to be able to override that behavior (e.g. when creating a [`<List>`](#list).                                                                                     |
+| columnCount  | `number` |         | No        | By default, `Masonic` derives the column count from the `columnWidth` prop. However, in some situations it is nice to be able to override that behavior e.g. when creating a [`<List>`](#list).                                                                                      |
 
 **Grid container props**
 
@@ -235,7 +236,7 @@ When would you use this? If you're building an advanced masonry grid implementat
 to deal with figuring out how to optimize the exchange between scroll position changes in the browser
 `window` and the [`useMasonry() hook`](#usemasonryoptions).
 
-[Check out an example on **CodeSandbox**](#comingsoon)
+[Check out an example on **CodeSandbox**](https://codesandbox.io/s/masonryscroller-example-b7xvn?file=/src/index.js)
 
 ```jsx harmony
 import * as React from 'react'
@@ -245,7 +246,10 @@ import {useWindowSize} from '@react-hook/window-size'
 const MyMasonry = (props) => {
   const containerRef = React.useRef(null)
   const [windowWidth, windowHeight] = useWindowSize()
-  const {offset, width} = useContainerPosition(ref, [windowWidth, windowHeight])
+  const {offset, width} = useContainerPosition(containerRef, [
+    windowWidth,
+    windowHeight,
+  ])
   const positioner = usePositioner({width, columnWidth: 320})
 
   return (
@@ -275,7 +279,7 @@ with exception to `columnGutter`, `columnWidth`, `columnCount`, `ssrWidth`, and 
 | height         | `number`                                                            |         | Yes       | This is the height of the window. If you're rendering the grid relative to the browser `window`, the current `document.documentElement.clientHeight` is the value you'll want to set here. If you're rendering the grid inside of another HTML element, you'll want to provide the current `element.offsetHeight` here. |
 | positioner     | [`Positioner`](#positioner)                                         |         | Yes       | A grid cell positioner and cache created by the [`usePositioner()`](#usepositioneroptions-deps) hook or [`createPositioner()`](#createpositionercolumncount-columnwidth-columngutter) utility.                                                                                                                          |
 | containerRef   | <code>React.MutableRefObject&lt;HTMLElement &#0124; null&gt;</code> |         | No        | Forwards a React ref to the grid container.                                                                                                                                                                                                                                                                             |
-| resizeObserver | `ResizeObserver`                                                    |         | No        | A resize observer that tracks mutations to the grid cells and forces the Masonry grid to recalculate its layout if any cells affect column heights change. Check out the [`useResizeObserver()`](#useeresizeobserverpositioner) hook and [`createResizeObserver()`](#createresizeobserverpositioner-updater) utility.   |
+| resizeObserver | `ResizeObserver`                                                    |         | No        | A resize observer that tracks mutations to the grid cells and forces the Masonry grid to recalculate its layout if any cells affect column heights change. Check out the [`useResizeObserver()`](#useresizeobserverpositioner) hook and [`createResizeObserver()`](#createresizeobserverpositioner-updater) utility.    |
 
 ---
 
@@ -284,7 +288,7 @@ with exception to `columnGutter`, `columnWidth`, `columnCount`, `ssrWidth`, and 
 This is a single-column [`<Masonry>`](#masonry) component. That is, it uses the [`useMasonry()`](#usemasonryoptions) hook
 and other utilities to create a virtualized list.
 
-[Check out an example on **CodeSandbox**](#comingsoon)
+[Check out an example on **CodeSandbox**](https://codesandbox.io/s/list-example-3g0tc?file=/src/index.js)
 
 ```jsx harmony
 import * as React from 'react'
@@ -321,7 +325,7 @@ with exception to `columnGutter`, `columnWidth`, and `columnCount`.
 
 This hook handles the render phases of the masonry layout and returns the grid as a React element.
 
-[Check out an example on **CodeSandbox**](#comingsoon)
+[Check out an example on **CodeSandbox**](https://codesandbox.io/s/usemasonry-example-3pcg9?file=/src/index.js)
 
 ```jsx harmony
 import * as React from 'react'
@@ -342,11 +346,9 @@ const MyMasonry = (props) => {
   ])
   const {scrollTop, isScrolling} = useScroller(offset)
   const positioner = usePositioner({width})
-  const resizeObserver = useResizeObserver(positioner)
 
   return useMasonry({
     positioner,
-    resizeObserver,
     scrollTop,
     isScrolling,
     height,
@@ -406,7 +408,7 @@ const MyMasonry = (props) => {
 | Prop           | Type             | Default | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | -------------- | ---------------- | ------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | overscanBy     | `number`         | `2`     | No        | This number is used for determining the number of grid cells outside of the visible window to render. The default value is `2` which means "render 2 windows worth (2 \* `height`) of content before and after the items in the visible window". A value of `3` would be 3 windows worth of grid cells, so it's a linear relationship. Overscanning is important for preventing tearing when scrolling through items in the grid, but setting too high of a value may create too much work for React to handle, so it's best that you tune this value accordingly. |
-| resizeObserver | `ResizeObserver` |         | No        | A resize observer that tracks mutations to the grid cells and forces the Masonry grid to recalculate its layout if any cells affect column heights change. Check out the [`useResizeObserver()`](#useeresizeobserverpositioner) hook and [`createResizeObserver()`](#createresizeobserverpositioner-updater) utility.                                                                                                                                                                                                                                              |
+| resizeObserver | `ResizeObserver` |         | No        | A resize observer that tracks mutations to the grid cells and forces the Masonry grid to recalculate its layout if any cells affect column heights change. Check out the [`useResizeObserver()`](#useresizeobserverpositioner) hook and [`createResizeObserver()`](#createresizeobserverpositioner-updater) utility.                                                                                                                                                                                                                                               |
 
 ---
 
@@ -416,7 +418,7 @@ This hook creates the grid cell positioner and cache required by [`useMasonry()`
 the meat of the grid's layout algorithm, determining which cells to render at a given scroll
 position, as well as where to place new items in the grid.
 
-[Check out an example on **CodeSandbox**](#comingsoon)
+[Check out an example on **CodeSandbox**](https://codesandbox.io/s/usemasonry-example-3pcg9?file=/src/index.js)
 
 ```jsx harmony
 import * as React from 'react'
@@ -526,7 +528,7 @@ A hook for tracking whether the `window` is currently being scrolled and it's sc
 on the y-axis. These values are used for determining which grid cells to render and when
 to add styles to the masonry container that maximize scroll performance.
 
-[Check out an example on **CodeSandbox**](#comingsoon)
+[Check out an example on **CodeSandbox**](https://codesandbox.io/s/usemasonry-example-3pcg9?file=/src/index.js)
 
 ```jsx harmony
 import * as React from 'react'
@@ -565,7 +567,7 @@ A hook for measuring the width of the grid container, as well as its distance
 from the top of the document. These values are necessary to correctly calculate the number/width
 of columns to render, as well as the number of rows to render.
 
-[Check out an example on **CodeSandbox**](#comingsoon)
+[Check out an example on **CodeSandbox**](https://codesandbox.io/s/usemasonry-example-3pcg9?file=/src/index.js)
 
 ```jsx harmony
 import * as React from 'react'
@@ -625,7 +627,7 @@ export interface ContainerPosition {
 This hook creates a resize observer that forces updates to the grid cell positions when mutations are
 made to cells affecting their height.
 
-[Check out an example on **CodeSandbox**](#comingsoon)
+[Check out an example on **CodeSandbox**](https://codesandbox.io/s/useresizeobserver-example-w7r9i?file=/src/index.js)
 
 ```jsx harmony
 import * as React from 'react'
@@ -662,7 +664,7 @@ A utility hook for seamlessly adding infinite scroll behavior to the [`useMasonr
 and the components that use it. This hook invokes a callback each time the last rendered index surpasses
 the total number of items in your items array or the number defined in the `totalItems` option.
 
-[Check out an example on **CodeSandbox**](#comingsoon)
+[Check out an example on **CodeSandbox**](https://codesandbox.io/s/useinfiniteloader-example-vn30p?file=/src/index.js)
 
 ```jsx harmony
 import * as React from 'react'

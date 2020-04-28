@@ -402,7 +402,6 @@ export const MasonryScroller: React.FC<MasonryScrollerProps> = (props) => {
   // and we don't want to slower ourselves by cycling through all the functions, objects, and effects
   // of other hooks
   const {scrollTop, isScrolling} = useScroller(props.offset, props.scrollFps)
-
   // This is an update-heavy phase and while we could just Object.assign here,
   // it is way faster to inline and there's a relatively low hit to he bundle
   // size.
@@ -670,8 +669,9 @@ export const usePositioner = (
   useLayoutEffect(() => {
     const cacheSize = positioner.size()
     const nextPositioner = initPositioner()
+    let index = 0
 
-    for (let index = 0; index < cacheSize; index++) {
+    for (; index < cacheSize; index++) {
       const pos = positioner.get(index)
       nextPositioner.set(index, pos !== void 0 ? pos.height : 0)
     }
