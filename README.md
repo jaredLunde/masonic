@@ -665,7 +665,6 @@ the total number of items in your items array or the number defined in the `tota
 
 ```jsx harmony
 import * as React from 'react'
-import memoize from 'trie-memoize'
 import {Masonry, useInfiniteLoader} from 'masonic'
 
 const InfiniteMasonry = (props) => {
@@ -673,13 +672,13 @@ const InfiniteMasonry = (props) => {
     /* initial items */
   ])
   const fetchMoreItems = useCallback(
-    memoize([{}, {}, {}], async (startIndex, stopIndex, currentItems) => {
+    async (startIndex, stopIndex, currentItems) => {
       const nextItems = fetch(
         `/api/get-more?after=${startIndex}&limit=${startIndex + stopIndex}`
       )
 
       setItems((current) => [...current, ...nextItems])
-    }),
+    },
     []
   )
   const maybeLoadMore = useInfiniteLoader(fetchMoreItems, {
@@ -692,10 +691,10 @@ const InfiniteMasonry = (props) => {
 
 #### Arguments
 
-| Argument      | Type                                                           | Description                                                                                                                                                                                                                                                                                                                                                                                        |
-| ------------- | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| loadMoreItems | `(startIndex: number, stopIndex: number, items: any[]) => any` | This callback is invoked when more rows must be loaded. It will be used to determine when to refresh the list with the newly-loaded data. This callback may be called multiple times in reaction to a single scroll event, so it's important to memoize its arguments. If you're creating this callback inside of a functional component, make sure you wrap it in `React.useCallback()`, as well. |
-| options       | [`UseInfiniteLoaderOptions` ](#useinfiniteloaderoptions)       | Configuration object for your loader, see [`UseInfiniteLoaderOptions`](#useinfiniteloaderoptions) below.                                                                                                                                                                                                                                                                                           |
+| Argument      | Type                                                           | Description                                                                                                                                                                                                                                                           |
+| ------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| loadMoreItems | `(startIndex: number, stopIndex: number, items: any[]) => any` | This callback is invoked when more rows must be loaded. It will be used to determine when to refresh the list with the newly-loaded data. If you're creating this callback inside of a functional component, make sure you wrap it in `React.useCallback()`, as well. |
+| options       | [`UseInfiniteLoaderOptions` ](#useinfiniteloaderoptions)       | Configuration object for your loader, see [`UseInfiniteLoaderOptions`](#useinfiniteloaderoptions) below.                                                                                                                                                              |
 
 #### UseInfiniteLoaderOptions
 

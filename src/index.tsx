@@ -145,7 +145,7 @@ export const useMasonry = ({
       onRender(startIndex, stopIndex, items)
 
     didEverMount = '1'
-  }, [onRender, items, startIndex, stopIndex])
+  }, [startIndex, stopIndex, items, onRender])
   // If we needed a fresh batch we should reload our components with the measured
   // sizes
   useEffect(() => {
@@ -857,20 +857,16 @@ const scanForUnloadedRanges = (
     index = startIndex
 
   for (; index <= stopIndex; index++) {
-    const loaded = isItemLoaded(index, items)
-
-    if (!loaded) {
+    if (!isItemLoaded(index, items)) {
       rangeStopIndex = index
-      if (rangeStartIndex === void 0) {
-        rangeStartIndex = index
-      }
+      if (rangeStartIndex === void 0) rangeStartIndex = index
     } else if (rangeStopIndex !== void 0) {
       unloadedRanges.push(rangeStartIndex, rangeStopIndex)
       rangeStartIndex = rangeStopIndex = void 0
     }
   }
 
-  // If :rangeStopIndex is not null it means we haven't ran out of unloaded rows.
+  // If :rangeStopIndex is not null it means we haven't run out of unloaded rows.
   // Scan forward to try filling our :minimumBatchSize.
   if (rangeStopIndex !== void 0) {
     const potentialStopIndex = Math.min(
