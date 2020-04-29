@@ -9,7 +9,7 @@ exports[`<Masonry> should update when the size of the window changes: Should dis
   >
     <div
       role="griditem"
-      style="top: 0px; left: 0px; width: 100px; writing-mode: horizontal-tb; position: absolute;"
+      style="width: 100px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
     >
       <div
         style="width: 100%; height: 400px;"
@@ -33,7 +33,7 @@ exports[`<Masonry> should update when the size of the window changes: Should dis
   >
     <div
       role="griditem"
-      style="top: 0px; left: 0px; width: 100px; writing-mode: horizontal-tb; position: absolute;"
+      style="width: 100px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
     >
       <div
         style="width: 100%; height: 400px;"
@@ -70,7 +70,7 @@ exports[`<MasonryScroller> should update when scrolling: pointer-events: none IS
   >
     <div
       role="griditem"
-      style="top: 0px; left: 0px; width: 320px; writing-mode: horizontal-tb; position: absolute;"
+      style="width: 320px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
     >
       <div
         style="width: 100%; height: 360px;"
@@ -94,7 +94,7 @@ exports[`<MasonryScroller> should update when scrolling: pointer-events: none is
   >
     <div
       role="griditem"
-      style="top: 0px; left: 0px; width: 320px; writing-mode: horizontal-tb; position: absolute;"
+      style="width: 320px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
     >
       <div
         style="width: 100%; height: 360px;"

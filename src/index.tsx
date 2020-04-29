@@ -41,9 +41,9 @@ export const useMasonry = ({
   render: RenderComponent,
   onRender,
 }: UseMasonryOptions) => {
-  const didMount = useRef('0')
-  const stopIndex = useRef<number | undefined>()
-  const startIndex = useRef(0)
+  let startIndex = 0
+  let stopIndex: number | undefined = void 0
+  const forceUpdate = useForceUpdate()
   const setItemRef = getRefSetter(positioner, resizeObserver)
   const itemCount = items.length
   const {
@@ -59,18 +59,10 @@ export const useMasonry = ({
   const children: React.ReactElement[] = []
   const itemRole = `${role}item`
 
-  // Calls the onRender callback if the rendered indices changed
-  useEffect(() => {
-    didMount.current = '1'
-
-    if (typeof onRender === 'function' && stopIndex.current !== void 0)
-      onRender(startIndex.current, stopIndex.current, items)
-    // eslint-disable-next-line
-  }, [onRender, items, startIndex.current, stopIndex.current])
-
   overscanBy = height * overscanBy
-  stopIndex.current = void 0
   const rangeEnd = scrollTop + overscanBy
+  const needsFreshBatch =
+    shortestColumnSize < rangeEnd && measuredCount < itemCount
 
   range(
     // We overscan in both directions because users scroll both ways,
@@ -104,17 +96,17 @@ export const useMasonry = ({
         </ItemComponent>
       )
 
-      if (stopIndex.current === void 0) {
-        startIndex.current = index
-        stopIndex.current = index
+      if (stopIndex === void 0) {
+        startIndex = index
+        stopIndex = index
       } else {
-        startIndex.current = Math.min(startIndex.current, index)
-        stopIndex.current = Math.max(stopIndex.current, index)
+        startIndex = Math.min(startIndex, index)
+        stopIndex = Math.max(stopIndex, index)
       }
     }
   )
 
-  if (shortestColumnSize < rangeEnd && measuredCount < itemCount) {
+  if (needsFreshBatch) {
     const batchSize = Math.min(
       itemCount - measuredCount,
       Math.ceil(
@@ -146,6 +138,21 @@ export const useMasonry = ({
       )
     }
   }
+
+  // Calls the onRender callback if the rendered indices changed
+  useEffect(() => {
+    if (typeof onRender === 'function' && stopIndex !== void 0)
+      onRender(startIndex, stopIndex, items)
+
+    didEverMount = '1'
+  }, [onRender, items, startIndex, stopIndex])
+  // If we needed a fresh batch we should reload our components with the measured
+  // sizes
+  useEffect(() => {
+    if (needsFreshBatch) forceUpdate()
+    // eslint-disable-next-line
+  }, [needsFreshBatch])
+
   // gets the container style object based upon the estimated height and whether or not
   // the page is being scrolled
   const containerStyle = getContainerStyle(
@@ -156,7 +163,7 @@ export const useMasonry = ({
   return (
     <ContainerComponent
       ref={containerRef}
-      key={didMount.current}
+      key={didEverMount}
       id={id}
       role={role}
       className={className}
@@ -170,6 +177,9 @@ export const useMasonry = ({
     />
   )
 }
+
+// This is for triggering a remount after SSR has loaded in the client w/ hydrate()
+let didEverMount = '0'
 
 export interface UseMasonryOptions {
   /**
@@ -555,14 +565,16 @@ export const useScroller = (
 ): {scrollTop: number; isScrolling: boolean} => {
   const scrollY = useScrollPosition(fps)
   const [isScrolling, setIsScrolling] = useState<boolean>(false)
+  const didMount = useRef('0')
 
   useEffect(() => {
-    if (scrollY > 0) setIsScrolling(true)
+    if (didMount.current === '1') setIsScrolling(true)
     const to = requestTimeout(() => {
       // This is here to prevent premature bail outs while maintaining high resolution
       // unsets. Without it there will always bee a lot of unnecessary DOM writes to style.
       setIsScrolling(false)
     }, 40 + 1000 / fps)
+    didMount.current = '1'
     return () => clearRequestTimeout(to)
   }, [fps, scrollY])
 

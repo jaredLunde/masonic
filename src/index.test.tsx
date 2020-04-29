@@ -251,8 +251,12 @@ describe('useMasonry()', () => {
     expect(onRender).toBeCalledWith(0, 7, items)
 
     hook.rerender({scrollTop: 1440})
-    renderPhase2(hook, {scrollTop: 1440})
+
     expect(onRender).toBeCalledTimes(3)
+    expect(onRender).toBeCalledWith(4, 7, items)
+
+    renderPhase2(hook, {scrollTop: 1440})
+    expect(onRender).toBeCalledTimes(4)
     expect(onRender).toBeCalledWith(4, 11, items)
   })
 
