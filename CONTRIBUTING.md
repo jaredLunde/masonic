@@ -10,6 +10,7 @@ To contribute to this project, first:
 ## Before you contribute
 
 Before you submit PRs to this repo I ask that you consider the following:
+- Creating an issue first. **Any change needs to be discussed before proceeding.** Failure to do so may result in the rejection of the pull request.
 - Is this useful? That is, does it fix something that is broken? Does it add a feature that is a *real* need?
 - Is this better implemented in user space or in its own package?
 - Will this bloat the bundle size?
