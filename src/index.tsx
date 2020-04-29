@@ -647,20 +647,25 @@ export const usePositioner = (
   deps: React.DependencyList = emptyArr
 ): Positioner => {
   const initPositioner = (): Positioner => {
-    const gutter = columnGutter
     const [computedColumnWidth, computedColumnCount] = getColumns(
       width,
       columnWidth,
-      gutter,
+      columnGutter,
       columnCount
     )
-    return createPositioner(computedColumnCount, computedColumnWidth, gutter)
+    return createPositioner(
+      computedColumnCount,
+      computedColumnWidth,
+      columnGutter
+    )
   }
   const [positioner, setPositioner] = useState<Positioner>(initPositioner)
+  const didMount = useRef(0)
 
   // Create a new positioner when the dependencies change
-  useLayoutEffect(() => {
-    if (positioner.size() > 0) setPositioner(initPositioner())
+  useEffect(() => {
+    if (didMount.current) setPositioner(initPositioner())
+    didMount.current = 1
     // eslint-disable-next-line
   }, deps)
 

@@ -58,7 +58,7 @@ usage requiring little code is possible.
 
 ## Quick Start
 
-#### [Check out the demo on CodeSandbox](https://codesandbox.io/s/0oyxozv75v)
+[Check out the demo on **CodeSandbox**](https://codesandbox.io/s/0oyxozv75v)
 
 ```jsx harmony
 import * as React from 'react'
@@ -112,12 +112,9 @@ const MasonryCard = ({index, data: {id}, width}) => (
 
 - [Add infinite scrolling behavior to your Masonry component.](https://codesandbox.io/s/useinfiniteloader-example-vn30p?file=/src/index.js)
 - [Cells don't resize once they're measured? Build a Masonry grid without the resize observer.](https://codesandbox.io/s/usemasonry-example-3pcg9?file=/src/index.js)
-
-#### Coming soon!
-
-- [Reset `<Masonry>` when the route changes.](#comingsoon)
-  - [Do the same with an advanced implementation and the `usePositioner()` hook.](#comingsoon)
-- [Render a Masonry component relative to an HTML element rather than the browser `window`.](#comingsoon)
+- [Reset `<Masonry>` layout when switching between routes within the same <Route> component.](https://codesandbox.io/s/masonic-w-react-router-example-2b5f9?file=/src/index.js)
+  - [Do the same with an advanced custom implementation using the `usePositioner()` hook.](https://codesandbox.io/s/masonic-w-react-router-and-advanced-config-example-8em42?file=/src/index.js)
+- [Render a Masonry component relative to a scrollable HTML element rather than the browser `window`.](https://codesandbox.io/s/masonic-inside-of-a-scrollable-div-example-k9l6c?file=/src/index.js)
 
 ---
 
@@ -132,7 +129,7 @@ to render based upon the height of the browser `window`. To facilitate this, it 
 This is the "batteries included" option. It's the easiest way to get off and running with your app and a
 great stepping stone to more advanced implementations, should you need them.
 
-[Check out an example on CodeSandbox](https://codesandbox.io/s/0oyxozv75v)
+[Check out an example on **CodeSandbox**](https://codesandbox.io/s/0oyxozv75v)
 
 ```jsx harmony
 import * as React from 'react'
