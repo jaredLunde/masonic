@@ -393,8 +393,10 @@ const getRefSetter = memoizeOne(
     resizeObserver?: UseMasonryOptions['resizeObserver']
   ) => (index: number) => (el: HTMLElement | null): void => {
     if (el === null) return
-    elementsCache.set(el, index)
-    if (resizeObserver) resizeObserver.observe(el)
+    if (resizeObserver) {
+      resizeObserver.observe(el)
+      elementsCache.set(el, index)
+    }
     if (positioner.get(index) === void 0) positioner.set(index, el.offsetHeight)
   },
   cmp2
