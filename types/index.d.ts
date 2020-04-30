@@ -389,7 +389,7 @@ export interface UseInfiniteLoaderOptions {
 }
 export declare type LoadMoreItemsCallback = (
   startIndex: number,
-  stopIndex: number,
+  stopIndex: number | undefined,
   items: any[]
 ) => any
 /**

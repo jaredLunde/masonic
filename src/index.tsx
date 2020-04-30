@@ -57,7 +57,7 @@ export const useMasonry = ({
   const measuredCount = size()
   const shortestColumnSize = shortestColumn()
   const children: React.ReactElement[] = []
-  const itemRole = `${role}item`
+  const itemRole = role + 'item'
 
   overscanBy = height * overscanBy
   const rangeEnd = scrollTop + overscanBy
@@ -830,7 +830,7 @@ export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
         items,
         totalItems,
         Math.max(0, startIndex - threshold),
-        Math.min(totalItems - 1, stopIndex + threshold)
+        Math.min(totalItems - 1, (stopIndex as number) + threshold)
       )
       // The user is responsible for memoizing their loadMoreItems() function
       // because we don't want to make assumptions about how they want to deal
@@ -943,7 +943,7 @@ export interface UseInfiniteLoaderOptions {
 
 export type LoadMoreItemsCallback = (
   startIndex: number,
-  stopIndex: number,
+  stopIndex: number | undefined,
   items: any[]
 ) => any
 
