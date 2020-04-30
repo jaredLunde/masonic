@@ -686,16 +686,18 @@ export const usePositioner = (
   // Updates the item positions any time a prop potentially affecting their
   // size changes
   useLayoutEffect(() => {
-    const cacheSize = positioner.size()
-    const nextPositioner = initPositioner()
-    let index = 0
+    if (didMount.current) {
+      const cacheSize = positioner.size()
+      const nextPositioner = initPositioner()
+      let index = 0
 
-    for (; index < cacheSize; index++) {
-      const pos = positioner.get(index)
-      nextPositioner.set(index, pos !== void 0 ? pos.height : 0)
+      for (; index < cacheSize; index++) {
+        const pos = positioner.get(index)
+        nextPositioner.set(index, pos !== void 0 ? pos.height : 0)
+      }
+
+      setPositioner(nextPositioner)
     }
-
-    setPositioner(nextPositioner)
     // eslint-disable-next-line
   }, [width, columnWidth, columnGutter, columnCount])
 
