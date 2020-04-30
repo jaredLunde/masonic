@@ -565,7 +565,7 @@ export const useScroller = (
   offset = 0,
   fps = 12
 ): {scrollTop: number; isScrolling: boolean} => {
-  const scrollY = useScrollPosition(fps)
+  const scrollTop = useScrollPosition(fps)
   const [isScrolling, setIsScrolling] = useState<boolean>(false)
   const didMount = useRef('0')
 
@@ -578,9 +578,9 @@ export const useScroller = (
     }, 40 + 1000 / fps)
     didMount.current = '1'
     return () => clearRequestTimeout(to)
-  }, [fps, scrollY])
+  }, [fps, scrollTop])
 
-  return {scrollTop: Math.max(0, scrollY - offset), isScrolling}
+  return {scrollTop: Math.max(0, scrollTop - offset), isScrolling}
 }
 
 /**
