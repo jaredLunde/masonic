@@ -631,7 +631,7 @@ import * as React from 'react'
 import {useMasonry, usePositioner, useResizeObserver} from 'masonic'
 
 const MyMasonry = (props) => {
-  const positioner = usePositioner({width})
+  const positioner = usePositioner({width: 1024})
   const resizeObserver = useResizeObserver(positioner)
 
   return useMasonry({
@@ -673,7 +673,7 @@ const InfiniteMasonry = (props) => {
   ])
   const fetchMoreItems = useCallback(
     async (startIndex, stopIndex, currentItems) => {
-      const nextItems = fetch(
+      const nextItems = await fetch(
         `/api/get-more?after=${startIndex}&limit=${startIndex + stopIndex}`
       )
 
