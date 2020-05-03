@@ -289,7 +289,7 @@ const IntervalTree = (): IIntervalTree => {
   // we know these indexes are a consistent, safe way to make look ups
   // for our case so it's a solid O(1) alternative to
   // the O(log n) searchNode() in typical interval trees
-  const indexMap = {}
+  const indexMap: Record<number, TreeNode> = {}
 
   return {
     insert(low, high, index) {

@@ -11,13 +11,13 @@
     "lib": ["esnext", "dom", "dom.iterable"],
     "jsx": "react",
     "moduleResolution": "node",
-    "strictNullChecks": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitReturns": false,
     "noUnusedLocals": true,
     "noFallthroughCasesInSwitch": true,
-    "noEmitOnError": true
+    "noEmitOnError": true,
+    "strict": true
   }
 }

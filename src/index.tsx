@@ -363,7 +363,7 @@ const getContainerStyle = memoizeOne(
   })
 )
 
-const cmp2 = (args: IArguments, pargs: IArguments) =>
+const cmp2 = (args: IArguments, pargs: IArguments | any[]): boolean =>
   args[0] === pargs[0] && args[1] === pargs[1]
 
 const assignUserStyle = memoizeOne(
@@ -540,7 +540,7 @@ export interface ListProps
 }
 
 const emptyObj = {}
-const emptyArr = []
+const emptyArr: [] = []
 
 //
 // Hooks
@@ -856,15 +856,15 @@ const scanForUnloadedRanges = (
   stopIndex: number
 ): number[] => {
   const unloadedRanges: number[] = []
-  let rangeStartIndex,
-    rangeStopIndex,
+  let rangeStartIndex: number | undefined,
+    rangeStopIndex: number | undefined,
     index = startIndex
 
   for (; index <= stopIndex; index++) {
     if (!isItemLoaded(index, items)) {
       rangeStopIndex = index
       if (rangeStartIndex === void 0) rangeStartIndex = index
-    } else if (rangeStopIndex !== void 0) {
+    } else if (rangeStartIndex !== void 0 && rangeStopIndex !== void 0) {
       unloadedRanges.push(rangeStartIndex, rangeStopIndex)
       rangeStartIndex = rangeStopIndex = void 0
     }
@@ -872,7 +872,7 @@ const scanForUnloadedRanges = (
 
   // If :rangeStopIndex is not null it means we haven't run out of unloaded rows.
   // Scan forward to try filling our :minimumBatchSize.
-  if (rangeStopIndex !== void 0) {
+  if (rangeStartIndex !== void 0 && rangeStopIndex !== void 0) {
     const potentialStopIndex = Math.min(
       Math.max(rangeStopIndex, rangeStartIndex + minimumBatchSize - 1),
       totalItems - 1
@@ -945,7 +945,7 @@ export interface UseInfiniteLoaderOptions {
 
 export type LoadMoreItemsCallback = (
   startIndex: number,
-  stopIndex: number | undefined,
+  stopIndex: number,
   items: any[]
 ) => any
 
