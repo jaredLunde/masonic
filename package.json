@@ -1,6 +1,6 @@
 {
   "name": "masonic",
-  "version": "3.0.5",
+  "version": "3.1.0",
   "homepage": "https://github.com/jaredLunde/masonic#readme",
   "repository": "github:jaredLunde/masonic",
   "bugs": "https://github.com/jaredLunde/masonic/issues",
@@ -83,7 +83,6 @@
     "@typescript-eslint/parser": "^2.29.0",
     "babel-plugin-annotate-pure-calls": "^0.4.0",
     "babel-plugin-optimize-react": "^0.0.4",
-    "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
     "eslint-import-resolver-jest": "latest",
     "eslint-plugin-jest": "^23.8.2",
@@ -100,17 +99,17 @@
     "react-test-renderer": "^16.13.1",
     "rimraf": "^2.6.3",
     "ts-jest": "^25.4.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@essentials/memoize-one": "^1.0.2",
-    "@essentials/one-key-map": "^1.0.1",
+    "@essentials/memoize-one": "^1.0.4",
+    "@essentials/one-key-map": "^1.0.2",
     "@essentials/request-timeout": "^1.2.0",
     "@react-hook/passive-layout-effect": "^1.0.3",
-    "@react-hook/window-scroll": "^1.1.4",
-    "@react-hook/window-size": "^2.0.4",
+    "@react-hook/window-scroll": "^1.2.3",
+    "@react-hook/window-size": "^2.1.1",
     "resize-observer-polyfill": "^1.5.1",
-    "trie-memoize": "^1.1.4"
+    "trie-memoize": "^1.1.5"
   },
   "peerDependencies": {
     "prop-types": ">=15.7.2",

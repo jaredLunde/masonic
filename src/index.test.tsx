@@ -643,7 +643,6 @@ describe('useInfiniteLoader()', () => {
   it('should return a new callback if any of the options change', () => {
     const loadMoreItems = jest.fn()
     const loaderOptions = {
-      isItemLoaded: () => true,
       minimumBatchSize: 16,
       threshold: 16,
       totalItems: 9e9,
@@ -667,27 +666,12 @@ describe('useInfiniteLoader()', () => {
     expect(result.current).not.toBe(prev)
     prev = result.current
 
-    rerender({
-      loadMoreItems,
-      options: {...loaderOptions, isItemLoaded: () => false},
-    })
-    expect(result.current).not.toBe(prev)
-    prev = result.current
-
     rerender({loadMoreItems, options: {...loaderOptions, minimumBatchSize: 12}})
     expect(result.current).not.toBe(prev)
     prev = result.current
 
     rerender({loadMoreItems, options: {...loaderOptions, threshold: 12}})
     expect(result.current).not.toBe(prev)
-    prev = result.current
-
-    rerender({
-      loadMoreItems: jest.fn(),
-      options: {...loaderOptions, threshold: 12},
-    })
-    expect(result.current).not.toBe(prev)
-    prev = result.current
   })
 })
 

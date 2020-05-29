@@ -368,6 +368,7 @@ const cmp2 = (args: IArguments, pargs: IArguments | any[]): boolean =>
 
 const assignUserStyle = memoizeOne(
   (containerStyle, userStyle) => Object.assign({}, containerStyle, userStyle),
+  // @ts-ignore
   cmp2
 )
 
@@ -399,6 +400,7 @@ const getRefSetter = memoizeOne(
     }
     if (positioner.get(index) === void 0) positioner.set(index, el.offsetHeight)
   },
+  // @ts-ignore
   cmp2
 )
 
@@ -823,24 +825,32 @@ export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
     threshold = 16,
     totalItems = 9e9,
   } = options
+  const storedLoadMoreItems = useRef(loadMoreItems)
+  const storedIsItemLoaded = useRef(isItemLoaded)
+  storedLoadMoreItems.current = loadMoreItems
+  storedIsItemLoaded.current = isItemLoaded
 
   return useCallback(
     (startIndex, stopIndex, items) => {
       const unloadedRanges = scanForUnloadedRanges(
-        isItemLoaded,
+        storedIsItemLoaded.current,
         minimumBatchSize,
         items,
         totalItems,
         Math.max(0, startIndex - threshold),
-        Math.min(totalItems - 1, (stopIndex as number) + threshold)
+        Math.min(totalItems - 1, stopIndex || 0 + threshold)
       )
       // The user is responsible for memoizing their loadMoreItems() function
       // because we don't want to make assumptions about how they want to deal
       // with `items`
       for (let i = 0; i < unloadedRanges.length - 1; ++i)
-        loadMoreItems(unloadedRanges[i], unloadedRanges[++i], items)
+        storedLoadMoreItems.current(
+          unloadedRanges[i],
+          unloadedRanges[++i],
+          items
+        )
     },
-    [loadMoreItems, totalItems, minimumBatchSize, threshold, isItemLoaded]
+    [totalItems, minimumBatchSize, threshold]
   )
 }
 

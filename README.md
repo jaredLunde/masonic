@@ -671,16 +671,13 @@ const InfiniteMasonry = (props) => {
   const [items, setItems] = useState([
     /* initial items */
   ])
-  const fetchMoreItems = useCallback(
-    async (startIndex, stopIndex, currentItems) => {
-      const nextItems = await fetch(
-        `/api/get-more?after=${startIndex}&limit=${startIndex + stopIndex}`
-      )
+  const fetchMoreItems = async (startIndex, stopIndex, currentItems) => {
+    const nextItems = await fetch(
+      `/api/get-more?after=${startIndex}&limit=${startIndex + stopIndex}`
+    )
 
-      setItems((current) => [...current, ...nextItems])
-    },
-    []
-  )
+    setItems((current) => [...current, ...nextItems])
+  }
   const maybeLoadMore = useInfiniteLoader(fetchMoreItems, {
     isItemLoaded: (index, items) => !!items[index],
   })
@@ -691,10 +688,10 @@ const InfiniteMasonry = (props) => {
 
 #### Arguments
 
-| Argument      | Type                                                           | Description                                                                                                                                                                                                                                                           |
-| ------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| loadMoreItems | `(startIndex: number, stopIndex: number, items: any[]) => any` | This callback is invoked when more rows must be loaded. It will be used to determine when to refresh the list with the newly-loaded data. If you're creating this callback inside of a functional component, make sure you wrap it in `React.useCallback()`, as well. |
-| options       | [`UseInfiniteLoaderOptions` ](#useinfiniteloaderoptions)       | Configuration object for your loader, see [`UseInfiniteLoaderOptions`](#useinfiniteloaderoptions) below.                                                                                                                                                              |
+| Argument      | Type                                                           | Description                                                                                                                               |
+| ------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| loadMoreItems | `(startIndex: number, stopIndex: number, items: any[]) => any` | This callback is invoked when more rows must be loaded. It will be used to determine when to refresh the list with the newly-loaded data. |
+| options       | [`UseInfiniteLoaderOptions` ](#useinfiniteloaderoptions)       | Configuration object for your loader, see [`UseInfiniteLoaderOptions`](#useinfiniteloaderoptions) below.                                  |
 
 #### UseInfiniteLoaderOptions
 
