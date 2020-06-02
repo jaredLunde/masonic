@@ -838,7 +838,7 @@ export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
         items,
         totalItems,
         Math.max(0, startIndex - threshold),
-        Math.min(totalItems - 1, stopIndex || 0 + threshold)
+        Math.min(totalItems - 1, (stopIndex || 0) + threshold)
       )
       // The user is responsible for memoizing their loadMoreItems() function
       // because we don't want to make assumptions about how they want to deal
