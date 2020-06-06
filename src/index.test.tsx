@@ -1,6 +1,6 @@
 /* jest */
 import * as React from 'react'
-import {render, act} from '@testing-library/react'
+import {render, act, screen} from '@testing-library/react'
 import {renderHook, act as hookAct} from '@testing-library/react-hooks'
 import {dimension} from '@shopify/jest-dom-mocks'
 import {
@@ -383,10 +383,10 @@ describe('usePositioner()', () => {
 
 describe('useContainerPosition()', () => {
   it('should provide a width', () => {
+    render(<div style={{width: 800}} data-testid='div' />)
+
     const fakeRef: {current: HTMLElement} = {
-      current: render(
-        <div style={{width: 800}} data-testid="div" />
-      ).getByTestId('div'),
+      current: screen.getByTestId('div'),
     }
 
     const {result} = renderHook(
@@ -398,9 +398,9 @@ describe('useContainerPosition()', () => {
   })
 
   it('should update when deps change', () => {
-    const element = render(<div style={{width: 800}} data-testid="div" />)
+    const element = render(<div style={{width: 800}} data-testid='div' />)
     const fakeRef: {current: HTMLElement} = {
-      current: element.getByTestId('div'),
+      current: screen.getByTestId('div'),
     }
     const {result, rerender} = renderHook(
       ({deps}) => useContainerPosition(fakeRef, deps),
@@ -410,8 +410,8 @@ describe('useContainerPosition()', () => {
     expect(result.current.width).toBe(800)
     expect(result.current.offset).toBe(0)
 
-    element.rerender(<div key="2" style={{width: 640}} data-testid="div2" />)
-    fakeRef.current = element.getByTestId('div2')
+    element.rerender(<div key='2' style={{width: 640}} data-testid='div2' />)
+    fakeRef.current = screen.getByTestId('div2')
 
     rerender({deps: [2]})
     expect(result.current.width).toBe(640)
@@ -739,18 +739,18 @@ describe('<List>', () => {
       )
     }
 
-    const result = render(<Component />)
+    render(<Component />)
     expect(
       // @ts-ignore
-      result.getByText('0').parentNode.parentNode.style.top
+      screen.getByText('0').parentNode.parentNode.style.top
     ).toBe('0px')
     expect(
       // @ts-ignore
-      result.getByText('1').parentNode.parentNode.style.top
+      screen.getByText('1').parentNode.parentNode.style.top
     ).toBe('232px')
     expect(
       // @ts-ignore
-      result.getByText('2').parentNode.parentNode.style.top
+      screen.getByText('2').parentNode.parentNode.style.top
     ).toBe('464px')
   })
 })
@@ -832,8 +832,8 @@ const mockPerf = () => {
       const perfNowStub = jest
         .spyOn(performance, 'now')
         .mockImplementation(() => ts)
-      // @ts-ignore
       global.performance = {
+        // @ts-ignore
         now: perfNowStub,
       }
     },

@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 /**
  * This hook handles the render phases of the masonry layout and returns the grid as a React element.

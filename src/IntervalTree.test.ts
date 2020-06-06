@@ -67,7 +67,7 @@ describe('tree', () => {
     ]
 
     for (let i = 0; i < 10000; ++i) {
-      for (const [low, high, id] of shuffle(list)) {
+      for (const [, , id] of shuffle(list)) {
         tree.remove(id)
       }
 

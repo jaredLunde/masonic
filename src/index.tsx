@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useRef} from 'react'
+import * as React from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 import trieMemoize from 'trie-memoize'
 import OneKeyMap from '@essentials/one-key-map'
@@ -6,6 +6,7 @@ import memoizeOne from '@essentials/memoize-one'
 import useLayoutEffect from '@react-hook/passive-layout-effect'
 import useScrollPosition from '@react-hook/window-scroll'
 import {useWindowSize} from '@react-hook/window-size'
+import useLatest from '@react-hook/latest'
 import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
 import createIntervalTree from './IntervalTree'
 
@@ -140,7 +141,7 @@ export const useMasonry = ({
   }
 
   // Calls the onRender callback if the rendered indices changed
-  useEffect(() => {
+  React.useEffect(() => {
     if (typeof onRender === 'function' && stopIndex !== void 0)
       onRender(startIndex, stopIndex, items)
 
@@ -148,7 +149,7 @@ export const useMasonry = ({
   }, [startIndex, stopIndex, items, onRender])
   // If we needed a fresh batch we should reload our components with the measured
   // sizes
-  useEffect(() => {
+  React.useEffect(() => {
     if (needsFreshBatch) forceUpdate()
     // eslint-disable-next-line
   }, [needsFreshBatch])
@@ -450,7 +451,7 @@ export const MasonryScroller: React.FC<MasonryScrollerProps> = (props) => {
  * the height of the browser `window`.
  */
 export const Masonry: React.FC<MasonryProps> = React.memo((props) => {
-  const containerRef = useRef<null | HTMLElement>(null)
+  const containerRef = React.useRef<null | HTMLElement>(null)
   const windowSize = useWindowSize({
     initialWidth: props.ssrWidth,
     initialHeight: props.ssrHeight,
@@ -547,8 +548,8 @@ const emptyArr: [] = []
 //
 // Hooks
 const useForceUpdate = () => {
-  const setState = useState(emptyObj)[1]
-  return useRef(() => setState({})).current
+  const setState = React.useState(emptyObj)[1]
+  return React.useRef(() => setState({})).current
 }
 
 /**
@@ -568,17 +569,17 @@ export const useScroller = (
   fps = 12
 ): {scrollTop: number; isScrolling: boolean} => {
   const scrollTop = useScrollPosition(fps)
-  const [isScrolling, setIsScrolling] = useState<boolean>(false)
-  const didMount = useRef('0')
+  const [isScrolling, setIsScrolling] = React.useState(false)
+  const didMount = React.useRef(0)
 
-  useEffect(() => {
-    if (didMount.current === '1') setIsScrolling(true)
+  React.useEffect(() => {
+    if (didMount.current === 1) setIsScrolling(true)
     const to = requestTimeout(() => {
       // This is here to prevent premature bail outs while maintaining high resolution
       // unsets. Without it there will always bee a lot of unnecessary DOM writes to style.
       setIsScrolling(false)
     }, 40 + 1000 / fps)
-    didMount.current = '1'
+    didMount.current = 1
     return () => clearRequestTimeout(to)
   }, [fps, scrollTop])
 
@@ -600,9 +601,9 @@ export const useContainerPosition = (
   elementRef: React.MutableRefObject<HTMLElement | null>,
   deps: React.DependencyList = emptyArr
 ): ContainerPosition => {
-  const [containerPosition, setContainerPosition] = useState<ContainerPosition>(
-    {offset: 0, width: 0}
-  )
+  const [containerPosition, setContainerPosition] = React.useState<
+    ContainerPosition
+  >({offset: 0, width: 0})
 
   useLayoutEffect(() => {
     const {current} = elementRef
@@ -675,11 +676,11 @@ export const usePositioner = (
       columnGutter
     )
   }
-  const [positioner, setPositioner] = useState<Positioner>(initPositioner)
-  const didMount = useRef(0)
+  const [positioner, setPositioner] = React.useState<Positioner>(initPositioner)
+  const didMount = React.useRef(0)
 
   // Create a new positioner when the dependencies change
-  useEffect(() => {
+  React.useEffect(() => {
     if (didMount.current) setPositioner(initPositioner())
     didMount.current = 1
     // eslint-disable-next-line
@@ -743,7 +744,7 @@ export const useResizeObserver = (positioner: Positioner) => {
   const resizeObserver = createResizeObserver(positioner, forceUpdate)
   // Cleans up the resize observers when they change or the
   // component unmounts
-  useEffect(() => () => resizeObserver.disconnect(), [resizeObserver])
+  React.useEffect(() => () => resizeObserver.disconnect(), [resizeObserver])
   return resizeObserver
 }
 
@@ -825,12 +826,10 @@ export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
     threshold = 16,
     totalItems = 9e9,
   } = options
-  const storedLoadMoreItems = useRef(loadMoreItems)
-  const storedIsItemLoaded = useRef(isItemLoaded)
-  storedLoadMoreItems.current = loadMoreItems
-  storedIsItemLoaded.current = isItemLoaded
+  const storedLoadMoreItems = useLatest(loadMoreItems)
+  const storedIsItemLoaded = useLatest(isItemLoaded)
 
-  return useCallback(
+  return React.useCallback(
     (startIndex, stopIndex, items) => {
       const unloadedRanges = scanForUnloadedRanges(
         storedIsItemLoaded.current,
@@ -850,7 +849,13 @@ export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
           items
         )
     },
-    [totalItems, minimumBatchSize, threshold]
+    [
+      totalItems,
+      minimumBatchSize,
+      threshold,
+      storedLoadMoreItems,
+      storedIsItemLoaded,
+    ]
   )
 }
 

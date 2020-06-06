@@ -1,6 +1,6 @@
-import createIntervalTree from '../src/IntervalTree'
 import bench from '@essentials/benchmark'
 import randInt from 'rand-int'
+import createIntervalTree from '../src/IntervalTree'
 
 bench('IntervalTree.search()', ({duration}) => {
   duration(4000)
@@ -17,7 +17,7 @@ bench('IntervalTree.search()', ({duration}) => {
   }
 })
 
-bench('IntervalTree.insert()', ({duration, after}) => {
+bench('IntervalTree.insert()', ({duration}) => {
   duration(4000)
   const tree = createIntervalTree()
   let i = 0
