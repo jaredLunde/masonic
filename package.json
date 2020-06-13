@@ -58,23 +58,30 @@
     "dev": "lundle build -f module,cjs -w",
     "format": "prettier --write \"{,!(node_modules|dist|coverage)/**/}*.{ts,tsx,js,jsx,md,yml,json}\"",
     "lint": "eslint . --ext .ts,.tsx",
-    "prepublishOnly": "npm run lint && npm run test && npm run build && npm run format",
+    "prepublishOnly": "cli-confirm \"Did you run `yarn release` first?\"",
+    "prerelease": "npm run validate && npm run build",
+    "release": "git add . && standard-version -a",
     "test": "jest",
     "validate": "lundle check-types && npm run lint && jest --coverage"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lundle check-types && lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx}": [
-      "lundle build -f types",
       "eslint",
       "prettier --write"
     ],
     "**/*.{md,yml,json}": [
       "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
     ]
   },
   "eslintConfig": {
@@ -116,6 +123,8 @@
     "bracketSpacing": false
   },
   "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "@essentials/benchmark": "^1.0.6",
     "@shopify/jest-dom-mocks": "^2.9.0",
     "@testing-library/jest-dom": "latest",
@@ -126,6 +135,7 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "babel-jest": "latest",
+    "cli-confirm": "^1.0.1",
     "eslint": "latest",
     "eslint-config-lunde": "latest",
     "husky": "latest",
@@ -138,6 +148,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-test-renderer": "latest",
+    "standard-version": "^8.0.0",
     "typescript": "latest"
   },
   "dependencies": {
