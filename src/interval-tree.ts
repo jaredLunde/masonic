@@ -281,7 +281,7 @@ interface IIntervalTree {
   size: number
 }
 
-const IntervalTree = (): IIntervalTree => {
+export const createIntervalTree = (): IIntervalTree => {
   const tree = {
     root: NULL_NODE,
     size: 0,
@@ -410,5 +410,3 @@ const IntervalTree = (): IIntervalTree => {
     },
   }
 }
-
-export default IntervalTree

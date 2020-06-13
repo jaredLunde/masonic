@@ -3421,7 +3421,7 @@ escodegen@^1.14.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-lunde@latest:
+eslint-config-lunde@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/eslint-config-lunde/-/eslint-config-lunde-0.2.1.tgz#cc7d63596ffd26eed4daa7501a55a8a9ba3cfc37"
   integrity sha512-q5zX6swGRt9OZxf1I+91R19ewuvzjRVBftsS9l17Y+B2yXkfJOeLGbt4X5iUwpXpxllCeE1Qep8fOOkF5RJLWQ==
@@ -5544,10 +5544,10 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
 
-lundle@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/lundle/-/lundle-0.2.4.tgz#dee7c10cbe8cd78d1f4813d4771ec638d624daa2"
-  integrity sha512-BivTToQosqiGkdX65n/SiBEX+VnfZ3vpE0WZ6shG1xd1/nQImrBh4IKJE/tpl5yF85cEd75Os6HKlbCibidQyw==
+lundle@^0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/lundle/-/lundle-0.4.2.tgz#62de976d69b7462ff68bec3d92f68fbda732d692"
+  integrity sha512-lVchZNkzjLv3Ma40Xz/PHUSiUdP3l+2Bcs3WK9wBFkCyLKI76PoLqTt7dIOWqbiOmKcsLQeUI+mOJKGFwX2JUw==
   dependencies:
     "@babel/core" "^7.10.2"
     "@babel/preset-react" "^7.10.1"
@@ -5565,7 +5565,7 @@ lundle@^0.2.4:
     chokidar "^3.4.0"
     find-package-json "^1.2.0"
     gzip-size "^5.1.1"
-    minimatch "^3.0.4"
+    micromatch "^4.0.2"
     pretty-bytes "^5.3.0"
     rimraf "^3.0.2"
     rollup "^2.12.0"

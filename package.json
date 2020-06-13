@@ -90,6 +90,7 @@
     ]
   },
   "eslintIgnore": [
+    "benchmarks",
     "node_modules",
     "coverage",
     "dist",
@@ -137,11 +138,11 @@
     "babel-jest": "latest",
     "cli-confirm": "^1.0.1",
     "eslint": "latest",
-    "eslint-config-lunde": "latest",
+    "eslint-config-lunde": "^0.2.1",
     "husky": "latest",
     "jest": "latest",
     "lint-staged": "latest",
-    "lundle": "^0.2.4",
+    "lundle": "^0.4.2",
     "node-fetch": "^2.6.0",
     "prettier": "latest",
     "rand-int": "^1.0.0",

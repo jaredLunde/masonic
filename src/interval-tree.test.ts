@@ -1,4 +1,4 @@
-import createIntervalTree from './IntervalTree'
+import {createIntervalTree} from './interval-tree'
 const toIdSorted = (result) => result.map(([id]) => id).sort((a, b) => a - b)
 const toExpectedIdSorted = (result) =>
   result.map(([, , id]) => id).sort((a, b) => a - b)
