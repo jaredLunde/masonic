@@ -58,7 +58,7 @@
     "dev": "lundle build -f module,cjs -w",
     "format": "prettier --write \"{,!(node_modules|dist|coverage)/**/}*.{ts,tsx,js,jsx,md,yml,json}\"",
     "lint": "eslint . --ext .ts,.tsx",
-    "prepublishOnly": "cli-confirm \"Did you run `yarn release` first?\"",
+    "prepublishOnly": "cli-confirm \"Did you run 'yarn release' first? (y/N)\"",
     "prerelease": "npm run validate && npm run build",
     "release": "git add . && standard-version -a",
     "test": "jest",
