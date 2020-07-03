@@ -12,10 +12,10 @@ import useLayoutEffect from '@react-hook/passive-layout-effect'
  *   dependencies list changes. A common dependencies list might look like `[windowWidth, windowHeight]`,
  *   which would force the hook to recalculate any time the size of the browser `window` changed.
  */
-export const useContainerPosition = (
+export function useContainerPosition(
   elementRef: React.MutableRefObject<HTMLElement | null>,
   deps: React.DependencyList = emptyArr
-): ContainerPosition => {
+): ContainerPosition {
   const [containerPosition, setContainerPosition] = React.useState<
     ContainerPosition
   >({offset: 0, width: 0})

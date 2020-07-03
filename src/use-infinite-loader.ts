@@ -13,10 +13,10 @@ import useLatest from '@react-hook/latest'
  *  as well.
  * @param options
  */
-export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
+export function useInfiniteLoader<Item, T extends LoadMoreItemsCallback<Item>>(
   loadMoreItems: T,
-  options: UseInfiniteLoaderOptions = emptyObj
-): LoadMoreItemsCallback {
+  options: UseInfiniteLoaderOptions<Item> = emptyObj
+): LoadMoreItemsCallback<Item> {
   const {
     isItemLoaded,
     minimumBatchSize = 16,
@@ -59,14 +59,16 @@ export function useInfiniteLoader<T extends LoadMoreItemsCallback>(
 /**
  * Returns all of the ranges within a larger range that contain unloaded rows.
  */
-const scanForUnloadedRanges = (
-  isItemLoaded: UseInfiniteLoaderOptions['isItemLoaded'] = defaultIsItemLoaded,
-  minimumBatchSize: UseInfiniteLoaderOptions['minimumBatchSize'] = 16,
+function scanForUnloadedRanges<Item>(
+  isItemLoaded: UseInfiniteLoaderOptions<
+    Item
+  >['isItemLoaded'] = defaultIsItemLoaded,
+  minimumBatchSize: UseInfiniteLoaderOptions<Item>['minimumBatchSize'] = 16,
   items: any[],
-  totalItems: UseInfiniteLoaderOptions['totalItems'] = 9e9,
+  totalItems: UseInfiniteLoaderOptions<Item>['totalItems'] = 9e9,
   startIndex: number,
   stopIndex: number
-): number[] => {
+): number[] {
   const unloadedRanges: number[] = []
   let rangeStartIndex: number | undefined,
     rangeStopIndex: number | undefined,
@@ -125,16 +127,16 @@ const scanForUnloadedRanges = (
   return unloadedRanges
 }
 
-const defaultIsItemLoaded = (index: number, items: any[]): boolean =>
+const defaultIsItemLoaded = <Item>(index: number, items: Item[]): boolean =>
   items[index] !== void 0
 
-export interface UseInfiniteLoaderOptions {
+export interface UseInfiniteLoaderOptions<Item> {
   /**
    *  A callback responsible for determining the loaded state of each item. Should return `true`
    * if the item has already been loaded and `false` if not.
    * @default (index: number, items: any[]) => boolean
    */
-  isItemLoaded?: (index: number, items: any[]) => boolean
+  isItemLoaded?: (index: number, items: Item[]) => boolean
   /**
    * The minimum number of new items to be loaded at a time.  This property can be used to
    * batch requests and reduce HTTP requests.
@@ -155,10 +157,10 @@ export interface UseInfiniteLoaderOptions {
   totalItems?: number
 }
 
-export type LoadMoreItemsCallback = (
+export type LoadMoreItemsCallback<Item> = (
   startIndex: number,
   stopIndex: number,
-  items: any[]
+  items: Item[]
 ) => any
 
 const emptyObj = {}

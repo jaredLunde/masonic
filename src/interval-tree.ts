@@ -32,11 +32,7 @@ interface Tree {
   size: number
 }
 
-const addInterval = (
-  treeNode: TreeNode,
-  high: number,
-  index: number
-): boolean => {
+function addInterval(treeNode: TreeNode, high: number, index: number): boolean {
   let node: ListNode | null = treeNode.list
   let prevNode: ListNode | undefined
 
@@ -53,7 +49,7 @@ const addInterval = (
   return true
 }
 
-const removeInterval = (treeNode: TreeNode, index: number) => {
+function removeInterval(treeNode: TreeNode, index: number) {
   let node: ListNode | null = treeNode.list
   if (node.index === index) {
     if (node.next === null) return DELETE
@@ -93,7 +89,7 @@ NULL_NODE.P = NULL_NODE
 NULL_NODE.L = NULL_NODE
 NULL_NODE.R = NULL_NODE
 
-const updateMax = (node: TreeNode) => {
+function updateMax(node: TreeNode) {
   const max = node.high
   if (node.L === NULL_NODE && node.R === NULL_NODE) node.max = max
   else if (node.L === NULL_NODE) node.max = Math.max(node.R.max, max)
@@ -101,7 +97,7 @@ const updateMax = (node: TreeNode) => {
   else node.max = Math.max(Math.max(node.L.max, node.R.max), max)
 }
 
-const updateMaxUp = (node: TreeNode) => {
+function updateMaxUp(node: TreeNode) {
   let x = node
 
   while (x.P !== NULL_NODE) {
@@ -110,7 +106,7 @@ const updateMaxUp = (node: TreeNode) => {
   }
 }
 
-const rotateLeft = (tree: Tree, x: TreeNode) => {
+function rotateLeft(tree: Tree, x: TreeNode) {
   if (x.R === NULL_NODE) return
   const y = x.R
   x.R = y.L
@@ -130,7 +126,7 @@ const rotateLeft = (tree: Tree, x: TreeNode) => {
   updateMax(y)
 }
 
-const rotateRight = (tree: Tree, x: TreeNode) => {
+function rotateRight(tree: Tree, x: TreeNode) {
   if (x.L === NULL_NODE) return
   const y = x.L
   x.L = y.R
@@ -150,14 +146,14 @@ const rotateRight = (tree: Tree, x: TreeNode) => {
   updateMax(y)
 }
 
-const replaceNode = (tree: Tree, x: TreeNode, y: TreeNode) => {
+function replaceNode(tree: Tree, x: TreeNode, y: TreeNode) {
   if (x.P === NULL_NODE) tree.root = y
   else if (x === x.P.L) x.P.L = y
   else x.P.R = y
   y.P = x.P
 }
 
-const fixRemove = (tree: Tree, x: TreeNode) => {
+function fixRemove(tree: Tree, x: TreeNode) {
   let w
 
   while (x !== NULL_NODE && x.C === BLACK) {
@@ -221,12 +217,12 @@ const fixRemove = (tree: Tree, x: TreeNode) => {
   x.C = BLACK
 }
 
-const minimumTree = (x: TreeNode) => {
+function minimumTree(x: TreeNode) {
   while (x.L !== NULL_NODE) x = x.L
   return x
 }
 
-const fixInsert = (tree: Tree, z: TreeNode) => {
+function fixInsert(tree: Tree, z: TreeNode) {
   let y: TreeNode
   while (z.P.C === RED) {
     if (z.P === z.P.P.L) {
@@ -281,7 +277,7 @@ interface IIntervalTree {
   size: number
 }
 
-export const createIntervalTree = (): IIntervalTree => {
+export function createIntervalTree(): IIntervalTree {
   const tree = {
     root: NULL_NODE,
     size: 0,

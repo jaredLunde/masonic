@@ -11,7 +11,7 @@ import type {Positioner} from './use-positioner'
  *
  * @param positioner The masonry cell positioner created by the `usePositioner()` hook.
  */
-export const useResizeObserver = (positioner: Positioner) => {
+export function useResizeObserver(positioner: Positioner) {
   const forceUpdate = useForceUpdate()
   const resizeObserver = createResizeObserver(positioner, forceUpdate)
   // Cleans up the resize observers when they change or the

@@ -12,7 +12,7 @@ import {createIntervalTree} from './interval-tree'
  * @param deps This hook will create a new positioner, clearing all existing cached positions,
  *  whenever the dependencies in this list change.
  */
-export const usePositioner = (
+export function usePositioner(
   {
     width,
     columnWidth = 200,
@@ -20,7 +20,7 @@ export const usePositioner = (
     columnCount,
   }: UsePositionerOptions,
   deps: React.DependencyList = emptyArr
-): Positioner => {
+): Positioner {
   const initPositioner = (): Positioner => {
     const [computedColumnWidth, computedColumnCount] = getColumns(
       width,

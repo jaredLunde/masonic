@@ -6,18 +6,23 @@ import type {MasonryProps} from './masonry'
  * This is just a single-column `<Masonry>` component with `rowGutter` prop instead of
  * a `columnGutter` prop.
  */
-export const List: React.FC<ListProps> = (props) =>
-  React.createElement(
-    Masonry,
-    Object.assign({role: 'list'}, props, {
-      columnGutter: props.rowGutter,
-      columnCount: 1,
-      columnWidth: 1,
-    })
+export function List<Item>(props: ListProps<Item>) {
+  return (
+    <Masonry<Item>
+      role='list'
+      {...props}
+      columnGutter={props.rowGutter}
+      columnCount={1}
+      columnWidth={1}
+    />
   )
+}
 
-export interface ListProps
-  extends Omit<MasonryProps, 'columGutter' | 'columnCount' | 'columnWidth'> {
+export interface ListProps<Item>
+  extends Omit<
+    MasonryProps<Item>,
+    'columGutter' | 'columnCount' | 'columnWidth'
+  > {
   /**
    * The amount of vertical space in pixels to add between the list cells.
    * @default 0

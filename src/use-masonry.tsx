@@ -12,7 +12,7 @@ import type {Positioner} from './use-positioner'
  *
  * @param options Options for configuring the masonry layout renderer. See `UseMasonryOptions`.
  */
-export const useMasonry = ({
+export function useMasonry<Item>({
   // Measurement and layout
   positioner,
   resizeObserver,
@@ -38,7 +38,7 @@ export const useMasonry = ({
   height,
   render: RenderComponent,
   onRender,
-}: UseMasonryOptions) => {
+}: UseMasonryOptions<Item>) {
   let startIndex = 0
   let stopIndex: number | undefined = void 0
   const forceUpdate = useForceUpdate()
@@ -180,11 +180,11 @@ export const useMasonry = ({
 // This is for triggering a remount after SSR has loaded in the client w/ hydrate()
 let didEverMount = '0'
 
-export interface UseMasonryOptions {
+export interface UseMasonryOptions<Item> {
   /**
    * An array containing the data used by the grid items.
    */
-  items: any[]
+  items: Item[]
   /**
    * A grid cell positioner and cache created by the `usePositioner()` hook or
    * the `createPositioner` utility.
@@ -256,9 +256,9 @@ export interface UseMasonryOptions {
    * if your collection of items is never modified. Setting this property ensures that the component in `render`
    * is reused each time the masonry grid is reflowed. A common pattern would be to return the item's database
    * ID here if there is one, e.g. `data => data.id`
-   * @default (data: any, index: number) => index`
+   * @default (data, index) => index`
    */
-  itemKey?: (data: any, index: number) => string | number
+  itemKey?: (data: Item, index: number) => string | number
   /**
    * This number is used for determining the number of grid cells outside of the visible window to render.
    * The default value is `2` which means "render 2 windows worth (2 * `height`) of content before and after
@@ -301,18 +301,18 @@ lue may create too much work for React to handle, so it's best that you tune thi
    * This component is rendered for each item of your `items` prop array. It should accept three props:
    * `index`, `width`, and `data`. See RenderComponentProps.
    */
-  render: React.ComponentType<RenderComponentProps>
+  render: React.ComponentType<RenderComponentProps<Item>>
   /**
    * This callback is invoked any time the items currently being rendered by the grid change.
    */
   onRender?: (
     startIndex: number,
     stopIndex: number | undefined,
-    items: any[]
+    items: Item[]
   ) => void
 }
 
-export interface RenderComponentProps {
+export interface RenderComponentProps<Item> {
   /**
    * The index of the cell in the `items` prop array.
    */
@@ -324,7 +324,7 @@ export interface RenderComponentProps {
   /**
    * The data at `items[index]` of your `items` prop array.
    */
-  data: any
+  data: Item
 }
 
 //
@@ -359,7 +359,10 @@ const assignUserStyle = memoizeOne(
   cmp2
 )
 
-const defaultGetItemKey = (_: any[], i: number): typeof i => i
+function defaultGetItemKey<Item>(_: Item, i: number) {
+  return i
+}
+
 // the below memoizations for for ensuring shallow equal is reliable for pure
 // component children
 const getCachedSize = memoizeOne(
@@ -376,7 +379,7 @@ const getCachedSize = memoizeOne(
 const getRefSetter = memoizeOne(
   (
     positioner: Positioner,
-    resizeObserver?: UseMasonryOptions['resizeObserver']
+    resizeObserver?: UseMasonryOptions<any>['resizeObserver']
   ) => (index: number) => (el: HTMLElement | null): void => {
     if (el === null) return
     if (resizeObserver) {

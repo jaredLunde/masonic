@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {useScroller} from './use-scroller'
 import {useMasonry} from './use-masonry'
 import type {UseMasonryOptions} from './use-masonry'
@@ -6,7 +5,7 @@ import type {UseMasonryOptions} from './use-masonry'
  * A heavily-optimized component that updates `useMasonry()` when the scroll position of the browser `window`
  * changes. This bare-metal component is used by `<Masonry>` under the hood.
  */
-export const MasonryScroller: React.FC<MasonryScrollerProps> = (props) => {
+export function MasonryScroller<Item>(props: MasonryScrollerProps<Item>) {
   // We put this in its own layer because it's the thing that will trigger the most updates
   // and we don't want to slower ourselves by cycling through all the functions, objects, and effects
   // of other hooks
@@ -14,7 +13,7 @@ export const MasonryScroller: React.FC<MasonryScrollerProps> = (props) => {
   // This is an update-heavy phase and while we could just Object.assign here,
   // it is way faster to inline and there's a relatively low hit to he bundle
   // size.
-  return useMasonry({
+  return useMasonry<Item>({
     scrollTop,
     isScrolling,
     positioner: props.positioner,
@@ -38,8 +37,8 @@ export const MasonryScroller: React.FC<MasonryScrollerProps> = (props) => {
   })
 }
 
-export interface MasonryScrollerProps
-  extends Omit<UseMasonryOptions, 'scrollTop' | 'isScrolling'> {
+export interface MasonryScrollerProps<Item>
+  extends Omit<UseMasonryOptions<Item>, 'scrollTop' | 'isScrolling'> {
   /**
    * This determines how often (in frames per second) to update the scroll position of the
    * browser `window` in state, and as a result the rate the masonry grid recalculates its visible cells.

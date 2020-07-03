@@ -13,7 +13,7 @@ import type {UsePositionerOptions} from './use-positioner'
  * It will change its column count to fit its container's width and will decide how many rows to render based upon
  * the height of the browser `window`.
  */
-export const Masonry: React.FC<MasonryProps> = React.memo((props) => {
+export function Masonry<Item>(props: MasonryProps<Item>) {
   const containerRef = React.useRef<null | HTMLElement>(null)
   const windowSize = useWindowSize({
     initialWidth: props.ssrWidth,
@@ -32,11 +32,11 @@ export const Masonry: React.FC<MasonryProps> = React.memo((props) => {
   nextProps.positioner = usePositioner(nextProps)
   nextProps.resizeObserver = useResizeObserver(nextProps.positioner)
   return React.createElement(MasonryScroller, nextProps)
-})
+}
 
-export interface MasonryProps
+export interface MasonryProps<Item>
   extends Omit<
-      MasonryScrollerProps,
+      MasonryScrollerProps<Item>,
       'offset' | 'width' | 'height' | 'containerRef'
     >,
     Pick<UsePositionerOptions, 'columnWidth' | 'columnGutter' | 'columnCount'> {

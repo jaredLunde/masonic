@@ -14,10 +14,10 @@ import {requestTimeout, clearRequestTimeout} from '@essentials/request-timeout'
  *  The default value of `12` has been very reasonable in my own testing, but if you have particularly
  *  heavy `render` components it may be prudent to reduce this number.
  */
-export const useScroller = (
+export function useScroller(
   offset = 0,
   fps = 12
-): {scrollTop: number; isScrolling: boolean} => {
+): {scrollTop: number; isScrolling: boolean} {
   const scrollTop = useScrollPosition(fps)
   const [isScrolling, setIsScrolling] = React.useState(false)
   const didMount = React.useRef(0)
