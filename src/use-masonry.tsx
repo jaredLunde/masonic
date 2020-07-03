@@ -80,6 +80,13 @@ export function useMasonry<Item>({
         position: 'absolute',
       }
 
+      if (
+        typeof process !== 'undefined' &&
+        process.env.NODE_ENV !== 'production'
+      ) {
+        throwWithoutData(data, index)
+      }
+
       children.push(
         <ItemComponent
           key={key}
@@ -120,6 +127,13 @@ export function useMasonry<Item>({
     for (; index < measuredCount + batchSize; index++) {
       const data = items[index]
       const key = itemKey(data, index)
+
+      if (
+        typeof process !== 'undefined' &&
+        process.env.NODE_ENV !== 'production'
+      ) {
+        throwWithoutData(data, index)
+      }
 
       children.push(
         <ItemComponent
@@ -175,6 +189,23 @@ export function useMasonry<Item>({
       children={children}
     />
   )
+}
+
+function throwWithoutData(data: any, index: number) {
+  if (!data) {
+    throw new Error(
+      `No data was found at index: ${index}\n\n` +
+        `This usually happens when you've mutated or changed the "items" array in a ` +
+        `way that makes it shorter than the previous "items" array. Masonic knows nothing ` +
+        `about your underlying data and when it caches cell positions, it assumes you aren't ` +
+        `mutating the underlying "items".\n\n` +
+        `See https://codesandbox.io/s/masonic-w-react-router-example-2b5f9?file=/src/index.js for ` +
+        `an example that gets around this limitations. For advanced implementations, see ` +
+        `https://codesandbox.io/s/masonic-w-react-router-and-advanced-config-example-8em42?file=/src/index.js\n\n` +
+        `If this was the result of your removing an item from your "items", see this issue: ` +
+        `https://github.com/jaredLunde/masonic/issues/12`
+    )
+  }
 }
 
 // This is for triggering a remount after SSR has loaded in the client w/ hydrate()
