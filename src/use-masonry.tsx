@@ -80,6 +80,7 @@ export function useMasonry<Item>({
         position: 'absolute',
       }
 
+      /* istanbul ignore next */
       if (
         typeof process !== 'undefined' &&
         process.env.NODE_ENV !== 'production'
@@ -128,6 +129,7 @@ export function useMasonry<Item>({
       const data = items[index]
       const key = itemKey(data, index)
 
+      /* istanbul ignore next */
       if (
         typeof process !== 'undefined' &&
         process.env.NODE_ENV !== 'production'
@@ -191,6 +193,7 @@ export function useMasonry<Item>({
   )
 }
 
+/* istanbul ignore next */
 function throwWithoutData(data: any, index: number) {
   if (!data) {
     throw new Error(
