@@ -38,7 +38,7 @@ export function usePositioner(
   const didMount = React.useRef(0)
 
   // Create a new positioner when the dependencies change
-  React.useEffect(() => {
+  useLayoutEffect(() => {
     if (didMount.current) setPositioner(initPositioner())
     didMount.current = 1
     // eslint-disable-next-line
