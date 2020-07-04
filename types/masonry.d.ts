@@ -17,7 +17,7 @@ export declare namespace Masonry {
 export interface MasonryProps<Item>
   extends Omit<
       MasonryScrollerProps<Item>,
-      'offset' | 'width' | 'height' | 'containerRef'
+      'offset' | 'width' | 'height' | 'containerRef' | 'positioner'
     >,
     Pick<UsePositionerOptions, 'columnWidth' | 'columnGutter' | 'columnCount'> {
   /**
