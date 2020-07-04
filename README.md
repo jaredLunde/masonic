@@ -676,7 +676,7 @@ const MyMasonry = (props) => {
 | height  | `number`                                                              | The height of the grid.                                                                        |
 | offset  | `number`                                                              | The vertical space in pixels between the top of the grid container and the top of the window.  |
 
-#### Returns `{scrollTop: number; isScrolling: boolean}`
+#### Returns `(index: number) => void`
 
 ---
 
