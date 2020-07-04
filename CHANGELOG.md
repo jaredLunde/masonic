@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.1](https://github.com/jaredLunde/masonic/compare/v3.3.0...v3.3.1) (2020-07-04)
+
+### Bug Fixes
+
+- **masonry:** fix loop in scrollToIndex effect ([dae9984](https://github.com/jaredLunde/masonic/commit/dae99847fe29d7c9b50141f8035968143680b292))
+
 ## [3.3.0](https://github.com/jaredLunde/masonic/compare/v3.2.0...v3.3.0) (2020-07-04)
 
 ### Features
