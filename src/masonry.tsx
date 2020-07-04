@@ -41,14 +41,15 @@ export function Masonry<Item>(props: MasonryProps<Item>) {
         ? props.scrollToIndex.align
         : void 0,
   })
+  const index =
+    props.scrollToIndex &&
+    (typeof props.scrollToIndex === 'number'
+      ? props.scrollToIndex
+      : props.scrollToIndex.index)
 
   React.useEffect(() => {
-    const index = props.scrollToIndex
-
-    if (index !== void 0) {
-      scrollToIndex(typeof index === 'number' ? index : index.index)
-    }
-  }, [props.scrollToIndex, scrollToIndex])
+    if (index !== void 0) scrollToIndex(index)
+  }, [index, scrollToIndex])
 
   return React.createElement(MasonryScroller, nextProps)
 }
