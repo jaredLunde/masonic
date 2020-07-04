@@ -202,9 +202,10 @@ Props that customize how individual grid item containers are rendered.
 
 **Other props**
 
-| Prop       | Type     | Default | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| ---------- | -------- | ------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| overscanBy | `number` | `2`     | No        | This number is used for determining the number of grid cells outside of the visible window to render. The default value is `2` which means "render 2 windows worth (2 \* `height`) of content before and after the items in the visible window". A value of `3` would be 3 windows worth of grid cells, so it's a linear relationship. Overscanning is important for preventing tearing when scrolling through items in the grid, but setting too high of a value may create too much work for React to handle, so it's best that you tune this value accordingly. |
+| Prop          | Type                                                              | Default | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ------------- | ----------------------------------------------------------------- | ------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| overscanBy    | `number`                                                          | `2`     | No        | This number is used for determining the number of grid cells outside of the visible window to render. The default value is `2` which means "render 2 windows worth (2 \* `height`) of content before and after the items in the visible window". A value of `3` would be 3 windows worth of grid cells, so it's a linear relationship. Overscanning is important for preventing tearing when scrolling through items in the grid, but setting too high of a value may create too much work for React to handle, so it's best that you tune this value accordingly. |
+| scrollToIndex | `number` \| `{index: number, align: "top" | "center" | "bottom"}` |         | No        | Scrolls to a given index within the grid. The grid will re-scroll any time the index changes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
 #### `onRender()` arguments
 
@@ -616,6 +617,65 @@ export interface ContainerPosition {
   width: number
 }
 ```
+
+---
+
+### useScrollToIndex(positioner, options?)
+
+A hook that creates a callback for scrolling to a specific index in the "items" array.
+
+[Check out an example on **CodeSandbox**](https://codesandbox.io/s/usescrolltoindex-example-k5leo?file=/src/index.js)
+
+```jsx harmony
+import * as React from 'react'
+import {
+  useMasonry,
+  usePositioner,
+  useContainerPosition,
+  useScroller,
+  useScrollToIndex,
+} from 'masonic'
+
+const MyMasonry = (props) => {
+  const containerRef = React.useRef(null)
+  const {offset, width} = useContainerPosition(containerRef)
+  const {scrollTop, isScrolling} = useScroller(offset)
+  const positioner = usePositioner({width})
+  const scrollToIndex = useScrollToIndex(positioner)
+
+  React.useEffect(() => {
+    if (props.scrollToIndex) {
+      scrollToIndex(props.scrollToIndex)
+    }
+  }, [props.scrollToIndex, scrollToIndex])
+
+  return useMasonry({
+    ...props,
+    containerRef,
+    positioner,
+    scrollTop,
+    isScrolling,
+  })
+}
+```
+
+#### Arguments
+
+| Argument   | Type                                                  | Description                                                                       |
+| ---------- | ----------------------------------------------------- | --------------------------------------------------------------------------------- |
+| positioner | [`Positioner`](#positioner)                           | A positioner created by the [`usePositioner()`](#usepositioner) hook.             |
+| options    | [`UseScrollToIndexOptions`](#usescrolltoindexoptions) | Configuration options. See [`UseScrollToIndexOptions`](#usescrolltoindexoptions). |
+
+#### `UseScrollToIndexOptions`
+
+| Option  | Type                                                                  | Description                                                                                    |
+| ------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| element | `Window` \| `HTMLElement` \| `React.RefObject<HTMLElement>` \| `null` | The window element or a React ref for the window element. That is, this is the grid container. |
+| align   | `"top"` \| `"center"` \| `"bottom"`                                   | Sets the vertical alignment of the cell within the grid container.                             |
+| height  | `number`                                                              | The height of the grid.                                                                        |
+| offset  | `number`                                                              | The vertical space in pixels between the top of the grid container and the top of the window.  |
+
+#### Returns `{scrollTop: number; isScrolling: boolean}`
 
 ---
 

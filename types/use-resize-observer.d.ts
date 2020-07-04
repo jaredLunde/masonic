@@ -6,9 +6,9 @@ import type {Positioner} from './use-positioner'
  *
  * @param positioner The masonry cell positioner created by the `usePositioner()` hook.
  */
-export declare const useResizeObserver: (
+export declare function useResizeObserver(
   positioner: Positioner
-) => ResizeObserver
+): ResizeObserver
 /**
  * Creates a resize observer that fires an `updater` callback whenever the height of
  * one or many cells change. The `useResizeObserver()` hook is using this under the hood.

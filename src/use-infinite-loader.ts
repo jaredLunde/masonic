@@ -74,6 +74,7 @@ function scanForUnloadedRanges<Item>(
     rangeStopIndex: number | undefined,
     index = startIndex
 
+  /* istanbul ignore next */
   for (; index <= stopIndex; index++) {
     if (!isItemLoaded(index, items)) {
       rangeStopIndex = index
@@ -92,6 +93,7 @@ function scanForUnloadedRanges<Item>(
       totalItems - 1
     )
 
+    /* istanbul ignore next */
     for (index = rangeStopIndex + 1; index <= potentialStopIndex; index++) {
       if (!isItemLoaded(index, items)) {
         rangeStopIndex = index

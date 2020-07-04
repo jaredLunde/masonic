@@ -10,10 +10,10 @@ export function List<Item>(props: ListProps<Item>) {
   return (
     <Masonry<Item>
       role='list'
-      {...props}
       columnGutter={props.rowGutter}
       columnCount={1}
       columnWidth={1}
+      {...props}
     />
   )
 }

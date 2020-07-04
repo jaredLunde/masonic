@@ -10,10 +10,10 @@
  *  The default value of `12` has been very reasonable in my own testing, but if you have particularly
  *  heavy `render` components it may be prudent to reduce this number.
  */
-export declare const useScroller: (
+export declare function useScroller(
   offset?: number,
   fps?: number
-) => {
+): {
   scrollTop: number
   isScrolling: boolean
 }

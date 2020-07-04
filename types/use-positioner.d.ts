@@ -9,10 +9,10 @@ import * as React from 'react'
  * @param deps This hook will create a new positioner, clearing all existing cached positions,
  *  whenever the dependencies in this list change.
  */
-export declare const usePositioner: (
+export declare function usePositioner(
   {width, columnWidth, columnGutter, columnCount}: UsePositionerOptions,
   deps?: React.DependencyList
-) => Positioner
+): Positioner
 export interface UsePositionerOptions {
   /**
    * The width of the container you're rendering the grid within, i.e. the container

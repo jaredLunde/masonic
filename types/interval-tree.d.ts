@@ -8,5 +8,5 @@ interface IIntervalTree {
   ): void
   size: number
 }
-export declare const createIntervalTree: () => IIntervalTree
+export declare function createIntervalTree(): IIntervalTree
 export {}

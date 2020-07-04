@@ -6,6 +6,8 @@ import {useContainerPosition} from './use-container-position'
 import {useResizeObserver} from './use-resize-observer'
 import {usePositioner} from './use-positioner'
 import type {UsePositionerOptions} from './use-positioner'
+import {useScrollToIndex} from './use-scroll-to-index'
+import type {UseScrollToIndexOptions} from './use-scroll-to-index'
 
 /**
  * A "batteries included" masonry grid which includes all of the implementation details below. This component is the
@@ -31,15 +33,42 @@ export function Masonry<Item>(props: MasonryProps<Item>) {
   ) as any
   nextProps.positioner = usePositioner(nextProps)
   nextProps.resizeObserver = useResizeObserver(nextProps.positioner)
+  const scrollToIndex = useScrollToIndex(nextProps.positioner, {
+    height: nextProps.height,
+    offset: containerPos.offset,
+    align:
+      typeof props.scrollToIndex === 'object'
+        ? props.scrollToIndex.align
+        : void 0,
+  })
+
+  React.useEffect(() => {
+    const index = props.scrollToIndex
+
+    if (index !== void 0) {
+      scrollToIndex(typeof index === 'number' ? index : index.index)
+    }
+  }, [props.scrollToIndex, scrollToIndex])
+
   return React.createElement(MasonryScroller, nextProps)
 }
 
 export interface MasonryProps<Item>
   extends Omit<
       MasonryScrollerProps<Item>,
-      'offset' | 'width' | 'height' | 'containerRef'
+      'offset' | 'width' | 'height' | 'containerRef' | 'positioner'
     >,
     Pick<UsePositionerOptions, 'columnWidth' | 'columnGutter' | 'columnCount'> {
+  /**
+   * Scrolls to a given index within the grid. The grid will re-scroll
+   * any time the index changes.
+   */
+  scrollToIndex?:
+    | number
+    | {
+        index: number
+        align: UseScrollToIndexOptions['align']
+      }
   /**
    * This is the width that will be used for the browser `window` when rendering this component in SSR.
    * This prop isn't relevant for client-side only apps.

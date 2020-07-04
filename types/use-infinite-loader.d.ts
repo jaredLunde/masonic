@@ -10,17 +10,20 @@
  *  as well.
  * @param options
  */
-export declare function useInfiniteLoader<T extends LoadMoreItemsCallback>(
+export declare function useInfiniteLoader<
+  Item,
+  T extends LoadMoreItemsCallback<Item>
+>(
   loadMoreItems: T,
-  options?: UseInfiniteLoaderOptions
-): LoadMoreItemsCallback
-export interface UseInfiniteLoaderOptions {
+  options?: UseInfiniteLoaderOptions<Item>
+): LoadMoreItemsCallback<Item>
+export interface UseInfiniteLoaderOptions<Item> {
   /**
    *  A callback responsible for determining the loaded state of each item. Should return `true`
    * if the item has already been loaded and `false` if not.
    * @default (index: number, items: any[]) => boolean
    */
-  isItemLoaded?: (index: number, items: any[]) => boolean
+  isItemLoaded?: (index: number, items: Item[]) => boolean
   /**
    * The minimum number of new items to be loaded at a time.  This property can be used to
    * batch requests and reduce HTTP requests.
@@ -40,8 +43,8 @@ export interface UseInfiniteLoaderOptions {
    */
   totalItems?: number
 }
-export declare type LoadMoreItemsCallback = (
+export declare type LoadMoreItemsCallback<Item> = (
   startIndex: number,
   stopIndex: number,
-  items: any[]
+  items: Item[]
 ) => any

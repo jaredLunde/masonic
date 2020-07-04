@@ -1,19 +1,35 @@
 import * as React from 'react'
 import type {MasonryScrollerProps} from './masonry-scroller'
 import type {UsePositionerOptions} from './use-positioner'
+import type {UseScrollToIndexOptions} from './use-scroll-to-index'
 /**
  * A "batteries included" masonry grid which includes all of the implementation details below. This component is the
  * easiest way to get off and running in your app, before switching to more advanced implementations, if necessary.
  * It will change its column count to fit its container's width and will decide how many rows to render based upon
  * the height of the browser `window`.
  */
-export declare const Masonry: React.FC<MasonryProps>
-export interface MasonryProps
+export declare function Masonry<Item>(
+  props: MasonryProps<Item>
+): React.FunctionComponentElement<MasonryScrollerProps<unknown>>
+export declare namespace Masonry {
+  var displayName: string
+}
+export interface MasonryProps<Item>
   extends Omit<
-      MasonryScrollerProps,
+      MasonryScrollerProps<Item>,
       'offset' | 'width' | 'height' | 'containerRef'
     >,
     Pick<UsePositionerOptions, 'columnWidth' | 'columnGutter' | 'columnCount'> {
+  /**
+   * Scrolls to a given index within the grid. The grid will re-scroll
+   * any time the index changes.
+   */
+  scrollToIndex?:
+    | number
+    | {
+        index: number
+        align: UseScrollToIndexOptions['align']
+      }
   /**
    * This is the width that will be used for the browser `window` when rendering this component in SSR.
    * This prop isn't relevant for client-side only apps.

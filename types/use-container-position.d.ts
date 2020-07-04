@@ -10,10 +10,10 @@ import * as React from 'react'
  *   dependencies list changes. A common dependencies list might look like `[windowWidth, windowHeight]`,
  *   which would force the hook to recalculate any time the size of the browser `window` changed.
  */
-export declare const useContainerPosition: (
+export declare function useContainerPosition(
   elementRef: React.MutableRefObject<HTMLElement | null>,
   deps?: React.DependencyList
-) => ContainerPosition
+): ContainerPosition
 export interface ContainerPosition {
   /**
    * The distance in pixels between the top of the element in `elementRef` and the top of

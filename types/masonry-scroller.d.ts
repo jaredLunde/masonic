@@ -1,12 +1,17 @@
-import * as React from 'react'
+/// <reference types="react" />
 import type {UseMasonryOptions} from './use-masonry'
 /**
  * A heavily-optimized component that updates `useMasonry()` when the scroll position of the browser `window`
  * changes. This bare-metal component is used by `<Masonry>` under the hood.
  */
-export declare const MasonryScroller: React.FC<MasonryScrollerProps>
-export interface MasonryScrollerProps
-  extends Omit<UseMasonryOptions, 'scrollTop' | 'isScrolling'> {
+export declare function MasonryScroller<Item>(
+  props: MasonryScrollerProps<Item>
+): JSX.Element
+export declare namespace MasonryScroller {
+  var displayName: string
+}
+export interface MasonryScrollerProps<Item>
+  extends Omit<UseMasonryOptions<Item>, 'scrollTop' | 'isScrolling'> {
   /**
    * This determines how often (in frames per second) to update the scroll position of the
    * browser `window` in state, and as a result the rate the masonry grid recalculates its visible cells.

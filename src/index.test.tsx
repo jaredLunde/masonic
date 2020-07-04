@@ -535,7 +535,7 @@ describe('useInfiniteLoader()', () => {
       ({items, scrollTop, options}) => {
         const positioner = usePositioner({width: 1280, columnWidth: 320})
         const infiniteLoader = useInfiniteLoader(loadMoreItems, options)
-        return useMasonry({
+        return useMasonry<typeof items[0]>({
           height: 600,
           positioner,
           items,
@@ -579,7 +579,7 @@ describe('useInfiniteLoader()', () => {
       ({items, scrollTop, options}) => {
         const positioner = usePositioner({width: 1280, columnWidth: 320})
         const infiniteLoader = useInfiniteLoader(loadMoreItems, options)
-        return useMasonry({
+        return useMasonry<typeof items[0]>({
           height: 600,
           positioner,
           items,
@@ -615,7 +615,7 @@ describe('useInfiniteLoader()', () => {
       ({items, scrollTop, options}) => {
         const positioner = usePositioner({width: 1280, columnWidth: 320})
         const infiniteLoader = useInfiniteLoader(loadMoreItems, options)
-        return useMasonry({
+        return useMasonry<typeof items[0]>({
           height: 600,
           positioner,
           items,
@@ -728,6 +728,44 @@ describe('<Masonry>', () => {
 
     result.rerender(<Component />)
     expect(result.asFragment()).toMatchSnapshot('Should display two elements')
+  })
+
+  it('should scroll to index', () => {
+    resizeTo(400, 200)
+    const Component = () => {
+      return (
+        <Masonry
+          items={getFakeItems(6, 400)}
+          itemHeightEstimate={400}
+          overscanBy={1}
+          scrollToIndex={4}
+          render={FakeCard}
+        />
+      )
+    }
+    // @ts-ignore
+    window.scrollTo = jest.fn()
+    render(<Component />)
+    expect(window.scrollTo).toBeCalled()
+  })
+
+  it('should scroll to cached index', () => {
+    resizeTo(400, 200)
+    const Component = () => {
+      return (
+        <Masonry
+          items={getFakeItems(4, 400)}
+          itemHeightEstimate={400}
+          overscanBy={1}
+          scrollToIndex={0}
+          render={FakeCard}
+        />
+      )
+    }
+    // @ts-ignore
+    window.scrollTo = jest.fn()
+    render(<Component />)
+    expect(window.scrollTo).toBeCalledWith(0, 0)
   })
 })
 

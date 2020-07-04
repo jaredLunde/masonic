@@ -1,1 +1,1 @@
-export declare const useForceUpdate: () => () => void
+export declare function useForceUpdate(): () => void

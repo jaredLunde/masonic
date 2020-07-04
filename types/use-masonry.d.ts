@@ -5,7 +5,7 @@ import type {Positioner} from './use-positioner'
  *
  * @param options Options for configuring the masonry layout renderer. See `UseMasonryOptions`.
  */
-export declare const useMasonry: ({
+export declare function useMasonry<Item>({
   positioner,
   resizeObserver,
   items,
@@ -26,12 +26,12 @@ export declare const useMasonry: ({
   height,
   render: RenderComponent,
   onRender,
-}: UseMasonryOptions) => JSX.Element
-export interface UseMasonryOptions {
+}: UseMasonryOptions<Item>): JSX.Element
+export interface UseMasonryOptions<Item> {
   /**
    * An array containing the data used by the grid items.
    */
-  items: any[]
+  items: Item[]
   /**
    * A grid cell positioner and cache created by the `usePositioner()` hook or
    * the `createPositioner` utility.
@@ -103,9 +103,9 @@ export interface UseMasonryOptions {
    * if your collection of items is never modified. Setting this property ensures that the component in `render`
    * is reused each time the masonry grid is reflowed. A common pattern would be to return the item's database
    * ID here if there is one, e.g. `data => data.id`
-   * @default (data: any, index: number) => index`
+   * @default (data, index) => index`
    */
-  itemKey?: (data: any, index: number) => string | number
+  itemKey?: (data: Item, index: number) => string | number
   /**
      * This number is used for determining the number of grid cells outside of the visible window to render.
      * The default value is `2` which means "render 2 windows worth (2 * `height`) of content before and after
@@ -147,17 +147,17 @@ export interface UseMasonryOptions {
    * This component is rendered for each item of your `items` prop array. It should accept three props:
    * `index`, `width`, and `data`. See RenderComponentProps.
    */
-  render: React.ComponentType<RenderComponentProps>
+  render: React.ComponentType<RenderComponentProps<Item>>
   /**
    * This callback is invoked any time the items currently being rendered by the grid change.
    */
   onRender?: (
     startIndex: number,
     stopIndex: number | undefined,
-    items: any[]
+    items: Item[]
   ) => void
 }
-export interface RenderComponentProps {
+export interface RenderComponentProps<Item> {
   /**
    * The index of the cell in the `items` prop array.
    */
@@ -169,5 +169,5 @@ export interface RenderComponentProps {
   /**
    * The data at `items[index]` of your `items` prop array.
    */
-  data: any
+  data: Item
 }
