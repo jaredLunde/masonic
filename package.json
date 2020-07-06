@@ -149,7 +149,7 @@
     "husky": "latest",
     "jest": "latest",
     "lint-staged": "latest",
-    "lundle": "^0.4.2",
+    "lundle": "^0.4.9",
     "node-fetch": "^2.6.0",
     "prettier": "latest",
     "rand-int": "^1.0.0",
