@@ -156,7 +156,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-test-renderer": "latest",
-    "standard-version": "^8.0.0",
+    "standard-version": "^8.0.2",
     "typescript": "latest"
   },
   "dependencies": {
