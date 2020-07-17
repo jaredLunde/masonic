@@ -38,13 +38,8 @@ export const createResizeObserver = trieMemoize(
 
       for (; i < entries.length; i++) {
         const entry = entries[i]
-        // There are native resize observers that still don't have
-        // the borderBoxSize property. For those we fallback to the
-        // offset height of the target element.
-        const height =
-          (entry as NativeResizeObserverEntry).borderBoxSize !== void 0
-            ? (entry as NativeResizeObserverEntry).borderBoxSize.blockSize
-            : (entry.target as HTMLElement).offsetHeight
+        const height = (entry.target as HTMLElement).offsetHeight
+
         if (height > 0) {
           const index = elementsCache.get(entry.target)
 
