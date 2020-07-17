@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.2](https://github.com/jaredLunde/masonic/compare/v3.3.1...v3.3.2) (2020-07-17)
+
+### Bug Fixes
+
+- **use-resize-observer:** fix height measurement in Chrome 84 ([ae40ece](https://github.com/jaredLunde/masonic/commit/ae40ecec906340b9fb17821acab471f5820091c1)), closes [#28](https://github.com/jaredLunde/masonic/issues/28)
+
 ### [3.3.1](https://github.com/jaredLunde/masonic/compare/v3.3.0...v3.3.1) (2020-07-04)
 
 ### Bug Fixes
