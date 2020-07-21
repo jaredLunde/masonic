@@ -95,7 +95,7 @@ export function useMasonry<Item>({
           role={itemRole}
           style={
             typeof itemStyle === 'object' && itemStyle !== null
-              ? Object.assign(phaseTwoStyle, itemStyle)
+              ? Object.assign({}, phaseTwoStyle, itemStyle)
               : phaseTwoStyle
           }
         >
@@ -144,7 +144,7 @@ export function useMasonry<Item>({
           role={itemRole}
           style={
             typeof itemStyle === 'object'
-              ? Object.assign(phaseOneStyle, itemStyle)
+              ? Object.assign({}, phaseOneStyle, itemStyle)
               : phaseOneStyle
           }
         >
