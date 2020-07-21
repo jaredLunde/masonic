@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.3](https://github.com/jaredLunde/masonic/compare/v3.3.2...v3.3.3) (2020-07-21)
+
+### Bug Fixes
+
+- **use-masonry:** fix "Cannot assign to readonly property" error ([49aad2f](https://github.com/jaredLunde/masonic/commit/49aad2f210b434dd3aec91fd320a007b21267df8)), closes [#31](https://github.com/jaredLunde/masonic/issues/31)
+
 ### [3.3.2](https://github.com/jaredLunde/masonic/compare/v3.3.1...v3.3.2) (2020-07-17)
 
 ### Bug Fixes
