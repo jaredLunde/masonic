@@ -1143,6 +1143,11 @@
   dependencies:
     find-up "^4.0.0"
 
+"@essentials/are-equal@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@essentials/are-equal/-/are-equal-1.1.0.tgz#f2a72710f0ed9f11177bbe9c2589c14dbf6860d7"
+  integrity sha512-RkgLGQMuw9NO2BJB4dIUKN8H9U0OftLBjM9zUTozFviaabf7vuEwC4UMrLJdufN5ku9SbY71aUk8OOhuGtmCUQ==
+
 "@essentials/benchmark@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@essentials/benchmark/-/benchmark-1.0.6.tgz#2a62efc783cfda2ab0aed00960140d791622632c"
