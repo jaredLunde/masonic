@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.4](https://github.com/jaredLunde/masonic/compare/v3.3.3...v3.3.4) (2020-09-09)
+
+### Bug Fixes
+
+- **use-positioner:** re-initialize positioner instance before render ([bc547f8](https://github.com/jaredLunde/masonic/commit/bc547f85b3dd4e2126ee4483ed64828b3452e420))
+- **use-positioner.ts:** resolve redundancies ([21064cd](https://github.com/jaredLunde/masonic/commit/21064cdaeb4dd1e860ef7faab5be6b8986394578))
+
 ### [3.3.3](https://github.com/jaredLunde/masonic/compare/v3.3.2...v3.3.3) (2020-07-21)
 
 ### Bug Fixes
