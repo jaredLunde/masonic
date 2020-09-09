@@ -43,21 +43,21 @@ export function usePositioner(
     positioner: initPositioner(),
   }))
 
+  // eslint-disable-next-line prefer-const
   let {deps: previousDeps, options: previousOptions, positioner} = state
 
   // Create a new positioner when the dependencies change.
   // Also updates the item positions any time a prop potentially affecting their
   // size changes
-  const hasDepsChanged = !areDepsEqual(deps, previousDeps)
-  const hasOptionsChanged = !areOptionsEqual(options, previousOptions)
+  const hasDepsChanged = !areEqualArrays(deps as any[], previousDeps as any[])
+  const hasOptionsChanged = !areEqualObjects(options, previousOptions)
+
   if (hasDepsChanged || hasOptionsChanged) {
     const nextPositioner = initPositioner()
     if (hasOptionsChanged && !hasDepsChanged)
       copyPositions(positioner, nextPositioner)
 
     positioner = nextPositioner
-    previousDeps = deps
-    previousOptions = options
     setState({deps, options, positioner})
   }
 
@@ -284,20 +284,6 @@ type UsePositionerState = {
   deps: React.DependencyList
   options: UsePositionerOptions
   positioner: Positioner
-}
-
-const areDepsEqual = (
-  nextDeps: React.DependencyList,
-  prevDeps: React.DependencyList
-): boolean => {
-  return areEqualArrays(nextDeps as Array<any>, prevDeps as Array<any>)
-}
-
-const areOptionsEqual = (
-  nextOptions: UsePositionerOptions,
-  prevOptions: UsePositionerOptions
-): boolean => {
-  return areEqualObjects(nextOptions, prevOptions)
 }
 
 /* istanbul ignore next */
