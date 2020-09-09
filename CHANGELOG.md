@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.5](https://github.com/jaredLunde/masonic/compare/v3.3.4...v3.3.5) (2020-09-09)
+
+### Bug Fixes
+
+- **use-positioner.ts:** fix "No data was found at index" error ([bfb6150](https://github.com/jaredLunde/masonic/commit/bfb61504ce7b7fc784e71b0d7d4a89ef8f6389d2))
+
 ### [3.3.4](https://github.com/jaredLunde/masonic/compare/v3.3.3...v3.3.4) (2020-09-09)
 
 ### Bug Fixes
