@@ -1,5 +1,4 @@
 import * as React from 'react'
-import useLayoutEffect from '@react-hook/passive-layout-effect'
 import {createIntervalTree} from './interval-tree'
 
 /**
@@ -34,33 +33,40 @@ export function usePositioner(
       columnGutter
     )
   }
-  const [positioner, setPositioner] = React.useState<Positioner>(initPositioner)
-  const didMount = React.useRef(0)
+  // eslint-disable-next-line prefer-const
+  let [positioner, setPositioner] = React.useState<Positioner>(initPositioner)
+  const prevDeps = React.useRef(deps)
+  const opts = [width, columnWidth, columnGutter, columnCount]
+  const prevOpts = React.useRef(opts)
+  const optsChanged = !opts.every((item, i) => prevOpts.current[i] === item)
 
-  // Create a new positioner when the dependencies change
-  useLayoutEffect(() => {
-    if (didMount.current) setPositioner(initPositioner())
-    didMount.current = 1
-    // eslint-disable-next-line
-  }, deps)
-
-  // Updates the item positions any time a prop potentially affecting their
-  // size changes
-  useLayoutEffect(() => {
-    if (didMount.current) {
-      const cacheSize = positioner.size()
-      const nextPositioner = initPositioner()
-      let index = 0
-
-      for (; index < cacheSize; index++) {
-        const pos = positioner.get(index)
-        nextPositioner.set(index, pos !== void 0 ? pos.height : 0)
-      }
-
-      setPositioner(nextPositioner)
+  if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production') {
+    if (deps.length !== prevDeps.current.length) {
+      throw new Error(
+        'usePositioner(): The length of your dependencies array changed.'
+      )
     }
-    // eslint-disable-next-line
-  }, [width, columnWidth, columnGutter, columnCount])
+  }
+
+  // Create a new positioner when the dependencies or sizes change
+  // Thanks to https://github.com/khmm12 for pointing this out
+  // https://github.com/jaredLunde/masonic/pull/41
+  if (optsChanged || !deps.every((item, i) => prevDeps.current[i] === item)) {
+    const prevPositioner = positioner
+    positioner = initPositioner()
+    prevDeps.current = deps
+    prevOpts.current = opts
+
+    if (optsChanged) {
+      const cacheSize = prevPositioner.size()
+      for (let index = 0; index < cacheSize; index++) {
+        const pos = prevPositioner.get(index)
+        positioner.set(index, pos !== void 0 ? pos.height : 0)
+      }
+    }
+
+    setPositioner(positioner)
+  }
 
   return positioner
 }

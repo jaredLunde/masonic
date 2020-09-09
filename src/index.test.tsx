@@ -379,6 +379,22 @@ describe('usePositioner()', () => {
     result.current.update([1, 204])
     expect(result.current.shortestColumn()).toBe(804)
   })
+
+  it('should create a new positioner when deps change', () => {
+    const {result, rerender} = renderHook(
+      ({deps, ...props}) => usePositioner(props, deps),
+      {
+        initialProps: {width: 1280, columnCount: 1, deps: [1]},
+      }
+    )
+
+    const initialPositioner = result.current
+    rerender({width: 1280, columnCount: 1, deps: [1]})
+    expect(result.current).toBe(initialPositioner)
+
+    rerender({width: 1280, columnCount: 1, deps: [2]})
+    expect(result.current).not.toBe(initialPositioner)
+  })
 })
 
 describe('useContainerPosition()', () => {
@@ -828,12 +844,15 @@ const FakeCard = ({data: {height}, index}): React.ReactElement => (
 // Simulate scroll events
 const scrollEvent = document.createEvent('Event')
 scrollEvent.initEvent('scroll', true, true)
-const scrollTo = (value): void => {
+const setScroll = (value): void => {
   Object.defineProperty(window, 'scrollY', {value, configurable: true})
+}
+const scrollTo = (value): void => {
+  setScroll(value)
   window.dispatchEvent(scrollEvent)
 }
 const resetScroll = (): void => {
-  scrollTo(0)
+  setScroll(0)
 }
 
 // Simulate window resize event
@@ -842,7 +861,7 @@ resizeEvent.initEvent('resize', true, true)
 const orientationEvent = document.createEvent('Event')
 orientationEvent.initEvent('orientationchange', true, true)
 
-const resizeTo = (width, height) => {
+const setWindowSize = (width, height) => {
   Object.defineProperty(document.documentElement, 'clientWidth', {
     value: width,
     configurable: true,
@@ -851,11 +870,15 @@ const resizeTo = (width, height) => {
     value: height,
     configurable: true,
   })
+}
+
+const resizeTo = (width, height) => {
+  setWindowSize(width, height)
   window.dispatchEvent(resizeEvent)
 }
 
 const resetSize = () => {
-  resizeTo(1280, 720)
+  setWindowSize(1280, 720)
 }
 
 // performance.now mock
