@@ -1,5 +1,6 @@
 import * as React from 'react'
-import {areEqualArrays, areEqualObjects} from '@essentials/are-equal'
+import useLayoutEffect from '@react-hook/passive-layout-effect'
+import {areEqualArrays} from '@essentials/are-equal'
 import {createIntervalTree} from './interval-tree'
 
 /**
@@ -21,8 +22,7 @@ export function usePositioner(
   }: UsePositionerOptions,
   deps: React.DependencyList = emptyArr
 ): Positioner {
-  const options = {width, columnWidth, columnGutter, columnCount}
-
+  const didMount = React.useRef(0)
   const initPositioner = (): Positioner => {
     const [computedColumnWidth, computedColumnCount] = getColumns(
       width,
@@ -37,29 +37,38 @@ export function usePositioner(
     )
   }
 
-  const [state, setState] = React.useState<UsePositionerState>(() => ({
+  // eslint-disable-next-line prefer-const
+  let [{deps: previousDeps, positioner}, setState] = React.useState<
+    UsePositionerState
+  >(() => ({
     deps,
-    options,
     positioner: initPositioner(),
   }))
 
-  // eslint-disable-next-line prefer-const
-  let {deps: previousDeps, options: previousOptions, positioner} = state
-
   // Create a new positioner when the dependencies change.
-  // Also updates the item positions any time a prop potentially affecting their
-  // size changes
-  const hasDepsChanged = !areEqualArrays(deps as any[], previousDeps as any[])
-  const hasOptionsChanged = !areEqualObjects(options, previousOptions)
-
-  if (hasDepsChanged || hasOptionsChanged) {
-    const nextPositioner = initPositioner()
-    if (hasOptionsChanged && !hasDepsChanged)
-      copyPositions(positioner, nextPositioner)
-
-    positioner = nextPositioner
-    setState({deps, options, positioner})
+  if (!areEqualArrays(deps as any[], previousDeps as any[])) {
+    positioner = initPositioner()
+    setState({deps, positioner})
   }
+
+  useLayoutEffect(() => {
+    if (didMount.current) {
+      const nextPositioner = initPositioner()
+      const cacheSize = positioner.size()
+
+      for (let index = 0; index < cacheSize; index++) {
+        const pos = positioner.get(index)
+        nextPositioner.set(index, pos !== void 0 ? pos.height : 0)
+      }
+
+      setState((current) =>
+        Object.assign({}, current, {positioner: nextPositioner})
+      )
+    }
+
+    didMount.current = 1
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [width, columnWidth, columnGutter, columnCount])
 
   return positioner
 }
@@ -282,7 +291,6 @@ export interface PositionerItem {
 
 type UsePositionerState = {
   deps: React.DependencyList
-  options: UsePositionerOptions
   positioner: Positioner
 }
 
@@ -300,15 +308,6 @@ const binarySearch = (a: number[], y: number): number => {
   }
 
   return -1
-}
-
-const copyPositions = (positioner: Positioner, nextPositioner: Positioner) => {
-  const cacheSize = positioner.size()
-
-  for (let index = 0; index < cacheSize; index++) {
-    const pos = positioner.get(index)
-    nextPositioner.set(index, pos !== void 0 ? pos.height : 0)
-  }
 }
 
 const getColumns = (
