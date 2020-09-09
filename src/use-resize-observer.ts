@@ -1,6 +1,7 @@
 import * as React from 'react'
 import trieMemoize from 'trie-memoize'
 import ResizeObserver from 'resize-observer-polyfill'
+import rafSchd from 'raf-schd'
 import {elementsCache} from './elements-cache'
 import {useForceUpdate} from './use-force-update'
 import type {Positioner} from './use-positioner'
@@ -31,8 +32,8 @@ export const createResizeObserver = trieMemoize(
   [WeakMap],
   // TODO: figure out a way to test this
   /* istanbul ignore next */
-  (positioner: Positioner, updater: (updates: number[]) => void) =>
-    new ResizeObserver((entries) => {
+  (positioner: Positioner, updater: (updates: number[]) => void) => {
+    const handleEntries = rafSchd(((entries) => {
       const updates: number[] = []
       let i = 0
 
@@ -58,15 +59,18 @@ export const createResizeObserver = trieMemoize(
         positioner.update(updates)
         updater(updates)
       }
-    })
+    }) as ResizeObserverCallback)
+
+    const ro = new ResizeObserver(handleEntries)
+    // Overrides the original disconnect to include cancelling handling the entries.
+    // Ideally this would be its own method but that would result in a breaking
+    // change.
+    const disconnect = ro.disconnect.bind(ro)
+    ro.disconnect = () => {
+      disconnect()
+      handleEntries.cancel()
+    }
+
+    return ro
+  }
 )
-
-interface ResizeObserverEntryBoxSize {
-  blockSize: number
-  inlineSize: number
-}
-
-interface NativeResizeObserverEntry extends ResizeObserverEntry {
-  borderBoxSize: ResizeObserverEntryBoxSize
-  contentBoxSize: ResizeObserverEntryBoxSize
-}
