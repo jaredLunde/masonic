@@ -116,6 +116,7 @@ const MasonryCard = ({index, data: {id}, width}) => (
 - [Reset `<Masonry>` layout when switching between routes within the same <Route> component.](https://codesandbox.io/s/masonic-w-react-router-example-2b5f9?file=/src/index.js)
   - [Do the same with an advanced custom implementation using the `usePositioner()` hook.](https://codesandbox.io/s/masonic-w-react-router-and-advanced-config-example-8em42?file=/src/index.js)
 - [Render a Masonry component relative to a scrollable HTML element rather than the browser `window`.](https://codesandbox.io/s/masonic-inside-of-a-scrollable-div-example-k9l6c?file=/src/index.js)
+- [Add an `isScrolling` prop to cells](https://codesandbox.io/s/usemasonry-example-3pcg9?file=/src/index.js)
 
 ---
 
