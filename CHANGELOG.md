@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.8](https://github.com/jaredLunde/masonic/compare/v3.3.7...v3.3.8) (2020-09-09)
+
+### Bug Fixes
+
+- **use-resize-observer:** fix ResizeObserver loop limit exceeded ([140883d](https://github.com/jaredLunde/masonic/commit/140883d7360a3f24b9aba251eb29575fdd2e8377)), closes [#39](https://github.com/jaredLunde/masonic/issues/39)
+
 ### [3.3.7](https://github.com/jaredLunde/masonic/compare/v3.3.6...v3.3.7) (2020-09-09)
 
 ### Bug Fixes
