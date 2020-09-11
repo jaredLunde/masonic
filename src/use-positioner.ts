@@ -33,8 +33,10 @@ export function usePositioner(
       columnGutter
     )
   }
-  // eslint-disable-next-line prefer-const
-  let [positioner, setPositioner] = React.useState<Positioner>(initPositioner)
+  const positionerRef = React.useRef<Positioner>()
+  if (positionerRef.current === undefined)
+    positionerRef.current = initPositioner()
+
   const prevDeps = React.useRef(deps)
   const opts = [width, columnWidth, columnGutter, columnCount]
   const prevOpts = React.useRef(opts)
@@ -52,8 +54,8 @@ export function usePositioner(
   // Thanks to https://github.com/khmm12 for pointing this out
   // https://github.com/jaredLunde/masonic/pull/41
   if (optsChanged || !deps.every((item, i) => prevDeps.current[i] === item)) {
-    const prevPositioner = positioner
-    positioner = initPositioner()
+    const prevPositioner = positionerRef.current
+    const positioner = initPositioner()
     prevDeps.current = deps
     prevOpts.current = opts
 
@@ -65,10 +67,10 @@ export function usePositioner(
       }
     }
 
-    setPositioner(positioner)
+    positionerRef.current = positioner
   }
 
-  return positioner
+  return positionerRef.current
 }
 
 export interface UsePositionerOptions {
