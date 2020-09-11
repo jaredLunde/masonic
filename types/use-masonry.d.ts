@@ -151,11 +151,7 @@ export interface UseMasonryOptions<Item> {
   /**
    * This callback is invoked any time the items currently being rendered by the grid change.
    */
-  onRender?: (
-    startIndex: number,
-    stopIndex: number | undefined,
-    items: Item[]
-  ) => void
+  onRender?: (startIndex: number, stopIndex: number, items: Item[]) => void
 }
 export interface RenderComponentProps<Item> {
   /**

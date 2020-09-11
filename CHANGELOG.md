@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.10](https://github.com/jaredLunde/masonic/compare/v3.3.9...v3.3.10) (2020-09-11)
+
+### Bug Fixes
+
+- **use-masonry:** fix onRender type ([1f0af01](https://github.com/jaredLunde/masonic/commit/1f0af0141c055ab9dc86d37e1c8f25e993d17f99)), closes [#43](https://github.com/jaredLunde/masonic/issues/43)
+
 ### [3.3.9](https://github.com/jaredLunde/masonic/compare/v3.3.8...v3.3.9) (2020-09-11)
 
 ### Bug Fixes
