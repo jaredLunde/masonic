@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.9](https://github.com/jaredLunde/masonic/compare/v3.3.8...v3.3.9) (2020-09-11)
+
+### Bug Fixes
+
+- **use-positioner:** re-initialization in StrictMode ([ebe6b9c](https://github.com/jaredLunde/masonic/commit/ebe6b9cf164ef881fa4dc808df1142d679fe3ecc))
+
 ### [3.3.8](https://github.com/jaredLunde/masonic/compare/v3.3.7...v3.3.8) (2020-09-09)
 
 ### Bug Fixes
