@@ -40,7 +40,7 @@ export function useMasonry<Item>({
   onRender,
 }: UseMasonryOptions<Item>) {
   let startIndex = 0
-  let stopIndex: number | undefined = void 0
+  let stopIndex: number | undefined
   const forceUpdate = useForceUpdate()
   const setItemRef = getRefSetter(positioner, resizeObserver)
   const itemCount = items.length
@@ -339,11 +339,7 @@ lue may create too much work for React to handle, so it's best that you tune thi
   /**
    * This callback is invoked any time the items currently being rendered by the grid change.
    */
-  onRender?: (
-    startIndex: number,
-    stopIndex: number | undefined,
-    items: Item[]
-  ) => void
+  onRender?: (startIndex: number, stopIndex: number, items: Item[]) => void
 }
 
 export interface RenderComponentProps<Item> {

@@ -198,9 +198,9 @@ Props that customize how individual grid item containers are rendered.
 
 **Callbacks**
 
-| Prop     | Type                                                                                        | Default | Required? | Description                                                                                                                               |
-| -------- | ------------------------------------------------------------------------------------------- | ------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| onRender | <code>(startIndex: number, stopIndex: number &#124; undefined, items: any[]) => void</code> |         | No        | This callback is invoked any time the items currently being rendered by the grid change. See [onRender() arguments](#onrender-arguments). |
+| Prop     | Type                                                                       | Default | Required? | Description                                                                                                                               |
+| -------- | -------------------------------------------------------------------------- | ------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| onRender | <code>(startIndex: number, stopIndex: number, items: any[]) => void</code> |         | No        | This callback is invoked any time the items currently being rendered by the grid change. See [onRender() arguments](#onrender-arguments). |
 
 **Other props**
 

@@ -165,7 +165,7 @@
     "@essentials/one-key-map": "^1.2.0",
     "@essentials/request-timeout": "^1.3.0",
     "@react-hook/event": "^1.2.2",
-    "@react-hook/latest": "^1.0.2",
+    "@react-hook/latest": "^1.0.3",
     "@react-hook/passive-layout-effect": "^1.2.0",
     "@react-hook/throttle": "^2.2.0",
     "@react-hook/window-scroll": "^1.3.0",
