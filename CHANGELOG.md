@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.0](https://github.com/jaredLunde/masonic/compare/v3.3.10...v3.4.0) (2020-12-29)
+
+### Features
+
+- expose `createIntervalTree` ([e0c0a20](https://github.com/jaredLunde/masonic/commit/e0c0a208ae5054eb42cc813ccf96979693c9ae50))
+
 ### [3.3.10](https://github.com/jaredLunde/masonic/compare/v3.3.9...v3.3.10) (2020-09-11)
 
 ### Bug Fixes

@@ -1,4 +1,4 @@
-interface IIntervalTree {
+export interface IIntervalTree {
   insert(low: number, high: number, index: number): void
   remove(index: number): void
   search(
@@ -9,4 +9,3 @@ interface IIntervalTree {
   size: number
 }
 export declare function createIntervalTree(): IIntervalTree
-export {}
