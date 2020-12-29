@@ -266,7 +266,7 @@ function fixInsert(tree: Tree, z: TreeNode) {
   tree.root.C = BLACK
 }
 
-interface IIntervalTree {
+export interface IIntervalTree {
   insert(low: number, high: number, index: number): void
   remove(index: number): void
   search(
