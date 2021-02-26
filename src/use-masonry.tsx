@@ -55,7 +55,8 @@ export function useMasonry<Item>({
   const measuredCount = size()
   const shortestColumnSize = shortestColumn()
   const children: React.ReactElement[] = []
-  const itemRole = role + 'item'
+  const itemRole =
+    role === 'list' ? 'listitem' : role === 'grid' ? 'gridcell' : undefined
   const storedOnRender = useLatest(onRender)
 
   overscanBy = height * overscanBy

@@ -8,7 +8,7 @@ exports[`<Masonry> should update when the size of the window changes: Should dis
     tabindex="0"
   >
     <div
-      role="griditem"
+      role="gridcell"
       style="width: 100px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
     >
       <div
@@ -32,7 +32,7 @@ exports[`<Masonry> should update when the size of the window changes: Should dis
     tabindex="0"
   >
     <div
-      role="griditem"
+      role="gridcell"
       style="width: 100px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
     >
       <div
@@ -45,7 +45,7 @@ exports[`<Masonry> should update when the size of the window changes: Should dis
       </div>
     </div>
     <div
-      role="griditem"
+      role="gridcell"
       style="width: 100px; position: absolute; writing-mode: horizontal-tb; top: 400px; left: 0px;"
     >
       <div
@@ -69,7 +69,7 @@ exports[`<MasonryScroller> should update when scrolling: pointer-events: none IS
     tabindex="0"
   >
     <div
-      role="griditem"
+      role="gridcell"
       style="width: 320px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
     >
       <div
@@ -93,7 +93,7 @@ exports[`<MasonryScroller> should update when scrolling: pointer-events: none is
     tabindex="0"
   >
     <div
-      role="griditem"
+      role="gridcell"
       style="width: 320px; position: absolute; writing-mode: horizontal-tb; top: 0px; left: 0px;"
     >
       <div
