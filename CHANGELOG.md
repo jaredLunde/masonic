@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.4.1](https://github.com/jaredLunde/masonic/compare/v3.4.0...v3.4.1) (2021-02-26)
+
+### Bug Fixes
+
+- **use-masonry:** rename griditem to gridcell ([45a1e6b](https://github.com/jaredLunde/masonic/commit/45a1e6bd9883144b3e6b74a75f5c0ce2cc9633ad))
+
 ## [3.4.0](https://github.com/jaredLunde/masonic/compare/v3.3.10...v3.4.0) (2020-12-29)
 
 ### Features
