@@ -395,6 +395,18 @@ describe('usePositioner()', () => {
     rerender({width: 1280, columnCount: 1, deps: [2]})
     expect(result.current).not.toBe(initialPositioner)
   })
+
+  it('should report items', () => {
+    const {result} = renderHook((props) => usePositioner(props), {
+      initialProps: {width: 1280},
+    })
+    const length = 100
+    for (let i = 0; i < length; i++) {
+      result.current.set(i, 200)
+    }
+    expect(result.current.size()).toBe(length)
+    expect(result.current.all()).toHaveLength(length)
+  })
 })
 
 describe('useContainerPosition()', () => {
