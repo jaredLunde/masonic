@@ -96,6 +96,10 @@ export interface Positioner {
    * Returns the height of the shortest column in the grid
    */
   shortestColumn: () => number
+  /**
+   * Returns all `PositionerItem` items
+   */
+  all: () => PositionerItem[]
 }
 export interface PositionerItem {
   /**

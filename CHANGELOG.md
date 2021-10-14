@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.0](https://github.com/jaredLunde/masonic/compare/v3.4.1...v3.5.0) (2021-10-14)
+
+### Features
+
+- positioner exposes `all` API ([7529eea](https://github.com/jaredLunde/masonic/commit/7529eea9db23aacbf3ae070dc089236f2e1caf48)), closes [#88](https://github.com/jaredLunde/masonic/issues/88)
+
 ### [3.4.1](https://github.com/jaredLunde/masonic/compare/v3.4.0...v3.4.1) (2021-02-26)
 
 ### Bug Fixes
