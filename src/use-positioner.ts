@@ -216,6 +216,9 @@ export const createPositioner = (
     size(): number {
       return intervalTree.size
     },
+    all(): PositionerItem[] {
+      return items
+    },
   }
 }
 
@@ -266,6 +269,10 @@ export interface Positioner {
    */
 
   shortestColumn: () => number
+  /**
+   * Returns all `PositionerItem` items
+   */
+  all: () => PositionerItem[]
 }
 
 export interface PositionerItem {
