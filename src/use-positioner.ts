@@ -16,6 +16,7 @@ export function usePositioner(
     width,
     columnWidth = 200,
     columnGutter = 0,
+    rowGutter,
     columnCount,
   }: UsePositionerOptions,
   deps: React.DependencyList = emptyArr
@@ -30,7 +31,8 @@ export function usePositioner(
     return createPositioner(
       computedColumnCount,
       computedColumnWidth,
-      columnGutter
+      columnGutter,
+      rowGutter ?? columnGutter
     )
   }
   const positionerRef = React.useRef<Positioner>()
@@ -38,7 +40,7 @@ export function usePositioner(
     positionerRef.current = initPositioner()
 
   const prevDeps = React.useRef(deps)
-  const opts = [width, columnWidth, columnGutter, columnCount]
+  const opts = [width, columnWidth, columnGutter, rowGutter, columnCount]
   const prevOpts = React.useRef(opts)
   const optsChanged = !opts.every((item, i) => prevOpts.current[i] === item)
 
@@ -88,9 +90,16 @@ export interface UsePositionerOptions {
    */
   columnWidth?: number
   /**
-   * This sets the vertical and horizontal space between grid cells in pixels.
+   * This sets the horizontal space between grid columns in pixels. If `rowGutter` is not set, this
+   * also sets the vertical space between cells within a column in pixels.
+   * @default 0
    */
   columnGutter?: number
+  /**
+   * This sets the vertical space between cells within a column in pixels. If not set, the value of
+   * `columnGutter` is used instead.
+   */
+  rowGutter?: number
   /**
    * By default, `usePositioner()` derives the column count from the `columnWidth`, `columnGutter`,
    * and `width` props. However, in some situations it is nice to be able to override that behavior
@@ -105,13 +114,15 @@ export interface UsePositionerOptions {
  *
  * @param columnCount The number of columns in the grid
  * @param columnWidth The width of each column in the grid
- * @param columnGutter The amount of horizontal and vertical space in pixels to render
- *  between each grid item.
+ * @param columnGutter The amount of horizontal space between columns in pixels.
+ * @param rowGutter The amount of vertical space between cells within a column in pixels (falls back
+ * to `columnGutter`).
  */
 export const createPositioner = (
   columnCount: number,
   columnWidth: number,
-  columnGutter = 0
+  columnGutter = 0,
+  rowGutter = columnGutter
 ): Positioner => {
   // O(log(n)) lookup of cells to render for a given viewport size
   // Store tops and bottoms of each cell for fast intersection lookup.
@@ -141,7 +152,7 @@ export const createPositioner = (
       }
 
       const top = columnHeights[column] || 0
-      columnHeights[column] = top + height + columnGutter
+      columnHeights[column] = top + height + rowGutter
       columnItems[column].push(index)
       items[index] = {
         left: column * (columnWidth + columnGutter),
@@ -183,13 +194,13 @@ export const createPositioner = (
         const startIndex = binarySearch(itemsInColumn, columns[i])
         const index = columnItems[i][startIndex]
         const startItem = items[index]
-        columnHeights[i] = startItem.top + startItem.height + columnGutter
+        columnHeights[i] = startItem.top + startItem.height + rowGutter
 
         for (j = startIndex + 1; j < itemsInColumn.length; j++) {
           const index = itemsInColumn[j]
           const item = items[index]
           item.top = columnHeights[i]
-          columnHeights[i] = item.top + item.height + columnGutter
+          columnHeights[i] = item.top + item.height + rowGutter
           intervalTree.remove(index)
           intervalTree.insert(item.top, item.top + item.height, index)
         }
