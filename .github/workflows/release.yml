@@ -1,0 +1,68 @@
+name: release
+
+on:
+  push:
+    branches:
+      - main
+      - next
+      - alpha
+  pull_request:
+    branches:
+      - main
+      - next
+      - alpha
+
+jobs:
+  release:
+    name: 🚀 Release
+    if: "!contains(github.event.head_commit.message, '[skip ci]') && !startsWith(github.event.head_commit.message, 'chore:') && !startsWith(github.event.head_commit.message, 'style:') && !contains(github.event.pull_request.title, '[skip ci]') && !startsWith(github.event.pull_request.title, 'chore:') && !startsWith(github.event.pull_request.title, 'style:') && !startsWith(github.event.head_commit.message, 'chore(') && !startsWith(github.event.head_commit.message, 'style(') && !startsWith(github.event.pull_request.title, 'chore(') && !startsWith(github.event.pull_request.title, 'style(')"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.14.3
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+      - name: Install
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: pnpm install --reporter=silent
+      - name: ✅ Check types
+        run: pnpm check-types
+      - name: 🧹 Lint
+        run: pnpm lint -- --quiet
+      - name: 🧪 Test
+        run: pnpm test -- --coverage --silent
+      - name: Publish tests to Codecov
+        if: always()
+        uses: codecov/codecov-action@v2
+        with:
+          directory: coverage
+          verbose: false
+          fail_ci_if_error: false
+      - name: Build
+        if: "github.event_name == 'push'"
+        run: pnpm build
+      - name: Stage changes
+        if: "github.event_name == 'push'"
+        run: git add .
+      - name: 🚀 Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpx -y semantic-release

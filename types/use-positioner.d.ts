@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 /**
  * This hook creates the grid cell positioner and cache required by `useMasonry()`. This is
  * the meat of the grid's layout algorithm, determining which cells to render at a given scroll
@@ -18,13 +18,13 @@ export declare function usePositioner(
     columnCount,
   }: UsePositionerOptions,
   deps?: React.DependencyList
-): Positioner
+): Positioner;
 export interface UsePositionerOptions {
   /**
    * The width of the container you're rendering the grid within, i.e. the container
    * element's `element.offsetWidth`
    */
-  width: number
+  width: number;
   /**
    * The minimum column width. The `usePositioner()` hook will automatically size the
    * columns to fill their container based upon the `columnWidth` and `columnGutter` values.
@@ -32,24 +32,24 @@ export interface UsePositionerOptions {
    * smaller than its value. This property is optional if you're using a static `columnCount`.
    * @default 200
    */
-  columnWidth?: number
+  columnWidth?: number;
   /**
    * This sets the horizontal space between grid columns in pixels. If `rowGutter` is not set, this
    * also sets the vertical space between cells within a column in pixels.
    * @default 0
    */
-  columnGutter?: number
+  columnGutter?: number;
   /**
    * This sets the vertical space between cells within a column in pixels. If not set, the value of
    * `columnGutter` is used instead.
    */
-  rowGutter?: number
+  rowGutter?: number;
   /**
    * By default, `usePositioner()` derives the column count from the `columnWidth`, `columnGutter`,
    * and `width` props. However, in some situations it is nice to be able to override that behavior
    * (e.g. creating a `List` component).
    */
-  columnCount?: number
+  columnCount?: number;
 }
 /**
  * Creates a cell positioner for the `useMasonry()` hook. The `usePositioner()` hook uses
@@ -66,29 +66,29 @@ export declare const createPositioner: (
   columnWidth: number,
   columnGutter?: number,
   rowGutter?: number
-) => Positioner
+) => Positioner;
 export interface Positioner {
   /**
    * The number of columns in the grid
    */
-  columnCount: number
+  columnCount: number;
   /**
    * The width of each column in the grid
    */
-  columnWidth: number
+  columnWidth: number;
   /**
    * Sets the position for the cell at `index` based upon the cell's height
    */
-  set: (index: number, height: number) => void
+  set: (index: number, height: number) => void;
   /**
    * Gets the `PositionerItem` for the cell at `index`
    */
-  get: (index: number) => PositionerItem | undefined
+  get: (index: number) => PositionerItem | undefined;
   /**
    * Updates cells based on their indexes and heights
    * positioner.update([index, height, index, height, index, height...])
    */
-  update: (updates: number[]) => void
+  update: (updates: number[]) => void;
   /**
    * Searches the interval tree for grid cells with a `top` value in
    * betwen `lo` and `hi` and invokes the callback for each item that
@@ -98,41 +98,41 @@ export interface Positioner {
     lo: number,
     hi: number,
     renderCallback: (index: number, left: number, top: number) => void
-  ) => void
+  ) => void;
   /**
    * Returns the number of grid cells in the cache
    */
-  size: () => number
+  size: () => number;
   /**
    * Estimates the total height of the grid
    */
-  estimateHeight: (itemCount: number, defaultItemHeight: number) => number
+  estimateHeight: (itemCount: number, defaultItemHeight: number) => number;
   /**
    * Returns the height of the shortest column in the grid
    */
-  shortestColumn: () => number
+  shortestColumn: () => number;
   /**
    * Returns all `PositionerItem` items
    */
-  all: () => PositionerItem[]
+  all: () => PositionerItem[];
 }
 export interface PositionerItem {
   /**
    * This is how far from the top edge of the grid container in pixels the
    * item is placed
    */
-  top: number
+  top: number;
   /**
    * This is how far from the left edge of the grid container in pixels the
    * item is placed
    */
-  left: number
+  left: number;
   /**
    * This is the height of the grid cell
    */
-  height: number
+  height: number;
   /**
    * This is the column number containing the grid cell
    */
-  column: number
+  column: number;
 }

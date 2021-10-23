@@ -2,11 +2,11 @@
 > **Any change needs to be discussed before proceeding.** Failure to do so may result
 > in the rejection of the pull request.
 
-## Thank you for contributing to Masonic
+## Thank you for contributing to `masonic`
 
 ### Before submitting
 
-Read the [CONTRIBUTING.md](https://github.com/jaredLunde/react-hook/blob/master/CONTRIBUTING.md) file and confirm that you're following
+Read the [CONTRIBUTING.md](../CONTRIBUTING.md) file and confirm that you're following
 all of the guidelines
 
 ### Please provide enough information so that others can review your pull request

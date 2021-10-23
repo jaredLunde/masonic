@@ -1,2 +1,2 @@
-export const requestTimeout = (...args) => setTimeout(...args)
-export const clearRequestTimeout = (...args) => clearTimeout(...args)
+export const requestTimeout = (...args) => setTimeout(...args);
+export const clearRequestTimeout = (...args) => clearTimeout(...args);

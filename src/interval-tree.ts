@@ -1,72 +1,72 @@
-type Color = 0 | 1 | 2
-const RED = 0
-const BLACK = 1
-const NIL = 2
+type Color = 0 | 1 | 2;
+const RED = 0;
+const BLACK = 1;
+const NIL = 2;
 
-const DELETE = 0
-const KEEP = 1
+const DELETE = 0;
+const KEEP = 1;
 
 type ListNode = {
-  index: number
-  high: number
-  next: ListNode | null
-}
+  index: number;
+  high: number;
+  next: ListNode | null;
+};
 
 interface TreeNode {
-  max: number
-  low: number
-  high: number
+  max: number;
+  low: number;
+  high: number;
   // color
-  C: Color
+  C: Color;
   // P
-  P: TreeNode
+  P: TreeNode;
   // right
-  R: TreeNode
+  R: TreeNode;
   // left
-  L: TreeNode
-  list: ListNode
+  L: TreeNode;
+  list: ListNode;
 }
 
 interface Tree {
-  root: TreeNode
-  size: number
+  root: TreeNode;
+  size: number;
 }
 
 function addInterval(treeNode: TreeNode, high: number, index: number): boolean {
-  let node: ListNode | null = treeNode.list
-  let prevNode: ListNode | undefined
+  let node: ListNode | null = treeNode.list;
+  let prevNode: ListNode | undefined;
 
   while (node) {
-    if (node.index === index) return false
-    if (high > node.high) break
-    prevNode = node
-    node = node.next
+    if (node.index === index) return false;
+    if (high > node.high) break;
+    prevNode = node;
+    node = node.next;
   }
 
-  if (!prevNode) treeNode.list = {index, high, next: node}
-  if (prevNode) prevNode.next = {index, high, next: prevNode.next}
+  if (!prevNode) treeNode.list = { index, high, next: node };
+  if (prevNode) prevNode.next = { index, high, next: prevNode.next };
 
-  return true
+  return true;
 }
 
 function removeInterval(treeNode: TreeNode, index: number) {
-  let node: ListNode | null = treeNode.list
+  let node: ListNode | null = treeNode.list;
   if (node.index === index) {
-    if (node.next === null) return DELETE
-    treeNode.list = node.next
-    return KEEP
+    if (node.next === null) return DELETE;
+    treeNode.list = node.next;
+    return KEEP;
   }
 
-  let prevNode: ListNode | undefined = node
-  node = node.next
+  let prevNode: ListNode | undefined = node;
+  node = node.next;
 
   while (node !== null) {
     if (node.index === index) {
-      prevNode.next = node.next
-      return KEEP
+      prevNode.next = node.next;
+      return KEEP;
     }
-    prevNode = node
-    node = node.next
+    prevNode = node;
+    node = node.next;
   }
 }
 
@@ -75,238 +75,238 @@ const NULL_NODE: TreeNode = {
   max: 0,
   high: 0,
   C: NIL,
-  // @ts-ignore
+  // @ts-expect-error
   P: undefined,
-  // @ts-ignore
+  // @ts-expect-error
   R: undefined,
-  // @ts-ignore
+  // @ts-expect-error
   L: undefined,
-  // @ts-ignore
+  // @ts-expect-error
   list: undefined,
-}
+};
 
-NULL_NODE.P = NULL_NODE
-NULL_NODE.L = NULL_NODE
-NULL_NODE.R = NULL_NODE
+NULL_NODE.P = NULL_NODE;
+NULL_NODE.L = NULL_NODE;
+NULL_NODE.R = NULL_NODE;
 
 function updateMax(node: TreeNode) {
-  const max = node.high
-  if (node.L === NULL_NODE && node.R === NULL_NODE) node.max = max
-  else if (node.L === NULL_NODE) node.max = Math.max(node.R.max, max)
-  else if (node.R === NULL_NODE) node.max = Math.max(node.L.max, max)
-  else node.max = Math.max(Math.max(node.L.max, node.R.max), max)
+  const max = node.high;
+  if (node.L === NULL_NODE && node.R === NULL_NODE) node.max = max;
+  else if (node.L === NULL_NODE) node.max = Math.max(node.R.max, max);
+  else if (node.R === NULL_NODE) node.max = Math.max(node.L.max, max);
+  else node.max = Math.max(Math.max(node.L.max, node.R.max), max);
 }
 
 function updateMaxUp(node: TreeNode) {
-  let x = node
+  let x = node;
 
   while (x.P !== NULL_NODE) {
-    updateMax(x.P)
-    x = x.P
+    updateMax(x.P);
+    x = x.P;
   }
 }
 
 function rotateLeft(tree: Tree, x: TreeNode) {
-  if (x.R === NULL_NODE) return
-  const y = x.R
-  x.R = y.L
-  if (y.L !== NULL_NODE) y.L.P = x
-  y.P = x.P
+  if (x.R === NULL_NODE) return;
+  const y = x.R;
+  x.R = y.L;
+  if (y.L !== NULL_NODE) y.L.P = x;
+  y.P = x.P;
 
-  if (x.P === NULL_NODE) tree.root = y
+  if (x.P === NULL_NODE) tree.root = y;
   else {
-    if (x === x.P.L) x.P.L = y
-    else x.P.R = y
+    if (x === x.P.L) x.P.L = y;
+    else x.P.R = y;
   }
 
-  y.L = x
-  x.P = y
+  y.L = x;
+  x.P = y;
 
-  updateMax(x)
-  updateMax(y)
+  updateMax(x);
+  updateMax(y);
 }
 
 function rotateRight(tree: Tree, x: TreeNode) {
-  if (x.L === NULL_NODE) return
-  const y = x.L
-  x.L = y.R
-  if (y.R !== NULL_NODE) y.R.P = x
-  y.P = x.P
+  if (x.L === NULL_NODE) return;
+  const y = x.L;
+  x.L = y.R;
+  if (y.R !== NULL_NODE) y.R.P = x;
+  y.P = x.P;
 
-  if (x.P === NULL_NODE) tree.root = y
+  if (x.P === NULL_NODE) tree.root = y;
   else {
-    if (x === x.P.R) x.P.R = y
-    else x.P.L = y
+    if (x === x.P.R) x.P.R = y;
+    else x.P.L = y;
   }
 
-  y.R = x
-  x.P = y
+  y.R = x;
+  x.P = y;
 
-  updateMax(x)
-  updateMax(y)
+  updateMax(x);
+  updateMax(y);
 }
 
 function replaceNode(tree: Tree, x: TreeNode, y: TreeNode) {
-  if (x.P === NULL_NODE) tree.root = y
-  else if (x === x.P.L) x.P.L = y
-  else x.P.R = y
-  y.P = x.P
+  if (x.P === NULL_NODE) tree.root = y;
+  else if (x === x.P.L) x.P.L = y;
+  else x.P.R = y;
+  y.P = x.P;
 }
 
 function fixRemove(tree: Tree, x: TreeNode) {
-  let w
+  let w;
 
   while (x !== NULL_NODE && x.C === BLACK) {
     if (x === x.P.L) {
-      w = x.P.R
+      w = x.P.R;
 
       if (w.C === RED) {
-        w.C = BLACK
-        x.P.C = RED
-        rotateLeft(tree, x.P)
-        w = x.P.R
+        w.C = BLACK;
+        x.P.C = RED;
+        rotateLeft(tree, x.P);
+        w = x.P.R;
       }
 
       if (w.L.C === BLACK && w.R.C === BLACK) {
-        w.C = RED
-        x = x.P
+        w.C = RED;
+        x = x.P;
       } else {
         if (w.R.C === BLACK) {
-          w.L.C = BLACK
-          w.C = RED
-          rotateRight(tree, w)
-          w = x.P.R
+          w.L.C = BLACK;
+          w.C = RED;
+          rotateRight(tree, w);
+          w = x.P.R;
         }
 
-        w.C = x.P.C
-        x.P.C = BLACK
-        w.R.C = BLACK
-        rotateLeft(tree, x.P)
-        x = tree.root
+        w.C = x.P.C;
+        x.P.C = BLACK;
+        w.R.C = BLACK;
+        rotateLeft(tree, x.P);
+        x = tree.root;
       }
     } else {
-      w = x.P.L
+      w = x.P.L;
 
       if (w.C === RED) {
-        w.C = BLACK
-        x.P.C = RED
-        rotateRight(tree, x.P)
-        w = x.P.L
+        w.C = BLACK;
+        x.P.C = RED;
+        rotateRight(tree, x.P);
+        w = x.P.L;
       }
 
       if (w.R.C === BLACK && w.L.C === BLACK) {
-        w.C = RED
-        x = x.P
+        w.C = RED;
+        x = x.P;
       } else {
         if (w.L.C === BLACK) {
-          w.R.C = BLACK
-          w.C = RED
-          rotateLeft(tree, w)
-          w = x.P.L
+          w.R.C = BLACK;
+          w.C = RED;
+          rotateLeft(tree, w);
+          w = x.P.L;
         }
 
-        w.C = x.P.C
-        x.P.C = BLACK
-        w.L.C = BLACK
-        rotateRight(tree, x.P)
-        x = tree.root
+        w.C = x.P.C;
+        x.P.C = BLACK;
+        w.L.C = BLACK;
+        rotateRight(tree, x.P);
+        x = tree.root;
       }
     }
   }
 
-  x.C = BLACK
+  x.C = BLACK;
 }
 
 function minimumTree(x: TreeNode) {
-  while (x.L !== NULL_NODE) x = x.L
-  return x
+  while (x.L !== NULL_NODE) x = x.L;
+  return x;
 }
 
 function fixInsert(tree: Tree, z: TreeNode) {
-  let y: TreeNode
+  let y: TreeNode;
   while (z.P.C === RED) {
     if (z.P === z.P.P.L) {
-      y = z.P.P.R
+      y = z.P.P.R;
 
       if (y.C === RED) {
-        z.P.C = BLACK
-        y.C = BLACK
-        z.P.P.C = RED
-        z = z.P.P
+        z.P.C = BLACK;
+        y.C = BLACK;
+        z.P.P.C = RED;
+        z = z.P.P;
       } else {
         if (z === z.P.R) {
-          z = z.P
-          rotateLeft(tree, z)
+          z = z.P;
+          rotateLeft(tree, z);
         }
 
-        z.P.C = BLACK
-        z.P.P.C = RED
-        rotateRight(tree, z.P.P)
+        z.P.C = BLACK;
+        z.P.P.C = RED;
+        rotateRight(tree, z.P.P);
       }
     } else {
-      y = z.P.P.L
+      y = z.P.P.L;
 
       if (y.C === RED) {
-        z.P.C = BLACK
-        y.C = BLACK
-        z.P.P.C = RED
-        z = z.P.P
+        z.P.C = BLACK;
+        y.C = BLACK;
+        z.P.P.C = RED;
+        z = z.P.P;
       } else {
         if (z === z.P.L) {
-          z = z.P
-          rotateRight(tree, z)
+          z = z.P;
+          rotateRight(tree, z);
         }
 
-        z.P.C = BLACK
-        z.P.P.C = RED
-        rotateLeft(tree, z.P.P)
+        z.P.C = BLACK;
+        z.P.P.C = RED;
+        rotateLeft(tree, z.P.P);
       }
     }
   }
-  tree.root.C = BLACK
+  tree.root.C = BLACK;
 }
 
 export interface IIntervalTree {
-  insert(low: number, high: number, index: number): void
-  remove(index: number): void
+  insert(low: number, high: number, index: number): void;
+  remove(index: number): void;
   search(
     low: number,
     high: number,
     callback: (index: number, low: number) => any
-  ): void
-  size: number
+  ): void;
+  size: number;
 }
 
 export function createIntervalTree(): IIntervalTree {
   const tree = {
     root: NULL_NODE,
     size: 0,
-  }
+  };
   // we know these indexes are a consistent, safe way to make look ups
   // for our case so it's a solid O(1) alternative to
   // the O(log n) searchNode() in typical interval trees
-  const indexMap: Record<number, TreeNode> = {}
+  const indexMap: Record<number, TreeNode> = {};
 
   return {
     insert(low, high, index) {
-      let x: TreeNode = tree.root
-      let y: TreeNode = NULL_NODE
+      let x: TreeNode = tree.root;
+      let y: TreeNode = NULL_NODE;
 
       while (x !== NULL_NODE) {
-        y = x
-        if (low === y.low) break
-        if (low < x.low) x = x.L
-        else x = x.R
+        y = x;
+        if (low === y.low) break;
+        if (low < x.low) x = x.L;
+        else x = x.R;
       }
 
       if (low === y.low && y !== NULL_NODE) {
-        if (!addInterval(y, high, index)) return
-        y.high = Math.max(y.high, high)
-        updateMax(y)
-        updateMaxUp(y)
-        indexMap[index] = y
-        tree.size++
-        return
+        if (!addInterval(y, high, index)) return;
+        y.high = Math.max(y.high, high);
+        updateMax(y);
+        updateMaxUp(y);
+        indexMap[index] = y;
+        tree.size++;
+        return;
       }
 
       const z: TreeNode = {
@@ -317,92 +317,92 @@ export function createIntervalTree(): IIntervalTree {
         P: y,
         L: NULL_NODE,
         R: NULL_NODE,
-        list: {index, high, next: null},
-      }
+        list: { index, high, next: null },
+      };
 
       if (y === NULL_NODE) {
-        tree.root = z
+        tree.root = z;
       } else {
-        if (z.low < y.low) y.L = z
-        else y.R = z
-        updateMaxUp(z)
+        if (z.low < y.low) y.L = z;
+        else y.R = z;
+        updateMaxUp(z);
       }
 
-      fixInsert(tree, z)
-      indexMap[index] = z
-      tree.size++
+      fixInsert(tree, z);
+      indexMap[index] = z;
+      tree.size++;
     },
 
     remove(index) {
-      const z = indexMap[index]
-      if (z === void 0) return
-      delete indexMap[index]
+      const z = indexMap[index];
+      if (z === void 0) return;
+      delete indexMap[index];
 
-      const intervalResult = removeInterval(z, index)
-      if (intervalResult === void 0) return
+      const intervalResult = removeInterval(z, index);
+      if (intervalResult === void 0) return;
       if (intervalResult === KEEP) {
-        z.high = z.list.high
-        updateMax(z)
-        updateMaxUp(z)
-        tree.size--
-        return
+        z.high = z.list.high;
+        updateMax(z);
+        updateMaxUp(z);
+        tree.size--;
+        return;
       }
 
-      let y = z
-      let originalYColor = y.C
-      let x: TreeNode
+      let y = z;
+      let originalYColor = y.C;
+      let x: TreeNode;
 
       if (z.L === NULL_NODE) {
-        x = z.R
-        replaceNode(tree, z, z.R)
+        x = z.R;
+        replaceNode(tree, z, z.R);
       } else if (z.R === NULL_NODE) {
-        x = z.L
-        replaceNode(tree, z, z.L)
+        x = z.L;
+        replaceNode(tree, z, z.L);
       } else {
-        y = minimumTree(z.R)
-        originalYColor = y.C
-        x = y.R
+        y = minimumTree(z.R);
+        originalYColor = y.C;
+        x = y.R;
 
         if (y.P === z) {
-          x.P = y
+          x.P = y;
         } else {
-          replaceNode(tree, y, y.R)
-          y.R = z.R
-          y.R.P = y
+          replaceNode(tree, y, y.R);
+          y.R = z.R;
+          y.R.P = y;
         }
 
-        replaceNode(tree, z, y)
-        y.L = z.L
-        y.L.P = y
-        y.C = z.C
+        replaceNode(tree, z, y);
+        y.L = z.L;
+        y.L.P = y;
+        y.C = z.C;
       }
 
-      updateMax(x)
-      updateMaxUp(x)
+      updateMax(x);
+      updateMaxUp(x);
 
-      if (originalYColor === BLACK) fixRemove(tree, x)
-      tree.size--
+      if (originalYColor === BLACK) fixRemove(tree, x);
+      tree.size--;
     },
 
     search(low, high, callback) {
-      const stack = [tree.root]
+      const stack = [tree.root];
       while (stack.length !== 0) {
-        const node = stack.pop() as TreeNode
-        if (node === NULL_NODE || low > node.max) continue
-        if (node.L !== NULL_NODE) stack.push(node.L)
-        if (node.R !== NULL_NODE) stack.push(node.R)
+        const node = stack.pop() as TreeNode;
+        if (node === NULL_NODE || low > node.max) continue;
+        if (node.L !== NULL_NODE) stack.push(node.L);
+        if (node.R !== NULL_NODE) stack.push(node.R);
         if (node.low <= high && node.high >= low) {
-          let curr: ListNode | null = node.list
+          let curr: ListNode | null = node.list;
           while (curr !== null) {
-            if (curr.high >= low) callback(curr.index, node.low)
-            curr = curr.next
+            if (curr.high >= low) callback(curr.index, node.low);
+            curr = curr.next;
           }
         }
       }
     },
 
     get size() {
-      return tree.size
+      return tree.size;
     },
-  }
+  };
 }

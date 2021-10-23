@@ -1,12 +1,14 @@
 class ResizeObserver {
-  els = []
-  callback = () => {}
+  els = [];
+  callback = () => {};
   constructor(callback) {
-    this.callback = callback
+    this.callback = callback;
   }
   observe(el) {
     // do nothing
-    this.callback([{target: el}])
+    try {
+      this.callback([{ target: el }]);
+    } catch (err) {}
   }
   unobserve() {
     // do nothing
@@ -14,6 +16,6 @@ class ResizeObserver {
   disconnect() {}
 }
 
-window.ResizeObserver = ResizeObserver
+window.ResizeObserver = ResizeObserver;
 
-export default ResizeObserver
+export default ResizeObserver;

@@ -1,1 +1,1 @@
-module.exports = require('lundle').babelConfig('test', {react: true})
+module.exports = require("lundle").babelConfig("test", { react: true });
