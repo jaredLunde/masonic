@@ -3,7 +3,27 @@ import type { Positioner } from "./use-positioner";
 /**
  * This hook handles the render phases of the masonry layout and returns the grid as a React element.
  *
- * @param options Options for configuring the masonry layout renderer. See `UseMasonryOptions`.
+ * @param options - Options for configuring the masonry layout renderer. See `UseMasonryOptions`.
+ * @param options.positioner
+ * @param options.resizeObserver
+ * @param options.items
+ * @param options.as
+ * @param options.id
+ * @param options.className
+ * @param options.style
+ * @param options.role
+ * @param options.tabIndex
+ * @param options.containerRef
+ * @param options.itemAs
+ * @param options.itemStyle
+ * @param options.itemHeightEstimate
+ * @param options.itemKey
+ * @param options.overscanBy
+ * @param options.scrollTop
+ * @param options.isScrolling
+ * @param options.height
+ * @param options.render
+ * @param options.onRender
  */
 export declare function useMasonry<Item>({
   positioner,
@@ -49,6 +69,7 @@ export interface UseMasonryOptions<Item> {
   };
   /**
    * This is the type of element the grid container will be rendered as.
+   *
    * @default "div"`
    */
   as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
@@ -67,11 +88,13 @@ export interface UseMasonryOptions<Item> {
   style?: React.CSSProperties;
   /**
    * Optionally swap out the accessibility `role` prop of the container and its items.
+   *
    * @default "grid"
    */
   role?: "grid" | "list";
   /**
    * Change the `tabIndex` of the grid container.
+   *
    * @default 0
    */
   tabIndex?: number;
@@ -83,6 +106,7 @@ export interface UseMasonryOptions<Item> {
     | React.MutableRefObject<HTMLElement | null>;
   /**
    * This is the type of element the grid items will be rendered as.
+   *
    * @default "div"
    */
   itemAs?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
@@ -95,6 +119,7 @@ export interface UseMasonryOptions<Item> {
    * This value is used for estimating the initial height of the masonry grid. It is important for
    * the UX of the scrolling behavior and in determining how many `items` to render in a batch, so it's
    * wise to set this value with some level accuracy, though it doesn't need to be perfect.
+   *
    * @default 300
    */
   itemHeightEstimate?: number;
@@ -103,6 +128,7 @@ export interface UseMasonryOptions<Item> {
    * if your collection of items is never modified. Setting this property ensures that the component in `render`
    * is reused each time the masonry grid is reflowed. A common pattern would be to return the item's database
    * ID here if there is one, e.g. `data => data.id`
+   *
    * @default (data, index) => index`
    */
   itemKey?: (data: Item, index: number) => string | number;
@@ -116,6 +142,7 @@ export interface UseMasonryOptions<Item> {
      * too high of a vaimport { useForceUpdate } from './use-force-update';
   lue may create too much work for React to handle, so it's best that you tune this
      * value accordingly.
+     *
      * @default 2
      */
   overscanBy?: number;
@@ -140,6 +167,7 @@ export interface UseMasonryOptions<Item> {
    * `will-change: contents;` value to the style string. You can forgo using this prop, but I would
    * not recommend that. The `useScroller()` hook and `<MasonryScroller>` components will help you if
    * you're rendering the grid relative to the browser `window`.
+   *
    * @default false
    */
   isScrolling?: boolean;

@@ -1,3 +1,9 @@
+## [3.6.1](https://github.com/jaredLunde/masonic/compare/v3.6.0...v3.6.1) (2021-10-23)
+
+### Bug Fixes
+
+- **use-scroller:** unsubscribe from updates when hook has unmounted ([#97](https://github.com/jaredLunde/masonic/issues/97)) ([2117625](https://github.com/jaredLunde/masonic/commit/2117625fb14b27b5f33a3a8121cbb83a62de5b5c))
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.

@@ -1,3 +1,4 @@
+export * from "./interval-tree";
 export * from "./list";
 export * from "./masonry";
 export * from "./masonry-scroller";
@@ -8,4 +9,3 @@ export * from "./use-positioner";
 export * from "./use-resize-observer";
 export * from "./use-scroll-to-index";
 export * from "./use-scroller";
-export * from "./interval-tree";

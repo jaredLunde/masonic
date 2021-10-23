@@ -4,9 +4,9 @@ import * as React from "react";
  * from the top of the document. These values are necessary to correctly calculate the number/width
  * of columns to render, as well as the number of rows to render.
  *
- * @param elementRef A `ref` object created by `React.useRef()`. That ref should be provided to the
+ * @param elementRef - A `ref` object created by `React.useRef()`. That ref should be provided to the
  *   `containerRef` property in `useMasonry()`.
- * @param deps You can force this hook to recalculate the `offset` and `width` whenever this
+ * @param deps - You can force this hook to recalculate the `offset` and `width` whenever this
  *   dependencies list changes. A common dependencies list might look like `[windowWidth, windowHeight]`,
  *   which would force the hook to recalculate any time the size of the browser `window` changed.
  */
