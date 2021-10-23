@@ -61,23 +61,23 @@ usage requiring little code is possible.
 [Check out the demo on **CodeSandbox**](https://codesandbox.io/s/0oyxozv75v)
 
 ```jsx harmony
-import * as React from 'react'
-import {Masonry} from 'masonic'
+import * as React from "react";
+import { Masonry } from "masonic";
 
-let i = 0
-const items = Array.from(Array(5000), () => ({id: i++}))
+let i = 0;
+const items = Array.from(Array(5000), () => ({ id: i++ }));
 
 const EasyMasonryComponent = (props) => (
   <Masonry items={items} render={MasonryCard} />
-)
+);
 
-const MasonryCard = ({index, data: {id}, width}) => (
+const MasonryCard = ({ index, data: { id }, width }) => (
   <div>
     <div>Index: {index}</div>
     <pre>ID: {id}</pre>
     <div>Column width: {width}</div>
   </div>
-)
+);
 ```
 
 ## Documentation
@@ -134,23 +134,23 @@ great stepping stone to more advanced implementations, should you need them.
 [Check out an example on **CodeSandbox**](https://codesandbox.io/s/0oyxozv75v)
 
 ```jsx harmony
-import * as React from 'react'
-import {Masonry} from 'masonic'
+import * as React from "react";
+import { Masonry } from "masonic";
 
-let i = 0
-const items = Array.from(Array(5000), () => ({id: i++}))
+let i = 0;
+const items = Array.from(Array(5000), () => ({ id: i++ }));
 
 const EasyMasonryComponent = (props) => (
   <Masonry items={items} render={MasonryCard} />
-)
+);
 
-const MasonryCard = ({index, data: {id}, width}) => (
+const MasonryCard = ({ index, data: { id }, width }) => (
   <div>
     <div>Index: {index}</div>
     <pre>ID: {id}</pre>
     <div>Column width: {width}</div>
   </div>
-)
+);
 ```
 
 #### Props
@@ -240,18 +240,18 @@ to deal with figuring out how to optimize the exchange between scroll position c
 [Check out an example on **CodeSandbox**](https://codesandbox.io/s/masonryscroller-example-b7xvn?file=/src/index.js)
 
 ```jsx harmony
-import * as React from 'react'
-import {MasonryScroller, usePositioner, useContainerPosition} from 'masonic'
-import {useWindowSize} from '@react-hook/window-size'
+import * as React from "react";
+import { MasonryScroller, usePositioner, useContainerPosition } from "masonic";
+import { useWindowSize } from "@react-hook/window-size";
 
 const MyMasonry = (props) => {
-  const containerRef = React.useRef(null)
-  const [windowWidth, windowHeight] = useWindowSize()
-  const {offset, width} = useContainerPosition(containerRef, [
+  const containerRef = React.useRef(null);
+  const [windowWidth, windowHeight] = useWindowSize();
+  const { offset, width } = useContainerPosition(containerRef, [
     windowWidth,
     windowHeight,
-  ])
-  const positioner = usePositioner({width, columnWidth: 320})
+  ]);
+  const positioner = usePositioner({ width, columnWidth: 320 });
 
   return (
     <MasonryScroller
@@ -265,8 +265,8 @@ const MyMasonry = (props) => {
       containerRef={containerRef}
       {...props}
     />
-  )
-}
+  );
+};
 ```
 
 #### Props
@@ -292,23 +292,23 @@ and other utilities to create a virtualized list.
 [Check out an example on **CodeSandbox**](https://codesandbox.io/s/list-example-3g0tc?file=/src/index.js)
 
 ```jsx harmony
-import * as React from 'react'
-import {List} from 'masonic'
+import * as React from "react";
+import { List } from "masonic";
 
-let i = 0
-const items = Array.from(Array(5000), () => ({id: i++}))
+let i = 0;
+const items = Array.from(Array(5000), () => ({ id: i++ }));
 
 const EasyListComponent = (props) => (
   <List items={items} rowGutter={32} render={ListCard} />
-)
+);
 
-const ListCard = ({index, data: {id}, width}) => (
+const ListCard = ({ index, data: { id }, width }) => (
   <div>
     <div>Index: {index}</div>
     <pre>ID: {id}</pre>
     <div>Column width: {width}</div>
   </div>
-)
+);
 ```
 
 #### Props
@@ -329,24 +329,24 @@ This hook handles the render phases of the masonry layout and returns the grid a
 [Check out an example on **CodeSandbox**](https://codesandbox.io/s/usemasonry-example-3pcg9?file=/src/index.js)
 
 ```jsx harmony
-import * as React from 'react'
-import {useWindowSize} from '@react-hook/window-size'
+import * as React from "react";
+import { useWindowSize } from "@react-hook/window-size";
 import {
   useMasonry,
   usePositioner,
   useContainerPosition,
   useScroller,
-} from 'masonic'
+} from "masonic";
 
 const MyMasonry = (props) => {
-  const containerRef = React.useRef(null)
-  const [windowWidth, height] = useWindowSize()
-  const {offset, width} = useContainerPosition(containerRef, [
+  const containerRef = React.useRef(null);
+  const [windowWidth, height] = useWindowSize();
+  const { offset, width } = useContainerPosition(containerRef, [
     windowWidth,
     height,
-  ])
-  const {scrollTop, isScrolling} = useScroller(offset)
-  const positioner = usePositioner({width})
+  ]);
+  const { scrollTop, isScrolling } = useScroller(offset);
+  const positioner = usePositioner({ width });
 
   return useMasonry({
     positioner,
@@ -355,8 +355,8 @@ const MyMasonry = (props) => {
     height,
     containerRef,
     ...props,
-  })
-}
+  });
+};
 ```
 
 #### Arguments
@@ -422,14 +422,14 @@ position, as well as where to place new items in the grid.
 [Check out an example on **CodeSandbox**](https://codesandbox.io/s/usemasonry-example-3pcg9?file=/src/index.js)
 
 ```jsx harmony
-import * as React from 'react'
-import {usePositioner, useContainerPosition, MasonryScroller} from 'masonic'
+import * as React from "react";
+import { usePositioner, useContainerPosition, MasonryScroller } from "masonic";
 
-const MyMasonry = ({columnWidth = 300, columnGutter = 16, ...props}) => {
-  const {width, offset} = useContainerPosition()
-  const positioner = usePositioner({width, columnWidth, columnGutter})
-  return <MasonryScroller positioner={positioner} offset={offset} {...props} />
-}
+const MyMasonry = ({ columnWidth = 300, columnGutter = 16, ...props }) => {
+  const { width, offset } = useContainerPosition();
+  const positioner = usePositioner({ width, columnWidth, columnGutter });
+  return <MasonryScroller positioner={positioner} offset={offset} {...props} />;
+};
 ```
 
 #### Arguments
@@ -458,24 +458,24 @@ export interface Positioner {
   /**
    * The number of columns in the grid
    */
-  columnCount: number
+  columnCount: number;
   /**
    * The width of each column in the grid
    */
-  columnWidth: number
+  columnWidth: number;
   /**
    * Sets the position for the cell at `index` based upon the cell's height
    */
-  set: (index: number, height: number) => void
+  set: (index: number, height: number) => void;
   /**
    * Gets the `PositionerItem` for the cell at `index`
    */
-  get: (index: number) => PositionerItem | undefined
+  get: (index: number) => PositionerItem | undefined;
   /**
    * Updates cells based on their indexes and heights
    * positioner.update([index, height, index, height, index, height...])
    */
-  update: (updates: number[]) => void
+  update: (updates: number[]) => void;
   /**
    * Searches the interval tree for grid cells with a `top` value in
    * betwen `lo` and `hi` and invokes the callback for each item that
@@ -485,23 +485,23 @@ export interface Positioner {
     lo: number,
     hi: number,
     renderCallback: (index: number, left: number, top: number) => void
-  ) => void
+  ) => void;
   /**
    * Returns the number of grid cells in the cache
    */
-  size: () => number
+  size: () => number;
   /**
    * Estimates the total height of the grid
    */
-  estimateHeight: (itemCount: number, defaultItemHeight: number) => number
+  estimateHeight: (itemCount: number, defaultItemHeight: number) => number;
   /**
    * Returns the height of the shortest column in the grid
    */
-  shortestColumn: () => number
+  shortestColumn: () => number;
   /**
    * Returns all `PositionerItem` items
    */
-  all: () => PositionerItem[]
+  all: () => PositionerItem[];
 }
 
 export interface PositionerItem {
@@ -509,20 +509,20 @@ export interface PositionerItem {
    * This is how far from the top edge of the grid container in pixels the
    * item is placed
    */
-  top: number
+  top: number;
   /**
    * This is how far from the left edge of the grid container in pixels the
    * item is placed
    */
-  left: number
+  left: number;
   /**
    * This is the height of the grid cell
    */
-  height: number
+  height: number;
   /**
    * This is the column number containing the grid cell
    */
-  column: number
+  column: number;
 }
 ```
 
@@ -537,14 +537,14 @@ to add styles to the masonry container that maximize scroll performance.
 [Check out an example on **CodeSandbox**](https://codesandbox.io/s/usemasonry-example-3pcg9?file=/src/index.js)
 
 ```jsx harmony
-import * as React from 'react'
-import {useMasonry, usePositioner, useScroller} from 'masonic'
+import * as React from "react";
+import { useMasonry, usePositioner, useScroller } from "masonic";
 
 const MyMasonry = (props) => {
-  const containerRef = React.useRef(null)
-  const {offset, width} = useContainerPosition(containerRef)
-  const positioner = usePositioner({width})
-  const {scrollTop, isScrolling} = useScroller(offset)
+  const containerRef = React.useRef(null);
+  const { offset, width } = useContainerPosition(containerRef);
+  const positioner = usePositioner({ width });
+  const { scrollTop, isScrolling } = useScroller(offset);
 
   return useMasonry({
     ...props,
@@ -552,8 +552,8 @@ const MyMasonry = (props) => {
     positioner,
     scrollTop,
     isScrolling,
-  })
-}
+  });
+};
 ```
 
 #### Arguments
@@ -576,19 +576,19 @@ of columns to render, as well as the number of rows to render.
 [Check out an example on **CodeSandbox**](https://codesandbox.io/s/usemasonry-example-3pcg9?file=/src/index.js)
 
 ```jsx harmony
-import * as React from 'react'
-import {useWindowSize} from '@react-hook/window-size'
-import {useContainerPosition, MasonryScroller} from 'masonic'
+import * as React from "react";
+import { useWindowSize } from "@react-hook/window-size";
+import { useContainerPosition, MasonryScroller } from "masonic";
 
 const MyMasonry = (props) => {
-  const containerRef = React.useRef(null)
-  const [windowWidth, windowHeight] = useWindowSize()
-  const {offset, width} = useContainerRect(
+  const containerRef = React.useRef(null);
+  const [windowWidth, windowHeight] = useWindowSize();
+  const { offset, width } = useContainerRect(
     containerRef,
     // In this example, we want to recalculate the `offset` and `width`
     // any time the size of the window changes
     [windowWidth, windowHeight]
-  )
+  );
 
   return (
     <MasonryScroller
@@ -597,8 +597,8 @@ const MyMasonry = (props) => {
       containerRef={containerRef}
       {...props}
     />
-  )
-}
+  );
+};
 ```
 
 #### Arguments
@@ -618,11 +618,11 @@ export interface ContainerPosition {
    * The distance in pixels between the top of the element in `elementRef` and the top of
    * the `document.documentElement`.
    */
-  offset: number
+  offset: number;
   /**
    * The `offsetWidth` of the element in `elementRef`.
    */
-  width: number
+  width: number;
 }
 ```
 
@@ -635,27 +635,27 @@ A hook that creates a callback for scrolling to a specific index in the "items" 
 [Check out an example on **CodeSandbox**](https://codesandbox.io/s/usescrolltoindex-example-k5leo?file=/src/index.js)
 
 ```jsx harmony
-import * as React from 'react'
+import * as React from "react";
 import {
   useMasonry,
   usePositioner,
   useContainerPosition,
   useScroller,
   useScrollToIndex,
-} from 'masonic'
+} from "masonic";
 
 const MyMasonry = (props) => {
-  const containerRef = React.useRef(null)
-  const {offset, width} = useContainerPosition(containerRef)
-  const {scrollTop, isScrolling} = useScroller(offset)
-  const positioner = usePositioner({width})
-  const scrollToIndex = useScrollToIndex(positioner)
+  const containerRef = React.useRef(null);
+  const { offset, width } = useContainerPosition(containerRef);
+  const { scrollTop, isScrolling } = useScroller(offset);
+  const positioner = usePositioner({ width });
+  const scrollToIndex = useScrollToIndex(positioner);
 
   React.useEffect(() => {
     if (props.scrollToIndex) {
-      scrollToIndex(props.scrollToIndex)
+      scrollToIndex(props.scrollToIndex);
     }
-  }, [props.scrollToIndex, scrollToIndex])
+  }, [props.scrollToIndex, scrollToIndex]);
 
   return useMasonry({
     ...props,
@@ -663,8 +663,8 @@ const MyMasonry = (props) => {
     positioner,
     scrollTop,
     isScrolling,
-  })
-}
+  });
+};
 ```
 
 #### Arguments
@@ -695,12 +695,12 @@ made to cells affecting their height.
 [Check out an example on **CodeSandbox**](https://codesandbox.io/s/useresizeobserver-example-w7r9i?file=/src/index.js)
 
 ```jsx harmony
-import * as React from 'react'
-import {useMasonry, usePositioner, useResizeObserver} from 'masonic'
+import * as React from "react";
+import { useMasonry, usePositioner, useResizeObserver } from "masonic";
 
 const MyMasonry = (props) => {
-  const positioner = usePositioner({width: 1024})
-  const resizeObserver = useResizeObserver(positioner)
+  const positioner = usePositioner({ width: 1024 });
+  const resizeObserver = useResizeObserver(positioner);
 
   return useMasonry({
     positioner,
@@ -709,8 +709,8 @@ const MyMasonry = (props) => {
     isScrolling,
     height,
     ...props,
-  })
-}
+  });
+};
 ```
 
 #### Arguments
@@ -732,26 +732,26 @@ the total number of items in your items array or the number defined in the `tota
 [Check out an example on **CodeSandbox**](https://codesandbox.io/s/useinfiniteloader-example-vn30p?file=/src/index.js)
 
 ```jsx harmony
-import * as React from 'react'
-import {Masonry, useInfiniteLoader} from 'masonic'
+import * as React from "react";
+import { Masonry, useInfiniteLoader } from "masonic";
 
 const InfiniteMasonry = (props) => {
   const [items, setItems] = useState([
     /* initial items */
-  ])
+  ]);
   const fetchMoreItems = async (startIndex, stopIndex, currentItems) => {
     const nextItems = await fetch(
       `/api/get-more?after=${startIndex}&limit=${startIndex + stopIndex}`
-    )
+    );
 
-    setItems((current) => [...current, ...nextItems])
-  }
+    setItems((current) => [...current, ...nextItems]);
+  };
   const maybeLoadMore = useInfiniteLoader(fetchMoreItems, {
     isItemLoaded: (index, items) => !!items[index],
-  })
+  });
 
-  return <Masonry {...props} items={items} onRender={maybeLoadMore} />
-}
+  return <Masonry {...props} items={items} onRender={maybeLoadMore} />;
+};
 ```
 
 #### Arguments

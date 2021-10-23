@@ -1,5 +1,5 @@
-import * as React from 'react'
-import type {Positioner} from './use-positioner'
+import * as React from "react";
+import type { Positioner } from "./use-positioner";
 /**
  * This hook handles the render phases of the masonry layout and returns the grid as a React element.
  *
@@ -26,78 +26,78 @@ export declare function useMasonry<Item>({
   height,
   render: RenderComponent,
   onRender,
-}: UseMasonryOptions<Item>): JSX.Element
+}: UseMasonryOptions<Item>): JSX.Element;
 export interface UseMasonryOptions<Item> {
   /**
    * An array containing the data used by the grid items.
    */
-  items: Item[]
+  items: Item[];
   /**
    * A grid cell positioner and cache created by the `usePositioner()` hook or
    * the `createPositioner` utility.
    */
-  positioner: Positioner
+  positioner: Positioner;
   /**
    * A resize observer that tracks mutations to the grid cells and forces the
    * Masonry grid to recalculate its layout if any cells affect column heights
    * change. Check out the `useResizeObserver()` hook.
    */
   resizeObserver?: {
-    observe: ResizeObserver['observe']
-    disconnect: ResizeObserver['observe']
-    unobserve: ResizeObserver['unobserve']
-  }
+    observe: ResizeObserver["observe"];
+    disconnect: ResizeObserver["observe"];
+    unobserve: ResizeObserver["unobserve"];
+  };
   /**
    * This is the type of element the grid container will be rendered as.
    * @default "div"`
    */
-  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>
+  as?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
   /**
    * Optionally gives the grid container an `id` prop.
    */
-  id?: string
+  id?: string;
   /**
    * Optionally gives the grid container a `className` prop.
    */
-  className?: string
+  className?: string;
   /**
    * Adds extra `style` attributes to the container in addition to those
    * created by the `useMasonry()` hook.
    */
-  style?: React.CSSProperties
+  style?: React.CSSProperties;
   /**
    * Optionally swap out the accessibility `role` prop of the container and its items.
    * @default "grid"
    */
-  role?: 'grid' | 'list'
+  role?: "grid" | "list";
   /**
    * Change the `tabIndex` of the grid container.
    * @default 0
    */
-  tabIndex?: number
+  tabIndex?: number;
   /**
    * Forwards a React ref to the grid container.
    */
   containerRef?:
     | ((element: HTMLElement) => void)
-    | React.MutableRefObject<HTMLElement | null>
+    | React.MutableRefObject<HTMLElement | null>;
   /**
    * This is the type of element the grid items will be rendered as.
    * @default "div"
    */
-  itemAs?: keyof JSX.IntrinsicElements | React.ComponentType<any>
+  itemAs?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
   /**
    * Adds extra `style` attributes to the grid items in addition to those
    * created by the `useMasonry()` hook.
    */
-  itemStyle?: React.CSSProperties
+  itemStyle?: React.CSSProperties;
   /**
    * This value is used for estimating the initial height of the masonry grid. It is important for
    * the UX of the scrolling behavior and in determining how many `items` to render in a batch, so it's
    * wise to set this value with some level accuracy, though it doesn't need to be perfect.
    * @default 300
    */
-  itemHeightEstimate?: number
+  itemHeightEstimate?: number;
   /**
    * The value returned here must be unique to the item. By default, the key is the item's index. This is ok
    * if your collection of items is never modified. Setting this property ensures that the component in `render`
@@ -105,7 +105,7 @@ export interface UseMasonryOptions<Item> {
    * ID here if there is one, e.g. `data => data.id`
    * @default (data, index) => index`
    */
-  itemKey?: (data: Item, index: number) => string | number
+  itemKey?: (data: Item, index: number) => string | number;
   /**
      * This number is used for determining the number of grid cells outside of the visible window to render.
      * The default value is `2` which means "render 2 windows worth (2 * `height`) of content before and after
@@ -118,14 +118,14 @@ export interface UseMasonryOptions<Item> {
      * value accordingly.
      * @default 2
      */
-  overscanBy?: number
+  overscanBy?: number;
   /**
    * This is the height of the window. If you're rendering the grid relative to the browser `window`,
    * the current `document.documentElement.clientHeight` is the value you'll want to set here. If you're
    * rendering the grid inside of another HTML element, you'll want to provide the current `element.offsetHeight`
    * here.
    */
-  height: number
+  height: number;
   /**
    * The current scroll progress in pixel of the window the grid is rendered in. If you're rendering
    * the grid relative to the browser `window`, you'll want the most current `window.scrollY` here.
@@ -133,7 +133,7 @@ export interface UseMasonryOptions<Item> {
    * value here. The `useScroller()` hook and `<MasonryScroller>` components will help you if you're
    * rendering the grid relative to the browser `window`.
    */
-  scrollTop: number
+  scrollTop: number;
   /**
    * This property is used for determining whether or not the grid container should add styles that
    * dramatically increase scroll performance. That is, turning off `pointer-events` and adding a
@@ -142,28 +142,28 @@ export interface UseMasonryOptions<Item> {
    * you're rendering the grid relative to the browser `window`.
    * @default false
    */
-  isScrolling?: boolean
+  isScrolling?: boolean;
   /**
    * This component is rendered for each item of your `items` prop array. It should accept three props:
    * `index`, `width`, and `data`. See RenderComponentProps.
    */
-  render: React.ComponentType<RenderComponentProps<Item>>
+  render: React.ComponentType<RenderComponentProps<Item>>;
   /**
    * This callback is invoked any time the items currently being rendered by the grid change.
    */
-  onRender?: (startIndex: number, stopIndex: number, items: Item[]) => void
+  onRender?: (startIndex: number, stopIndex: number, items: Item[]) => void;
 }
 export interface RenderComponentProps<Item> {
   /**
    * The index of the cell in the `items` prop array.
    */
-  index: number
+  index: number;
   /**
    * The rendered width of the cell's column.
    */
-  width: number
+  width: number;
   /**
    * The data at `items[index]` of your `items` prop array.
    */
-  data: Item
+  data: Item;
 }

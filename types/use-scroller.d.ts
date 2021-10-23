@@ -14,6 +14,6 @@ export declare function useScroller(
   offset?: number,
   fps?: number
 ): {
-  scrollTop: number
-  isScrolling: boolean
-}
+  scrollTop: number;
+  isScrolling: boolean;
+};

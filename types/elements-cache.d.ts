@@ -1,1 +1,1 @@
-export declare const elementsCache: WeakMap<Element, number>
+export declare const elementsCache: WeakMap<Element, number>;

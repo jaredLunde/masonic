@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 /**
  * A hook for measuring the width of the grid container, as well as its distance
  * from the top of the document. These values are necessary to correctly calculate the number/width
@@ -13,15 +13,15 @@ import * as React from 'react'
 export declare function useContainerPosition(
   elementRef: React.MutableRefObject<HTMLElement | null>,
   deps?: React.DependencyList
-): ContainerPosition
+): ContainerPosition;
 export interface ContainerPosition {
   /**
    * The distance in pixels between the top of the element in `elementRef` and the top of
    * the `document.documentElement`.
    */
-  offset: number
+  offset: number;
   /**
    * The `offsetWidth` of the element in `elementRef`.
    */
-  width: number
+  width: number;
 }

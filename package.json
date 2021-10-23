@@ -1,42 +1,127 @@
 {
   "name": "masonic",
   "version": "3.6.0",
+  "description": "",
+  "license": "MIT",
+  "author": "Jared Lunde <jared.lunde@gmail.com> (https://jaredlunde.com/)",
   "homepage": "https://github.com/jaredLunde/masonic#readme",
   "repository": "github:jaredLunde/masonic",
   "bugs": "https://github.com/jaredLunde/masonic/issues",
-  "author": "Jared Lunde <jared.lunde@gmail.com> (https://jaredLunde.com)",
-  "license": "MIT",
-  "description": "An autosizing masonry component that only renders items currently visible in the window.",
-  "keywords": [
-    "react",
-    "reactjs",
-    "react component",
-    "virtual",
-    "list",
-    "masonry",
-    "masonry component",
-    "react masonry component",
-    "infinite",
-    "infinite list",
-    "infinite masonry",
-    "infinite scrolling",
-    "scrolling",
-    "virtualized",
-    "masonic",
-    "grid component",
-    "react grid",
-    "masonry grid",
-    "react masonry grid"
-  ],
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
-  "unpkg": "dist/umd/masonic.js",
-  "source": "src/index.tsx",
-  "types": "types/index.d.ts",
   "files": [
     "/dist",
     "/src",
     "/types"
+  ],
+  "scripts": {
+    "build": "lundle build",
+    "check-types": "lundle check-types",
+    "dev": "lundle build -f module,cjs -w",
+    "format": "prettier --write \"{,!(node_modules|dist|coverage)/**/}*.{ts,tsx,js,jsx,md,yml,json}\"",
+    "lint": "eslint . --ext .ts,.tsx",
+    "prepare": "husky install",
+    "test": "jest",
+    "validate": "lundle check-types && pnpm run lint && jest --coverage"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "sideEffects": false,
+  "types": "types/index.d.ts",
+  "dependencies": {
+    "@essentials/memoize-one": "^1.1.0",
+    "@essentials/one-key-map": "^1.2.0",
+    "@essentials/request-timeout": "^1.3.0",
+    "@react-hook/event": "^1.2.3",
+    "@react-hook/latest": "^1.0.3",
+    "@react-hook/passive-layout-effect": "^1.2.1",
+    "@react-hook/throttle": "^2.2.0",
+    "@react-hook/window-scroll": "^1.3.0",
+    "@react-hook/window-size": "^3.0.7",
+    "@types/raf-schd": "^4.0.1",
+    "raf-schd": "^4.0.3",
+    "resize-observer-polyfill": "^1.5.1",
+    "trie-memoize": "^1.2.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "@essentials/benchmark": "^1.0.7",
+    "@semantic-release/changelog": "^6.0.0",
+    "@semantic-release/git": "^10.0.0",
+    "@shopify/jest-dom-mocks": "^3.0.7",
+    "@swc-node/core": "^1.6.0",
+    "@swc-node/jest": "^1.3.2",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/react-hooks": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/jest": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "cz-conventional-changelog": "latest",
+    "eslint": "^7.32.0",
+    "eslint-config-lunde": "latest",
+    "husky": "latest",
+    "jest": "latest",
+    "lint-staged": "latest",
+    "lundle": "latest",
+    "node-fetch": "^2.6.0",
+    "prettier": "latest",
+    "rand-int": "^1.0.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-test-renderer": "latest",
+    "typescript": "latest"
+  },
+  "keywords": [
+    "grid component",
+    "infinite",
+    "infinite list",
+    "infinite masonry",
+    "infinite scrolling",
+    "list",
+    "masonic",
+    "masonry",
+    "masonry component",
+    "masonry grid",
+    "react",
+    "react component",
+    "react grid",
+    "react masonry component",
+    "react masonry grid",
+    "reactjs",
+    "scrolling",
+    "virtual",
+    "virtualized"
+  ],
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "lunde"
+    ],
+    "rules": {
+      "no-empty": "off"
+    }
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "coverage",
+    "dist",
+    "/types",
+    "test",
+    "*.config.js"
   ],
   "exports": {
     ".": {
@@ -51,130 +136,80 @@
     "./package.json": "./package.json",
     "./": "./"
   },
-  "sideEffects": false,
-  "scripts": {
-    "build": "lundle build",
-    "check-types": "lundle check-types",
-    "dev": "lundle build -f module,cjs -w",
-    "format": "prettier --write \"{,!(node_modules|dist|coverage)/**/}*.{ts,tsx,js,jsx,md,yml,json}\"",
-    "lint": "eslint . --ext .ts,.tsx",
-    "prepublishOnly": "cli-confirm \"Did you run 'yarn release' first? (y/N)\"",
-    "prerelease": "npm run validate && npm run build",
-    "release": "git add . && standard-version -a",
-    "test": "jest",
-    "validate": "lundle check-types && npm run lint && jest --coverage"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lundle check-types && lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+  "jest": {
+    "collectCoverageFrom": [
+      "**/src/**/*.{ts,tsx}"
+    ],
+    "globals": {
+      "__DEV__": true
+    },
+    "moduleDirectories": [
+      "node_modules",
+      "src",
+      "test"
+    ],
+    "setupFilesAfterEnv": [
+      "./test/setup.ts"
+    ],
+    "snapshotResolver": "./test/resolve-snapshot.js",
+    "testEnvironment": "jsdom",
+    "testMatch": [
+      "<rootDir>/src/**/?(*.)test.{ts,tsx}"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules"
+    ],
+    "transform": {
+      "^.+\\.(t|j)sx?$": [
+        "@swc-node/jest",
+        {
+          "react": {
+            "runtime": "automatic",
+            "development": false,
+            "useBuiltins": true
+          },
+          "module": "commonjs"
+        }
+      ]
     }
   },
   "lint-staged": {
+    "package.json": [
+      "pnpx -y prettier-package-json --write"
+    ],
     "**/*.{ts,tsx,js,jsx}": [
-      "eslint",
+      "eslint --ext .ts,.tsx,.js,.jsx --fix",
       "prettier --write"
     ],
     "**/*.{md,yml,json}": [
       "prettier --write"
     ]
   },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
+  "release": {
+    "branches": [
+      "main",
+      "next",
+      "alpha"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "types",
+            "CHANGELOG.md",
+            "package.json"
+          ],
+          "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}"
+        }
+      ],
+      "@semantic-release/github"
     ]
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "eslintConfig": {
-    "extends": [
-      "lunde"
-    ]
-  },
-  "eslintIgnore": [
-    "benchmarks",
-    "node_modules",
-    "coverage",
-    "dist",
-    "test",
-    "/types",
-    "*.config.js"
-  ],
-  "jest": {
-    "moduleDirectories": [
-      "node_modules",
-      "src",
-      "test"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/?(*.)test.{ts,tsx}"
-    ],
-    "collectCoverageFrom": [
-      "**/src/**/*.{ts,tsx}"
-    ],
-    "setupFilesAfterEnv": [
-      "./test/setup.js"
-    ],
-    "snapshotResolver": "./test/resolve-snapshot.js",
-    "globals": {
-      "__DEV__": true
-    }
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "jsxSingleQuote": true,
-    "bracketSpacing": false
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
-    "@essentials/benchmark": "^1.0.6",
-    "@shopify/jest-dom-mocks": "^2.9.0",
-    "@testing-library/jest-dom": "latest",
-    "@testing-library/react": "latest",
-    "@testing-library/react-hooks": "latest",
-    "@testing-library/user-event": "latest",
-    "@types/jest": "latest",
-    "@types/raf-schd": "^4.0.0",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "babel-jest": "latest",
-    "cli-confirm": "^1.0.1",
-    "cz-conventional-changelog": "3.2.0",
-    "eslint": "latest",
-    "eslint-config-lunde": "^0.2.1",
-    "husky": "latest",
-    "jest": "latest",
-    "lint-staged": "latest",
-    "lundle": "^0.4.9",
-    "node-fetch": "^2.6.0",
-    "prettier": "latest",
-    "rand-int": "^1.0.0",
-    "react": "latest",
-    "react-dom": "latest",
-    "react-test-renderer": "latest",
-    "standard-version": "^8.0.2",
-    "typescript": "latest"
-  },
-  "dependencies": {
-    "@essentials/memoize-one": "^1.1.0",
-    "@essentials/one-key-map": "^1.2.0",
-    "@essentials/request-timeout": "^1.3.0",
-    "@react-hook/event": "^1.2.2",
-    "@react-hook/latest": "^1.0.3",
-    "@react-hook/passive-layout-effect": "^1.2.0",
-    "@react-hook/throttle": "^2.2.0",
-    "@react-hook/window-scroll": "^1.3.0",
-    "@react-hook/window-size": "^3.0.6",
-    "raf-schd": "^4.0.2",
-    "resize-observer-polyfill": "^1.5.1",
-    "trie-memoize": "^1.2.0"
-  },
-  "peerDependencies": {
-    "react": ">=16.8"
-  }
+  "source": "src/index.tsx",
+  "unpkg": "dist/umd/masonic.js"
 }
