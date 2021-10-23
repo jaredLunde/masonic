@@ -3,14 +3,13 @@ import {Masonry} from './masonry'
 import type {MasonryProps} from './masonry'
 
 /**
- * This is just a single-column `<Masonry>` component with `rowGutter` prop instead of
- * a `columnGutter` prop.
+ * This is just a single-column `<Masonry>` component without column-specific props.
  */
 export function List<Item>(props: ListProps<Item>) {
   return (
     <Masonry<Item>
       role='list'
-      columnGutter={props.rowGutter}
+      rowGutter={props.rowGutter}
       columnCount={1}
       columnWidth={1}
       {...props}

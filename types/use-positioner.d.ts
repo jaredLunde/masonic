@@ -10,7 +10,13 @@ import * as React from 'react'
  *  whenever the dependencies in this list change.
  */
 export declare function usePositioner(
-  {width, columnWidth, columnGutter, columnCount}: UsePositionerOptions,
+  {
+    width,
+    columnWidth,
+    columnGutter,
+    rowGutter,
+    columnCount,
+  }: UsePositionerOptions,
   deps?: React.DependencyList
 ): Positioner
 export interface UsePositionerOptions {
@@ -28,9 +34,16 @@ export interface UsePositionerOptions {
    */
   columnWidth?: number
   /**
-   * This sets the vertical and horizontal space between grid cells in pixels.
+   * This sets the horizontal space between grid columns in pixels. If `rowGutter` is not set, this
+   * also sets the vertical space between cells within a column in pixels.
+   * @default 0
    */
   columnGutter?: number
+  /**
+   * This sets the vertical space between cells within a column in pixels. If not set, the value of
+   * `columnGutter` is used instead.
+   */
+  rowGutter?: number
   /**
    * By default, `usePositioner()` derives the column count from the `columnWidth`, `columnGutter`,
    * and `width` props. However, in some situations it is nice to be able to override that behavior
@@ -44,13 +57,15 @@ export interface UsePositionerOptions {
  *
  * @param columnCount The number of columns in the grid
  * @param columnWidth The width of each column in the grid
- * @param columnGutter The amount of horizontal and vertical space in pixels to render
- *  between each grid item.
+ * @param columnGutter The amount of horizontal space between columns in pixels.
+ * @param rowGutter The amount of vertical space between cells within a column in pixels (falls back
+ * to `columnGutter`).
  */
 export declare const createPositioner: (
   columnCount: number,
   columnWidth: number,
-  columnGutter?: number
+  columnGutter?: number,
+  rowGutter?: number | undefined
 ) => Positioner
 export interface Positioner {
   /**

@@ -19,7 +19,10 @@ export interface MasonryProps<Item>
       MasonryScrollerProps<Item>,
       'offset' | 'width' | 'height' | 'containerRef' | 'positioner'
     >,
-    Pick<UsePositionerOptions, 'columnWidth' | 'columnGutter' | 'columnCount'> {
+    Pick<
+      UsePositionerOptions,
+      'columnWidth' | 'columnGutter' | 'rowGutter' | 'columnCount'
+    > {
   /**
    * Scrolls to a given index within the grid. The grid will re-scroll
    * any time the index changes.
