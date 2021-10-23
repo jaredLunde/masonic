@@ -3,11 +3,13 @@ name: release
 on:
   push:
     branches:
+      - master
       - main
       - next
       - alpha
   pull_request:
     branches:
+      - master
       - main
       - next
       - alpha
