@@ -65,7 +65,7 @@ export declare const createPositioner: (
   columnCount: number,
   columnWidth: number,
   columnGutter?: number,
-  rowGutter?: number | undefined
+  rowGutter?: number
 ) => Positioner
 export interface Positioner {
   /**

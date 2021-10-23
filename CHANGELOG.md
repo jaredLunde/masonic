@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.0](https://github.com/jaredLunde/masonic/compare/v3.5.0...v3.6.0) (2021-10-23)
+
+### Features
+
+- add rowGutter param ([0fbdd88](https://github.com/jaredLunde/masonic/commit/0fbdd889f99991aa212945ce35eb980942269e10))
+
 ## [3.5.0](https://github.com/jaredLunde/masonic/compare/v3.4.1...v3.5.0) (2021-10-14)
 
 ### Features

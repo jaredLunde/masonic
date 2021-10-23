@@ -1,8 +1,7 @@
 /// <reference types="react" />
 import type {MasonryProps} from './masonry'
 /**
- * This is just a single-column `<Masonry>` component with `rowGutter` prop instead of
- * a `columnGutter` prop.
+ * This is just a single-column `<Masonry>` component without column-specific props.
  */
 export declare function List<Item>(props: ListProps<Item>): JSX.Element
 export declare namespace List {
