@@ -21,6 +21,10 @@ export function useResizeObserver(positioner: Positioner) {
   return resizeObserver;
 }
 
+const _handlerForType = rafSchd((target: HTMLElement) => {});
+
+type IHandler = typeof _handlerForType;
+
 /**
  * Creates a resize observer that fires an `updater` callback whenever the height of
  * one or many cells change. The `useResizeObserver()` hook is using this under the hood.
@@ -33,33 +37,48 @@ export const createResizeObserver = trieMemoize(
   // TODO: figure out a way to test this
   /* istanbul ignore next */
   (positioner: Positioner, updater: (updates: number[]) => void) => {
-    const handleEntries = rafSchd(((entries) => {
-      const updates: number[] = [];
-      let i = 0;
+    const updates: number[] = [];
 
-      for (; i < entries.length; i++) {
-        const entry = entries[i];
-        const height = (entry.target as HTMLElement).offsetHeight;
-
-        if (height > 0) {
-          const index = elementsCache.get(entry.target);
-
-          if (index !== void 0) {
-            const position = positioner.get(index);
-
-            if (position !== void 0 && height !== position.height)
-              updates.push(index, height);
-          }
-        }
-      }
-
+    const update = rafSchd(() => {
       if (updates.length > 0) {
         // Updates the size/positions of the cell with the resize
         // observer updates
         positioner.update(updates);
         updater(updates);
       }
-    }) as ResizeObserverCallback);
+      updates.length = 0;
+    });
+
+    const commonHandler = (target: HTMLElement) => {
+      const height = target.offsetHeight;
+      if (height > 0) {
+        const index = elementsCache.get(target);
+        if (index !== void 0) {
+          const position = positioner.get(index);
+          if (position !== void 0 && height !== position.height)
+            updates.push(index, height);
+        }
+      }
+      update();
+    };
+
+    const handlers = new Map<number, IHandler>();
+    const handleEntries: ResizeObserverCallback = (entries) => {
+      let i = 0;
+
+      for (; i < entries.length; i++) {
+        const entry = entries[i];
+        const index = elementsCache.get(entry.target);
+
+        if (index === void 0) continue;
+        let handler = handlers.get(index);
+        if (!handler) {
+          handler = rafSchd(commonHandler);
+          handlers.set(index, handler);
+        }
+        handler(entry.target as HTMLElement);
+      }
+    };
 
     const ro = new ResizeObserver(handleEntries);
     // Overrides the original disconnect to include cancelling handling the entries.
@@ -68,7 +87,9 @@ export const createResizeObserver = trieMemoize(
     const disconnect = ro.disconnect.bind(ro);
     ro.disconnect = () => {
       disconnect();
-      handleEntries.cancel();
+      handlers.forEach((handler) => {
+        handler.cancel();
+      });
     };
 
     return ro;
