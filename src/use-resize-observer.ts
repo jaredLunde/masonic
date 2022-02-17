@@ -6,7 +6,9 @@ import { elementsCache } from "./elements-cache";
 import { useForceUpdate } from "./use-force-update";
 import type { Positioner } from "./use-positioner";
 
-const ResizeObserver = window.ResizeObserver || Polyfill;
+typeof window !== 'undefined' && 'ResizeObserver' in window
+    ? window.ResizeObserver
+    : Polyfill
 
 /**
  * Creates a resize observer that forces updates to the grid cell positions when mutations are
