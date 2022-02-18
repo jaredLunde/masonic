@@ -1,3 +1,9 @@
+## [3.6.2](https://github.com/jaredLunde/masonic/compare/v3.6.1...v3.6.2) (2022-02-17)
+
+### Bug Fixes
+
+- should update elements' position's height after resized in a short duration ([#106](https://github.com/jaredLunde/masonic/issues/106)) ([4384dfb](https://github.com/jaredLunde/masonic/commit/4384dfb1739da79db351941c068e61d62cf2f84c))
+
 ## [3.6.1](https://github.com/jaredLunde/masonic/compare/v3.6.0...v3.6.1) (2021-10-23)
 
 ### Bug Fixes
