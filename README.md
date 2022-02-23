@@ -52,7 +52,7 @@ usage requiring little code is possible.
 - [x] **Autosizing** The default [`<Masonry>`](#masonry) component will automatically resize itself and its
       items if the content of the grid cells changes or resizes. For example, when an image lazily loads this
       component will automatically do the work of recalculating the size of that grid cell using
-      [`resize-observer-polyfill`](https://www.npmjs.com/package/resize-observer-polyfill). That said, you
+      [`@juggle/resize-observer`](https://www.npmjs.com/package/@juggle/resize-observer). That said, you
       should try to premeasure things (including images) as often as possible in order to achieve the best
       user experience.
 
