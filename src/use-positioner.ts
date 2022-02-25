@@ -336,7 +336,7 @@ const getColumns = (
   gutter = 8,
   columnCount?: number
 ): [number, number] => {
-  columnCount = columnCount || Math.floor(width / (minimumWidth + gutter)) || 1;
+  columnCount = columnCount || Math.floor((width + gutter) / (minimumWidth + gutter)) || 1;
   const columnWidth = Math.floor(
     (width - gutter * (columnCount - 1)) / columnCount
   );
