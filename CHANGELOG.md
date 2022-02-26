@@ -1,3 +1,9 @@
+## [3.6.3](https://github.com/jaredLunde/masonic/compare/v3.6.2...v3.6.3) (2022-02-26)
+
+### Bug Fixes
+
+- **use-resize-observer:** resolve type conflict ([#100](https://github.com/jaredLunde/masonic/issues/100)) ([38b80bc](https://github.com/jaredLunde/masonic/commit/38b80bc9b9fc5017ee863bdb51578a456acbb416))
+
 ## [3.6.2](https://github.com/jaredLunde/masonic/compare/v3.6.1...v3.6.2) (2022-02-17)
 
 ### Bug Fixes

@@ -1,4 +1,3 @@
-import { ResizeObserver } from "@juggle/resize-observer";
 import type { Positioner } from "./use-positioner";
 /**
  * Creates a resize observer that forces updates to the grid cell positions when mutations are
