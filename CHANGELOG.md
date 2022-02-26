@@ -1,3 +1,10 @@
+## [3.6.4](https://github.com/jaredLunde/masonic/compare/v3.6.3...v3.6.4) (2022-02-26)
+
+
+### Bug Fixes
+
+* **use-positioner:** column count calculation ([#108](https://github.com/jaredLunde/masonic/issues/108)) ([8d5343b](https://github.com/jaredLunde/masonic/commit/8d5343bf5b3fffc9f607102ecc42d3b735770c1e))
+
 ## [3.6.3](https://github.com/jaredLunde/masonic/compare/v3.6.2...v3.6.3) (2022-02-26)
 
 ### Bug Fixes

@@ -10,45 +10,35 @@
  *  as well.
  * @param options
  */
-export declare function useInfiniteLoader<
-  Item,
-  T extends LoadMoreItemsCallback<Item>
->(
-  loadMoreItems: T,
-  options?: UseInfiniteLoaderOptions<Item>
-): LoadMoreItemsCallback<Item>;
+export declare function useInfiniteLoader<Item, T extends LoadMoreItemsCallback<Item>>(loadMoreItems: T, options?: UseInfiniteLoaderOptions<Item>): LoadMoreItemsCallback<Item>;
 export interface UseInfiniteLoaderOptions<Item> {
-  /**
-   *  A callback responsible for determining the loaded state of each item. Should return `true`
-   * if the item has already been loaded and `false` if not.
-   *
-   * @default (index: number, items: any[]) => boolean
-   */
-  isItemLoaded?: (index: number, items: Item[]) => boolean;
-  /**
-   * The minimum number of new items to be loaded at a time.  This property can be used to
-   * batch requests and reduce HTTP requests.
-   *
-   * @default 16
-   */
-  minimumBatchSize?: number;
-  /**
-   * The threshold at which to pre-fetch data. A threshold X means that new data should start
-   * loading when a user scrolls within X cells of the end of your `items` array.
-   *
-   * @default 16
-   */
-  threshold?: number;
-  /**
-   * The total number of items you'll need to eventually load (if known). This can
-   * be arbitrarily high if not known.
-   *
-   * @default 9e9
-   */
-  totalItems?: number;
+    /**
+     *  A callback responsible for determining the loaded state of each item. Should return `true`
+     * if the item has already been loaded and `false` if not.
+     *
+     * @default (index: number, items: any[]) => boolean
+     */
+    isItemLoaded?: (index: number, items: Item[]) => boolean;
+    /**
+     * The minimum number of new items to be loaded at a time.  This property can be used to
+     * batch requests and reduce HTTP requests.
+     *
+     * @default 16
+     */
+    minimumBatchSize?: number;
+    /**
+     * The threshold at which to pre-fetch data. A threshold X means that new data should start
+     * loading when a user scrolls within X cells of the end of your `items` array.
+     *
+     * @default 16
+     */
+    threshold?: number;
+    /**
+     * The total number of items you'll need to eventually load (if known). This can
+     * be arbitrarily high if not known.
+     *
+     * @default 9e9
+     */
+    totalItems?: number;
 }
-export declare type LoadMoreItemsCallback<Item> = (
-  startIndex: number,
-  stopIndex: number,
-  items: Item[]
-) => any;
+export declare type LoadMoreItemsCallback<Item> = (startIndex: number, stopIndex: number, items: Item[]) => any;
