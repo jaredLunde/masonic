@@ -1,4 +1,4 @@
-import "resize-observer-polyfill";
+import "@juggle/resize-observer";
 import { elementsCache } from "./elements-cache";
 import { createPositioner } from "./use-positioner";
 import { createResizeObserver } from "./use-resize-observer";
@@ -21,7 +21,7 @@ afterEach(() => {
   jest.clearAllTimers();
 });
 
-jest.mock("resize-observer-polyfill", () => {
+jest.mock("@juggle/resize-observer", () => {
   class ResizeObserver {
     els = [];
     callback: any;
