@@ -187,7 +187,7 @@ export function useMasonry<Item>({
   React.useEffect(() => {
     if (needsFreshBatch) forceUpdate();
     // eslint-disable-next-line
-  }, [needsFreshBatch]);
+  }, [needsFreshBatch, positioner]);
 
   // gets the container style object based upon the estimated height and whether or not
   // the page is being scrolled

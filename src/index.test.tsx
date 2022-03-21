@@ -1,6 +1,7 @@
 import { dimension } from "@shopify/jest-dom-mocks";
 import { act, render, screen } from "@testing-library/react";
 import { act as hookAct, renderHook } from "@testing-library/react-hooks";
+import type { RenderHookResult } from "@testing-library/react-hooks";
 import * as React from "react";
 import {
   createResizeObserver,
@@ -14,6 +15,7 @@ import {
   useResizeObserver,
   useScroller,
 } from "./index";
+import * as useForceUpdateModule from "./use-force-update";
 
 jest.useFakeTimers();
 
@@ -50,6 +52,7 @@ afterEach(() => {
   resetScroll();
   dimension.restore();
   perf.uninstall();
+  jest.restoreAllMocks();
 });
 
 describe("useMasonry()", () => {
@@ -311,6 +314,57 @@ describe("useMasonry()", () => {
   it('should add "className" to container', () => {
     const { result } = renderBasicMasonry({ className: "foo" });
     expect(result.current.props.className).toEqual("foo");
+  });
+
+  it('should render multiple batches if "itemHeightEstimate" isn\'t accurate', () => {
+    // eslint-disable-next-line prefer-const
+    let hook: RenderHookResult<
+      { items: { id: number; height: number }[] },
+      JSX.Element
+    >;
+
+    // Render hook again on useForceUpdate
+    jest.spyOn(useForceUpdateModule, "useForceUpdate").mockReturnValue(() => {
+      if (hook) {
+        hook.rerender();
+        render(hook.result.current);
+      }
+    });
+
+    // Render hook with items-dependent positioner
+    hook = renderHook(
+      (props) => {
+        const positioner = usePositioner({ width: 1280, columnWidth: 1280 }, [
+          props.items[0],
+        ]);
+        return useMasonry({
+          height: 1280,
+          positioner,
+          itemHeightEstimate: 640,
+          overscanBy: 1,
+          render: FakeCard,
+          scrollTop: 0,
+          ...props,
+        });
+      },
+      {
+        initialProps: {
+          items: getFakeItems(100, 80),
+        },
+      }
+    );
+
+    // Switch items, positioner will update itself
+    hook.rerender({
+      items: getFakeItems(100, 80),
+    });
+
+    // All items should have measured styles
+    for (let i = 0; i < 2; i++) {
+      expect(hook.result.current.props.children[i].props.style).not.toEqual(
+        prerenderStyles(1280)
+      );
+    }
   });
 });
 
