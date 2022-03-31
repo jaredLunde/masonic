@@ -220,6 +220,52 @@ describe("useMasonry()", () => {
     }
   });
 
+  it("should render children sorted by index", () => {
+    const items = [
+      { id: 0, height: 100 },
+      { id: 1, height: 200 },
+      { id: 2, height: 300 },
+    ];
+    // faking the positioner to setup items rendering backwards consistently
+    const positioner: ReturnType<typeof usePositioner> = {
+      size: () =>
+        Infinity /* very high number to avoid rendering additional items to measure their size */,
+      shortestColumn: () => 0,
+      columnWidth: 300,
+      columnCount: 2,
+      range: (lo, hi, renderCallback) => {
+        // pretend to render items backwards to make the sorting stable for the test
+        [...items]
+          .reverse()
+          .forEach((x) => renderCallback(items.indexOf(x), 0, 0));
+      },
+      estimateHeight: () =>
+        300 /* the return value does not matter here as long as it's a number */,
+      get: () => ({ column: 0, height: 100, left: 0, top: 0 }),
+      set: () => {},
+      all: () => [],
+      update: () => {},
+    };
+
+    const hook = renderHook((props) => {
+      return useMasonry({
+        height: 720,
+        positioner,
+        items,
+        overscanBy: 1,
+        itemHeightEstimate: 100,
+        render: FakeCard,
+        scrollTop: 0,
+      });
+    });
+
+    expect(hook.result.current.props.children).toEqual([
+      expect.objectContaining({ key: "0" }),
+      expect.objectContaining({ key: "1" }),
+      expect.objectContaining({ key: "2" }),
+    ]);
+  });
+
   it("should fire onRender function when new cells render", () => {
     const onRender = jest.fn();
     const items = getFakeItems(12, 720);

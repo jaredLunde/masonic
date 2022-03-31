@@ -74,7 +74,12 @@ export function useMasonry<Item>({
   } = positioner;
   const measuredCount = size();
   const shortestColumnSize = shortestColumn();
-  const children: React.ReactElement[] = [];
+  const itemsToRender: {
+    index: number;
+    style: React.CSSProperties;
+    key: string | number;
+    data: Item;
+  }[] = [];
   const itemRole =
     role === "list" ? "listitem" : role === "grid" ? "gridcell" : undefined;
   const storedOnRender = useLatest(onRender);
@@ -109,20 +114,15 @@ export function useMasonry<Item>({
         throwWithoutData(data, index);
       }
 
-      children.push(
-        <ItemComponent
-          key={key}
-          ref={setItemRef(index)}
-          role={itemRole}
-          style={
-            typeof itemStyle === "object" && itemStyle !== null
-              ? Object.assign({}, phaseTwoStyle, itemStyle)
-              : phaseTwoStyle
-          }
-        >
-          {createRenderElement(RenderComponent, index, data, columnWidth)}
-        </ItemComponent>
-      );
+      itemsToRender.push({
+        key,
+        style:
+          typeof itemStyle === "object" && itemStyle !== null
+            ? Object.assign({}, phaseTwoStyle, itemStyle)
+            : phaseTwoStyle,
+        data,
+        index,
+      });
 
       if (stopIndex === void 0) {
         startIndex = index;
@@ -158,20 +158,15 @@ export function useMasonry<Item>({
         throwWithoutData(data, index);
       }
 
-      children.push(
-        <ItemComponent
-          key={key}
-          ref={setItemRef(index)}
-          role={itemRole}
-          style={
-            typeof itemStyle === "object"
-              ? Object.assign({}, phaseOneStyle, itemStyle)
-              : phaseOneStyle
-          }
-        >
-          {createRenderElement(RenderComponent, index, data, columnWidth)}
-        </ItemComponent>
-      );
+      itemsToRender.push({
+        index,
+        key,
+        style:
+          typeof itemStyle === "object"
+            ? Object.assign({}, phaseOneStyle, itemStyle)
+            : phaseOneStyle,
+        data,
+      });
     }
   }
 
@@ -195,6 +190,21 @@ export function useMasonry<Item>({
     isScrolling,
     estimateHeight(itemCount, itemHeightEstimate)
   );
+
+  // sort children to preserve the dom index
+  // that would help to preserve the tabbing order if it's required
+  const children = itemsToRender
+    .sort((a, b) => a.index - b.index)
+    .map(({ key, index, style, data }) => (
+      <ItemComponent
+        key={key}
+        ref={setItemRef(index)}
+        role={itemRole}
+        style={style}
+      >
+        {createRenderElement(RenderComponent, index, data, columnWidth)}
+      </ItemComponent>
+    ));
 
   return (
     <ContainerComponent
