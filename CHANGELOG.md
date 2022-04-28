@@ -1,9 +1,14 @@
-## [3.6.4](https://github.com/jaredLunde/masonic/compare/v3.6.3...v3.6.4) (2022-02-26)
-
+## [3.6.5](https://github.com/jaredLunde/masonic/compare/v3.6.4...v3.6.5) (2022-04-28)
 
 ### Bug Fixes
 
-* **use-positioner:** column count calculation ([#108](https://github.com/jaredLunde/masonic/issues/108)) ([8d5343b](https://github.com/jaredLunde/masonic/commit/8d5343bf5b3fffc9f607102ecc42d3b735770c1e))
+- **use-masonry:** should update when positioner changes ([#113](https://github.com/jaredLunde/masonic/issues/113)) ([55cc606](https://github.com/jaredLunde/masonic/commit/55cc6068c31386afdb82e679c9b8a9de7eb8d95c))
+
+## [3.6.4](https://github.com/jaredLunde/masonic/compare/v3.6.3...v3.6.4) (2022-02-26)
+
+### Bug Fixes
+
+- **use-positioner:** column count calculation ([#108](https://github.com/jaredLunde/masonic/issues/108)) ([8d5343b](https://github.com/jaredLunde/masonic/commit/8d5343bf5b3fffc9f607102ecc42d3b735770c1e))
 
 ## [3.6.3](https://github.com/jaredLunde/masonic/compare/v3.6.2...v3.6.3) (2022-02-26)
 
