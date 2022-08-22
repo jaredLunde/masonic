@@ -43,8 +43,7 @@ usage requiring little code is possible.
       without lag via its virtualization algorithm and underlying 
       [data structures](https://www.scaler.com/topics/data-structures/what-is-data-structure/). For example, it uses
       a [red black interval tree](https://www.geeksforgeeks.org/interval-tree/) to determine which cells to
-      render, based upon the scroll position and size of the window the grid is rendered in. Interval trees
-      have `O(log n + m)` search performance 😱.
+      render, based upon the scroll position and size of the window the grid is rendered in. Interval trees(https://www.interviewbit.com/courses/programming/tree-data-structure) have `O(log n + m)` search performance 😱.
 - [x] **TypeScript** Intellisense and type safety mean fewer bugs in your implementation.
 - [x] **Versatility** All of [`<Masonry>`](#masonry)'s implementation details (hooks, utilities) are exported,
       so you're not locked into to the default implementation. As you advance, it will be useful to have access
