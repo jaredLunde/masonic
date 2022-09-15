@@ -15,6 +15,7 @@ import { createIntervalTree } from "./interval-tree";
  * @param options.columnGutter
  * @param options.rowGutter
  * @param options.columnCount
+ * @param options.maxColumnCount
  */
 export function usePositioner(
   {
@@ -23,6 +24,7 @@ export function usePositioner(
     columnGutter = 0,
     rowGutter,
     columnCount,
+    maxColumnCount,
   }: UsePositionerOptions,
   deps: React.DependencyList = emptyArr
 ): Positioner {
@@ -31,7 +33,8 @@ export function usePositioner(
       width,
       columnWidth,
       columnGutter,
-      columnCount
+      columnCount,
+      maxColumnCount
     );
     return createPositioner(
       computedColumnCount,
@@ -45,7 +48,14 @@ export function usePositioner(
     positionerRef.current = initPositioner();
 
   const prevDeps = React.useRef(deps);
-  const opts = [width, columnWidth, columnGutter, rowGutter, columnCount];
+  const opts = [
+    width,
+    columnWidth,
+    columnGutter,
+    rowGutter,
+    columnCount,
+    maxColumnCount,
+  ];
   const prevOpts = React.useRef(opts);
   const optsChanged = !opts.every((item, i) => prevOpts.current[i] === item);
 
@@ -113,6 +123,10 @@ export interface UsePositionerOptions {
    * (e.g. creating a `List` component).
    */
   columnCount?: number;
+  /**
+   * The upper bound of column count. This property won't work if `columnCount` is set.
+   */
+  maxColumnCount?: number;
 }
 
 /**
@@ -334,9 +348,16 @@ const getColumns = (
   width = 0,
   minimumWidth = 0,
   gutter = 8,
-  columnCount?: number
+  columnCount?: number,
+  maxColumnCount?: number
 ): [number, number] => {
-  columnCount = columnCount || Math.floor((width + gutter) / (minimumWidth + gutter)) || 1;
+  columnCount =
+    columnCount ||
+    Math.min(
+      Math.floor((width + gutter) / (minimumWidth + gutter)),
+      maxColumnCount || Infinity
+    ) ||
+    1;
   const columnWidth = Math.floor(
     (width - gutter * (columnCount - 1)) / columnCount
   );
