@@ -1,3 +1,9 @@
+# [3.7.0](https://github.com/jaredLunde/masonic/compare/v3.6.5...v3.7.0) (2022-09-16)
+
+### Features
+
+- **use-positioner:** add maxColumnCount property ([#132](https://github.com/jaredLunde/masonic/issues/132)) ([dbec4ff](https://github.com/jaredLunde/masonic/commit/dbec4ff86e869b303d7648bebb3e28faa7adc7b3))
+
 ## [3.6.5](https://github.com/jaredLunde/masonic/compare/v3.6.4...v3.6.5) (2022-04-28)
 
 ### Bug Fixes
