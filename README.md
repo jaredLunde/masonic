@@ -167,12 +167,13 @@ const MasonryCard = ({ index, data: { id }, width }) => (
 
 Props for tuning the column width, count, and gutter of your component.
 
-| Prop         | Type     | Default                | Required? | Description                                                                                                                                                                                                                                                                          |
-| ------------ | -------- | ---------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| columnWidth  | `number` | `240`                  | No        | This is the minimum column width. `Masonic` will automatically size your columns to fill its container based on your provided `columnWidth` and `columnGutter` values. It will never render anything smaller than this defined width unless its container is smaller than its value. |
-| columnGutter | `number` | `0`                    | No        | This sets the horizontal space between grid columns in pixels. If `rowGutter` is not set, this also sets the vertical space between cells within a column in pixels.                                                                                                                 |
-| rowGutter    | `number` | Same as `columnGutter` | No        | This sets the vertical space between cells within a column in pixels.                                                                                                                                                                                                                |
-| columnCount  | `number` |                        | No        | By default, `Masonic` derives the column count from the `columnWidth` prop. However, in some situations it is nice to be able to override that behavior e.g. when creating a [`<List>`](#list).                                                                                      |
+| Prop           | Type     | Default                | Required? | Description                                                                                                                                                                                                                                                                          |
+| -------------- | -------- | ---------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| columnWidth    | `number` | `240`                  | No        | This is the minimum column width. `Masonic` will automatically size your columns to fill its container based on your provided `columnWidth` and `columnGutter` values. It will never render anything smaller than this defined width unless its container is smaller than its value. |
+| columnGutter   | `number` | `0`                    | No        | This sets the horizontal space between grid columns in pixels. If `rowGutter` is not set, this also sets the vertical space between cells within a column in pixels.                                                                                                                 |
+| rowGutter      | `number` | Same as `columnGutter` | No        | This sets the vertical space between cells within a column in pixels.                                                                                                                                                                                                                |
+| columnCount    | `number` |                        | No        | By default, `Masonic` derives the column count from the `columnWidth` prop. However, in some situations it is nice to be able to override that behavior e.g. when creating a [`<List>`](#list).                                                                                      |
+| maxColumnCount | `number` |                        | No        | Limits the number of columns used by `Masonic`. Useful for implementing responsive layouts.                                                                                                                                                                                          |
 
 **Grid container props**
 
@@ -273,7 +274,7 @@ const MyMasonry = (props) => {
 #### Props
 
 In addition to these props, this component accepts all of the props outlined in [`<Masonry>`](#masonry)
-with exception to `columnGutter`, `rowGutter`, `columnWidth`, `columnCount`, `ssrWidth`, and `ssrHeight`.
+with exception to `columnGutter`, `rowGutter`, `columnWidth`, `columnCount`, `maxColumntCount`, `ssrWidth`, and `ssrHeight`.
 
 | Prop           | Type                                                                | Default | Required? | Description                                                                                                                                                                                                                                                                                                             |
 | -------------- | ------------------------------------------------------------------- | ------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -315,7 +316,7 @@ const ListCard = ({ index, data: { id }, width }) => (
 #### Props
 
 In addition to these props, this component accepts all of the props outlined in [`<Masonry>`](#masonry)
-with exception to `columnGutter`, `columnWidth`, and `columnCount`.
+with exception to `columnGutter`, `columnWidth`, `columnCount`, and `maxColumnCount`.
 
 | Prop      | Type     | Default | Required? | Description                                                            |
 | --------- | -------- | ------- | --------- | ---------------------------------------------------------------------- |
@@ -442,13 +443,14 @@ const MyMasonry = ({ columnWidth = 300, columnGutter = 16, ...props }) => {
 
 #### UsePositionerOptions
 
-| Argument     | Type     | Default                | Required? | Description                                                                                                                                                                                                                                                                                                                                                                          |
-| ------------ | -------- | ---------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| width        | `number` |                        | Yes       | The width of the container you're rendering the grid within, e.g. the container element's `element.offsetWidth`. That said, you can provide any width here.                                                                                                                                                                                                                          |
-| columnWidth  | `number` | `200`                  | No        | The minimum column width. The [`usePositioner()`](#usepositioneroptions-deps) hook will automatically size the columns to fill their container based upon the `columnWidth` and `columnGutter` values. It will never render anything smaller than this width unless its container itself is smaller than its value. This property has no effect if you're providing a `columnCount`. |
-| columnGutter | `number` | `0`                    | No        | This sets the horizontal space between grid columns in pixels. If `rowGutter` is not set, this also sets the vertical space between cells within a column in pixels.                                                                                                                                                                                                                 |
-| rowGutter    | `number` | Same as `columnGutter` | No        | This sets the vertical space between cells within a column in pixels.                                                                                                                                                                                                                                                                                                                |
-| columnCount  | `number` |                        | No        | By default, [`usePositioner()`](#usepositioneroptions-deps) derives the column count from the `columnWidth`, `columnGutter`, and `width` props. However, in some situations it is nice to be able to override that behavior (e.g. creating a [`<List>`-like](#list) component).                                                                                                      |
+| Argument       | Type     | Default                | Required? | Description                                                                                                                                                                                                                                                                                                                                                                          |
+| -------------- | -------- | ---------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| width          | `number` |                        | Yes       | The width of the container you're rendering the grid within, e.g. the container element's `element.offsetWidth`. That said, you can provide any width here.                                                                                                                                                                                                                          |
+| columnWidth    | `number` | `200`                  | No        | The minimum column width. The [`usePositioner()`](#usepositioneroptions-deps) hook will automatically size the columns to fill their container based upon the `columnWidth` and `columnGutter` values. It will never render anything smaller than this width unless its container itself is smaller than its value. This property has no effect if you're providing a `columnCount`. |
+| columnGutter   | `number` | `0`                    | No        | This sets the horizontal space between grid columns in pixels. If `rowGutter` is not set, this also sets the vertical space between cells within a column in pixels.                                                                                                                                                                                                                 |
+| rowGutter      | `number` | Same as `columnGutter` | No        | This sets the vertical space between cells within a column in pixels.                                                                                                                                                                                                                                                                                                                |
+| columnCount    | `number` |                        | No        | By default, [`usePositioner()`](#usepositioneroptions-deps) derives the column count from the `columnWidth`, `columnGutter`, and `width` props. However, in some situations it is nice to be able to override that behavior (e.g. creating a [`<List>`-like](#list) component).                                                                                                      |
+| maxColumnCount | `number` |                        | No        | Limits the number of columns used by [`usePositioner()`](#usepositioneroptions-deps). Useful for implementing responsive layouts.                                                                                                                                                                                                                                                    |
 
 #### Returns a [`Positioner`](#positioner)
 
@@ -782,12 +784,13 @@ this utility under the hood.
 
 #### Arguments
 
-| Argument     | Type     | Description                                                                                          |
-| ------------ | -------- | ---------------------------------------------------------------------------------------------------- |
-| columnCount  | `number` | The number of columns in the grid                                                                    |
-| columnWidth  | `number` | The width of each column in the grid                                                                 |
-| columnGutter | `number` | The amount of horizontal space between columns in pixels.                                            |
-| rowGutter    | `number` | The amount of vertical space between cells within a column in pixels (falls back to `columnGutter`). |
+| Argument       | Type     | Description                                                                                          |
+| -------------- | -------- | ---------------------------------------------------------------------------------------------------- |
+| columnCount    | `number` | The number of columns in the grid                                                                    |
+| columnWidth    | `number` | The width of each column in the grid                                                                 |
+| columnGutter   | `number` | The amount of horizontal space between columns in pixels.                                            |
+| rowGutter      | `number` | The amount of vertical space between cells within a column in pixels (falls back to `columnGutter`). |
+| maxColumnCount | `number` | The upper bound of column count.                                                                     |
 
 #### Returns [`Positioner`](#positioner)
 

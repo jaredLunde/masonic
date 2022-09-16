@@ -63,7 +63,11 @@ export interface MasonryProps<Item>
     >,
     Pick<
       UsePositionerOptions,
-      "columnWidth" | "columnGutter" | "rowGutter" | "columnCount"
+      | "columnWidth"
+      | "columnGutter"
+      | "rowGutter"
+      | "columnCount"
+      | "maxColumnCount"
     > {
   /**
    * Scrolls to a given index within the grid. The grid will re-scroll

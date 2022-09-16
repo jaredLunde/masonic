@@ -408,6 +408,41 @@ describe("usePositioner()", () => {
     expect(result.current.columnWidth).toBe(418);
   });
 
+  it("should automatically derive column width when a maximum column count is defined", () => {
+    const { result, rerender } = renderHook((props) => usePositioner(props), {
+      initialProps: {
+        width: 1280,
+        columnCount: undefined,
+        columnWidth: 20,
+        columnGutter: 10,
+        maxColumnCount: 4,
+      },
+    });
+
+    expect(result.current.columnCount).toBe(4);
+    expect(result.current.columnWidth).toBe(312);
+
+    rerender({
+      width: 1280,
+      columnCount: undefined,
+      columnWidth: 20,
+      columnGutter: 10,
+      maxColumnCount: 5,
+    });
+    expect(result.current.columnCount).toBe(5);
+    expect(result.current.columnWidth).toBe(248);
+
+    rerender({
+      width: 1280,
+      columnCount: 1,
+      columnWidth: 20,
+      columnGutter: 10,
+      maxColumnCount: 5,
+    });
+    expect(result.current.columnCount).toBe(1);
+    expect(result.current.columnWidth).toBe(1280);
+  });
+
   it("should create a new positioner when sizing deps change", () => {
     const { result, rerender } = renderHook((props) => usePositioner(props), {
       initialProps: { width: 1280, columnCount: 4, columnGutter: 10 },
