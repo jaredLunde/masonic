@@ -41,7 +41,7 @@ usage requiring little code is possible.
       [For real, check out the demo on **CodeSandbox**](https://codesandbox.io/s/0oyxozv75v).
 - [x] **Blazing™ fast** This component can seamlessly render tens of thousands of grid cells
       without lag via its virtualization algorithm and underlying 
-      [data structures](https://www.scaler.com/topics/data-structures/what-is-data-structure/). For example, it uses
+      [data structures](https://www.scaler.com/topics/data-structures/). For example, it uses
       a [red black interval tree](https://www.geeksforgeeks.org/interval-tree/) to determine which cells to
       render, based upon the scroll position and size of the window the grid is rendered in. Interval trees
       have `O(log n + m)` search performance 😱.
