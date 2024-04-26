@@ -2,32 +2,6 @@ import * as React from "react";
 import { Masonry } from "./masonry";
 import type { MasonryProps } from "./masonry";
 
-class ResizeObserver {
-  els = [];
-  callback: any;
-  constructor(callback) {
-    this.callback = callback;
-  }
-  observe(el) {
-    this.els.push(el);
-  }
-  unobserve() {
-    // do nothing
-  }
-  disconnect() {}
-
-  resize(index: number, height: number) {
-    // @ts-expect-error
-    this.els[index].offsetHeight = height;
-    this.callback(
-      this.els.map((el) => ({
-        target: el,
-      }))
-    );
-  }
-}
-window.ResizeObserver = ResizeObserver;
-
 /**
  * This is just a single-column `<Masonry>` component without column-specific props.
  *
