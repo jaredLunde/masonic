@@ -17,8 +17,7 @@
       "types": "./types/index.d.ts",
       "default": "./dist/main/index.js"
     },
-    "./package.json": "./package.json",
-    "./": "./"
+    "./package.json": "./package.json"
   },
   "main": "dist/main/index.js",
   "module": "dist/module/index.js",
@@ -74,7 +73,8 @@
     "@testing-library/react": "latest",
     "@testing-library/react-hooks": "latest",
     "@testing-library/user-event": "latest",
-    "@types/jest": "latest",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^20.12.7",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
@@ -82,7 +82,7 @@
     "eslint": "^7.32.0",
     "eslint-config-lunde": "latest",
     "husky": "latest",
-    "jest": "latest",
+    "jest": "^27.4.7",
     "lint-staged": "latest",
     "lundle": "latest",
     "node-fetch": "^2.6.0",
@@ -91,7 +91,7 @@
     "react": "latest",
     "react-dom": "latest",
     "react-test-renderer": "latest",
-    "typescript": "latest"
+    "typescript": "^4.5.4"
   },
   "keywords": [
     "grid component",
