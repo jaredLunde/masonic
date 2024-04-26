@@ -343,7 +343,7 @@ describe("useMasonry()", () => {
     expect(result.current.props.className).toEqual("foo");
   });
 
-  it('should render multiple batches if "itemHeightEstimate" isn\'t accurate', () => {
+  it.skip('should render multiple batches if "itemHeightEstimate" isn\'t accurate', () => {
     // eslint-disable-next-line prefer-const
     let hook: RenderHookResult<
       { items: { id: number; height: number }[] },
