@@ -43,7 +43,7 @@ jobs:
       - name: 🧹 Lint
         run: pnpm lint --quiet
       - name: 🧪 Test
-        run: pnpm test --coverage --silent
+        run: pnpm run test --coverage --silent
       - name: Publish tests to Codecov
         if: always()
         uses: codecov/codecov-action@v2
