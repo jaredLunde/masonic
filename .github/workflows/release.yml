@@ -58,7 +58,8 @@ jobs:
         if: "github.event_name == 'push'"
         run: git add .
       - name: 🚀 Release
+        if: "github.event_name == 'push'"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpx -y semantic-release
+        run: pnpx semantic-release
