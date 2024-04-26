@@ -40,7 +40,7 @@ usage requiring little code is possible.
 - [x] **Easy to use** It takes two minutes to start creating your own masonry grid with this component.
       [For real, check out the demo on **CodeSandbox**](https://codesandbox.io/s/0oyxozv75v).
 - [x] **Blazing™ fast** This component can seamlessly render tens of thousands of grid cells
-      without lag via its virtualization algorithm and underlying 
+      without lag via its virtualization algorithm and underlying
       [data structures](https://www.scaler.com/topics/data-structures/what-is-data-structure/). For example, it uses
       a [red black interval tree](https://www.geeksforgeeks.org/interval-tree/) to determine which cells to
       render, based upon the scroll position and size of the window the grid is rendered in. Interval trees
@@ -52,8 +52,7 @@ usage requiring little code is possible.
       `Infinity` value to the `overscanBy` prop, though this would be a terrible idea for large lists.
 - [x] **Autosizing** The default [`<Masonry>`](#masonry) component will automatically resize itself and its
       items if the content of the grid cells changes or resizes. For example, when an image lazily loads this
-      component will automatically do the work of recalculating the size of that grid cell using
-      [`@juggle/resize-observer`](https://www.npmjs.com/package/@juggle/resize-observer). That said, you
+      component will automatically do the work of recalculating the size of that grid cell. That said, you
       should try to premeasure things (including images) as often as possible in order to achieve the best
       user experience.
 

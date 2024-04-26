@@ -1,15 +1,9 @@
-import { ResizeObserver as Polyfill } from "@juggle/resize-observer";
 import rafSchd from "raf-schd";
 import * as React from "react";
 import trieMemoize from "trie-memoize";
 import { elementsCache } from "./elements-cache";
 import { useForceUpdate } from "./use-force-update";
 import type { Positioner } from "./use-positioner";
-
-const ResizeObserver =
-  typeof window !== "undefined" && "ResizeObserver" in window
-    ? window.ResizeObserver
-    : Polyfill;
 
 /**
  * Creates a resize observer that forces updates to the grid cell positions when mutations are

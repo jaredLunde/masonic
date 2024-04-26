@@ -1,4 +1,3 @@
-import "@juggle/resize-observer";
 import { elementsCache } from "./elements-cache";
 import { createPositioner } from "./use-positioner";
 import { createResizeObserver } from "./use-resize-observer";
@@ -17,40 +16,36 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  // @ts-expect-error
   window.requestAnimationFrame.mockRestore();
   jest.clearAllTimers();
 });
 
-jest.mock("@juggle/resize-observer", () => {
-  class ResizeObserver {
-    els = [];
-    callback: any;
-    constructor(callback) {
-      this.callback = callback;
-    }
-    observe(el) {
-      this.els.push(el);
-    }
-    unobserve() {
-      // do nothing
-    }
-    disconnect() {}
-
-    resize(index: number, height: number) {
-      this.els[index].offsetHeight = height;
-      this.callback(
-        this.els.map((el) => ({
-          target: el,
-        }))
-      );
-    }
+class ResizeObserver {
+  els = [];
+  callback: any;
+  constructor(callback) {
+    this.callback = callback;
   }
-  window.ResizeObserver = ResizeObserver;
-  return {
-    __esModule: true,
-    default: ResizeObserver,
-  };
-});
+  observe(el) {
+    this.els.push(el);
+  }
+  unobserve() {
+    // do nothing
+  }
+  disconnect() {}
+
+  resize(index: number, height: number) {
+    // @ts-expect-error
+    this.els[index].offsetHeight = height;
+    this.callback(
+      this.els.map((el) => ({
+        target: el,
+      }))
+    );
+  }
+}
+window.ResizeObserver = ResizeObserver;
 
 describe("createResizeObserver", () => {
   it("should update elements' position's height after resized in a short duration", async () => {

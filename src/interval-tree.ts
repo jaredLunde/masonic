@@ -114,10 +114,8 @@ function rotateLeft(tree: Tree, x: TreeNode) {
   y.P = x.P;
 
   if (x.P === NULL_NODE) tree.root = y;
-  else {
-    if (x === x.P.L) x.P.L = y;
-    else x.P.R = y;
-  }
+  else if (x === x.P.L) x.P.L = y;
+  else x.P.R = y;
 
   y.L = x;
   x.P = y;
@@ -134,10 +132,8 @@ function rotateRight(tree: Tree, x: TreeNode) {
   y.P = x.P;
 
   if (x.P === NULL_NODE) tree.root = y;
-  else {
-    if (x === x.P.R) x.P.R = y;
-    else x.P.L = y;
-  }
+  else if (x === x.P.R) x.P.R = y;
+  else x.P.L = y;
 
   y.R = x;
   x.P = y;
