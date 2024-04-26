@@ -1,3 +1,19 @@
+# [4.0.0](https://github.com/jaredLunde/masonic/compare/v3.7.0...v4.0.0) (2024-04-26)
+
+### Bug Fixes
+
+- ts/js is a joke of an ecosystem ([#160](https://github.com/jaredLunde/masonic/issues/160)) ([900bb10](https://github.com/jaredLunde/masonic/commit/900bb10fa0ebc8e4be0e02393a3949c70511016f))
+
+### Features
+
+- remove resize observer ponyfill ([#159](https://github.com/jaredLunde/masonic/issues/159)) ([494a10f](https://github.com/jaredLunde/masonic/commit/494a10f002a11ba81104c3877ee179f659f47c2b))
+
+### BREAKING CHANGES
+
+- removes the resize observer ponyfill.
+
+Moving forward people will have to include their own global polyfill if they need one.
+
 # [3.7.0](https://github.com/jaredLunde/masonic/compare/v3.6.5...v3.7.0) (2022-09-16)
 
 ### Features
