@@ -3,6 +3,10 @@
   <h1 align="center">
     🧱 masonic
   </h1>
+  
+  <div align="center">
+    <a href="https://flexstack.com"><img src="https://flexstack.com/images/supported-by-flexstack.svg" height="38" alt="Supported by FlexStack"></a>
+  </div>
 </div>
 
 <p align="center">
