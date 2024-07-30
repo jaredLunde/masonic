@@ -3,12 +3,12 @@
   <h1 align="center">
     🧱 masonic
   </h1>
-  
+
   <div align="center">
     <a href="https://flexstack.com"><img src="https://flexstack.com/images/supported-by-flexstack.svg" height="38" alt="Supported by FlexStack"></a>
   </div>
 </div>
-
+<hr>
 <p align="center">
   <a href="https://bundlephobia.com/result?p=masonic">
     <img alt="Bundlephobia" src="https://img.shields.io/bundlephobia/minzip/masonic?style=for-the-badge&labelColor=24292e">
@@ -31,7 +31,6 @@
 </p>
 
 <pre align="center">npm i masonic</pre>
-<hr>
 
 A performant and versatile virtualized masonry grid for React based on Brian Vaughn's [react-virtualized](https://github.com/bvaughn/react-virtualized)
 and further inspired by [react-window](https://github.com/bvaughn/react-window).
