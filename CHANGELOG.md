@@ -1,3 +1,9 @@
+## [4.0.1](https://github.com/jaredLunde/masonic/compare/v4.0.0...v4.0.1) (2024-07-30)
+
+### Bug Fixes
+
+- update readme ([#166](https://github.com/jaredLunde/masonic/issues/166)) ([32d7c26](https://github.com/jaredLunde/masonic/commit/32d7c263ac327d293786d40d02d82b319ed0bc6d))
+
 # [4.0.0](https://github.com/jaredLunde/masonic/compare/v3.7.0...v4.0.0) (2024-04-26)
 
 ### Bug Fixes
