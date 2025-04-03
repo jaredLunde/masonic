@@ -16,6 +16,7 @@ import { createIntervalTree } from "./interval-tree";
  * @param options.rowGutter
  * @param options.columnCount
  * @param options.maxColumnCount
+ * @param options.maxColumnWidth
  */
 export function usePositioner(
   {
@@ -25,6 +26,7 @@ export function usePositioner(
     rowGutter,
     columnCount,
     maxColumnCount,
+    maxColumnWidth,
   }: UsePositionerOptions,
   deps: React.DependencyList = emptyArr
 ): Positioner {
@@ -34,7 +36,8 @@ export function usePositioner(
       columnWidth,
       columnGutter,
       columnCount,
-      maxColumnCount
+      maxColumnCount,
+      maxColumnWidth
     );
     return createPositioner(
       computedColumnCount,
@@ -55,6 +58,7 @@ export function usePositioner(
     rowGutter,
     columnCount,
     maxColumnCount,
+    maxColumnWidth,
   ];
   const prevOpts = React.useRef(opts);
   const optsChanged = !opts.every((item, i) => prevOpts.current[i] === item);
@@ -105,6 +109,10 @@ export interface UsePositionerOptions {
    * @default 200
    */
   columnWidth?: number;
+  /**
+   * The maximum column width. Calculated column widths will be capped at this value.
+   */
+  maxColumnWidth?: number;
   /**
    * This sets the horizontal space between grid columns in pixels. If `rowGutter` is not set, this
    * also sets the vertical space between cells within a column in pixels.
@@ -349,7 +357,8 @@ const getColumns = (
   minimumWidth = 0,
   gutter = 8,
   columnCount?: number,
-  maxColumnCount?: number
+  maxColumnCount?: number,
+  maxColumnWidth?: number
 ): [number, number] => {
   columnCount =
     columnCount ||
@@ -358,9 +367,15 @@ const getColumns = (
       maxColumnCount || Infinity
     ) ||
     1;
-  const columnWidth = Math.floor(
+  let columnWidth = Math.floor(
     (width - gutter * (columnCount - 1)) / columnCount
   );
+
+  // Cap the column width if maxColumnWidth is specified
+  if (maxColumnWidth !== undefined && columnWidth > maxColumnWidth) {
+    columnWidth = maxColumnWidth;
+  }
+
   return [columnWidth, columnCount];
 };
 

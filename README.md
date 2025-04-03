@@ -128,7 +128,7 @@ const MasonryCard = ({ index, data: { id }, width }) => (
 An autosizing masonry grid that only renders items currently visible in the browser `window`. This
 component will change its column count to fit its container's width and will decide how many rows
 to render based upon the height of the browser `window`. To facilitate this, it uses [`useMasonry()`](#usemasonryoptions),
-[`usePositioner()`](#usepositioneroptions-deps), [`useResizeObserver()`](#useresizeobserverpositioner),  
+[`usePositioner()`](#usepositioneroptions-deps), [`useResizeObserver()`](#useresizeobserverpositioner),
 [`useContainerPosition()`](#usecontainerpositionelementref-deps), and [`useScroller()`](#usescrolleroffset-fps) under the hood.
 
 This is the "batteries included" option. It's the easiest way to get off and running with your app and a
@@ -176,6 +176,7 @@ Props for tuning the column width, count, and gutter of your component.
 | rowGutter      | `number` | Same as `columnGutter` | No        | This sets the vertical space between cells within a column in pixels.                                                                                                                                                                                                                |
 | columnCount    | `number` |                        | No        | By default, `Masonic` derives the column count from the `columnWidth` prop. However, in some situations it is nice to be able to override that behavior e.g. when creating a [`<List>`](#list).                                                                                      |
 | maxColumnCount | `number` |                        | No        | Limits the number of columns used by `Masonic`. Useful for implementing responsive layouts.                                                                                                                                                                                          |
+| maxColumnWidth | `number` |                        | No        | Limits the calculated width of columns rendered by `Masonic`.                                                                                                                                                                                                                        |
 
 **Grid container props**
 
