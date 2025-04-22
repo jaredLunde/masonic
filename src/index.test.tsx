@@ -435,6 +435,29 @@ describe("usePositioner()", () => {
     expect(result.current.columnWidth).toBe(418);
   });
 
+  it("should automatically derive column width when a maximum column width is defined", () => {
+    const { result, rerender } = renderHook((props) => usePositioner(props), {
+      initialProps: {
+        width: 1280,
+        columnCount: 4,
+        columnGutter: 10,
+        maxColumnWidth: 300,
+      },
+    });
+
+    expect(result.current.columnCount).toBe(4);
+    expect(result.current.columnWidth).toBe(300);
+
+    rerender({
+      width: 1280,
+      columnCount: 3,
+      columnGutter: 12,
+      maxColumnWidth: 300,
+    });
+    expect(result.current.columnCount).toBe(3);
+    expect(result.current.columnWidth).toBe(300);
+  });
+
   it("should automatically derive column width when a maximum column count is defined", () => {
     const { result, rerender } = renderHook((props) => usePositioner(props), {
       initialProps: {
