@@ -28,6 +28,7 @@ export interface MasonryProps<Item>
       | "rowGutter"
       | "columnCount"
       | "maxColumnCount"
+      | "maxColumnWidth"
     > {
   /**
    * Scrolls to a given index within the grid. The grid will re-scroll

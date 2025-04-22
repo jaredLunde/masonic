@@ -1,3 +1,9 @@
+# [4.1.0](https://github.com/jaredLunde/masonic/compare/v4.0.1...v4.1.0) (2025-04-22)
+
+### Features
+
+- **use-positioner:** add maxColumnWidth property ([#178](https://github.com/jaredLunde/masonic/issues/178)) ([850e21a](https://github.com/jaredLunde/masonic/commit/850e21a857646241fed5e9c5fa7fcca0d11d75bc))
+
 ## [4.0.1](https://github.com/jaredLunde/masonic/compare/v4.0.0...v4.0.1) (2024-07-30)
 
 ### Bug Fixes

@@ -14,6 +14,7 @@ import * as React from "react";
  * @param options.rowGutter
  * @param options.columnCount
  * @param options.maxColumnCount
+ * @param options.maxColumnWidth
  */
 export declare function usePositioner(
   {
@@ -23,6 +24,7 @@ export declare function usePositioner(
     rowGutter,
     columnCount,
     maxColumnCount,
+    maxColumnWidth,
   }: UsePositionerOptions,
   deps?: React.DependencyList
 ): Positioner;
@@ -41,6 +43,10 @@ export interface UsePositionerOptions {
    * @default 200
    */
   columnWidth?: number;
+  /**
+   * The maximum column width. Calculated column widths will be capped at this value.
+   */
+  maxColumnWidth?: number;
   /**
    * This sets the horizontal space between grid columns in pixels. If `rowGutter` is not set, this
    * also sets the vertical space between cells within a column in pixels.
