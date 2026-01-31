@@ -81,7 +81,7 @@
     "@types/react-dom": "latest",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "cz-conventional-changelog": "latest",
-    "eslint": "^7.32.0",
+    "eslint": "^9.26.0",
     "eslint-config-lunde": "latest",
     "husky": "latest",
     "jest": "^27.4.7",
